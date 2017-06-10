@@ -1,0 +1,41 @@
+#
+# Platform-specific Makefile definitions for the Raspberry Pi port of Embedded
+# Xinu.
+#
+
+# Include default ARM definitions
+include arch/aarch64/platformVars
+
+PLATFORM_NAME := Raspberry Pi 3
+
+# Extra compiler and assembler flags to specifically target the cortex-a53 CPU
+# used on the BCM2837 (used by the Raspberry Pi).
+CFLAGS   += -mcpu=cortex-a53
+ASFLAGS  += -mcpu=cortex-a53
+
+# Add a define so we can test for Raspberry Pi in C code if absolutely needed
+DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
+
+# Embedded Xinu components to build into the kernel image
+APPCOMPS :=           \
+#TODO       apps      \ 
+#TODO       mailbox   \ 
+#TODO       network   \ 
+#TODO       shell     \ 
+#TODO       test
+
+# Embedded Xinu device drivers to build into the kernel image
+DEVICES  :=                 \
+#TODO       ethloop         \ 
+#TODO       raw             \ 
+#TODO       smsc9512        \ 
+#TODO       tcp             \ 
+#TODO       telnet          \ 
+#TODO       uart-pl011      \ 
+#TODO       framebuffer_rpi \ 
+#TODO       udp             \ 
+#TODO       usb             \
+#TODO       usbkbd          \
+#TODO       loopback        \
+#TODO       tty
+
