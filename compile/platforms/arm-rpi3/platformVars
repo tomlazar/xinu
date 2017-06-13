@@ -20,7 +20,7 @@ DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
 APPCOMPS :=	apps    \
 						mailbox \
 						network \
-					  shell   \
+					  shell
 #						test
 
 # Embedded Xinu device drivers to build into the kernel image
