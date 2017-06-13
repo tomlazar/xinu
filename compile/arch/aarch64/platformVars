@@ -13,9 +13,6 @@ ARCH_PREFIX := aarch64-elf-
 # Flaf for producing GDB debug informations.
 BUGFLAG     := -gstabs+
 
-# Objcopy flags, used for including data files in the resulting binary.
-LDLIBS      += -lgcc
-
 # Add a way to test for any ARM platform in C code.
 DEFS        += -D_XINU_ARCH_ARM_
 

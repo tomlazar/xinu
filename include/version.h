@@ -1,1 +1,1 @@
-#define VERSION "(Embedded Xinu) (arm-rpi) #10 (tlazar@granados.mscs.mu.edu) Mon Jun 12 15:11:20 CDT 2017"
+#define VERSION "(Embedded Xinu) (arm-rpi3) #8 (tlazar@granados.mscs.mu.edu) Tue Jun 13 16:01:25 CDT 2017"

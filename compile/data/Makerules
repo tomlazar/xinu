@@ -4,10 +4,10 @@
 COMP = data
 
 # pcap files
-PCAP_FILES = testarp.pcap testip.pcap testnetif.pcap testraw.pcap testsnoop.pcap testudp.pcap
+# PCAP_FILES = testarp.pcap testip.pcap testnetif.pcap testraw.pcap testsnoop.pcap testudp.pcap
 
 # tar files
-TAR_FILES = mytar.tar
+# TAR_FILES = mytar.tar
 
 # Muster all the needed files together
 FILES = ${PCAP_FILES} ${TAR_FILES}
