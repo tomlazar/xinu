@@ -78,9 +78,9 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     thrptr->memlist.length = 0;
 
     /* Set up default file descriptors.  */
-    thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
-    thrptr->fdesc[1] = CONSOLE; /* stdout is console */
-    thrptr->fdesc[2] = CONSOLE; /* stderr is console */
+    //thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
+    //thrptr->fdesc[1] = CONSOLE; /* stdout is console */
+    //thrptr->fdesc[2] = CONSOLE; /* stderr is console */
 
     /* Set up new thread's stack with context record and arguments.
      * Architecture-specific.  */

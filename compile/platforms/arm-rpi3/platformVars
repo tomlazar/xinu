@@ -13,26 +13,31 @@ PLATFORM_NAME := Raspberry Pi 3
 CFLAGS   += -mcpu=cortex-a53
 ASFLAGS  += -mcpu=cortex-a53
 
+# Extra compiler flag that disables gcc from generating unaligned memory accesses
+# This is used as an alternative to doing this in the assembly code in start.S
+CFLAGS	 += -mstrict-align
+
 # Add a define so we can test for Raspberry Pi in C code if absolutely needed
 DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
 
 # Embedded Xinu components to build into the kernel image
-APPCOMPS :=	apps    \
-						mailbox \
-						network \
-					  shell
+APPCOMPS :=	#apps    \
+						#mailbox \
+						#network \
+					  #shell
 #						test
 
 # Embedded Xinu device drivers to build into the kernel image
-DEVICES  := ethloop         \
-            raw             \
-            smsc9512        \
-            tcp             \
-            telnet          \
-            uart-pl011      \
-            framebuffer_rpi \
-            udp             \
-            usb             \
-            usbkbd          \
-            loopback        \
-            tty
+DEVICES  := uart-pl011      \
+#            tty	      			\
+#           raw             \
+#           smsc9512        \
+#           tcp             \
+#           telnet          \
+#                       framebuffer_rpi \
+#           udp             \
+#           usb             \
+#           usbkbd          \
+#           loopback        \
+			#ethloop         \
+

@@ -80,17 +80,17 @@ devcall uartHwInit(device *devptr)
      * Note: In the documentation for the BCM2835 SoC, several bits are marked
      * as "Unsupported; write zero, read as don't care."  These are commented
      * out below. */
-    regptr->icr = (PL011_ICR_OEIC |
-                   PL011_ICR_BEIC |
-                   PL011_ICR_PEIC |
-                   PL011_ICR_FEIC |
-                   PL011_ICR_RTIC |
-                   PL011_ICR_TXIC |
-                   PL011_ICR_RXIC |
-                   0 /* PL011_ICR_DSRMIC */ |
-                   0 /* PL011_ICR_DCDMIC */ |
-                   PL011_ICR_CTSMIC |
-                   0 /* PL011_ICR_RIMIC */);
+//    regptr->icr = (PL011_ICR_OEIC |
+//                   PL011_ICR_BEIC |
+//                   PL011_ICR_PEIC |
+//                   PL011_ICR_FEIC |
+//                   PL011_ICR_RTIC |
+//                   PL011_ICR_TXIC |
+//                   PL011_ICR_RXIC |
+//                   0 /* PL011_ICR_DSRMIC */ |
+//                   0 /* PL011_ICR_DCDMIC */ |
+//                   PL011_ICR_CTSMIC |
+//                   0 /* PL011_ICR_RIMIC */);
 
     /* Set the UART's baud rate.  This is done by writing to separate "integer
      * baud rate divisor" and "fractional baud rate divisor" registers.  */
@@ -103,7 +103,7 @@ devcall uartHwInit(device *devptr)
 
     /* Allow the UART to generate interrupts only when receiving or
      * transmitting.  */
-    regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
+//    regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
 
     /* We have decided that we are going to leave FIFOs off for now.  Since the
      * FIFOs are of size 16 and the lowest trigger level you can set for the
@@ -126,7 +126,7 @@ devcall uartHwInit(device *devptr)
 
     /* Register the UART's interrupt handler with XINU's interrupt vector, then
      * actually enable the UART's interrupt line.  */
-    interruptVector[devptr->irq] = devptr->intr;
-    enable_irq(devptr->irq);
+//    interruptVector[devptr->irq] = devptr->intr;
+//    enable_irq(devptr->irq);
     return OK;
 }
