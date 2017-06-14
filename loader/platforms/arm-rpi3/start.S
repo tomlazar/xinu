@@ -14,10 +14,31 @@
 	.globl _start
 
 	/* _start:  Entry point of the Xinu kernel.  This will be the very first
-	 * byte of the kernel image and on the Raspberry Pi will be loaded by
-	 * the GPU at address 0x8000.  */
+	 * byte of the kernel image and on the Raspberry Pi 3 will be loaded by
+	 * the GPU at address 0x80000.  */
 	.func _start
 _start:
+	
+	/* LED Code */
+	mov   x0, 4
+  	movk  x0, 0x3f20, lsl 16
+  	mov   x1, 4
+  	movk  x1, 0x3f20, lsl 16
+  	ldr   w1, [x1]
+  	and   w1, w1, -1835009
+  	str   w1, [x0]
+  	mov   x0, 4
+  	movk  x0, 0x3f20, lsl 16
+  	mov   x1, 4
+  	movk  x1, 0x3f20, lsl 16
+  	ldr   w1, [x1]
+  	orr   w1, w1, 262144
+  	str   w1, [x0]
+  	mov   x0, 28
+  	movk  x0, 0x3f20, lsl 16
+  	mov   w1, 65536
+  	str   w1, [x0]
+
 	/* Save the pointer to the atags (ARM boot tags).  The bootloader should
 	 * pass this in r2, but override 0 with 0x100 to deal with old
 	 * bootloaders that assume Linux's default behavior.  (This is the case
