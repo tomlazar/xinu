@@ -123,7 +123,7 @@ bssloopa:
 	//str sp, [x0]
 
 	/* Initialize the Raspberry Pi graphics subsystem.  */
-	bl screenInit
+	//bl screenInit
 
 	/* Branch to the platform-independent C startup code, which takes no
 	 * parameters and never returns.  */

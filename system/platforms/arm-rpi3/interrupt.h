@@ -24,6 +24,6 @@ void enable_irq(irqmask);
 void disable_irq(irqmask);
 
 /* Include IRQ definitions  */
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 #endif /* _INTERRUPT_H_ */

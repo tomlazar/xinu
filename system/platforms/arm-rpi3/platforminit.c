@@ -5,7 +5,7 @@
 
 #include <platform.h>
 #include <string.h>
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 /* Definitions of ARM boot tags.  */
 enum {
@@ -109,8 +109,8 @@ parse_atag_list(void)
  */
 int platforminit(void)
 {
-    strlcpy(platform.family, "BCM2835", PLT_STRMAX);
-    strlcpy(platform.name, "Raspberry Pi", PLT_STRMAX);
+    strlcpy(platform.family, "BCM2837", PLT_STRMAX);
+    strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
     platform.maxaddr = (void *)0xBFFFFFF; /* Used only if atags are bad */
     platform.clkfreq = 1000000;
     platform.serial_low = 0;   /* Used only if serial # not found in atags */

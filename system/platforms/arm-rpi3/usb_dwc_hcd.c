@@ -77,7 +77,7 @@
 #include <usb_hcdi.h>
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))

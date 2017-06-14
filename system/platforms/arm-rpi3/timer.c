@@ -18,7 +18,7 @@
 /* Embedded Xinu, Copyright (C) 2013.  All rights reserved. */
 
 #include <clock.h>
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 /** Layout of the BCM2835 System Timer's registers.  */
 struct bcm2835_timer_regs {

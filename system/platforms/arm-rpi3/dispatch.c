@@ -17,7 +17,7 @@
 #include <interrupt.h>
 #include <kernel.h>
 #include <stddef.h>
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 /** Layout of the BCM2835 interrupt controller's registers. */
 struct bcm2835_interrupt_registers {

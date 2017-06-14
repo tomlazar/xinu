@@ -1,24 +1,24 @@
 /**
- * @file bcm2835.h
+ * @file bcm2837.h
  *
- * Definitions specific to the BCM2835 SoC used in the Raspberry Pi.
+ * Definitions specific to the BCM2837 SoC used in the Raspberry Pi 3.
  *
  * Note that although some of the numbers defined in this file are documented in
- * Broadcom's "BCM2835 ARM Peripherals" document, unfortunately some could only
+ * Broadcom's "BCM2837 ARM Peripherals" document, unfortunately some could only
  * be found in the Linux source (arch/arm/mach-bcm2708/include/mach/platform.h).
  */
 
-#ifndef _BCM2835_H_
-#define _BCM2835_H_
+#ifndef _BCM2837_H_
+#define _BCM2837_H_
 
 #include <stddef.h>
 
 /********************************************************************
- * ARM physical memory addresses of selected BCM2835 peripherals    *
+ * ARM physical memory addresses of selected BCM2837 peripherals    *
  ********************************************************************/
 
 /* Start of memory-mapped peripherals address space  */
-#define PERIPHERALS_BASE 0x20000000
+#define PERIPHERALS_BASE 0x3F000000
 
 /* System timer  */
 #define SYSTEM_TIMER_REGS_BASE (PERIPHERALS_BASE + 0x3000)
@@ -35,6 +35,9 @@
 /* PL011 UART  */
 #define PL011_REGS_BASE        (PERIPHERALS_BASE + 0x201000)
 
+/* GPIO */
+#define GPIO_REGS_BASE		   (PERIPHERALS_BASE + 0x200000)
+
 /* SD host controller  */
 #define SDHCI_REGS_BASE        (PERIPHERALS_BASE + 0x300000)
 
@@ -43,7 +46,7 @@
 
 
 /***************************************************************************
- * IRQ lines of selected BCM2835 peripherals.  Note about the numbering    *
+ * IRQ lines of selected BCM2837 peripherals.  Note about the numbering    *
  * used here:  IRQs 0-63 are those shared between the GPU and CPU, whereas *
  * IRQs 64+ are CPU-specific.                                              *
  ***************************************************************************/
@@ -92,7 +95,7 @@ extern void bcm2835_power_init(void);
  * Interfaces to memory barriers for peripheral access.                 *
  *                                                                      *
  * These are necessary due to the memory ordering caveats documented in *
- * section 1.3 of Broadcom's "BCM2835 ARM Peripherals" document.        *
+ * section 1.3 of Broadcom's "BCM2837 ARM Peripherals" document.        *
  ************************************************************************/
 
 extern void dmb(void);
@@ -110,4 +113,4 @@ extern void dmb(void);
 #define pre_peripheral_access_mb  dmb
 #define post_peripheral_access_mb dmb
 
-#endif /* _BCM2835_H_ */
+#endif /* _BCM2837_H_ */

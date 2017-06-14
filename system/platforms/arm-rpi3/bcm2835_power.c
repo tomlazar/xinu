@@ -5,7 +5,7 @@
  * the USB Controller, on the BCM2835 SoC used on the Raspberry Pi.  This makes
  * use of the BCM2835's mailbox mechanism.
  */
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
 

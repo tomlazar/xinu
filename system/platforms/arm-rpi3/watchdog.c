@@ -8,7 +8,7 @@
 /* Embedded Xinu, Copyright (C) 2013.  All rights reserved. */
 
 #include <stddef.h>
-#include "bcm2835.h"
+#include "bcm2837.h"
 
 #define PM_RSTC                       (PM_REGS_BASE + 0x1c)
 #define PM_WDOG                       (PM_REGS_BASE + 0x24)

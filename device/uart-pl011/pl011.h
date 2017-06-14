@@ -141,9 +141,17 @@ struct pl011_uart_csreg
 #define PL011_ICR_CTSMIC (1<<1)  //CTS interrupt clear
 #define PL011_ICR_RIMIC  (1<<0)  //RI interrupt clear
 
-#define PL011_FIFO_LEN   8       /**< During testing on a Raspberry Pi, I could only send 8. */
+#define PL011_FIFO_LEN   8       /**< During testing on a Raspberry Pi, I could only sen 8. */
 
-#define PL011_BAUD_INT(x) (3000000 / (16 * (x)))
-#define PL011_BAUD_FRAC(x) (int)((((3000000.0 / (16.0 * (x)))-PL011_BAUD_INT(x))*64.0)+0.5) //9600 baud may be slightly off with this calcualtion
+/* Different versions of Pi have different
+ * UART clock frequencies */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#define UARTCLK	48000000
+#elif defined _XINU_PLATFORM_ARM_RPI_
+#define UARTCLK 3000000
+#endif
+
+#define PL011_BAUD_INT(x) (UARTCLK / (16 * (x)))
+#define PL011_BAUD_FRAC(x) (int)((((UARTCLK / (16.0 * (x)))-PL011_BAUD_INT(x))*64.0)+0.5) //9600 baud may be slightly off with this calcualtion
 
 #endif                          /* _PL011_H_ */

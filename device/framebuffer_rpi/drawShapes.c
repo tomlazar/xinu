@@ -8,7 +8,8 @@
 #include <stddef.h>
 #include <string.h>
 #include <framebuffer.h>
-#include <bcm2835.h>
+// XXX Hack
+#include <bcm2837.h>
 
 /* Draws a colored pixel at given (x, y) coordinates. */
 
