@@ -51,6 +51,16 @@ static void setup_gpio_pins(void *uart_regs)
 }
 #endif /* _XINU_PLATFORM_ARM_RPI_ */
 
+
+#ifdef _XINU_PLATFORM_ARM_RPI3_
+
+static void setup_gpio_pins(void)
+{
+	// TODO: initialize gpio pins for UART
+}
+
+#endif /* _XINU_PLATFORM_ARM_RPI3 */
+
 devcall uartHwInit(device *devptr)
 {
     volatile struct pl011_uart_csreg *regptr = devptr->csr;
@@ -64,6 +74,10 @@ devcall uartHwInit(device *devptr)
 #ifdef _XINU_PLATFORM_ARM_RPI_
     /* Configure the GPIO pins on the Raspberry Pi correctly. */
     setup_gpio_pins((void*)regptr);
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI3_
+	setup_gpio_pins();
 #endif
 
     /* Poll the "flags register" to wait for the UART to stop transmitting or
