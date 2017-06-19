@@ -129,7 +129,7 @@ void nulluser(void)
 	led_on();
 	
 	kprintf("Hello Xinu W3rld!\r\n");
-	print_os_info();
+//	print_os_info();
 	/* Enable interrupts  */
 	enable();
 
