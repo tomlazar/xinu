@@ -7,7 +7,6 @@
 #include <interrupt.h>
 #include <clock.h>
 #include "pl011.h"
-
 #ifdef _XINU_PLATFORM_ARM_RPI_
 
 /* Offset of UART registers from the starti of the GPIO registers. */
@@ -54,9 +53,25 @@ static void setup_gpio_pins(void *uart_regs)
 
 #ifdef _XINU_PLATFORM_ARM_RPI3_
 
+#include <rpi_gpio.h>
+#include <bcm2837.h>
+
 static void setup_gpio_pins(void)
 {
-	// TODO: initialize gpio pins for UART
+	volatile struct rpi_gpio_regs *regptr =
+		(volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+
+	/* set up pins 14 & 15 to use alt0, for uart Rx and Tx */
+	regptr->gpfsel[1] &= ~((7 << 12) | (7 << 15));
+	regptr->gpfsel[1] |= (4 << 12) | (4 << 15);	
+
+	/* Disable pull-up/down on pins 14 & 15 */
+	regptr->gppud = 0;
+	udelay(2);
+	regptr->gppudclk[0] = (1 << 14) | (1 << 15);
+	udelay(2);
+	regptr->gppudclk[0] = 0;	
+
 }
 
 #endif /* _XINU_PLATFORM_ARM_RPI3 */
