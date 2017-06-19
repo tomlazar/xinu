@@ -51,7 +51,7 @@ static void setup_gpio_pins(void *uart_regs)
 #endif /* _XINU_PLATFORM_ARM_RPI_ */
 
 
-#ifdef _XINU_PLATFORM_ARM_RPI3_
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 
 #include <rpi_gpio.h>
 #include <bcm2837.h>
@@ -74,7 +74,7 @@ static void setup_gpio_pins(void)
 
 }
 
-#endif /* _XINU_PLATFORM_ARM_RPI3 */
+#endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
 devcall uartHwInit(device *devptr)
 {
@@ -91,7 +91,7 @@ devcall uartHwInit(device *devptr)
     setup_gpio_pins((void*)regptr);
 #endif
 
-#ifdef _XINU_PLATFORM_ARM_RPI3_
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	setup_gpio_pins();
 #endif
 

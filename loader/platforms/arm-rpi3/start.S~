@@ -166,33 +166,12 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr x0, =memheap
-  //TODO
-	//str sp, [x0]
+	
+	mov	x1, sp
+	str x1, [x0]
 
 	/* Initialize the Raspberry Pi graphics subsystem.  */
-	//bl screenInit
-
-	/* LED Code */
-;  mov   x0, 4
-    ;movk  x0, 0x3f20, lsl 16
-    ;mov   x1, 4
-    ;movk  x1, 0x3f20, lsl 16
-    ;ldr   w1, [x1]
-    ;and   w1, w1, -1835009
-    ;str   w1, [x0]
-    ;mov   x0, 4
-    ;movk  x0, 0x3f20, lsl 16
-    ;mov   x1, 4
-    ;movk  x1, 0x3f20, lsl 16
-    ;ldr   w1, [x1]
-    ;orr   w1, w1, 262144
-    ;str   w1, [x0]
-    ;mov   x0, 28
-    ;movk  x0, 0x3f20, lsl 16
-    ;mov   w1, 65536
-    ;str   w1, [x0]
-
-
+	//bl screenInit 
 
 	/* Branch to the platform-independent C startup code, which takes no
 	 * parameters and never returns.  */
