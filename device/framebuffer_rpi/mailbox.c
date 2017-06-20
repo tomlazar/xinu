@@ -7,7 +7,8 @@
 
 #include <stddef.h>
 #include <framebuffer.h>
-#include <bcm2835.h>
+// XXX Hack
+#include <bcm2837.h>
 
 /* Read from mailbox one on channel one (GPU mailbox) */
 /* Note: Data: first 28 bits. Channel: last 4 bits.   */

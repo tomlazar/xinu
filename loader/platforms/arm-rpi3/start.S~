@@ -1,0 +1,179 @@
+/**
+ * @file start.S
+ *
+ * Initialization code for Embedded Xinu on the Raspberry Pi.
+ */
+/* Embedded Xinu, Copyright (C) 2013.  All rights reserved. */
+
+
+#include <arm.h>     /* For ARM_MODE_SYS */
+
+#define NULLSTK 8192
+
+.section .init
+	.globl _start
+
+	/* _start:  Entry point of the Xinu kernel.  This will be the very first
+	 * byte of the kernel image and on the Raspberry Pi 3 will be loaded by
+	 * the GPU at address 0x80000.  */
+	.func _start
+_start:
+
+//    ;bl  init_led
+//    ;bl  led_on
+    b   nulluser
+
+    mrs   x7, mpidr_el1
+    and   x7, x7, 3
+    cbz   x7, __start_real
+0:  wfe   // Busy Loop
+    b     0b
+
+__start_real:
+
+	/* Save the pointer to the atags (ARM boot tags).  The bootloader should
+	 * pass this in r2, but override 0 with 0x100 to deal with old
+	 * bootloaders that assume Linux's default behavior.  (This is the case
+	 * with, for example, the bootloader on the BCM2835.)  */
+	ldr	x3, =atags_ptr
+	cmp	x2, #0
+	b.ne  _start0
+	mov x2, #0x100
+_start0:
+	str x2, [x3]
+
+	/* Continue execution at reset_handler.  */
+	b reset_handler
+	.endfunc
+
+/* ARM exception vector table.  This is copied to address 0.  See A2.6
+ * "Exceptions" of the ARM Architecture Reference Manual.  */
+/* TODO Find a way to load these values onto the program counter in aarch64 */
+
+_vectors:
+	b	reset_addr    /* Reset handler */
+	b	undef_addr	  /* Undefined instruction handler */
+	b	swi_addr	  /* Software interrupt handler */
+	b	prefetch_addr /* Prefetch abort handler */
+	b	abort_addr	  /* Data abort handler */
+	b	reserved_addr /* Reserved */
+	b	irq_addr	  /* IRQ (Interrupt request) handler */
+	b	fiq_addr	  /* FIQ (Fast interrupt request) handler */
+
+reset_addr:     .word reset_handler
+undef_addr:     .word reset_handler
+swi_addr:       .word reset_handler
+prefetch_addr:  .word reset_handler
+abort_addr:     .word reset_handler
+reserved_addr:  .word reset_handler
+irq_addr:       .word irq_handler
+fiq_addr:       .word reset_handler
+
+_endvectors:
+
+.section .text
+
+	/* reset_handler: Reset handler routine executed to start up the kernel,
+	 * when the ARM processor is reset, or (currently) when an unhandled
+	 * exception occurs.  */
+	.func reset_handler
+reset_handler:
+
+	/* Enter SYS mode with all interrupts disabled so the ARM processor is
+	 * in a known state. */
+//TODO Fix setting up the handlers
+
+#if 0
+	cpsid if, #ARM_MODE_SYS
+#endif
+
+	/* We can skip switching into system mode FOR NOW... */
+	/* because it is fair to assume that the processor is already */
+	/* in the system state immediately after boot */
+	msr	daifclr, 3	/* disables irq and fiq interupts */
+
+
+	/* Copy the ARM exception table from .init section to address 0,
+	 * including the absolute address table.  Here we assume it is exactly
+	 * 16 words.  */
+	mov x0, #0
+	ldr x1, =_vectors
+
+#if 0
+	ldmia x1!, {x2-x9}
+	stmia x0!, {x2-x9}
+	ldmia x1!, {x2-x9}
+	stmia x0!, {x2-x9}
+#endif
+
+	/* ldmia and stmia opcodes not supported for aarch64 */
+	/* have to do each one manually */
+	ldr x2, [x1]
+	ldr x3, [x1, 8]
+	ldr x4, [x1, 16]
+	ldr x5, [x1, 24]
+	ldr x6, [x1, 32]
+	ldr x7, [x1, 40]
+	ldr x8, [x1, 48]
+	ldr x9, [x1, 56]
+
+	str x2, [x0]
+    str x3, [x0, 8]
+    str x4, [x0, 16]
+    str x5, [x0, 24]
+    str x6, [x0, 32]
+    str x7, [x0, 40]
+    str x8, [x0, 48]
+    str x9, [x0, 56]	
+
+	/* Enable the following features by modifying the ARM processor's
+	 * Control Register:
+	 *
+	 * - unaligned memory accesses   (bit 22)
+	 *
+	 * Note: Xinu shouldn't do any unaligned memory accesses on purpose, but
+	 * we found that gcc can still generate unaligned memory accesses for
+	 * tasks such as copying character strings.  (An alternative would be to
+	 * pass -mno-unaligned-access to gcc to prevent it from doing so.)  */
+	
+	/* mrc and mcr opcodes not supported in aarch64... */
+	/* we will try to do the gcc tag mentioned above ^^ */
+#if 0	
+	mrc p15, 0, w0, c1, c0, 0
+	orr w0, #1 << 22
+	mcr p15, 0, w0, c1, c0, 0
+#endif
+	/* Clear the .bss section of the kernel.  */
+	ldr x0, =_bss
+	ldr x1, =_end
+  	mov x2, #0
+  	b bssloopa
+bssloopb:
+  	str x2, [x0, 8]
+  	str x2, [x0, 16]
+  	str x2, [x0, 24]
+  	str x2, [x0, 32]
+  	add x0, x0, 32
+
+bssloopa:
+	cmp x0, x1 	/* check that we still haven't hit the end of bss yet */
+	b.lo bssloopb	/* if still below, go backwards and loop */
+
+	/* Put the null thread's stack directly after the kernel image.  */
+	add sp, x1, #NULLSTK
+
+	/* The remaining memory available to the ARM will be Xinu's "memheap"
+	 * region, which is used for dynamic memory allocation.  Set its
+	 * starting address.  */
+	ldr x0, =memheap
+	
+	mov	x1, sp
+	str x1, [x0]
+
+	/* Initialize the Raspberry Pi graphics subsystem.  */
+	//bl screenInit 
+
+	/* Branch to the platform-independent C startup code, which takes no
+	 * parameters and never returns.  */
+	b nulluser
+	.endfunc

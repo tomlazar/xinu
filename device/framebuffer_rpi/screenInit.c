@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <shell.h> /* for banner */
 #include <kernel.h>
-#include <bcm2835.h>
+
+// XXX HACK changed it from the 2837, fix this later
+#include <bcm2837.h>
 
 int rows;
 int cols;

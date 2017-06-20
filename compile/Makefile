@@ -14,7 +14,7 @@
 #
 # $ make PLATFORM=arm-rpi
 #
-PLATFORM := x86
+PLATFORM := arm-rpi3
 
 # Filename of boot image to create (platform can override it if really needed)
 BOOTIMAGE := xinu.boot
@@ -169,7 +169,7 @@ COMPILER_ROOT := $(ARCH_ROOT)$(ARCH_PREFIX)
 # Set the actual compiler and several binutils programs.
 CC       := $(COMPILER_ROOT)gcc
 AR       := $(COMPILER_ROOT)ar
-LD       := $(COMPILER_ROOT)ld
+LD       := $(COMPILER_ROOT)ld -Map test.map
 STRIP    := $(COMPILER_ROOT)strip
 OBJCOPY  := $(COMPILER_ROOT)objcopy
 

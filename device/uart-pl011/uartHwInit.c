@@ -7,7 +7,6 @@
 #include <interrupt.h>
 #include <clock.h>
 #include "pl011.h"
-
 #ifdef _XINU_PLATFORM_ARM_RPI_
 
 /* Offset of UART registers from the starti of the GPIO registers. */
@@ -51,6 +50,32 @@ static void setup_gpio_pins(void *uart_regs)
 }
 #endif /* _XINU_PLATFORM_ARM_RPI_ */
 
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+
+#include <rpi_gpio.h>
+#include <bcm2837.h>
+
+static void setup_gpio_pins(void)
+{
+	volatile struct rpi_gpio_regs *regptr =
+		(volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+
+	/* set up pins 14 & 15 to use alt0, for uart Rx and Tx */
+	regptr->gpfsel[1] &= ~((7 << 12) | (7 << 15));
+	regptr->gpfsel[1] |= (4 << 12) | (4 << 15);	
+
+	/* Disable pull-up/down on pins 14 & 15 */
+	regptr->gppud = 0;
+	udelay(2);
+	regptr->gppudclk[0] = (1 << 14) | (1 << 15);
+	udelay(2);
+	regptr->gppudclk[0] = 0;	
+
+}
+
+#endif /* _XINU_PLATFORM_ARM_RPI_3_ */
+
 devcall uartHwInit(device *devptr)
 {
     volatile struct pl011_uart_csreg *regptr = devptr->csr;
@@ -64,6 +89,10 @@ devcall uartHwInit(device *devptr)
 #ifdef _XINU_PLATFORM_ARM_RPI_
     /* Configure the GPIO pins on the Raspberry Pi correctly. */
     setup_gpio_pins((void*)regptr);
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	setup_gpio_pins();
 #endif
 
     /* Poll the "flags register" to wait for the UART to stop transmitting or
@@ -80,17 +109,17 @@ devcall uartHwInit(device *devptr)
      * Note: In the documentation for the BCM2835 SoC, several bits are marked
      * as "Unsupported; write zero, read as don't care."  These are commented
      * out below. */
-    regptr->icr = (PL011_ICR_OEIC |
-                   PL011_ICR_BEIC |
-                   PL011_ICR_PEIC |
-                   PL011_ICR_FEIC |
-                   PL011_ICR_RTIC |
-                   PL011_ICR_TXIC |
-                   PL011_ICR_RXIC |
-                   0 /* PL011_ICR_DSRMIC */ |
-                   0 /* PL011_ICR_DCDMIC */ |
-                   PL011_ICR_CTSMIC |
-                   0 /* PL011_ICR_RIMIC */);
+//    regptr->icr = (PL011_ICR_OEIC |
+//                   PL011_ICR_BEIC |
+//                   PL011_ICR_PEIC |
+//                   PL011_ICR_FEIC |
+//                   PL011_ICR_RTIC |
+//                   PL011_ICR_TXIC |
+//                   PL011_ICR_RXIC |
+//                   0 /* PL011_ICR_DSRMIC */ |
+//                   0 /* PL011_ICR_DCDMIC */ |
+//                   PL011_ICR_CTSMIC |
+//                   0 /* PL011_ICR_RIMIC */);
 
     /* Set the UART's baud rate.  This is done by writing to separate "integer
      * baud rate divisor" and "fractional baud rate divisor" registers.  */
@@ -103,7 +132,7 @@ devcall uartHwInit(device *devptr)
 
     /* Allow the UART to generate interrupts only when receiving or
      * transmitting.  */
-    regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
+//    regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
 
     /* We have decided that we are going to leave FIFOs off for now.  Since the
      * FIFOs are of size 16 and the lowest trigger level you can set for the
@@ -126,7 +155,7 @@ devcall uartHwInit(device *devptr)
 
     /* Register the UART's interrupt handler with XINU's interrupt vector, then
      * actually enable the UART's interrupt line.  */
-    interruptVector[devptr->irq] = devptr->intr;
-    enable_irq(devptr->irq);
+//    interruptVector[devptr->irq] = devptr->intr;
+//    enable_irq(devptr->irq);
     return OK;
 }
