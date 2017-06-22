@@ -29,6 +29,7 @@
 #include <safemem.h>
 #include <platform.h>
 
+#include <rpi_gpio.h>
 #include "bcm2837.h"
 
 #ifdef WITH_USB
@@ -73,6 +74,7 @@ struct platform platform;       /* Platform specific configuration     */
 #define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
 #define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
 #define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
+#define GPLEV0		(*(volatile unsigned *)(GP_BASE + 0x34))
 
 #define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
 #define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
@@ -93,6 +95,10 @@ void init_led(void)
 	GPFSEL1 |= 1 << 18;    // Set as output
 }
 
+void init_button(void)
+{
+	GPFSEL1 &= ~(7 << 21); // GPIO Pin 17 as input
+}
 
 void led_on(void)
 {
@@ -104,7 +110,17 @@ void led_off(void)
 	GPCLR0 = 1 << 16;
 }
 
+int button_lev(void)
+{
+	return (GPLEV0 & (1 << 17));
+}
 
+
+interrupt gpio_handler(void)
+{
+	kprintf("gpio interrupt received... turning on led\r\n");
+	led_on();
+}
 
 /**
  * Intializes the system and becomes the null thread.
@@ -118,20 +134,42 @@ void led_off(void)
  */
 void nulluser(void)
 {
+	int lev;
+
 	init_led();
+	init_button();
 	/* Platform-specific initialization  */
 	platforminit();
-
-
 	/* General initialization  */
 	sysinit();
-	
-	led_on();
-	
 	kprintf("Hello Xinu W3rld!\r\n");
-//	print_os_info();
+	print_os_info();
 	/* Enable interrupts  */
 	enable();
+
+	/* test code */
+/*	while (1)
+	{
+		udelay(1500);
+		lev = button_lev();
+		kprintf("button level: %d\r\n", lev);
+		if (lev)
+			led_on();
+		else
+			led_off();
+	}
+*/
+	/* setup button as interrupt source */
+//	volatile struct rpi_gpio_regs *regptr =
+//		(volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+//	regptr->gpren[0] = 1 << 17;	
+//	interruptVector[49] = gpio_handler;	
+//	enable_irq(49);
+
+
+	interruptVector[IRQ_TIMER] = 0;
+	enable_irq(IRQ_TIMER);
+	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
 
 	/* Spawn the main thread  */
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
@@ -207,7 +245,7 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
-//	readylist = queinit();
+	//	readylist = queinit();
 
 #if SB_BUS
 	backplaneInit(NULL);
@@ -215,7 +253,7 @@ static int sysinit(void)
 
 #if RTCLOCK
 	/* initialize real time clock */
-//	clkinit();
+	//	clkinit();
 #endif                          /* RTCLOCK */
 
 #ifdef UHEAP_SIZE
@@ -246,7 +284,7 @@ static int sysinit(void)
 
 #if NMAILBOX
 	/* intialize mailboxes */
-//	mailboxInit();
+	//	mailboxInit();
 #endif
 
 #if NDEVS

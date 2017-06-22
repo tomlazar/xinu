@@ -6,6 +6,7 @@
 
 enable:
   .func
+  msr daifset, #3
   ret
   .endfunc
 

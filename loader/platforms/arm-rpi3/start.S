@@ -39,26 +39,44 @@ _sne:
 	b 	reset_handler
 	.endfunc
 
-/* ARM exception vector table.  This is copied to address 0.  See A2.6
- * "Exceptions" of the ARM Architecture Reference Manual.  */
-//_vectors:
-//	ldr pc, reset_addr    /* Reset handler */
-//	ldr pc, undef_addr	  /* Undefined instruction handler */
-//	ldr pc, swi_addr	  /* Software interrupt handler */
-//	ldr pc, prefetch_addr /* Prefetch abort handler */
-//	ldr pc, abort_addr	  /* Data abort handler */
-//	ldr pc, reserved_addr /* Reserved */
-//	ldr pc, irq_addr	  /* IRQ (Interrupt request) handler */
-//	ldr pc, fiq_addr	  /* FIQ (Fast interrupt request) handler */
+/* ARM exception vector table.  This is copied to VBAR_ELn register. */
+_vectors:
+	b		sync_addr	/* Current EL with SP0: Synchronous */
+	.balign	128	
+	b		irq_addr	/* IRQ/vIRQ */
+	.balign	128
+	b		fiq_addr	/* FIQ/vFIQ */
+	.balign	128
+	b		serr_addr	/* SError/vSError */
+	.balign	128
+	b		sync_addr	/* Current EL with SPx: Synchronous */
+	.balign	128
+	b		irq_addr	/* IRQ/vIRQ */
+	.balign	128
+	b		fiq_addr
+	.balign	128
+	b		serr_addr
+	.balign	128
+	b		sync_addr	/* Lower EL using AArch64 */
+	.balign	128
+	b		irq_addr
+	.balign	128
+	b		fiq_addr
+	.balign	128
+	b		serr_addr
+	.balign	128
+	b		sync_addr	/* Lower EL using AArch32 */
+	.balign	128
+	b		irq_addr
+	.balign	128
+	b		fiq_addr
+	.balign	128
+	b		serr_addr
 
-reset_addr:     .word reset_handler
-undef_addr:     .word reset_handler
-swi_addr:       .word reset_handler
-prefetch_addr:  .word reset_handler
-abort_addr:     .word reset_handler
-reserved_addr:  .word reset_handler
+sync_addr:		.word reset_handler
 irq_addr:       .word irq_handler
 fiq_addr:       .word reset_handler
+serr_addr:		.word reset_handler
 
 _endvectors:
 
@@ -69,6 +87,17 @@ _endvectors:
 	 * exception occurs.  */
 	.func reset_handler
 reset_handler:
+
+
+	msr daifclr, 3  /* disables irq and fiq interupts */
+
+	/* Place vector table address in VBAR_ELn register so processor knows where it is */
+	ldr	x0, =_vectors
+	mov	x1, #11
+	lsl	x0, x0, x1
+	msr	VBAR_EL1, x0
+	msr VBAR_EL2, x0
+//	msr VBAR_EL3, x0
 
 	/* Enter SYS mode with all interrupts disabled so the ARM processor is
 	 * in a known state. */
@@ -158,7 +187,7 @@ bssloopa:
 	/* The remaining memory available to the ARM will be Xinu's "memheap"
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
-	  ldr x0, =memheap
+	ldr x0, =memheap
     mov x1, sp
     str x1, [x0]
 
@@ -168,26 +197,6 @@ bssloopa:
 	/* Branch to the platform-independent C startup code, which takes no
 	 * parameters and never returns.  */
 
-/*
-  mov   x0, 4
-  movk  x0, 0x3f20, lsl 16
-  mov   x1, 4
-  movk  x1, 0x3f20, lsl 16
-  ldr   w1, [x1]
-  and   w1, w1, -1835009
-  str   w1, [x0]
-  mov   x0, 4
-  movk  x0, 0x3f20, lsl 16
-  mov   x1, 4
-  movk  x1, 0x3f20, lsl 16
-  ldr   w1, [x1]
-  orr   w1, w1, 262144
-  str   w1, [x0]
-  mov   x0, 28
-  movk  x0, 0x3f20, lsl 16
-  mov   w1, 65536
-  str   w1, [x0]
-*/
   mrs x7, mpidr_el1
   and x7, x7, #3
   cbz x7, __start_master
@@ -196,9 +205,7 @@ bssloopa:
 
 
 __start_master:
-	//bl  platforminit
-	//bl	init_led
-	//bl	led_on
+//	msr	daifclr, 3
 	b	nulluser
 	.endfunc
 

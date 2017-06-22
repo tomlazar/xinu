@@ -6,7 +6,7 @@ COMP = system
 # Source files for this component
 
 # Important system components
-C_FILES = initialize.c queue.c
+C_FILES = initialize.c queue.c main.c
 
 # Files for process control
 #C_FILES += create.c kill.c ready.c resched.c resume.c suspend.c chprio.c getprio.c queue.c getitem.c queinit.c insert.c gettid.c xdone.c yield.c userret.c
