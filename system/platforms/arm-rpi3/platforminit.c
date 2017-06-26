@@ -145,7 +145,7 @@ int platforminit(void)
 {
 	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
 	strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
-	platform.maxaddr = (void *)0xBFFFFFF; /* Used only if atags are bad */
+	platform.maxaddr = (void *)0x3EFFFFFF; /* Used only if atags are bad */
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */

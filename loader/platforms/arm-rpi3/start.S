@@ -1,13 +1,8 @@
 /**
  * @file start.S
  *
- * Initialization code for Embedded Xinu on the Raspberry Pi.
+ * Initialization code for Embedded Xinu on the Raspberry Pi 3.
  */
-
-#define IO_BASE 0x3f000000
-#define GP_BASE 0x3f200000
-#define GPFSEL1 0x3f200004
-#define GPSET0  0x3f20001C
 
 /* Embedded Xinu, Copyright (C) 2013.  All rights reserved. */
 
@@ -20,28 +15,26 @@
 	.globl _start
 
 	/* _start:  Entry point of the Xinu kernel.  This will be the very first
-	 * byte of the kernel image and on the Raspberry Pi will be loaded by
-	 * the GPU at address 0x8000.  */
+	 * byte of the kernel image and on the Raspberry Pi 3 will be loaded by
+	 * the GPU at address 0x80000.  */
 	.func _start
 _start:
 	/* Save the pointer to the atags (ARM boot tags).  The bootloader should
-	 * pass this in r2, but override 0 with 0x100 to deal with old
+	 * pass this in x0, but override 0 with 0x100 to deal with old
 	 * bootloaders that assume Linux's default behavior.  (This is the case
 	 * with, for example, the bootloader on the BCM2835.)  */
 	ldr 	x3, =atags_ptr
-	cmp 	x2, #0
-	b.ne 	_sne
-	mov 	x2, #0x100
-_sne:
-	str 	x2, [x3]
+	str 	x0, [x3]
 
-	/* Continue execution at reset_handler.  */
-	b 	reset_handler
+	/* Continue execution at el_setter.  */
+//	b 	el_setter
+	b	reset_handler
 	.endfunc
 
 /* ARM exception vector table.  This is copied to VBAR_ELn register. */
 _vectors:
-	b		sync_addr	/* Current EL with SP0: Synchronous */
+	/* Current EL with SP0 */
+	b		sync_addr	/* Synchronous */
 	.balign	128	
 	b		irq_addr	/* IRQ/vIRQ */
 	.balign	128
@@ -49,15 +42,8 @@ _vectors:
 	.balign	128
 	b		serr_addr	/* SError/vSError */
 	.balign	128
-	b		sync_addr	/* Current EL with SPx: Synchronous */
-	.balign	128
-	b		irq_addr	/* IRQ/vIRQ */
-	.balign	128
-	b		fiq_addr
-	.balign	128
-	b		serr_addr
-	.balign	128
-	b		sync_addr	/* Lower EL using AArch64 */
+	/* Current EL with SPx */
+	b		sync_addr
 	.balign	128
 	b		irq_addr
 	.balign	128
@@ -65,7 +51,17 @@ _vectors:
 	.balign	128
 	b		serr_addr
 	.balign	128
-	b		sync_addr	/* Lower EL using AArch32 */
+	/* Lower EL using AArch64 */
+	b		sync_addr
+	.balign	128
+	b		irq_addr
+	.balign	128
+	b		fiq_addr
+	.balign	128
+	b		serr_addr
+	.balign	128
+	/* Lower EL using AArch32 */
+	b		sync_addr
 	.balign	128
 	b		irq_addr
 	.balign	128
@@ -82,50 +78,55 @@ _endvectors:
 
 .section .text
 
+/* el_setter: Sets processor to correct Exception Level (EL1)
+ * for kernel operation. EL upon boot is EL3, while EL1 is necessary 
+ * for kernel code */
+.func el_setter
+el_setter:
+	/* Disable MMU at EL1 */
+	msr	sctlr_el1, xzr
+
+	mov	x0, xzr
+	orr	x0, x0, #(1 << 10)	// .RW = 0b1 --> EL1 is AArch64
+	orr x0, x0, #(1 << 0)	// .NS = 0b1 --> Non-secure status
+	msr	scr_el3, x0
+
+	mov	x0, xzr
+	orr	x0, x0, #(7 << 6)	// .A = .I = .F = 0b1 --> SError, IRQ, FIQ enabled
+//	orr x0, x0, #(0 << 4)	// .M[4] = 0b0 --> Return to AArch64 state
+	orr	x0, x0, #(1 << 2)	// .M[3:1] = 0b010 --> Return to EL1 (SYS Mode equivalent)
+	orr	x0, x0, #(1 << 0)	// .M[0] = 0b1 --> Use EL1's dedicated stack
+	msr	spsr_el3, x0
+	
+//	adrp x0, reset_handler			// Program EL1 entrypoint
+//	add	x0, x0, :lo12:reset_handler
+	ldr	x0, =reset_handler
+	msr	elr_el3, x0		
+
+	eret
+.endfunc
+
+
 	/* reset_handler: Reset handler routine executed to start up the kernel,
 	 * when the ARM processor is reset, or (currently) when an unhandled
 	 * exception occurs.  */
 	.func reset_handler
 reset_handler:
+	bl	init_led
+	bl	led_on
 
+	/* disables irq and fiq interupts */
+	msr daifclr, 0b0011  
 
-	msr daifclr, 3  /* disables irq and fiq interupts */
-
-	/* Place vector table address in VBAR_ELn register so processor knows where it is */
+	/* Place vector table address in VBAR_ELn register so 
+	 * processor knows where it is */
 	ldr	x0, =_vectors
 	mov	x1, #11
 	lsl	x0, x0, x1
 	msr	VBAR_EL1, x0
-	msr VBAR_EL2, x0
+//	msr VBAR_EL2, x0
 //	msr VBAR_EL3, x0
 
-	/* Enter SYS mode with all interrupts disabled so the ARM processor is
-	 * in a known state. */
-//	cpsid if, #ARM_MODE_SYS
-
-	/* Copy the ARM exception table from .init section to address 0,
-	 * including the absolute address table.  Here we assume it is exactly
-	 * 16 words.  */
-/*	mov 	r0, #0
-	ldr 	r1, =_vectors
-	ldmia 	r1!, {r2-r9}
-	stmia 	r0!, {r2-r9}
-	ldmia 	r1!, {r2-r9}
-	stmia 	r0!, {r2-r9}
-*/
-	/* Enable the following features by modifying the ARM processor's
-	 * Control Register:
-	 *
-	 * - unaligned memory accesses   (bit 22)
-	 *
-	 * Note: Xinu shouldn't do any unaligned memory accesses on purpose, but
-	 * we found that gcc can still generate unaligned memory accesses for
-	 * tasks such as copying character strings.  (An alternative would be to
-	 * pass -mno-unaligned-access to gcc to prevent it from doing so.)  */
-/*	mrc p15, 0, r0, c1, c0, 0
-	orr r0, #1 << 22
-	mcr p15, 0, r0, c1, c0, 0
-*/
 /**
  * This function sets up the expected C environment and then runs the null
  * process.  A major part of the expected C environment is memory
@@ -191,21 +192,16 @@ bssloopa:
     mov x1, sp
     str x1, [x0]
 
-	/* Initialize the Raspberry Pi graphics subsystem.  */
-	/* bl screenInit */
-
-	/* Branch to the platform-independent C startup code, which takes no
-	 * parameters and never returns.  */
-
-  mrs x7, mpidr_el1
-  and x7, x7, #3
-  cbz x7, __start_master
+	/* Put non-used cores in busy wait */
+  	mrs x7, mpidr_el1
+  	and x7, x7, #3
+  	cbz x7, __start_master
 0:  wfe
-  b   0b
+  	b   0b
 
-
+	
+	/* Branch to the C environment */
 __start_master:
-//	msr	daifclr, 3
 	b	nulluser
 	.endfunc
 
