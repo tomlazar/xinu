@@ -26,12 +26,14 @@ _start:
 	ldr 	x3, =atags_ptr
 	str 	x0, [x3]
 
-	/* Continue execution at el_setter.  */
-//	b 	el_setter
+	/* Set to the correct Exception Level for processor */
+	bl 	el_setter
+
+	/* Continue excecution at reset_handler */
 	b	reset_handler
 	.endfunc
 
-/* ARM exception vector table.  This is copied to VBAR_ELn register. */
+/* ARMv8 exception vector table. */
 _vectors:
 	/* Current EL with SP0 */
 	b		sync_addr	/* Synchronous */
@@ -79,50 +81,73 @@ _endvectors:
 .section .text
 
 /* el_setter: Sets processor to correct Exception Level (EL1)
- * for kernel operation. EL upon boot is EL3, while EL1 is necessary 
+ * for kernel operation. EL upon boot is EL2, while EL1 is necessary 
  * for kernel code */
-.func el_setter
 el_setter:
-	/* Disable MMU at EL1 */
-	msr	sctlr_el1, xzr
 
-	mov	x0, xzr
-	orr	x0, x0, #(1 << 10)	// .RW = 0b1 --> EL1 is AArch64
-	orr x0, x0, #(1 << 0)	// .NS = 0b1 --> Non-secure status
-	msr	scr_el3, x0
+	/* Enable EL2 access to timers */
+	mrs	x0, cnthctl_el2
+	orr	x0, x0, #0x3
+	msr	cnthctl_el2, x0	
 
-	mov	x0, xzr
-	orr	x0, x0, #(7 << 6)	// .A = .I = .F = 0b1 --> SError, IRQ, FIQ enabled
-//	orr x0, x0, #(0 << 4)	// .M[4] = 0b0 --> Return to AArch64 state
-	orr	x0, x0, #(1 << 2)	// .M[3:1] = 0b010 --> Return to EL1 (SYS Mode equivalent)
-	orr	x0, x0, #(1 << 0)	// .M[0] = 0b1 --> Use EL1's dedicated stack
-	msr	spsr_el3, x0
-	
-//	adrp x0, reset_handler			// Program EL1 entrypoint
-//	add	x0, x0, :lo12:reset_handler
-	ldr	x0, =reset_handler
-	msr	elr_el3, x0		
+	/* Enable EL1 access to timers */
+	mrs	x0, cntkctl_el1
+	orr	x0, x0, #0x3
+	msr	cntkctl_el1, x0
 
+	/* Initialize MIDR/MPIDR registers */
+	mrs	x0, midr_el1
+	mrs	x1, mpidr_el1
+	msr	vpidr_el2, x0
+	msr	vmpidr_el2, x1
+
+	/* Disable coprocessor traps */
+	mov	x0, #0x33FF
+	msr	cptr_el2, x0	/* Disable coprocessor traps to EL2 */
+	msr	hstr_el2, xzr	/* Disable Hyp System Trap */
+
+	/* Enable FP/SIMD at EL1 */
+	mrs	x0, cpacr_el1
+	mov	x0, #3 << 20
+	msr cpacr_el1, x0
+
+	/* Initialize HCR_EL2 */
+	mov	x0, #(1 << 31)		/* 64-bit EL1 */
+	orr	x0, x0, #(1 << 29)	/* Disable HVC */
+	msr	hcr_el2, x0
+
+	/* SCTLR_EL1 initialization */
+	mov	x0, #0x0800
+	movk x0, #0x30D0, lsl #16
+	msr	sctlr_el1, x0
+
+	/* Return to EL1_SP1 mode from EL2 */
+	mov	x0, sp
+	msr	sp_el1, x0		/* Migrate SP */
+	mrs	x0, vbar_el2
+	msr	vbar_el1, x0	/* Migrate VBAR */
+	mov	x0, #0x3C5
+	msr	spsr_el2, x0	/* EL1_SP1 | D | A | I | F */
+	msr	elr_el2, x30
 	eret
-.endfunc
-
-
+	
 	/* reset_handler: Reset handler routine executed to start up the kernel,
 	 * when the ARM processor is reset, or (currently) when an unhandled
 	 * exception occurs.  */
 	.func reset_handler
 reset_handler:
+	
 	bl	init_led
 	bl	led_on
 
 	/* disables irq and fiq interupts */
-	msr daifclr, 0b0011  
+	msr daifset, 0b0011  
 
 	/* Place vector table address in VBAR_ELn register so 
 	 * processor knows where it is */
 	ldr	x0, =_vectors
-	mov	x1, #11
-	lsl	x0, x0, x1
+//	mov	x1, #11
+//	lsl	x0, x0, x1
 	msr	VBAR_EL1, x0
 //	msr VBAR_EL2, x0
 //	msr VBAR_EL3, x0
@@ -204,8 +229,6 @@ bssloopa:
 __start_master:
 	b	nulluser
 	.endfunc
-
-
 
 
 //.globl dmb
