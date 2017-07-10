@@ -85,30 +85,30 @@ _endvectors:
  * for kernel code */
 el_setter:
 
-	/* Enable EL2 access to timers */
+/*
+	// Enable EL2 access to timers 
 	mrs	x0, cnthctl_el2
 	orr	x0, x0, #0x3
 	msr	cnthctl_el2, x0	
 
-	/* Enable EL1 access to timers */
+	// Enable EL1 access to timers 
 	mrs	x0, cntkctl_el1
 	orr	x0, x0, #0x3
 	msr	cntkctl_el1, x0
-
+*/
 	/* Initialize MIDR/MPIDR registers */
-	mrs	x0, midr_el1
-	mrs	x1, mpidr_el1
-	msr	vpidr_el2, x0
-	msr	vmpidr_el2, x1
+//	mrs	x0, midr_el1
+//	mrs	x1, mpidr_el1
+//	msr	vpidr_el2, x0
+//	msr	vmpidr_el2, x1
 
 	/* Disable coprocessor traps */
-	mov	x0, #0x33FF
-	msr	cptr_el2, x0	/* Disable coprocessor traps to EL2 */
-	msr	hstr_el2, xzr	/* Disable Hyp System Trap */
+//	mov	x0, #0x33FF
+//	msr	cptr_el2, x0	/* Disable coprocessor traps to EL2 */
+//	msr	hstr_el2, xzr	/* Disable Hyp System Trap */
 
 	/* Enable FP/SIMD at EL1 */
-	mrs	x0, cpacr_el1
-	mov	x0, #3 << 20
+	mov	x0, #3 << 20	/* .FPEN = 0b11, no instructions are trapped */
 	msr cpacr_el1, x0
 
 	/* Initialize HCR_EL2 */
@@ -124,6 +124,10 @@ el_setter:
 	/* Return to EL1_SP1 mode from EL2 */
 	mov	x0, sp
 	msr	sp_el1, x0		/* Migrate SP */
+	
+	ldr	x0, =_vectors
+	msr	vbar_el2, x0
+
 	mrs	x0, vbar_el2
 	msr	vbar_el1, x0	/* Migrate VBAR */
 	mov	x0, #0x3C5
@@ -136,21 +140,12 @@ el_setter:
 	 * exception occurs.  */
 	.func reset_handler
 reset_handler:
-	
-	bl	init_led
-	bl	led_on
 
 	/* disables irq and fiq interupts */
 	msr daifset, 0b0011  
 
 	/* Place vector table address in VBAR_ELn register so 
 	 * processor knows where it is */
-	ldr	x0, =_vectors
-//	mov	x1, #11
-//	lsl	x0, x0, x1
-	msr	VBAR_EL1, x0
-//	msr VBAR_EL2, x0
-//	msr VBAR_EL3, x0
 
 /**
  * This function sets up the expected C environment and then runs the null

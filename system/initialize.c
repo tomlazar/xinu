@@ -58,23 +58,12 @@ ulong cpuid;                    /* Processor id                        */
 
 struct platform platform;       /* Platform specific configuration     */
 
-#define IO_BASE     0x3f000000
-#define GP_BASE     (IO_BASE + 0x200000)
-#define MU_BASE     (IO_BASE + 0x215000)
-#define PL011_BASE  (IO_BASE + 0x201000)
-#define AUX_ENB     (*(volatile unsigned *)(MU_BASE + 0x04))
-#define MU_IO       (*(volatile unsigned *)(MU_BASE + 0x40))
-#define MU_LCR      (*(volatile unsigned *)(MU_BASE + 0x4c))
-#define MU_LSR      (*(volatile unsigned *)(MU_BASE + 0x54))
-#define MU_CNTL     (*(volatile unsigned *)(MU_BASE + 0x60))
-#define MU_BAUD     (*(volatile unsigned *)(MU_BASE + 0x68))
-
-#define GPFSEL1     (*(volatile unsigned *)(GP_BASE + 0x04))
-#define GPPUD       (*(volatile unsigned *)(GP_BASE + 0x94))
-#define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
-#define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
-#define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
-#define GPLEV0		(*(volatile unsigned *)(GP_BASE + 0x34))
+#define GPFSEL1     (*(volatile unsigned *)(GPIO_REGS_BASE + 0x04))
+#define GPPUD       (*(volatile unsigned *)(GPIO_REGS_BASE + 0x94))
+#define GPPUDCLK0   (*(volatile unsigned *)(GPIO_REGS_BASE + 0x98))
+#define GPSET0      (*(volatile unsigned *)(GPIO_REGS_BASE + 0x1C))
+#define GPCLR0      (*(volatile unsigned *)(GPIO_REGS_BASE + 0x28))
+#define GPLEV0		(*(volatile unsigned *)(GPIO_REGS_BASE + 0x34))
 
 #define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
 #define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
@@ -134,7 +123,8 @@ interrupt gpio_handler(void)
  */
 void nulluser(void)
 {
-	int lev;
+	uint lev;
+	uint el;
 
 	init_led();
 	init_button();
@@ -144,28 +134,19 @@ void nulluser(void)
 	sysinit();
 	kprintf("Hello Xinu W3rld!\r\n");
 	print_os_info();
+
+	el = getcurrel();
+	kprintf("CurrentEL: %lu\r\n", el);
+
+//	kprintf("Turning LED on...\r\n");
+//	led_on();
+
 	/* Enable interrupts  */
 	enable();
 
-	/* test code */
-/*	while (1)
-	{
-		udelay(1500);
-		lev = button_lev();
-		kprintf("button level: %d\r\n", lev);
-		if (lev)
-			led_on();
-		else
-			led_off();
-	}
-*/
-	/* setup button as interrupt source */
-//	volatile struct rpi_gpio_regs *regptr =
-//		(volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
-//	regptr->gpren[0] = 1 << 17;	
-//	interruptVector[49] = gpio_handler;	
-//	enable_irq(49);
-
+	/* Set up System Timer as an interrupt source */
+	/* ONLY USED FOR TESTING INTERRUPTS... */
+	/* this should be done in clkinit.c */
 
 	interruptVector[IRQ_TIMER] = 0;
 	enable_irq(IRQ_TIMER);
@@ -178,7 +159,7 @@ void nulluser(void)
 	while (TRUE)
 	{
 #ifndef DEBUG
-		pause();
+//		pause();
 #endif                          /* DEBUG */
 	}
 }
@@ -253,7 +234,7 @@ static int sysinit(void)
 
 #if RTCLOCK
 	/* initialize real time clock */
-	//	clkinit();
+//	clkinit();
 #endif                          /* RTCLOCK */
 
 #ifdef UHEAP_SIZE

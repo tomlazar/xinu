@@ -5,17 +5,18 @@
 .globl restore
 
 enable:
-  .func
-  msr daifset, #3
+  .func enable
+  msr daifclr, #0b0011
   ret
   .endfunc
 
 disable:
-  .func
+  .func disable
+  msr daifset, #0b0011
   ret
   .endfunc
 
 restore:
-  .func
+  .func restore
   ret
   .endfunc

@@ -125,6 +125,7 @@ static inline ulong first_set_bit(ulong word)
  */
 void dispatch(void)
 {
+/*
     uint i;
 
     for (i = 0; i < 3; i++)
@@ -137,6 +138,9 @@ void dispatch(void)
             check_irq_pending(bit + (i << 5));
         }
     }
+*/
+	kprintf("Received irq in dispatch\r\n");
+	kprintf("CurrentEL in dispatch: %d\r\n", getcurrel());
 }
 
 /**
