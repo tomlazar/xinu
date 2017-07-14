@@ -5,5 +5,5 @@
 dmb:
   .func dmb
 
-  ret
+  bx lr
   .endfunc

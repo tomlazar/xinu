@@ -6,17 +6,15 @@
 
 enable:
   .func enable
-  msr daifclr, #0b0011
-  ret
+  bx lr
   .endfunc
 
 disable:
   .func disable
-  msr daifset, #0b0011
-  ret
+  bx lr
   .endfunc
 
 restore:
   .func restore
-  ret
+  bx lr
   .endfunc

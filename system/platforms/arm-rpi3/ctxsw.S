@@ -3,5 +3,5 @@
 
 ctxsw:
   .func ctxsw
-  ret
+  bx  lr
   .endfunc

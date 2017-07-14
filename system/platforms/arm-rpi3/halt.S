@@ -2,5 +2,5 @@
 .globl halt
 halt:
   .func halt
-  ret
+  bx  lr
   .endfunc

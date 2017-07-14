@@ -78,6 +78,21 @@ struct platform platform;       /* Platform specific configuration     */
 #define _PL011_BAUD_INT(x)   (_UART_CLK / (16 * (x)))
 #define _PL011_BAUD_FRAC(x)  (int)((((_UART_CLK / (16.0 * (x)))-_PL011_BAUD_INT(x))*64.0)+0.5)
 
+#define TIMER_BASE	(GPIO_REGS_BASE + 0x03000)
+#define TIMER_CS	(*(volatile unsigned *)(TIMER_BASE + 0x0))
+#define TIMER_CMP3	(*(volatile unsigned *)(TIMER_BASE + 0x18))
+
+#define IRQ_BASE	(GPIO_REGS_BASE + 0xB200)
+#define IRQ_PND_BSC	(*(volatile unsigned *)(IRQ_BASE + 0x0))
+#define IRQ_PND_1	(*(volatile unsigned *)(IRQ_BASE + 0x4))
+#define IRQ_PND_2	(*(volatile unsigned *)(IRQ_BASE + 0x8))
+#define IRQ_ENB_1	(*(volatile unsigned *)(IRQ_BASE + 0x10))
+#define IRQ_ENB_2	(*(volatile unsigned *)(IRQ_BASE + 0x14))
+#define IRQ_ENB_BSC	(*(volatile unsigned *)(IRQ_BASE + 0x18))
+#define IRQ_DIS_1	(*(volatile unsigned *)(IRQ_BASE + 0x1C))
+#define IRQ_DIS_2	(*(volatile unsigned *)(IRQ_BASE + 0x20))
+#define IRQ_DIS_BAS	(*(volatile unsigned *)(IRQ_BASE + 0x24))
+
 void init_led(void)
 {
 	GPFSEL1 &= ~(7 << 18); // GPIO Pin 16
@@ -105,12 +120,6 @@ int button_lev(void)
 }
 
 
-interrupt gpio_handler(void)
-{
-	kprintf("gpio interrupt received... turning on led\r\n");
-	led_on();
-}
-
 /**
  * Intializes the system and becomes the null thread.
  * This is where the system begins after the C environment has been
@@ -125,6 +134,7 @@ void nulluser(void)
 {
 	uint lev;
 	uint el;
+	int	 a;
 
 	init_led();
 	init_button();
@@ -135,22 +145,58 @@ void nulluser(void)
 	kprintf("Hello Xinu W3rld!\r\n");
 	print_os_info();
 
-	el = getcurrel();
-	kprintf("CurrentEL: %lu\r\n", el);
-
 //	kprintf("Turning LED on...\r\n");
 //	led_on();
 
 	/* Enable interrupts  */
+//	enable();
+
+	/* System timer peripheral polling and interrupt testing */
+	
+	/* System timer polling test */
+	TIMER_CMP3 = 0xFFFFFFFF;
+	a = 0;
+	while (a < 5)
+	{
+		led_off();
+		if (TIMER_CS & (1 << 3))
+			;
+		else
+		{
+			led_on();
+			kprintf("POLLING TEST: SYSTEM TIMER CMP3 == true\r\n");
+		}
+		a++;
+	}
+
+	/* System timer interrupt test */
+	/* SYS Time CMP 3 is interrupt line 3 */
+	/* Use registers 1, not 2 or BSC */	
+	TIMER_CMP3 = 0xFFFFFFFF;
+	IRQ_ENB_1 = (1 << 3);	// enable interrupt line
+
+	a = 0;
+	while (a < 5)
+	{
+		led_off();
+		// busy wait while no interrupt
+		while (0 == (IRQ_PND_1 & (1 << 3)))
+			;
+		led_on();
+		kprintf("IRQ POLLING TEST: Interrupt detected on line 3\r\n");
+		
+		a++;
+	}	
+	led_off();
+
+	/* Enable real interrupts */
+	kprintf("Enabling real interrupts...\r\n");
+	TIMER_CMP3 = 0xFFFF;
+	IRQ_ENB_1 = 1 << 3;
+
+	kprintf("Before enable()\r\n");
 	enable();
-
-	/* Set up System Timer as an interrupt source */
-	/* ONLY USED FOR TESTING INTERRUPTS... */
-	/* this should be done in clkinit.c */
-
-	interruptVector[IRQ_TIMER] = 0;
-	enable_irq(IRQ_TIMER);
-	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+	kprintf("after enable()\r\n");	
 
 	/* Spawn the main thread  */
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
@@ -158,6 +204,9 @@ void nulluser(void)
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE)
 	{
+		//kprintf("before DOWFI()\r\n");
+		//DOWFI();
+		//kprintf("after DOWFI()\r\n");
 #ifndef DEBUG
 //		pause();
 #endif                          /* DEBUG */

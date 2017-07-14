@@ -4,5 +4,5 @@
 
 pause:
   .func pause
-  ret
+  bx lr
   .endfunc
