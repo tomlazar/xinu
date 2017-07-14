@@ -16,6 +16,7 @@ extern interrupt_handler_t interruptVector[];
 
 typedef unsigned long irqmask;  /**< machine status for disable/restore  */
 
+
 void enable(void);
 irqmask disable(void);
 irqmask restore(irqmask);

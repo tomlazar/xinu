@@ -11,18 +11,23 @@
 
 
 
-/* Definitions of ARM boot tags.  */
+/* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
+ * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
+
+/*to_save_for_later0xB900001F*/
+/* CHANGED SERIAL AND CMDLINE TAGS, SWITCHED ...0006 and ...0009 */
+
 enum {
-	ATAG_NONE       = 0x00000000,
-	ATAG_CORE       = 0x54410001,
-	ATAG_MEM        = 0x54410002,
-	ATAG_VIDEOTEXT  = 0x54410003,
-	ATAG_RAMDISK    = 0x54410004,
-	ATAG_INITRD2    = 0x54410005,
-	ATAG_SERIAL     = 0x54410006,
-	ATAG_REVISION   = 0x54410007,
-	ATAG_VIDEOLFB   = 0x54410008,
-	ATAG_CMDLINE    = 0x54410009,
+	ATAG_NONE       = 0x00000000, //Empty tag used to end list
+	ATAG_CORE       = 0x54410001, //First tag used to start list
+	ATAG_MEM        = 0x54410002, //Describes a physical area of memory
+	ATAG_VIDEOTEXT  = 0x54410003, //Describes a VGA text display
+	ATAG_RAMDISK    = 0x54410004, //Describes how the ramdisk will be used in kernel
+	ATAG_INITRD2    = 0x54410005, //Describes where the compressed ramdisk image is placed in memory
+	ATAG_SERIAL     = 0x54410006, //64 bit board serial number
+	ATAG_REVISION   = 0x54410007, //32 bit board revision number
+	ATAG_VIDEOLFB   = 0x54410008, //Initial values for vesafb-type framebuffers
+	ATAG_CMDLINE    = 0x54410009, //Command line to pass to kernel
 };
 
 /* Below we only define structures for tags we actually use.  */
@@ -55,7 +60,7 @@ struct atag {
 };
 
 /** Physical memory address at which the bootloader placed the ARM boot tags.
- * This is set by the code in start.S.  Here, initialize it to a dummy value to
+ *tagata This is set by the code in start.S.  Here, initialize it to a dummy value to
  * prevent it from being placed in .bss.  */
 const struct atag *atags_ptr = (void*)-1;
 
@@ -75,25 +80,43 @@ parse_atag_list(void)
 	 * as multiple contiguous chunks.  */
 	do
 	{
+		kprintf("enter do.\r\n");
+		kprintf("atag=%X\r\n", atag);
+		kprintf("atags_ptr=%X\r\n", atags_ptr);
+		//kprintf(atag->mem.size=0x%u, atag->mem.size);
+
 		parse_again = FALSE;
 		for (atag = atags_ptr;
-				atag->hdr.size > 2 && atag->hdr.tag != ATAG_NONE;
-				atag = (const struct atag*)((const uint*)atag + atag->hdr.size))
+		     atag->hdr.size > 2 && atag->hdr.tag != ATAG_NONE;
+		     atag = (const struct atag*)((const uint*)atag + atag->hdr.size))
 		{
+			kprintf("atag->hdr.size=0x%X\r\n", atag->hdr.size);
+			kprintf("atag->hdr.tag=0x%X\r\n", atag->hdr.tag); 
+			kprintf("Enter atags parse for loop.\r\n");
 			switch (atag->hdr.tag)
 			{
 				case ATAG_MEM:
+					kprintf("tag = ATAG_MEM case.\r\n");
+					kprintf("atag->mem.start (hopefully = maxaddr)=%u\r\n", atag->mem.start);
+					kprintf("atag->mem.size (hopefully !=0)=%u\r\n", atag->mem.size);
+
 					if (maxaddr == atag->mem.start && atag->mem.size != 0)
-					{
+					{						
+						kprintf("Enter atags mem if.\r\n");
 						maxaddr += atag->mem.size;
 						parse_again = TRUE;
 					}
+					kprintf("maxaddr=%lu\r\n", maxaddr);
 					break;
+
 				case ATAG_SERIAL:
+					kprintf("Enter atags serial case.\r\n");
 					platform.serial_low = atag->serialnr.low;
 					platform.serial_high = atag->serialnr.high;
 					break;
+
 				default:
+					kprintf("Enter default.\r\n");
 					break;
 			}
 		}
@@ -102,6 +125,7 @@ parse_atag_list(void)
 	/* Set platform maximum address if calculated value is not insane.  */
 	if (maxaddr >= (ulong)&_end)
 	{
+		kprintf("enter platform max address set. = %lu\r\n", maxaddr);
 		platform.maxaddr = (void*)maxaddr;
 	}
 }
@@ -143,16 +167,14 @@ void pl011init(void)
  */
 int platforminit(void)
 {
+	pl011init();
 	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
 	strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
-	platform.maxaddr = (void *)0x3EFFFFFF; /* Used only if atags are bad */
+	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
 	parse_atag_list();
-	bcm2835_power_init(); 
-//	pl011init();
-//	kprintf("Hello World!\r\n");  
-//	led_on();	
+	bcm2837_power_init(); 
 	return OK;
 }

@@ -132,83 +132,48 @@ int button_lev(void)
  */
 void nulluser(void)
 {
-	uint lev;
-	uint el;
-	int	 a;
+	uint lev, mode;
+	int i;
 
 	init_led();
 	init_button();
+	
 	/* Platform-specific initialization  */
 	platforminit();
+	
 	/* General initialization  */
 	sysinit();
+	
 	kprintf("Hello Xinu W3rld!\r\n");
 	print_os_info();
 
-//	kprintf("Turning LED on...\r\n");
-//	led_on();
+	mode = getmode();
+	kprintf("Printing out CPSR:\r\n");
 
-	/* Enable interrupts  */
-//	enable();
-
-	/* System timer peripheral polling and interrupt testing */
-	
-	/* System timer polling test */
-	TIMER_CMP3 = 0xFFFFFFFF;
-	a = 0;
-	while (a < 5)
+	i = 31;
+	while (i >= 0)
 	{
-		led_off();
-		if (TIMER_CS & (1 << 3))
-			;
-		else
-		{
-			led_on();
-			kprintf("POLLING TEST: SYSTEM TIMER CMP3 == true\r\n");
-		}
-		a++;
+		kprintf("%d", (mode >> i) & 1);
+		--i;
 	}
 
-	/* System timer interrupt test */
-	/* SYS Time CMP 3 is interrupt line 3 */
-	/* Use registers 1, not 2 or BSC */	
-	TIMER_CMP3 = 0xFFFFFFFF;
-	IRQ_ENB_1 = (1 << 3);	// enable interrupt line
-
-	a = 0;
-	while (a < 5)
-	{
-		led_off();
-		// busy wait while no interrupt
-		while (0 == (IRQ_PND_1 & (1 << 3)))
-			;
-		led_on();
-		kprintf("IRQ POLLING TEST: Interrupt detected on line 3\r\n");
-		
-		a++;
-	}	
-	led_off();
-
-	/* Enable real interrupts */
-	kprintf("Enabling real interrupts...\r\n");
-	TIMER_CMP3 = 0xFFFF;
-	IRQ_ENB_1 = 1 << 3;
-
-	kprintf("Before enable()\r\n");
+	/* Enable interrupts */
 	enable();
-	kprintf("after enable()\r\n");	
 
+	/* Enable system timer peripheral */
+	/* TEMPORARY... this should be done in clkinit, but is used for testing */
+	interruptVector[IRQ_TIMER] = 0;
+	enable_irq(IRQ_TIMER);
+	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);	
+	
 	/* Spawn the main thread  */
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE)
 	{
-		//kprintf("before DOWFI()\r\n");
-		//DOWFI();
-		//kprintf("after DOWFI()\r\n");
 #ifndef DEBUG
-//		pause();
+		pause();
 #endif                          /* DEBUG */
 	}
 }

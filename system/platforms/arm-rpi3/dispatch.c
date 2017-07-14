@@ -139,8 +139,7 @@ void dispatch(void)
         }
     }
 */
-	kprintf("Received irq in dispatch\r\n");
-	kprintf("CurrentEL in dispatch: %d\r\n", getcurrel());
+	kprintf("Reached dispatch...\r\n");
 }
 
 /**
