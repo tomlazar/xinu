@@ -58,6 +58,9 @@ _start:
 	moveq   r2, #0x100
 	str 	r2, [r3]
 
+	/* Go from monitor mode to hypervisor mode */
+	/* Required to use exception return method */
+	/* Continues execution at line "b reset_handler" */
 	mrs	r0, cpsr
 	bic	r0, r0, #0x1F
 	orr	r0, r0, #0x13
@@ -70,8 +73,8 @@ _start:
 	b reset_handler
 	.endfunc
 
-/* ARM exception vector table.  This is copied to address 0.  See A2.6
- * "Exceptions" of the ARM Architecture Reference Manual.  */
+/* ARM exception vector table.  This is copied to VBAR register. */
+/* Vector table has to be 32-byte aligned. */
 .balign	0x20
 _vectors:
 	ldr pc, reset_addr    /* Reset handler */
@@ -106,9 +109,7 @@ reset_handler:
 	 * in a known state. */
 	cpsid	if, #ARM_MODE_SYS
 	
-	/* Copy the ARM exception table from .init section to address 0,
-	 * including the absolute address table.  Here we assume it is exactly
-	 * 16 words.  */
+	/* Copy the ARM exception table from .init section to VBAR register, */
 	ldr	r1, =_vectors
 	mcr	p15, 0, r1, c12, c0, 0	/* Write to VBAR */
 
@@ -148,7 +149,7 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr r0, =memheap
-        str sp, [r0]
+	str sp, [r0]
 
 /*
 /*  	mrs r7, mpidr_el1

@@ -118,14 +118,13 @@ static inline ulong first_set_bit(ulong word)
 /**
  * Processes all pending interrupt requests.
  *
- * On the BCM2835 (Raspberry Pi), this done by iterating through all registered
+ * On the BCM2837 (Raspberry Pi3), this done by iterating through all registered
  * interrupts on the ARM and checking whether each one is pending.  This is not
  * necessarily the fastest way to do it, but this should minimize problems with
  * the poorly-documented hardware and conflicts with the GPU.
  */
 void dispatch(void)
 {
-/*
     uint i;
 
     for (i = 0; i < 3; i++)
@@ -138,8 +137,6 @@ void dispatch(void)
             check_irq_pending(bit + (i << 5));
         }
     }
-*/
-	kprintf("Reached dispatch...\r\n");
 }
 
 /**
