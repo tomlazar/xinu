@@ -2,7 +2,7 @@ Archive member included to satisfy reference by file (symbol)
 
 ../lib/libxc.a(doprnt.o)      ../device/uart-pl011/../uart/kvprintf.o (_doprnt)
 ../lib/libxc.a(memcpy.o)      ../system/platforms/arm-rpi3/kexec.o (memcpy)
-../lib/libxc.a(printf.o)      ../device/uart-pl011/uartHwStat.o (printf)
+../lib/libxc.a(printf.o)      ../system/initialize.o (printf)
 ../lib/libxc.a(strlcpy.o)     ../system/platforms/arm-rpi3/platforminit.o (strlcpy)
 ../lib/libxc.a(strlen.o)      ../lib/libxc.a(doprnt.o) (strlen)
 ../lib/libxc.a(strncmp.o)     ../system/getdev.o (strncmp)
@@ -14,11 +14,8 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ../loader/platforms/arm-rpi3/start.o
  .data          0x0000000000000000        0x0 ../system/platforms/arm-rpi3/ctxsw.o
  .bss           0x0000000000000000        0x0 ../system/platforms/arm-rpi3/ctxsw.o
- .text          0x0000000000000000        0xc ../system/platforms/arm-rpi3/halt.o
  .data          0x0000000000000000        0x0 ../system/platforms/arm-rpi3/halt.o
  .bss           0x0000000000000000        0x0 ../system/platforms/arm-rpi3/halt.o
- .ARM.attributes
-                0x0000000000000000       0x28 ../system/platforms/arm-rpi3/halt.o
  .data          0x0000000000000000        0x0 ../system/platforms/arm-rpi3/intutils.o
  .bss           0x0000000000000000        0x0 ../system/platforms/arm-rpi3/intutils.o
  .data          0x0000000000000000        0x0 ../system/platforms/arm-rpi3/irq_handler.o
@@ -105,14 +102,10 @@ Discarded input sections
                 0x0000000000000000       0x38 ../system/platforms/arm-rpi3/watchdog.o
  .text          0x0000000000000000        0x0 ../system/initialize.o
  .data          0x0000000000000000        0x0 ../system/initialize.o
- .text.led_on   0x0000000000000000       0x14 ../system/initialize.o
  .text.led_off  0x0000000000000000       0x14 ../system/initialize.o
  .text.button_lev
                 0x0000000000000000       0x14 ../system/initialize.o
  .comment       0x0000000000000000       0x22 ../system/initialize.o
- .text          0x0000000000000000        0x0 ../system/queue.o
- .data          0x0000000000000000        0x0 ../system/queue.o
- .comment       0x0000000000000000       0x22 ../system/queue.o
  .text          0x0000000000000000        0x0 ../system/main.o
  .data          0x0000000000000000        0x0 ../system/main.o
  .bss           0x0000000000000000        0x0 ../system/main.o
@@ -126,6 +119,12 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ../system/resched.o
  .data          0x0000000000000000        0x0 ../system/resched.o
  .comment       0x0000000000000000       0x22 ../system/resched.o
+ .text          0x0000000000000000        0x0 ../system/queinit.o
+ .bss           0x0000000000000000        0x0 ../system/queinit.o
+ .comment       0x0000000000000000       0x22 ../system/queinit.o
+ .text          0x0000000000000000        0x0 ../system/queue.o
+ .data          0x0000000000000000        0x0 ../system/queue.o
+ .comment       0x0000000000000000       0x22 ../system/queue.o
  .text          0x0000000000000000        0x0 ../system/getitem.o
  .data          0x0000000000000000        0x0 ../system/getitem.o
  .bss           0x0000000000000000        0x0 ../system/getitem.o
@@ -135,25 +134,59 @@ Discarded input sections
  .data          0x0000000000000000        0x0 ../system/insert.o
  .bss           0x0000000000000000        0x0 ../system/insert.o
  .comment       0x0000000000000000       0x22 ../system/insert.o
+ .text          0x0000000000000000        0x0 ../system/clkinit.o
+ .data          0x0000000000000000        0x0 ../system/clkinit.o
+ .comment       0x0000000000000000       0x22 ../system/clkinit.o
+ .text          0x0000000000000000        0x0 ../system/clkhandler.o
+ .data          0x0000000000000000        0x0 ../system/clkhandler.o
+ .bss           0x0000000000000000        0x0 ../system/clkhandler.o
+ .comment       0x0000000000000000       0x22 ../system/clkhandler.o
+ .text          0x0000000000000000        0x0 ../system/mdelay.o
+ .data          0x0000000000000000        0x0 ../system/mdelay.o
+ .bss           0x0000000000000000        0x0 ../system/mdelay.o
+ .text.mdelay   0x0000000000000000       0x24 ../system/mdelay.o
+ .comment       0x0000000000000000       0x22 ../system/mdelay.o
+ .ARM.attributes
+                0x0000000000000000       0x38 ../system/mdelay.o
  .text          0x0000000000000000        0x0 ../system/udelay.o
  .data          0x0000000000000000        0x0 ../system/udelay.o
  .bss           0x0000000000000000        0x0 ../system/udelay.o
  .comment       0x0000000000000000       0x22 ../system/udelay.o
+ .text          0x0000000000000000        0x0 ../system/insertd.o
+ .data          0x0000000000000000        0x0 ../system/insertd.o
+ .bss           0x0000000000000000        0x0 ../system/insertd.o
+ .text.insertd  0x0000000000000000       0xcc ../system/insertd.o
+ .comment       0x0000000000000000       0x22 ../system/insertd.o
+ .ARM.attributes
+                0x0000000000000000       0x38 ../system/insertd.o
+ .text          0x0000000000000000        0x0 ../system/sleep.o
+ .data          0x0000000000000000        0x0 ../system/sleep.o
+ .bss           0x0000000000000000        0x0 ../system/sleep.o
+ .text.sleep    0x0000000000000000       0x8c ../system/sleep.o
+ .comment       0x0000000000000000       0x22 ../system/sleep.o
+ .ARM.attributes
+                0x0000000000000000       0x38 ../system/sleep.o
+ .text          0x0000000000000000        0x0 ../system/unsleep.o
+ .data          0x0000000000000000        0x0 ../system/unsleep.o
+ .bss           0x0000000000000000        0x0 ../system/unsleep.o
+ .text.unsleep  0x0000000000000000       0x98 ../system/unsleep.o
+ .comment       0x0000000000000000       0x22 ../system/unsleep.o
+ .ARM.attributes
+                0x0000000000000000       0x38 ../system/unsleep.o
+ .text          0x0000000000000000        0x0 ../system/wakeup.o
+ .data          0x0000000000000000        0x0 ../system/wakeup.o
+ .bss           0x0000000000000000        0x0 ../system/wakeup.o
+ .text.wakeup   0x0000000000000000       0x54 ../system/wakeup.o
+ .comment       0x0000000000000000       0x22 ../system/wakeup.o
+ .ARM.attributes
+                0x0000000000000000       0x38 ../system/wakeup.o
  .text          0x0000000000000000        0x0 ../system/semcreate.o
  .data          0x0000000000000000        0x0 ../system/semcreate.o
- .bss           0x0000000000000000        0x4 ../system/semcreate.o
- .text.semcreate
-                0x0000000000000000       0x8c ../system/semcreate.o
  .comment       0x0000000000000000       0x22 ../system/semcreate.o
- .ARM.attributes
-                0x0000000000000000       0x38 ../system/semcreate.o
  .text          0x0000000000000000        0x0 ../system/semfree.o
  .data          0x0000000000000000        0x0 ../system/semfree.o
  .bss           0x0000000000000000        0x0 ../system/semfree.o
- .text.semfree  0x0000000000000000       0x94 ../system/semfree.o
  .comment       0x0000000000000000       0x22 ../system/semfree.o
- .ARM.attributes
-                0x0000000000000000       0x38 ../system/semfree.o
  .text          0x0000000000000000        0x0 ../system/semcount.o
  .data          0x0000000000000000        0x0 ../system/semcount.o
  .bss           0x0000000000000000        0x0 ../system/semcount.o
@@ -223,10 +256,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ../system/putc.o
  .data          0x0000000000000000        0x0 ../system/putc.o
  .bss           0x0000000000000000        0x0 ../system/putc.o
- .text.putc     0x0000000000000000       0x20 ../system/putc.o
  .comment       0x0000000000000000       0x22 ../system/putc.o
- .ARM.attributes
-                0x0000000000000000       0x38 ../system/putc.o
  .text          0x0000000000000000        0x0 ../system/seek.o
  .data          0x0000000000000000        0x0 ../system/seek.o
  .bss           0x0000000000000000        0x0 ../system/seek.o
@@ -338,10 +368,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ../lib/libxc.a(printf.o)
  .data          0x0000000000000000        0x0 ../lib/libxc.a(printf.o)
  .bss           0x0000000000000000        0x0 ../lib/libxc.a(printf.o)
- .text.printf   0x0000000000000000       0x50 ../lib/libxc.a(printf.o)
  .comment       0x0000000000000000       0x22 ../lib/libxc.a(printf.o)
- .ARM.attributes
-                0x0000000000000000       0x38 ../lib/libxc.a(printf.o)
  .text          0x0000000000000000        0x0 ../lib/libxc.a(strlcpy.o)
  .data          0x0000000000000000        0x0 ../lib/libxc.a(strlcpy.o)
  .bss           0x0000000000000000        0x0 ../lib/libxc.a(strlcpy.o)
@@ -360,10 +387,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ../lib/libxc.a(fputc.o)
  .data          0x0000000000000000        0x0 ../lib/libxc.a(fputc.o)
  .bss           0x0000000000000000        0x0 ../lib/libxc.a(fputc.o)
- .text.fputc    0x0000000000000000       0x28 ../lib/libxc.a(fputc.o)
  .comment       0x0000000000000000       0x22 ../lib/libxc.a(fputc.o)
- .ARM.attributes
-                0x0000000000000000       0x38 ../lib/libxc.a(fputc.o)
 
 Memory Configuration
 
@@ -380,42 +404,40 @@ Linker script and memory map
                 0x0000000000008000                _start
                 0x00000000000080c0                . = ALIGN (0x40)
 
-.text           0x00000000000080c0     0x1b84
+.text           0x00000000000080c0     0x2060
  *(.txt .text.*)
  .text.bcm2837_power_init
                 0x00000000000080c0       0x2c ../system/platforms/arm-rpi3/bcm2837_power.o
                 0x00000000000080c0                bcm2837_power_init
  .text.dispatch
-                0x00000000000080ec        0xc ../system/platforms/arm-rpi3/dispatch.o
+                0x00000000000080ec       0xbc ../system/platforms/arm-rpi3/dispatch.o
                 0x00000000000080ec                dispatch
  .text.enable_irq
-                0x00000000000080f8       0x6c ../system/platforms/arm-rpi3/dispatch.o
-                0x00000000000080f8                enable_irq
+                0x00000000000081a8       0x6c ../system/platforms/arm-rpi3/dispatch.o
+                0x00000000000081a8                enable_irq
  .text.pl011init
-                0x0000000000008164       0x90 ../system/platforms/arm-rpi3/platforminit.o
-                0x0000000000008164                pl011init
+                0x0000000000008214       0x90 ../system/platforms/arm-rpi3/platforminit.o
+                0x0000000000008214                pl011init
  .text.platforminit
-                0x00000000000081f4      0x1ec ../system/platforms/arm-rpi3/platforminit.o
-                0x00000000000081f4                platforminit
+                0x00000000000082a4      0x1ec ../system/platforms/arm-rpi3/platforminit.o
+                0x00000000000082a4                platforminit
  .text.clkcount
-                0x00000000000083e0       0x20 ../system/platforms/arm-rpi3/timer.o
-                0x00000000000083e0                clkcount
+                0x0000000000008490       0x20 ../system/platforms/arm-rpi3/timer.o
+                0x0000000000008490                clkcount
  .text.clkupdate
-                0x0000000000008400       0x30 ../system/platforms/arm-rpi3/timer.o
-                0x0000000000008400                clkupdate
+                0x00000000000084b0       0x30 ../system/platforms/arm-rpi3/timer.o
+                0x00000000000084b0                clkupdate
  .text.init_led
-                0x0000000000008430       0x24 ../system/initialize.o
-                0x0000000000008430                init_led
+                0x00000000000084e0       0x24 ../system/initialize.o
+                0x00000000000084e0                init_led
  .text.init_button
-                0x0000000000008454       0x18 ../system/initialize.o
-                0x0000000000008454                init_button
+                0x0000000000008504       0x18 ../system/initialize.o
+                0x0000000000008504                init_button
+ .text.led_on   0x000000000000851c       0x14 ../system/initialize.o
+                0x000000000000851c                led_on
  .text.nulluser
-                0x000000000000846c      0x174 ../system/initialize.o
-                0x000000000000846c                nulluser
- .text.enqueue  0x00000000000085e0       0x70 ../system/queue.o
-                0x00000000000085e0                enqueue
- .text.dequeue  0x0000000000008650       0x7c ../system/queue.o
-                0x0000000000008650                dequeue
+                0x0000000000008530      0x19c ../system/initialize.o
+                0x0000000000008530                nulluser
  .text.print_os_info
                 0x00000000000086cc      0x130 ../system/main.o
                 0x00000000000086cc                print_os_info
@@ -423,154 +445,183 @@ Linker script and memory map
                 0x00000000000087fc                ready
  .text.resched  0x000000000000886c      0x108 ../system/resched.o
                 0x000000000000886c                resched
- .text.getitem  0x0000000000008974       0x38 ../system/getitem.o
-                0x0000000000008974                getitem
+ .text.queinit  0x0000000000008974       0x70 ../system/queinit.o
+                0x0000000000008974                queinit
+ .text.enqueue  0x00000000000089e4       0x70 ../system/queue.o
+                0x00000000000089e4                enqueue
+ .text.dequeue  0x0000000000008a54       0x7c ../system/queue.o
+                0x0000000000008a54                dequeue
+ .text.getitem  0x0000000000008ad0       0x38 ../system/getitem.o
+                0x0000000000008ad0                getitem
  .text.getfirst
-                0x00000000000089ac       0x44 ../system/getitem.o
-                0x00000000000089ac                getfirst
- .text.insert   0x00000000000089f0       0xa0 ../system/insert.o
-                0x00000000000089f0                insert
- .text.udelay   0x0000000000008a90       0x70 ../system/udelay.o
-                0x0000000000008a90                udelay
- .text.signaln  0x0000000000008b00       0x90 ../system/signaln.o
-                0x0000000000008b00                signaln
- .text.wait     0x0000000000008b90       0xa4 ../system/wait.o
-                0x0000000000008b90                wait
- .text.ioerr    0x0000000000008c34        0x8 ../system/ioerr.o
-                0x0000000000008c34                ioerr
- .text.ionull   0x0000000000008c3c        0x8 ../system/ionull.o
-                0x0000000000008c3c                ionull
- .text.kputc    0x0000000000008c44       0x4c ../device/uart-pl011/kputc.o
-                0x0000000000008c44                kputc
+                0x0000000000008b08       0x44 ../system/getitem.o
+                0x0000000000008b08                getfirst
+ .text.insert   0x0000000000008b4c       0xa0 ../system/insert.o
+                0x0000000000008b4c                insert
+ .text.clkinit  0x0000000000008bec       0x4c ../system/clkinit.o
+                0x0000000000008bec                clkinit
+ .text.clkhandler
+                0x0000000000008c38       0x58 ../system/clkhandler.o
+                0x0000000000008c38                clkhandler
+ .text.udelay   0x0000000000008c90       0x70 ../system/udelay.o
+                0x0000000000008c90                udelay
+ .text.semcreate
+                0x0000000000008d00       0x8c ../system/semcreate.o
+                0x0000000000008d00                semcreate
+ .text.semfree  0x0000000000008d8c       0x94 ../system/semfree.o
+                0x0000000000008d8c                semfree
+ .text.signaln  0x0000000000008e20       0x90 ../system/signaln.o
+                0x0000000000008e20                signaln
+ .text.wait     0x0000000000008eb0       0xa4 ../system/wait.o
+                0x0000000000008eb0                wait
+ .text.ioerr    0x0000000000008f54        0x8 ../system/ioerr.o
+                0x0000000000008f54                ioerr
+ .text.ionull   0x0000000000008f5c        0x8 ../system/ionull.o
+                0x0000000000008f5c                ionull
+ .text.putc     0x0000000000008f64       0x20 ../system/putc.o
+                0x0000000000008f64                putc
+ .text.kputc    0x0000000000008f84       0x4c ../device/uart-pl011/kputc.o
+                0x0000000000008f84                kputc
  .text.uartControl
-                0x0000000000008c90      0x100 ../device/uart-pl011/../uart/uartControl.o
-                0x0000000000008c90                uartControl
+                0x0000000000008fd0      0x100 ../device/uart-pl011/../uart/uartControl.o
+                0x0000000000008fd0                uartControl
  .text.uartGetc
-                0x0000000000008d90       0x24 ../device/uart-pl011/../uart/uartGetc.o
-                0x0000000000008d90                uartGetc
+                0x00000000000090d0       0x24 ../device/uart-pl011/../uart/uartGetc.o
+                0x00000000000090d0                uartGetc
  .text.uartHwInit
-                0x0000000000008db4       0x98 ../device/uart-pl011/uartHwInit.o
-                0x0000000000008db4                uartHwInit
+                0x00000000000090f4       0xc8 ../device/uart-pl011/uartHwInit.o
+                0x00000000000090f4                uartHwInit
  .text.uartHwPutc
-                0x0000000000008e4c        0x8 ../device/uart-pl011/uartHwPutc.o
-                0x0000000000008e4c                uartHwPutc
+                0x00000000000091bc        0x8 ../device/uart-pl011/uartHwPutc.o
+                0x00000000000091bc                uartHwPutc
  .text.uartInit
-                0x0000000000008e54       0x54 ../device/uart-pl011/../uart/uartInit.o
-                0x0000000000008e54                uartInit
+                0x00000000000091c4      0x108 ../device/uart-pl011/../uart/uartInit.o
+                0x00000000000091c4                uartInit
  .text.uartInterrupt
-                0x0000000000008ea8      0x160 ../device/uart-pl011/uartInterrupt.o
-                0x0000000000008ea8                uartInterrupt
+                0x00000000000092cc      0x154 ../device/uart-pl011/uartInterrupt.o
+                0x00000000000092cc                uartInterrupt
  .text.uartPutc
-                0x0000000000009008       0x2c ../device/uart-pl011/../uart/uartPutc.o
-                0x0000000000009008                uartPutc
+                0x0000000000009420       0x2c ../device/uart-pl011/../uart/uartPutc.o
+                0x0000000000009420                uartPutc
  .text.uartRead
-                0x0000000000009034       0xd0 ../device/uart-pl011/../uart/uartRead.o
-                0x0000000000009034                uartRead
+                0x000000000000944c       0xd0 ../device/uart-pl011/../uart/uartRead.o
+                0x000000000000944c                uartRead
  .text.uartWrite
-                0x0000000000009104       0xf0 ../device/uart-pl011/../uart/uartWrite.o
-                0x0000000000009104                uartWrite
- .text.kprintf  0x00000000000091f4       0x28 ../device/uart-pl011/../uart/kprintf.o
-                0x00000000000091f4                kprintf
+                0x000000000000951c       0xf0 ../device/uart-pl011/../uart/uartWrite.o
+                0x000000000000951c                uartWrite
+ .text.kprintf  0x000000000000960c       0x28 ../device/uart-pl011/../uart/kprintf.o
+                0x000000000000960c                kprintf
  .text.kvprintf
-                0x000000000000921c       0x44 ../device/uart-pl011/../uart/kvprintf.o
-                0x000000000000921c                kvprintf
- .text._doprnt  0x0000000000009260      0x4f8 ../lib/libxc.a(doprnt.o)
-                0x0000000000009260                _doprnt
- .text.memcpy   0x0000000000009758       0x20 ../lib/libxc.a(memcpy.o)
-                0x0000000000009758                memcpy
- .text.strlcpy  0x0000000000009778       0x50 ../lib/libxc.a(strlcpy.o)
-                0x0000000000009778                strlcpy
- .text.strlen   0x00000000000097c8       0x1c ../lib/libxc.a(strlen.o)
-                0x00000000000097c8                strlen
+                0x0000000000009634       0x44 ../device/uart-pl011/../uart/kvprintf.o
+                0x0000000000009634                kvprintf
+ .text._doprnt  0x0000000000009678      0x4f8 ../lib/libxc.a(doprnt.o)
+                0x0000000000009678                _doprnt
+ .text.memcpy   0x0000000000009b70       0x20 ../lib/libxc.a(memcpy.o)
+                0x0000000000009b70                memcpy
+ .text.printf   0x0000000000009b90       0x50 ../lib/libxc.a(printf.o)
+                0x0000000000009b90                printf
+ .text.strlcpy  0x0000000000009be0       0x50 ../lib/libxc.a(strlcpy.o)
+                0x0000000000009be0                strlcpy
+ .text.strlen   0x0000000000009c30       0x1c ../lib/libxc.a(strlen.o)
+                0x0000000000009c30                strlen
+ .text.fputc    0x0000000000009c4c       0x28 ../lib/libxc.a(fputc.o)
+                0x0000000000009c4c                fputc
  *(.rodata .rodata.*)
  .rodata.str1.1
-                0x00000000000097e4       0x16 ../system/platforms/arm-rpi3/dispatch.o
+                0x0000000000009c74       0x30 ../system/platforms/arm-rpi3/dispatch.o
  .rodata.str1.1
-                0x00000000000097fa      0x163 ../system/platforms/arm-rpi3/platforminit.o
+                0x0000000000009ca4      0x163 ../system/platforms/arm-rpi3/platforminit.o
  .rodata.str1.1
-                0x000000000000995d       0x33 ../system/initialize.o
+                0x0000000000009e07       0x61 ../system/initialize.o
  .rodata.str1.1
-                0x0000000000009990      0x14a ../system/main.o
+                0x0000000000009e68      0x14a ../system/main.o
                                         0x152 (size before relaxing)
- *fill*         0x0000000000009ada        0x2 
- .rodata        0x0000000000009adc       0x3c ../system/conf.o
-                0x0000000000009adc                devtab
+ *fill*         0x0000000000009fb2        0x2 
+ .rodata        0x0000000000009fb4       0x3c ../system/conf.o
+                0x0000000000009fb4                devtab
  .rodata.str1.1
-                0x0000000000009b18        0x8 ../system/conf.o
- .rodata        0x0000000000009b20       0x31 ../lib/libxc.a(doprnt.o)
+                0x0000000000009ff0        0x8 ../system/conf.o
+ .rodata        0x0000000000009ff8       0x31 ../lib/libxc.a(doprnt.o)
  .rodata.str1.1
-                0x0000000000009b51        0x7 ../lib/libxc.a(doprnt.o)
- .text          0x0000000000009b58       0x60 ../loader/platforms/arm-rpi3/start.o
- *fill*         0x0000000000009bb8        0x8 
- .text          0x0000000000009bc0       0x1c ../system/platforms/arm-rpi3/ctxsw.o
-                0x0000000000009bc0                ctxsw
- .text          0x0000000000009bdc       0x1c ../system/platforms/arm-rpi3/intutils.o
-                0x0000000000009bdc                enable
-                0x0000000000009be4                disable
-                0x0000000000009bf0                restore
- .text          0x0000000000009bf8       0x30 ../system/platforms/arm-rpi3/irq_handler.o
-                0x0000000000009bf8                irq_handler
- .text          0x0000000000009c28        0xc ../system/platforms/arm-rpi3/memory_barrier.o
-                0x0000000000009c28                dmb
- .text          0x0000000000009c34        0x8 ../system/platforms/arm-rpi3/pause.o
-                0x0000000000009c34                pause
- .text          0x0000000000009c3c        0x8 ../system/platforms/arm-rpi3/getmode.o
-                0x0000000000009c3c                getmode
+                0x000000000000a029        0x7 ../lib/libxc.a(doprnt.o)
+ .text          0x000000000000a030       0x60 ../loader/platforms/arm-rpi3/start.o
+ .text          0x000000000000a090       0x1c ../system/platforms/arm-rpi3/ctxsw.o
+                0x000000000000a090                ctxsw
+ .text          0x000000000000a0ac        0xc ../system/platforms/arm-rpi3/halt.o
+                0x000000000000a0ac                halt
+ .text          0x000000000000a0b8       0x1c ../system/platforms/arm-rpi3/intutils.o
+                0x000000000000a0b8                enable
+                0x000000000000a0c0                disable
+                0x000000000000a0cc                restore
+ .text          0x000000000000a0d4       0x30 ../system/platforms/arm-rpi3/irq_handler.o
+                0x000000000000a0d4                irq_handler
+ .text          0x000000000000a104        0xc ../system/platforms/arm-rpi3/memory_barrier.o
+                0x000000000000a104                dmb
+ .text          0x000000000000a110        0x8 ../system/platforms/arm-rpi3/pause.o
+                0x000000000000a110                pause
+ .text          0x000000000000a118        0x8 ../system/platforms/arm-rpi3/getmode.o
+                0x000000000000a118                getmode
 
-.glue_7         0x0000000000009c44        0x0
- .glue_7        0x0000000000009c44        0x0 linker stubs
+.glue_7         0x000000000000a120        0x0
+ .glue_7        0x000000000000a120        0x0 linker stubs
 
-.glue_7t        0x0000000000009c44        0x0
- .glue_7t       0x0000000000009c44        0x0 linker stubs
+.glue_7t        0x000000000000a120        0x0
+ .glue_7t       0x000000000000a120        0x0 linker stubs
 
-.vfp11_veneer   0x0000000000009c44        0x0
- .vfp11_veneer  0x0000000000009c44        0x0 linker stubs
+.vfp11_veneer   0x000000000000a120        0x0
+ .vfp11_veneer  0x000000000000a120        0x0 linker stubs
 
-.v4_bx          0x0000000000009c44        0x0
- .v4_bx         0x0000000000009c44        0x0 linker stubs
+.v4_bx          0x000000000000a120        0x0
+ .v4_bx         0x000000000000a120        0x0 linker stubs
 
-.iplt           0x0000000000009c44        0x0
- .iplt          0x0000000000009c44        0x0 ../loader/platforms/arm-rpi3/start.o
+.iplt           0x000000000000a120        0x0
+ .iplt          0x000000000000a120        0x0 ../loader/platforms/arm-rpi3/start.o
 
-.rel.dyn        0x0000000000009c44        0x0
- .rel.iplt      0x0000000000009c44        0x0 ../loader/platforms/arm-rpi3/start.o
-                0x0000000000009c80                . = ALIGN (0x40)
+.rel.dyn        0x000000000000a120        0x0
+ .rel.iplt      0x000000000000a120        0x0 ../loader/platforms/arm-rpi3/start.o
+                0x000000000000a140                . = ALIGN (0x40)
 
-.data           0x0000000000009c80        0x4
+.data           0x000000000000a140        0x8
  *(.data .data.*)
- .data          0x0000000000009c80        0x4 ../system/platforms/arm-rpi3/platforminit.o
-                0x0000000000009c80                atags_ptr
+ .data          0x000000000000a140        0x4 ../system/platforms/arm-rpi3/platforminit.o
+                0x000000000000a140                atags_ptr
+ .data          0x000000000000a144        0x4 ../system/queinit.o
 
-.igot.plt       0x0000000000009c84        0x0
- .igot.plt      0x0000000000009c84        0x0 ../loader/platforms/arm-rpi3/start.o
-                0x0000000000009cc0                . = ALIGN (0x40)
-                0x0000000000009cc0                _bss = .
+.igot.plt       0x000000000000a148        0x0
+ .igot.plt      0x000000000000a148        0x0 ../loader/platforms/arm-rpi3/start.o
+                0x000000000000a180                . = ALIGN (0x40)
+                0x000000000000a180                _bss = .
 
-.bss            0x0000000000009cc0     0x3e48
+.bss            0x000000000000a180     0x3e58
  *(.bss .bss.*)
- .bss           0x0000000000009cc0        0x4 ../system/platforms/arm-rpi3/bcm2837_power.o
- .bss           0x0000000000009cc4      0x12c ../system/platforms/arm-rpi3/dispatch.o
-                0x0000000000009cd0                interruptVector
- .bss           0x0000000000009df0     0x2698 ../system/initialize.o
-                0x0000000000009df0                thrcount
-                0x0000000000009df4                memheap
-                0x0000000000009df8                platform
-                0x0000000000009e34                memlist
-                0x0000000000009e3c                thrtab
-                0x000000000000bf0c                thrcurrent
-                0x000000000000bf10                bfptab
-                0x000000000000bfd0                cpuid
-                0x000000000000bfd4                readylist
-                0x000000000000bfd8                semtab
-                0x000000000000bfd8                montab
- .bss           0x000000000000c488      0xe40 ../system/queue.o
-                0x000000000000c488                quetab
- .bss           0x000000000000d2c8        0x4 ../system/resched.o
-                0x000000000000d2c8                resdefer
- .bss           0x000000000000d2cc      0x83c ../device/uart-pl011/../uart/uartInit.o
-                0x000000000000d2cc                uarttab
-                0x000000000000db40                . = ALIGN (0x40)
-                0x000000000000db40                _end = .
+ .bss           0x000000000000a180        0x4 ../system/platforms/arm-rpi3/bcm2837_power.o
+ .bss           0x000000000000a184      0x12c ../system/platforms/arm-rpi3/dispatch.o
+                0x000000000000a190                interruptVector
+ .bss           0x000000000000a2b0     0x2698 ../system/initialize.o
+                0x000000000000a2b0                thrcount
+                0x000000000000a2b4                memheap
+                0x000000000000a2b8                platform
+                0x000000000000a2f4                memlist
+                0x000000000000a2fc                thrtab
+                0x000000000000c3cc                thrcurrent
+                0x000000000000c3d0                semtab
+                0x000000000000c880                bfptab
+                0x000000000000c940                readylist
+                0x000000000000c944                cpuid
+                0x000000000000c948                montab
+ .bss           0x000000000000c948        0x4 ../system/resched.o
+                0x000000000000c948                resdefer
+ .bss           0x000000000000c94c      0xe40 ../system/queue.o
+                0x000000000000c94c                quetab
+ .bss           0x000000000000d78c        0xc ../system/clkinit.o
+                0x000000000000d78c                clkticks
+                0x000000000000d790                sleepq
+                0x000000000000d794                clktime
+ .bss           0x000000000000d798        0x4 ../system/semcreate.o
+ .bss           0x000000000000d79c      0x83c ../device/uart-pl011/../uart/uartInit.o
+                0x000000000000d79c                uarttab
+                0x000000000000e000                . = ALIGN (0x40)
+                0x000000000000e000                _end = .
 
 /DISCARD/
  *(.comment .comment.* .note .note.*)
@@ -591,13 +642,21 @@ LOAD ../system/platforms/arm-rpi3/timer.o
 LOAD ../system/platforms/arm-rpi3/usb_dwc_hcd.o
 LOAD ../system/platforms/arm-rpi3/watchdog.o
 LOAD ../system/initialize.o
-LOAD ../system/queue.o
 LOAD ../system/main.o
 LOAD ../system/ready.o
 LOAD ../system/resched.o
+LOAD ../system/queinit.o
+LOAD ../system/queue.o
 LOAD ../system/getitem.o
 LOAD ../system/insert.o
+LOAD ../system/clkinit.o
+LOAD ../system/clkhandler.o
+LOAD ../system/mdelay.o
 LOAD ../system/udelay.o
+LOAD ../system/insertd.o
+LOAD ../system/sleep.o
+LOAD ../system/unsleep.o
+LOAD ../system/wakeup.o
 LOAD ../system/semcreate.o
 LOAD ../system/semfree.o
 LOAD ../system/semcount.o
@@ -641,78 +700,96 @@ OUTPUT(xinu.elf elf32-littlearm)
  .ARM.attributes
                 0x0000000000000028       0x28 ../system/platforms/arm-rpi3/ctxsw.o
  .ARM.attributes
-                0x0000000000000050       0x28 ../system/platforms/arm-rpi3/intutils.o
+                0x0000000000000050       0x28 ../system/platforms/arm-rpi3/halt.o
  .ARM.attributes
-                0x0000000000000078       0x28 ../system/platforms/arm-rpi3/irq_handler.o
+                0x0000000000000078       0x28 ../system/platforms/arm-rpi3/intutils.o
  .ARM.attributes
-                0x00000000000000a0       0x28 ../system/platforms/arm-rpi3/memory_barrier.o
+                0x00000000000000a0       0x28 ../system/platforms/arm-rpi3/irq_handler.o
  .ARM.attributes
-                0x00000000000000c8       0x28 ../system/platforms/arm-rpi3/pause.o
+                0x00000000000000c8       0x28 ../system/platforms/arm-rpi3/memory_barrier.o
  .ARM.attributes
-                0x00000000000000f0       0x28 ../system/platforms/arm-rpi3/getmode.o
+                0x00000000000000f0       0x28 ../system/platforms/arm-rpi3/pause.o
  .ARM.attributes
-                0x0000000000000118       0x38 ../system/platforms/arm-rpi3/bcm2837_power.o
+                0x0000000000000118       0x28 ../system/platforms/arm-rpi3/getmode.o
  .ARM.attributes
-                0x0000000000000150       0x38 ../system/platforms/arm-rpi3/dispatch.o
+                0x0000000000000140       0x38 ../system/platforms/arm-rpi3/bcm2837_power.o
  .ARM.attributes
-                0x0000000000000188       0x38 ../system/platforms/arm-rpi3/platforminit.o
+                0x0000000000000178       0x38 ../system/platforms/arm-rpi3/dispatch.o
  .ARM.attributes
-                0x00000000000001c0       0x38 ../system/platforms/arm-rpi3/timer.o
+                0x00000000000001b0       0x38 ../system/platforms/arm-rpi3/platforminit.o
  .ARM.attributes
-                0x00000000000001f8       0x38 ../system/initialize.o
+                0x00000000000001e8       0x38 ../system/platforms/arm-rpi3/timer.o
  .ARM.attributes
-                0x0000000000000230       0x38 ../system/queue.o
+                0x0000000000000220       0x38 ../system/initialize.o
  .ARM.attributes
-                0x0000000000000268       0x38 ../system/main.o
+                0x0000000000000258       0x38 ../system/main.o
  .ARM.attributes
-                0x00000000000002a0       0x38 ../system/ready.o
+                0x0000000000000290       0x38 ../system/ready.o
  .ARM.attributes
-                0x00000000000002d8       0x38 ../system/resched.o
+                0x00000000000002c8       0x38 ../system/resched.o
  .ARM.attributes
-                0x0000000000000310       0x38 ../system/getitem.o
+                0x0000000000000300       0x38 ../system/queinit.o
  .ARM.attributes
-                0x0000000000000348       0x38 ../system/insert.o
+                0x0000000000000338       0x38 ../system/queue.o
  .ARM.attributes
-                0x0000000000000380       0x38 ../system/udelay.o
+                0x0000000000000370       0x38 ../system/getitem.o
  .ARM.attributes
-                0x00000000000003b8       0x38 ../system/signaln.o
+                0x00000000000003a8       0x38 ../system/insert.o
  .ARM.attributes
-                0x00000000000003f0       0x38 ../system/wait.o
+                0x00000000000003e0       0x38 ../system/clkinit.o
  .ARM.attributes
-                0x0000000000000428       0x38 ../system/ioerr.o
+                0x0000000000000418       0x38 ../system/clkhandler.o
  .ARM.attributes
-                0x0000000000000460       0x38 ../system/ionull.o
+                0x0000000000000450       0x38 ../system/udelay.o
  .ARM.attributes
-                0x0000000000000498       0x38 ../device/uart-pl011/kputc.o
+                0x0000000000000488       0x38 ../system/semcreate.o
  .ARM.attributes
-                0x00000000000004d0       0x38 ../device/uart-pl011/../uart/uartControl.o
+                0x00000000000004c0       0x38 ../system/semfree.o
  .ARM.attributes
-                0x0000000000000508       0x38 ../device/uart-pl011/../uart/uartGetc.o
+                0x00000000000004f8       0x38 ../system/signaln.o
  .ARM.attributes
-                0x0000000000000540       0x38 ../device/uart-pl011/uartHwInit.o
+                0x0000000000000530       0x38 ../system/wait.o
  .ARM.attributes
-                0x0000000000000578       0x38 ../device/uart-pl011/uartHwPutc.o
+                0x0000000000000568       0x38 ../system/ioerr.o
  .ARM.attributes
-                0x00000000000005b0       0x38 ../device/uart-pl011/../uart/uartInit.o
+                0x00000000000005a0       0x38 ../system/ionull.o
  .ARM.attributes
-                0x00000000000005e8       0x38 ../device/uart-pl011/uartInterrupt.o
+                0x00000000000005d8       0x38 ../system/putc.o
  .ARM.attributes
-                0x0000000000000620       0x38 ../device/uart-pl011/../uart/uartPutc.o
+                0x0000000000000610       0x38 ../device/uart-pl011/kputc.o
  .ARM.attributes
-                0x0000000000000658       0x38 ../device/uart-pl011/../uart/uartRead.o
+                0x0000000000000648       0x38 ../device/uart-pl011/../uart/uartControl.o
  .ARM.attributes
-                0x0000000000000690       0x38 ../device/uart-pl011/../uart/uartWrite.o
+                0x0000000000000680       0x38 ../device/uart-pl011/../uart/uartGetc.o
  .ARM.attributes
-                0x00000000000006c8       0x38 ../device/uart-pl011/../uart/kprintf.o
+                0x00000000000006b8       0x38 ../device/uart-pl011/uartHwInit.o
  .ARM.attributes
-                0x0000000000000700       0x38 ../device/uart-pl011/../uart/kvprintf.o
+                0x00000000000006f0       0x38 ../device/uart-pl011/uartHwPutc.o
  .ARM.attributes
-                0x0000000000000738       0x38 ../system/conf.o
+                0x0000000000000728       0x38 ../device/uart-pl011/../uart/uartInit.o
  .ARM.attributes
-                0x0000000000000770       0x38 ../lib/libxc.a(doprnt.o)
+                0x0000000000000760       0x38 ../device/uart-pl011/uartInterrupt.o
  .ARM.attributes
-                0x00000000000007a8       0x38 ../lib/libxc.a(memcpy.o)
+                0x0000000000000798       0x38 ../device/uart-pl011/../uart/uartPutc.o
  .ARM.attributes
-                0x00000000000007e0       0x38 ../lib/libxc.a(strlcpy.o)
+                0x00000000000007d0       0x38 ../device/uart-pl011/../uart/uartRead.o
  .ARM.attributes
-                0x0000000000000818       0x38 ../lib/libxc.a(strlen.o)
+                0x0000000000000808       0x38 ../device/uart-pl011/../uart/uartWrite.o
+ .ARM.attributes
+                0x0000000000000840       0x38 ../device/uart-pl011/../uart/kprintf.o
+ .ARM.attributes
+                0x0000000000000878       0x38 ../device/uart-pl011/../uart/kvprintf.o
+ .ARM.attributes
+                0x00000000000008b0       0x38 ../system/conf.o
+ .ARM.attributes
+                0x00000000000008e8       0x38 ../lib/libxc.a(doprnt.o)
+ .ARM.attributes
+                0x0000000000000920       0x38 ../lib/libxc.a(memcpy.o)
+ .ARM.attributes
+                0x0000000000000958       0x38 ../lib/libxc.a(printf.o)
+ .ARM.attributes
+                0x0000000000000990       0x38 ../lib/libxc.a(strlcpy.o)
+ .ARM.attributes
+                0x00000000000009c8       0x38 ../lib/libxc.a(strlen.o)
+ .ARM.attributes
+                0x0000000000000a00       0x38 ../lib/libxc.a(fputc.o)

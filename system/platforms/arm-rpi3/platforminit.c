@@ -87,8 +87,8 @@ parse_atag_list(void)
 
 		parse_again = FALSE;
 		for (atag = atags_ptr;
-		     atag->hdr.size > 2 && atag->hdr.tag != ATAG_NONE;
-		     atag = (const struct atag*)((const uint*)atag + atag->hdr.size))
+				atag->hdr.size > 2 && atag->hdr.tag != ATAG_NONE;
+				atag = (const struct atag*)((const uint*)atag + atag->hdr.size))
 		{
 			kprintf("atag->hdr.size=0x%X\r\n", atag->hdr.size);
 			kprintf("atag->hdr.tag=0x%X\r\n", atag->hdr.tag); 

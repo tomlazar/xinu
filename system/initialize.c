@@ -65,6 +65,8 @@ struct platform platform;       /* Platform specific configuration     */
 #define GPCLR0      (*(volatile unsigned *)(GPIO_REGS_BASE + 0x28))
 #define GPLEV0		(*(volatile unsigned *)(GPIO_REGS_BASE + 0x34))
 
+#define PL011_BASE	PL011_REGS_BASE
+
 #define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
 #define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
 #define PL011_IBRD  (*(volatile unsigned *)(PL011_BASE + 0x24)) /* Integer Baud rate
@@ -73,6 +75,7 @@ struct platform platform;       /* Platform specific configuration     */
 																   divisor */
 #define PL011_LCRH  (*(volatile unsigned *)(PL011_BASE + 0x2C)) /* Line Control Register*/
 #define PL011_CR    (*(volatile unsigned *)(PL011_BASE + 0x30)) /* Control register */
+#define PL011_ICR	(*(volatile unsigned *)(PL011_BASE + 0x44)) /* Interrupt clear register */
 
 #define _UART_CLK    48000000
 #define _PL011_BAUD_INT(x)   (_UART_CLK / (16 * (x)))
@@ -147,25 +150,9 @@ void nulluser(void)
 	kprintf("Hello Xinu W3rld!\r\n");
 	print_os_info();
 
-	mode = getmode();
-	kprintf("Printing out CPSR:\r\n");
-
-	i = 31;
-	while (i >= 0)
-	{
-		kprintf("%d", (mode >> i) & 1);
-		--i;
-	}
-
 	/* Enable interrupts */
 	enable();
 
-	/* Enable system timer peripheral */
-	/* TEMPORARY... this should be done in clkinit, but is used for testing */
-	interruptVector[IRQ_TIMER] = 0;
-	enable_irq(IRQ_TIMER);
-	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);	
-	
 	/* Spawn the main thread  */
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
@@ -219,13 +206,11 @@ static int sysinit(void)
 	thrcurrent = NULLTHREAD;
 
 	/* Initialize semaphores */
-#if 0	
 	for (i = 0; i < NSEM; i++)
 	{
 		semtab[i].state = SFREE;
 		semtab[i].queue = queinit();
 	}
-#endif
 
 	/* Initialize monitors */
 	for (i = 0; i < NMON; i++)
@@ -240,7 +225,7 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
-	//	readylist = queinit();
+	readylist = queinit();
 
 #if SB_BUS
 	backplaneInit(NULL);
@@ -248,7 +233,7 @@ static int sysinit(void)
 
 #if RTCLOCK
 	/* initialize real time clock */
-//	clkinit();
+	clkinit();
 #endif                          /* RTCLOCK */
 
 #ifdef UHEAP_SIZE

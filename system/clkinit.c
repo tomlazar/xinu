@@ -45,7 +45,7 @@ ulong time_intr_freq = 0;     /** frequency of XINU clock interrupt   */
  */
 void clkinit(void)
 {
-    sleepq = queinit();         /* initialize sleep queue       */
+//    sleepq = queinit();         /* initialize sleep queue       */
 
     clkticks = 0;
 
@@ -68,6 +68,7 @@ void clkinit(void)
     interruptVector[IRQ_TIMER] = clkhandler;
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+
 #endif
 }
 
