@@ -23,7 +23,6 @@ int ready(tid_typ tid, bool resch)
     {
         return SYSERR;
     }
-
     thrptr = &thrtab[tid];
     thrptr->state = THRREADY;
 
@@ -33,5 +32,6 @@ int ready(tid_typ tid, bool resch)
     {
         resched();
     }
+
     return OK;
 }

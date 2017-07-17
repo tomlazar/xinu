@@ -2,12 +2,13 @@
  * @file ld.script
  *
  * This is the linker script for the Xinu kernel on the Raspberry Pi3.  The GPU
- * loads the kernel at address 0x80000 by default, and the ARM processor starts
+ * loads the kernel at address 0x8000 by default (in 32-bit mode, although the Pi 3
+ * does support 64-bit mode at 0x80000), and the ARM processor starts
  * executing instructions at that address.  We place _start, the entry point for
  * Xinu, in a special .init section to ensure it is placed first in the kernel
  * image.
  *
- * Because of this direct jump to address 0x80000, the "ENTRY(_start)" line below
+ * Because of this direct jump to address 0x8000, the "ENTRY(_start)" line below
  * does nothing to set the real entry point of the kernel; however, it _is_
  * needed to specify the entry point to the linker when it is executed with the
  * --gc-sections option, which removes all sections not reachable from the
@@ -21,7 +22,7 @@
 ENTRY(_start)
 
 SECTIONS {
-  . = 0x80000;
+  . = 0x8000;
   .init : {
     *(.init .init.*)
   }

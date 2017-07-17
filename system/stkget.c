@@ -76,5 +76,6 @@ void *stkget(uint nbytes)
 
     memlist.length -= nbytes;
     restore(im);
+
     return (void *)((ulong)fits + nbytes - sizeof(int));
 }

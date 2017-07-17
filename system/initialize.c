@@ -6,34 +6,13 @@
  */
 /* Embedded Xinu, Copyright (C) 2009, 2013.  All rights reserved. */
 
-#include <kernel.h>
-#include <backplane.h>
-#include <clock.h>
-#include <device.h>
-#include <gpio.h>
-#include <memory.h>
-#include <bufpool.h>
-#include <mips.h>
-#include <thread.h>
-#include <tlb.h>
-#include <queue.h>
-#include <semaphore.h>
-#include <monitor.h>
-#include <mailbox.h>
-#include <network.h>
-#include <nvram.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-#include <syscall.h>
-#include <safemem.h>
+#include <xinu.h>
 #include <platform.h>
 
-#include "bcm2837.h"
-
-#ifdef WITH_USB
-#  include <usb_subsystem.h>
-#endif
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#include <bcm2837.h>
+#include <rpi_gpio.h>
+#endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
@@ -59,54 +38,37 @@ struct platform platform;       /* Platform specific configuration     */
 
 #define IO_BASE     0x3f000000
 #define GP_BASE     (IO_BASE + 0x200000)
-#define MU_BASE     (IO_BASE + 0x215000)
-#define PL011_BASE  (IO_BASE + 0x201000)
-#define AUX_ENB     (*(volatile unsigned *)(MU_BASE + 0x04))
-#define MU_IO       (*(volatile unsigned *)(MU_BASE + 0x40))
-#define MU_LCR      (*(volatile unsigned *)(MU_BASE + 0x4c))
-#define MU_LSR      (*(volatile unsigned *)(MU_BASE + 0x54))
-#define MU_CNTL     (*(volatile unsigned *)(MU_BASE + 0x60))
-#define MU_BAUD     (*(volatile unsigned *)(MU_BASE + 0x68))
 
 #define GPFSEL1     (*(volatile unsigned *)(GP_BASE + 0x04))
 #define GPPUD       (*(volatile unsigned *)(GP_BASE + 0x94))
 #define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
 #define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
 #define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
+#define GPLEV0		(*(volatile unsigned *)(GP_BASE + 0x34))
 
-#define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
-#define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
-#define PL011_IBRD  (*(volatile unsigned *)(PL011_BASE + 0x24)) /* Integer Baud rate
-																   divisor */
-#define PL011_FBRD  (*(volatile unsigned *)(PL011_BASE + 0x28)) /* Fractional Baud rate
-																   divisor */
-#define PL011_LCRH  (*(volatile unsigned *)(PL011_BASE + 0x2C)) /* Line Control Register*/
-#define PL011_CR    (*(volatile unsigned *)(PL011_BASE + 0x30)) /* Control register */
-
-#define _UART_CLK    48000000
-#define _PL011_BAUD_INT(x)   (_UART_CLK / (16 * (x)))
-#define _PL011_BAUD_FRAC(x)  (int)((((_UART_CLK / (16.0 * (x)))-_PL011_BAUD_INT(x))*64.0)+0.5)
-
+#define _UART_CLK    48000000	/* UART CLOCK is set to 48MHz, which is the UART clock of
+				 * all Raspberry Pis (as of updated 2016 firmware) */
 void init_led(void)
 {
-	GPFSEL1 &= ~(7 << 18); // GPIO Pin 16
-	GPFSEL1 |= 1 << 18;    // Set as output
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
+	regptr->gpfsel[1] &= ~(7 << 18);
+	regptr->gpfsel[1] |=  (1 << 18);
 }
-
 
 void led_on(void)
 {
-	GPSET0 = 1 << 16;
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
+	regptr->gpset[0] = 1 << 16;
 }
 
 void led_off(void)
 {
-	GPCLR0 = 1 << 16;
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
+	regptr->gpclr[0] = 1 << 16;
 }
 
 
-
-/**
+/*
  * Intializes the system and becomes the null thread.
  * This is where the system begins after the C environment has been
  * established.  Interrupts are initially DISABLED, and must eventually
@@ -118,18 +80,40 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	init_led();
-	/* Platform-specific initialization  */
-	platforminit();
+	uint mode, cpuid;
+	int i;
 
+	init_led();
+
+	/* Platform-specific initialization (system/platforms/arm-rpi3/platforminit.c) */
+	platforminit();
 
 	/* General initialization  */
 	sysinit();
+	kprintf("\r\n***********************************************************\r\n");
+	kprintf("******************** Hello Xinu World! ********************\r\n");
+	kprintf("***********************************************************\r\n");
+	/* Print memory usage (located in system/main.c) */
+	print_os_info();
+
+	// cpsr
+	mode = getmode();
 	
-	led_on();
-	
-	kprintf("Hello Xinu W3rld!\r\n");
-//	print_os_info();
+	kprintf("Printing out CPSR:\r\n");
+	// print out bits of cpsr
+	for (i = 31; i >= 0; i--)
+		kprintf("%d", (mode >> i) & 1);
+
+	cpuid = getcpuid();
+	kprintf("\r\nPrinting out MPIDR:\r\n");
+	for (i = 31; i >= 0; i--)
+		kprintf("%d", (cpuid >> i) & 1);
+
+	kprintf("\r\n");
+
+	/* Call to test method (located in test/test_processcreation.c) */
+	testmain();
+
 	/* Enable interrupts  */
 	enable();
 
@@ -137,12 +121,7 @@ void nulluser(void)
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
-	while (TRUE)
-	{
-#ifndef DEBUG
-		pause();
-#endif                          /* DEBUG */
-	}
+	while (TRUE){}
 }
 
 /**
@@ -185,15 +164,6 @@ static int sysinit(void)
 	thrptr->memlist.length = 0;
 	thrcurrent = NULLTHREAD;
 
-	/* Initialize semaphores */
-#if 0	
-	for (i = 0; i < NSEM; i++)
-	{
-		semtab[i].state = SFREE;
-		semtab[i].queue = queinit();
-	}
-#endif
-
 	/* Initialize monitors */
 	for (i = 0; i < NMON; i++)
 	{
@@ -207,16 +177,7 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
-//	readylist = queinit();
-
-#if SB_BUS
-	backplaneInit(NULL);
-#endif                          /* SB_BUS */
-
-#if RTCLOCK
-	/* initialize real time clock */
-//	clkinit();
-#endif                          /* RTCLOCK */
+	readylist = queinit();
 
 #ifdef UHEAP_SIZE
 	/* Initialize user memory manager */
@@ -244,28 +205,11 @@ static int sysinit(void)
 	exceptionVector[EXC_SYS] = syscall_entry;
 #endif                          /* USE_TLB */
 
-#if NMAILBOX
-	/* intialize mailboxes */
-//	mailboxInit();
-#endif
-
 #if NDEVS
 	for (i = 0; i < NDEVS; i++)
 	{
 		devtab[i].init((device*)&devtab[i]);
 	}
-#endif
-
-#ifdef WITH_USB
-	usbinit();
-#endif
-
-#if NVRAM
-	nvramInit();
-#endif
-
-#if NNETIF
-	netInit();
 #endif
 
 #if GPIO

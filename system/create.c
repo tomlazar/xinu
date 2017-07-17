@@ -48,6 +48,7 @@ tid_typ create(void *procaddr, uint ssize, int priority,
 
     /* Allocate new stack.  */
     saddr = stkget(ssize);
+
     if (SYSERR == (int)saddr)
     {
         restore(im);
@@ -56,6 +57,7 @@ tid_typ create(void *procaddr, uint ssize, int priority,
 
     /* Allocate new thread ID.  */
     tid = thrnew();
+
     if (SYSERR == (int)tid)
     {
         stkfree(saddr, ssize);
@@ -78,18 +80,20 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     thrptr->memlist.length = 0;
 
     /* Set up default file descriptors.  */
-    //thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
-    //thrptr->fdesc[1] = CONSOLE; /* stdout is console */
-    //thrptr->fdesc[2] = CONSOLE; /* stderr is console */
+    thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
+    thrptr->fdesc[1] = CONSOLE; /* stdout is console */
+    thrptr->fdesc[2] = CONSOLE; /* stderr is console */
 
     /* Set up new thread's stack with context record and arguments.
      * Architecture-specific.  */
     va_start(ap, nargs);
+
     thrptr->stkptr = setupStack(saddr, procaddr, INITRET, nargs, ap);
     va_end(ap);
 
     /* Restore interrupts and return new thread TID.  */
     restore(im);
+ 
     return tid;
 }
 
@@ -107,10 +111,12 @@ static int thrnew(void)
     for (tid = 0; tid < NTHREAD; tid++)
     {
         nexttid = (nexttid + 1) % NTHREAD;
-        if (THRFREE == thrtab[nexttid].state)
+        
+	if (THRFREE == thrtab[nexttid].state)
         {
             return nexttid;
         }
     }
+
     return SYSERR;
 }

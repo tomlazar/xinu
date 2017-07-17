@@ -76,7 +76,7 @@ static void handle_irq(uchar irq_num)
  * function.  */
 static void check_irq_pending(uchar irq_num)
 {
-    bool handle = FALSE;
+    bool handle = FALSE; //RMv7 reference manual in section B1.8.1 
 
     /* Check the appropriate hardware register, depending on the IRQ number.  */
     if (irq_num >= 64)
@@ -125,6 +125,7 @@ static inline ulong first_set_bit(ulong word)
  */
 void dispatch(void)
 {
+/*
     uint i;
 
     for (i = 0; i < 3; i++)
@@ -137,6 +138,8 @@ void dispatch(void)
             check_irq_pending(bit + (i << 5));
         }
     }
+*/
+	kprintf("Reached dispatch...\r\n");
 }
 
 /**
