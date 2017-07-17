@@ -13,14 +13,13 @@ C_FILES += create.c kill.c ready.c resched.c resume.c suspend.c queue.c getitem.
 C_FILES += ready.c resched.c queue.c getitem.c insert.c
 
 # Files for system timer and preemption
-#C_FILES += clkinit.c clkhandler.c mdelay.c insertd.c sleep.c
+C_FILES += clkinit.c clkhandler.c mdelay.c insertd.c sleep.c
 C_FILES += unsleep.c wakeup.c
 
 C_FILES += udelay.c
 
 # Files for semaphores
-C_FILES += signal.c signaln.c wait.c
-#emcreate.c semfree.c semcount.c
+C_FILES += signal.c signaln.c wait.c semcreate.c semfree.c semcount.c
  
 # Files for monitors
 #C_FILES += moncreate.c monfree.c moncount.c lock.c unlock.c

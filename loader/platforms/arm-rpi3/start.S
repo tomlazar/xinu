@@ -44,7 +44,6 @@
 
 	.func _start
 _start:
-<<<<<<< HEAD
 	/* Save the pointer to the atags (ARM boot tags). The Pi 3 *does* pass atags,
 	 * and does so into address 0x100. We access it there, just like the Pi 1.
 	 * The standard protocol for Aarch32 (ARMv8-A) is to pass the atags pointer
@@ -65,7 +64,7 @@ _start:
 	mrs	r0, cpsr
 	bic	r0, r0, #0x1F
 	orr	r0, r0, #ARM_MODE_SVC
-=======
+
 	/* Save the pointer to the atags (ARM boot tags). The standard protocol for
 	 * Aarch64 (ARMv8-A) is to pass the atags pointer into register 0 (x0). And registers
 	 * x1 through x3 are initialized to zero. Refer to this link:
@@ -82,7 +81,6 @@ _start:
 	mrs	r0, cpsr
 	bic	r0, r0, #0x1F
 	orr	r0, r0, #0x13
->>>>>>> 29bebcc177dad0fafa389c71bae6306037c2c7e1
 	msr	spsr_cxsf, r0
 	add	r0, pc, #4
 	msr	ELR_hyp, r0
@@ -92,13 +90,8 @@ _start:
 	b reset_handler
 	.endfunc
 
-<<<<<<< HEAD
-/* ARM exception vector table.  This is copied to address 0.  See A2.6
- * "Exceptions" of the ARM Architecture Reference Manual.  */
-=======
 /* ARM exception vector table.  This is copied to VBAR register. */
 /* Vector table has to be 32-byte aligned. */
->>>>>>> 29bebcc177dad0fafa389c71bae6306037c2c7e1
 .balign	0x20
 _vectors:
 	ldr pc, reset_addr    /* Reset handler */
