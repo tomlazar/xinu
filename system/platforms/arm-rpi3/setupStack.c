@@ -41,6 +41,7 @@ void *setupStack(void *stackaddr, void *procaddr,
         --saddr;
     }
 
+
     /* Construct the context record for the new thread.  */
     saddr -= CONTEXT_WORDS;
 

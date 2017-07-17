@@ -14,6 +14,13 @@
 /*to_save_for_later0xB900001F*/
 /* CHANGED SERIAL AND CMDLINE TAGS, SWITCHED ...0006 and ...0009 */
 
+
+/* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
+ * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
+
+/*to_save_for_later0xB900001F*/
+/* CHANGED SERIAL AND CMDLINE TAGS, SWITCHED ...0006 and ...0009 */
+
 enum {
 	ATAG_NONE       = 0x00000000, //Empty tag used to end list
 	ATAG_CORE       = 0x54410001, //First tag used to start list

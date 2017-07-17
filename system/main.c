@@ -136,6 +136,7 @@ extern void _start(void);
 
 void print_os_info(void)
 {
+<<<<<<< HEAD
 
 	kprintf(VERSION);
 	kprintf("\r\n\r\n");
@@ -147,10 +148,26 @@ void print_os_info(void)
 	cpuid &= 0xFF;
 	kprintf("Processor identification: 0x%08X\r\n", cpuid);
 #endif
+=======
+    kprintf(VERSION);
+    kprintf("\r\n\r\n");
+
+    /* Output detected platform. */
+//    kprintf("Processor identification: 0x%08X\r\n", cpuid);
+    kprintf("Detected platform as: %s, %s\r\n\r\n",
+            platform.family, platform.name);
+
+    /* Output Xinu memory layout */
+    kprintf("%10d bytes physical memory.\r\n",
+            (ulong)platform.maxaddr - (ulong)platform.minaddr);
+    kprintf("           [0x%08X to 0x%08X]\r\n",
+            (ulong)platform.minaddr, (ulong)(platform.maxaddr - 1));
+>>>>>>> 29bebcc177dad0fafa389c71bae6306037c2c7e1
 
 	kprintf("Detected platform as: %s, %s\r\n\r\n",
 			platform.family, platform.name);
 
+<<<<<<< HEAD
 	/* Output Xinu memory layout */
 	kprintf("%10d bytes physical memory.\r\n",
 			(ulong)platform.maxaddr - (ulong)platform.minaddr);
@@ -176,4 +193,24 @@ void print_os_info(void)
 	kprintf("           [0x%08X to 0x%08X]\r\n\r\n",
 			(ulong)memheap, (ulong)platform.maxaddr - 1);
 	kprintf("\r\n");
+=======
+    kprintf("%10d bytes reserved system area.\r\n",
+            (ulong)_start - (ulong)platform.minaddr);
+    kprintf("           [0x%08X to 0x%08X]\r\n",
+            (ulong)platform.minaddr, (ulong)_start - 1);
+
+    kprintf("%10d bytes Xinu code.\r\n", (ulong)&_end - (ulong)_start);
+    kprintf("           [0x%08X to 0x%08X]\r\n",
+            (ulong)_start, (ulong)&_end - 1);
+
+    kprintf("%10d bytes stack space.\r\n", (ulong)memheap - (ulong)&_end);
+    kprintf("           [0x%08X to 0x%08X]\r\n",
+            (ulong)&_end, (ulong)memheap - 1);
+
+    kprintf("%10d bytes heap space.\r\n",
+            (ulong)platform.maxaddr - (ulong)memheap);
+    kprintf("           [0x%08X to 0x%08X]\r\n\r\n",
+            (ulong)memheap, (ulong)platform.maxaddr - 1);
+    kprintf("\r\n");
+>>>>>>> 29bebcc177dad0fafa389c71bae6306037c2c7e1
 }

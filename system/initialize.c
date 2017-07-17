@@ -14,6 +14,10 @@
 #include <rpi_gpio.h>
 #endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
+#ifdef WITH_USB
+#  include <usb_subsystem.h>
+#endif
+
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
@@ -66,7 +70,6 @@ void led_off(void)
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
 	regptr->gpclr[0] = 1 << 16;
 }
-
 
 /*
  * Intializes the system and becomes the null thread.
@@ -164,6 +167,13 @@ static int sysinit(void)
 	thrptr->memlist.length = 0;
 	thrcurrent = NULLTHREAD;
 
+	/* Initialize semaphores */
+	for (i = 0; i < NSEM; i++)
+	{
+		semtab[i].state = SFREE;
+		semtab[i].queue = queinit();
+	}
+
 	/* Initialize monitors */
 	for (i = 0; i < NMON; i++)
 	{
@@ -178,6 +188,15 @@ static int sysinit(void)
 
 	/* initialize thread ready list */
 	readylist = queinit();
+
+#if SB_BUS
+	backplaneInit(NULL);
+#endif                          /* SB_BUS */
+
+#if RTCLOCK
+	/* initialize real time clock */
+	clkinit();
+#endif                          /* RTCLOCK */
 
 #ifdef UHEAP_SIZE
 	/* Initialize user memory manager */
@@ -204,6 +223,11 @@ static int sysinit(void)
 	/* register system call handler */
 	exceptionVector[EXC_SYS] = syscall_entry;
 #endif                          /* USE_TLB */
+
+#if NMAILBOX
+	/* intialize mailboxes */
+	//	mailboxInit();
+#endif
 
 #if NDEVS
 	for (i = 0; i < NDEVS; i++)

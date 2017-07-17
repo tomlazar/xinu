@@ -34,4 +34,6 @@ compile/config/parse.c
 compile/version
 compile/vn
 include/conf.h
+include/version.h
 system/conf.c
+
