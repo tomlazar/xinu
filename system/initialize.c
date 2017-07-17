@@ -29,7 +29,8 @@
 #include <safemem.h>
 #include <platform.h>
 
-#include "bcm2837.h"
+#include <rpi_gpio.h>
+#include <bcm2837.h>	/* for GPIO_REGS_BASE for minimal LED functionality */
 
 #ifdef WITH_USB
 #  include <usb_subsystem.h>
@@ -57,53 +58,29 @@ ulong cpuid;                    /* Processor id                        */
 
 struct platform platform;       /* Platform specific configuration     */
 
-#define IO_BASE     0x3f000000
-#define GP_BASE     (IO_BASE + 0x200000)
-#define MU_BASE     (IO_BASE + 0x215000)
-#define PL011_BASE  (IO_BASE + 0x201000)
-#define AUX_ENB     (*(volatile unsigned *)(MU_BASE + 0x04))
-#define MU_IO       (*(volatile unsigned *)(MU_BASE + 0x40))
-#define MU_LCR      (*(volatile unsigned *)(MU_BASE + 0x4c))
-#define MU_LSR      (*(volatile unsigned *)(MU_BASE + 0x54))
-#define MU_CNTL     (*(volatile unsigned *)(MU_BASE + 0x60))
-#define MU_BAUD     (*(volatile unsigned *)(MU_BASE + 0x68))
-
-#define GPFSEL1     (*(volatile unsigned *)(GP_BASE + 0x04))
-#define GPPUD       (*(volatile unsigned *)(GP_BASE + 0x94))
-#define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
-#define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
-#define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
-
-#define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
-#define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
-#define PL011_IBRD  (*(volatile unsigned *)(PL011_BASE + 0x24)) /* Integer Baud rate
-																   divisor */
-#define PL011_FBRD  (*(volatile unsigned *)(PL011_BASE + 0x28)) /* Fractional Baud rate
-																   divisor */
-#define PL011_LCRH  (*(volatile unsigned *)(PL011_BASE + 0x2C)) /* Line Control Register*/
-#define PL011_CR    (*(volatile unsigned *)(PL011_BASE + 0x30)) /* Control register */
-
-#define _UART_CLK    48000000
-#define _PL011_BAUD_INT(x)   (_UART_CLK / (16 * (x)))
-#define _PL011_BAUD_FRAC(x)  (int)((((_UART_CLK / (16.0 * (x)))-_PL011_BAUD_INT(x))*64.0)+0.5)
-
+/* Custom LED Code */
 void init_led(void)
 {
-	GPFSEL1 &= ~(7 << 18); // GPIO Pin 16
-	GPFSEL1 |= 1 << 18;    // Set as output
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+	
+	/* Set GPIO pin 16 as output */
+	regptr->gpfsel[1] &= ~(7 << 18);
+	regptr->gpfsel[1] |= (1 << 18);
 }
-
 
 void led_on(void)
 {
-	GPSET0 = 1 << 16;
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+
+	regptr->gpset[0] = 1 << 16;
 }
 
 void led_off(void)
 {
-	GPCLR0 = 1 << 16;
-}
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
 
+	regptr->gpclr[0] = 1 << 16;
+}
 
 
 /**
@@ -118,19 +95,17 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	init_led();
+	
 	/* Platform-specific initialization  */
 	platforminit();
-
-
+	
 	/* General initialization  */
 	sysinit();
 	
-	led_on();
-	
 	kprintf("Hello Xinu W3rld!\r\n");
-//	print_os_info();
-	/* Enable interrupts  */
+	print_os_info();
+
+	/* Enable interrupts */
 	enable();
 
 	/* Spawn the main thread  */
@@ -186,13 +161,11 @@ static int sysinit(void)
 	thrcurrent = NULLTHREAD;
 
 	/* Initialize semaphores */
-#if 0	
 	for (i = 0; i < NSEM; i++)
 	{
 		semtab[i].state = SFREE;
 		semtab[i].queue = queinit();
 	}
-#endif
 
 	/* Initialize monitors */
 	for (i = 0; i < NMON; i++)
@@ -207,7 +180,7 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
-//	readylist = queinit();
+	readylist = queinit();
 
 #if SB_BUS
 	backplaneInit(NULL);
@@ -215,7 +188,7 @@ static int sysinit(void)
 
 #if RTCLOCK
 	/* initialize real time clock */
-//	clkinit();
+	clkinit();
 #endif                          /* RTCLOCK */
 
 #ifdef UHEAP_SIZE
@@ -246,7 +219,7 @@ static int sysinit(void)
 
 #if NMAILBOX
 	/* intialize mailboxes */
-//	mailboxInit();
+	//	mailboxInit();
 #endif
 
 #if NDEVS

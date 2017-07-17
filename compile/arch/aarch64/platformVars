@@ -8,7 +8,7 @@ TEMPLATE_ARCH := arm
 # Architecture root and prefix (ignored if user overrides COMPILER_ROOT from the
 # toplevel Makefile).
 ARCH_ROOT   :=
-ARCH_PREFIX := aarch64-elf-
+ARCH_PREFIX := arm-none-eabi-
 
 # Flaf for producing GDB debug informations.
 BUGFLAG     := -gstabs+

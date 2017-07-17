@@ -1,5 +1,5 @@
 /**
- * @file bcm2835_power.c
+ * @file bcm2837_power.c
  *
  * This driver provides the ability to power on and power off hardware, such as
  * the USB Controller, on the BCM2835 SoC used on the Raspberry Pi.  This makes
@@ -28,7 +28,7 @@ static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
 
 /* Write to the specified channel of the mailbox.  */
 static void
-bcm2835_mailbox_write(uint channel, uint value)
+bcm2837_mailbox_write(uint channel, uint value)
 {
     while (mailbox_regs[MAILBOX_STATUS] & MAILBOX_FULL)
     {
@@ -38,7 +38,7 @@ bcm2835_mailbox_write(uint channel, uint value)
 
 /* Read from the specified channel of the mailbox.  */
 static uint
-bcm2835_mailbox_read(uint channel)
+bcm2837_mailbox_read(uint channel)
 {
     uint value;
 
@@ -54,21 +54,21 @@ bcm2835_mailbox_read(uint channel)
 
 /* Retrieve the bitmask of power on/off state.  */
 static uint
-bcm2835_get_power_mask(void)
+bcm2837_get_power_mask(void)
 {
-    return (bcm2835_mailbox_read(MAILBOX_CHANNEL_POWER_MGMT) >> 4);
+    return (bcm2837_mailbox_read(MAILBOX_CHANNEL_POWER_MGMT) >> 4);
 }
 
 /* Set the bitmask of power on/off state.  */
 static void
-bcm2835_set_power_mask(uint mask)
+bcm2837_set_power_mask(uint mask)
 {
-    bcm2835_mailbox_write(MAILBOX_CHANNEL_POWER_MGMT, mask << 4);
+    bcm2837_mailbox_write(MAILBOX_CHANNEL_POWER_MGMT, mask << 4);
 }
 
 /* Bitmask that gives the current on/off state of the BCM2835 hardware.
  * This is a cached value.  */
-static uint bcm2835_power_mask;
+static uint bcm2837_power_mask;
 
 /**
  * Powers on or powers off BCM2835 hardware.
@@ -81,20 +81,20 @@ static uint bcm2835_power_mask;
  * @return
  *      ::OK if successful; ::SYSERR otherwise.
  */
-int bcm2835_setpower(enum board_power_feature feature, bool on)
+int bcm2837_setpower(enum board_power_feature feature, bool on)
 {
     uint bit;
     uint newmask;
     bool is_on;
 
     bit = 1 << feature;
-    is_on = (bcm2835_power_mask & bit) != 0;
+    is_on = (bcm2837_power_mask & bit) != 0;
     if (on != is_on)
     {
-        newmask = bcm2835_power_mask ^ bit;
-        bcm2835_set_power_mask(newmask);
-        bcm2835_power_mask = bcm2835_get_power_mask();
-        if (bcm2835_power_mask != newmask)
+        newmask = bcm2837_power_mask ^ bit;
+        bcm2837_set_power_mask(newmask);
+        bcm2837_power_mask = bcm2837_get_power_mask();
+        if (bcm2837_power_mask != newmask)
         {
             return SYSERR;
         }
@@ -105,8 +105,8 @@ int bcm2835_setpower(enum board_power_feature feature, bool on)
 /**
  * Resets BCM2835 power to default state (all devices powered off).
  */
-void bcm2835_power_init(void)
+void bcm2837_power_init(void)
 {
-    bcm2835_set_power_mask(0);
-    bcm2835_power_mask = 0;
+    bcm2837_set_power_mask(0);
+    bcm2837_power_mask = 0;
 }

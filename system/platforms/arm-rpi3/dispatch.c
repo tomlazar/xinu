@@ -76,7 +76,7 @@ static void handle_irq(uchar irq_num)
  * function.  */
 static void check_irq_pending(uchar irq_num)
 {
-    bool handle = FALSE;
+    bool handle = FALSE; //RMv7 reference manual in section B1.8.1 
 
     /* Check the appropriate hardware register, depending on the IRQ number.  */
     if (irq_num >= 64)
@@ -118,7 +118,7 @@ static inline ulong first_set_bit(ulong word)
 /**
  * Processes all pending interrupt requests.
  *
- * On the BCM2835 (Raspberry Pi), this done by iterating through all registered
+ * On the BCM2837 (Raspberry Pi3), this done by iterating through all registered
  * interrupts on the ARM and checking whether each one is pending.  This is not
  * necessarily the fastest way to do it, but this should minimize problems with
  * the poorly-documented hardware and conflicts with the GPU.

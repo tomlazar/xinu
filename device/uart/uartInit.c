@@ -40,7 +40,6 @@ devcall uartInit(device *devptr)
 
     /* Initialize the input buffer, including a semaphore for threads to wait
      * on.  */
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
     uartptr->isema = semcreate(0);
     uartptr->iflags = 0;
     uartptr->istart = 0;
@@ -49,10 +48,8 @@ devcall uartInit(device *devptr)
     {
         return SYSERR;
     }
-#endif
     /* Initialize the output buffer, including a semaphore for threads to wait
      * on.  */
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
     uartptr->osema = semcreate(UART_OBLEN);
     uartptr->oflags = 0;
     uartptr->ostart = 0;
@@ -63,18 +60,13 @@ devcall uartInit(device *devptr)
         semfree(uartptr->isema);
         return SYSERR;
     }
-#endif
     /* Initialize the actual hardware.  */
-#ifndef _XINU_PLATFORM_ARM_RPI_3_    
 	if (OK != uartHwInit(devptr))
     {
         semfree(uartptr->isema);
         semfree(uartptr->osema);
         return SYSERR;
     }
-#else
-	uartHwInit(devptr);
-#endif
     /* Save pointers to the device and the hardware registers in the UART
      * structure.  */
     uartptr->dev = devptr;

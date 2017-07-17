@@ -11,7 +11,7 @@
 #include <thread.h>
 #include <version.h>
 
-static void print_os_info(void);
+void print_os_info(void);
 
 /**
  * Main thread.  You can modify this routine to customize what Embedded Xinu
@@ -134,51 +134,39 @@ thread main(void)
 /* Start of kernel in memory (provided by linker)  */
 extern void _start(void);
 
-static void print_os_info(void)
+void print_os_info(void)
 {
     kprintf(VERSION);
     kprintf("\r\n\r\n");
 
-#ifdef DETAIL
     /* Output detected platform. */
-    kprintf("Processor identification: 0x%08X\r\n", cpuid);
+//    kprintf("Processor identification: 0x%08X\r\n", cpuid);
     kprintf("Detected platform as: %s, %s\r\n\r\n",
             platform.family, platform.name);
-#endif
 
     /* Output Xinu memory layout */
     kprintf("%10d bytes physical memory.\r\n",
             (ulong)platform.maxaddr - (ulong)platform.minaddr);
-#ifdef DETAIL
     kprintf("           [0x%08X to 0x%08X]\r\n",
             (ulong)platform.minaddr, (ulong)(platform.maxaddr - 1));
-#endif
 
 
     kprintf("%10d bytes reserved system area.\r\n",
             (ulong)_start - (ulong)platform.minaddr);
-#ifdef DETAIL
     kprintf("           [0x%08X to 0x%08X]\r\n",
             (ulong)platform.minaddr, (ulong)_start - 1);
-#endif
 
     kprintf("%10d bytes Xinu code.\r\n", (ulong)&_end - (ulong)_start);
-#ifdef DETAIL
     kprintf("           [0x%08X to 0x%08X]\r\n",
             (ulong)_start, (ulong)&_end - 1);
-#endif
 
     kprintf("%10d bytes stack space.\r\n", (ulong)memheap - (ulong)&_end);
-#ifdef DETAIL
     kprintf("           [0x%08X to 0x%08X]\r\n",
             (ulong)&_end, (ulong)memheap - 1);
-#endif
 
     kprintf("%10d bytes heap space.\r\n",
             (ulong)platform.maxaddr - (ulong)memheap);
-#ifdef DETAIL
     kprintf("           [0x%08X to 0x%08X]\r\n\r\n",
             (ulong)memheap, (ulong)platform.maxaddr - 1);
-#endif
     kprintf("\r\n");
 }
