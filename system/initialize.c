@@ -30,7 +30,7 @@
 #include <platform.h>
 
 #include <rpi_gpio.h>
-#include "bcm2837.h"
+#include <bcm2837.h>	/* for GPIO_REGS_BASE for minimal LED functionality */
 
 #ifdef WITH_USB
 #  include <usb_subsystem.h>
@@ -58,68 +58,28 @@ ulong cpuid;                    /* Processor id                        */
 
 struct platform platform;       /* Platform specific configuration     */
 
-#define GPFSEL1     (*(volatile unsigned *)(GPIO_REGS_BASE + 0x04))
-#define GPPUD       (*(volatile unsigned *)(GPIO_REGS_BASE + 0x94))
-#define GPPUDCLK0   (*(volatile unsigned *)(GPIO_REGS_BASE + 0x98))
-#define GPSET0      (*(volatile unsigned *)(GPIO_REGS_BASE + 0x1C))
-#define GPCLR0      (*(volatile unsigned *)(GPIO_REGS_BASE + 0x28))
-#define GPLEV0		(*(volatile unsigned *)(GPIO_REGS_BASE + 0x34))
-
-#define PL011_BASE	PL011_REGS_BASE
-
-#define PL011_DR    (*(volatile unsigned *)(PL011_BASE + 0x0))  /* Data Register */
-#define PL011_FR    (*(volatile unsigned *)(PL011_BASE + 0x18)) /* Flag Register */
-#define PL011_IBRD  (*(volatile unsigned *)(PL011_BASE + 0x24)) /* Integer Baud rate
-																   divisor */
-#define PL011_FBRD  (*(volatile unsigned *)(PL011_BASE + 0x28)) /* Fractional Baud rate
-																   divisor */
-#define PL011_LCRH  (*(volatile unsigned *)(PL011_BASE + 0x2C)) /* Line Control Register*/
-#define PL011_CR    (*(volatile unsigned *)(PL011_BASE + 0x30)) /* Control register */
-#define PL011_ICR	(*(volatile unsigned *)(PL011_BASE + 0x44)) /* Interrupt clear register */
-
-#define _UART_CLK    48000000
-#define _PL011_BAUD_INT(x)   (_UART_CLK / (16 * (x)))
-#define _PL011_BAUD_FRAC(x)  (int)((((_UART_CLK / (16.0 * (x)))-_PL011_BAUD_INT(x))*64.0)+0.5)
-
-#define TIMER_BASE	(GPIO_REGS_BASE + 0x03000)
-#define TIMER_CS	(*(volatile unsigned *)(TIMER_BASE + 0x0))
-#define TIMER_CMP3	(*(volatile unsigned *)(TIMER_BASE + 0x18))
-
-#define IRQ_BASE	(GPIO_REGS_BASE + 0xB200)
-#define IRQ_PND_BSC	(*(volatile unsigned *)(IRQ_BASE + 0x0))
-#define IRQ_PND_1	(*(volatile unsigned *)(IRQ_BASE + 0x4))
-#define IRQ_PND_2	(*(volatile unsigned *)(IRQ_BASE + 0x8))
-#define IRQ_ENB_1	(*(volatile unsigned *)(IRQ_BASE + 0x10))
-#define IRQ_ENB_2	(*(volatile unsigned *)(IRQ_BASE + 0x14))
-#define IRQ_ENB_BSC	(*(volatile unsigned *)(IRQ_BASE + 0x18))
-#define IRQ_DIS_1	(*(volatile unsigned *)(IRQ_BASE + 0x1C))
-#define IRQ_DIS_2	(*(volatile unsigned *)(IRQ_BASE + 0x20))
-#define IRQ_DIS_BAS	(*(volatile unsigned *)(IRQ_BASE + 0x24))
-
+/* Custom LED Code */
 void init_led(void)
 {
-	GPFSEL1 &= ~(7 << 18); // GPIO Pin 16
-	GPFSEL1 |= 1 << 18;    // Set as output
-}
-
-void init_button(void)
-{
-	GPFSEL1 &= ~(7 << 21); // GPIO Pin 17 as input
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+	
+	/* Set GPIO pin 16 as output */
+	regptr->gpfsel[1] &= ~(7 << 18);
+	regptr->gpfsel[1] |= (1 << 18);
 }
 
 void led_on(void)
 {
-	GPSET0 = 1 << 16;
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+
+	regptr->gpset[0] = 1 << 16;
 }
 
 void led_off(void)
 {
-	GPCLR0 = 1 << 16;
-}
+	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
 
-int button_lev(void)
-{
-	return (GPLEV0 & (1 << 17));
+	regptr->gpclr[0] = 1 << 16;
 }
 
 
@@ -135,11 +95,6 @@ int button_lev(void)
  */
 void nulluser(void)
 {
-	uint lev, mode;
-	int i;
-
-	init_led();
-	init_button();
 	
 	/* Platform-specific initialization  */
 	platforminit();

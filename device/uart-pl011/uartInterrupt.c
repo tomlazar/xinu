@@ -17,8 +17,6 @@ interrupt uartInterrupt(void)
 {
 	uint u;
 
-	led_on();
-
 	/* Set resdefer to prevent other threads from being scheduled before this
 	 * interrupt handler finishes.  This prevents this interrupt handler from
 	 * being executed re-entrantly.  */

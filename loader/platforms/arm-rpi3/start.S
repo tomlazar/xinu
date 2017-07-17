@@ -33,10 +33,6 @@
 
 #include <arm.h>     /* For ARM_MODE_SYS */
 
-#define IO_BASE 0x3f000000
-#define GP_BASE 0x3f200000
-#define GPFSEL1 0x3f200004
-#define GPSET0  0x3f20001C
 #define NULLSTK 8192
 
 .section .init
@@ -54,7 +50,7 @@ _start:
 	 * https://github.com/raspberrypi/tools/blob/master/armstubs/armstub8.S	*/	
 	
 	ldr 	r3, =atags_ptr
-	cmp	r2, #0
+	cmp		r2, #0
 	moveq   r2, #0x100
 	str 	r2, [r3]
 
