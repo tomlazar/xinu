@@ -136,10 +136,6 @@ extern void _start(void);
 
 void print_os_info(void)
 {
-
-	kprintf(VERSION);
-	kprintf("\r\n\r\n");
-
 	/* Only the Pi 3 has multiple cores... */
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 	ulong cpuid;
@@ -147,12 +143,10 @@ void print_os_info(void)
 	cpuid &= 0xFF;
 	kprintf("Processor identification: 0x%08X\r\n", cpuid);
 #endif
-    kprintf(VERSION);
-    kprintf("\r\n\r\n");
+        kprintf(VERSION);
+        kprintf("\r\n\r\n");
 
-    /* Output detected platform. */
-//    kprintf("Processor identification: 0x%08X\r\n", cpuid);
-    
+        /* Output detected platform. */
         kprintf("Detected platform as: %s, %s\r\n\r\n",
 			platform.family, platform.name);
 
