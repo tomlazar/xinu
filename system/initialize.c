@@ -48,7 +48,7 @@ struct platform platform;       /* Platform specific configuration     */
 #define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
 #define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
 #define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
-#define GPLEV0		(*(volatile unsigned *)(GP_BASE + 0x34))
+#define GPLEV0	    (*(volatile unsigned *)(GP_BASE + 0x34))
 
 #define _UART_CLK    48000000	/* UART CLOCK is set to 48MHz, which is the UART clock of
 				 * all Raspberry Pis (as of updated 2016 firmware) */
