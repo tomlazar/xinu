@@ -9,11 +9,11 @@
 #include <xinu.h>
 #include <platform.h>
 #include <stdint.h>
-#include <core.h>
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #include <bcm2837.h>
 #include <rpi_gpio.h>
+#include <core.h>
 #endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
 #ifdef WITH_USB
@@ -23,14 +23,9 @@
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
-static void start_core1(void (*func)(void));
-static void start_core2(void (*func)(void));
-static void start_core3(void (*func)(void));
-static uint32_t load32(uint32_t address);
-static void store32(uint32_t address, uint32_t value);
-static void core1_main(void);
-static void core2_main(void);
-static void core3_main(void);
+static void core1_main(void) __attribute__((naked));
+static void core2_main(void) __attribute__((naked));
+static void core3_main(void) __attribute__((naked));
 
 /* Declarations of major kernel variables */
 struct thrent thrtab[NTHREAD];  /* Thread table                   */
@@ -50,18 +45,9 @@ ulong cpuid;                    /* Processor id                        */
 
 struct platform platform;       /* Platform specific configuration     */
 
-#define IO_BASE     0x3f000000
-#define GP_BASE     (IO_BASE + 0x200000)
-
-#define GPFSEL1     (*(volatile unsigned *)(GP_BASE + 0x04))
-#define GPPUD       (*(volatile unsigned *)(GP_BASE + 0x94))
-#define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
-#define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
-#define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
-#define GPLEV0	    (*(volatile unsigned *)(GP_BASE + 0x34))
-
-#define _UART_CLK    48000000	/* UART CLOCK is set to 48MHz, which is the UART clock of
-				 * all Raspberry Pis (as of updated 2016 firmware) */
+bool c1 = FALSE;
+long tmp;
+int i;
 void init_led(void)
 {
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
@@ -124,10 +110,21 @@ void nulluser(void)
 
 	kprintf("\r\n");
 
+	tmp = CORE1_START;
 	/* Test cores --------------------******************* */
+/*	while(c1 != TRUE){
+		start_core1(core1_main);
+		tmp+=1;
+		kprintf("0x%X\r\n", tmp);
+	}*/
 	start_core1(core1_main);
+	get_core_number();
+
 	start_core2(core2_main);
+	get_core_number();
+
 	start_core3(core3_main);
+	get_core_number();
 
 	/* Call to test method (located in test/test_processcreation.c) */
 	testmain();
@@ -142,42 +139,13 @@ void nulluser(void)
 	while (TRUE){}
 }
 
-/*start secondary core 1*/
-static void start_core1(void (*func)(void))
-{
-	store32(CORE1_START, (uint32_t)func);
-}
-
-/*start secondary core 2*/
-static void start_core2(void (*func)(void))
-{
-	store32(CORE2_START, (uint32_t)func);
-}
-
-/*start secondary core 3*/
-static void start_core3(void (*func)(void))
-{
-	store32(CORE3_START, (uint32_t)func);
-}
-
-/*loads or reads the value from the address*/
-static uint32_t load32(uint32_t address)
-{
-	return *(uint32_t *) address;
-}
-
-/*stores or writes the value from the address*/
-static void store32(uint32_t address, uint32_t value)
-{
-	*(uint32_t *) address = value;
-}
-
 static void core1_main(void)
 {
     //asm volatile ("mov sp,%0" : :"r" (ram1));
-    
+    c1 = TRUE;
     while(1)
     {
+	for(i=0; i < 500000; i++); //wait a moment
 	kprintf("This is core 1.");
     }
 }
@@ -188,6 +156,7 @@ static void core2_main(void)
     
     while(1)
     {
+	for(i=0; i < 500000; i++); //wait a moment
 	kprintf("This is core 2.");
     }
 }
@@ -198,6 +167,7 @@ static void core3_main(void)
     
     while(1)
     {
+	for(i=0; i < 500000; i++); //wait a moment
 	kprintf("This is core 3.");
     }
 }
