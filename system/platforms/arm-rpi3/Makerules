@@ -11,7 +11,8 @@ S_FILES = ctxsw.S          \
           memory_barrier.S \
           pause.S	   \
 	  getmode.S	   \
-	  getcpuid.S
+	  getcpuid.S	   \
+	  core.S
 
 C_FILES = setupStack.c       \
           bcm2837_power.c    \

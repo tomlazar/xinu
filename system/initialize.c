@@ -81,6 +81,10 @@ void nulluser(void)
 {
 	uint mode, cpuid;
 	int i;
+	unsigned int ra;
+    	unsigned int rb;
+    	unsigned int rc;
+	uint cpu0;
 
 	init_led();
 
@@ -89,6 +93,18 @@ void nulluser(void)
 
 	/* General initialization  */
 	sysinit();
+	kprintf("reach after sysinit.\r\n");
+
+	cpu0 = showcpu0();
+	for(i=7; i>=0; i++)
+		kprintf("%X", (cpu0 >> i) & 1);
+
+        PUT32(0x40,0);
+        ra=GET32(0x40);
+	start1();
+    	start2();
+    	start3();
+
 	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
