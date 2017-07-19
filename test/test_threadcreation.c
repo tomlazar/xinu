@@ -15,6 +15,8 @@ void testbigargs(int, int, int, int, int, int, int, int, int);
 
 void testproc(void)
 {
+	enable();
+
     // Test job for the process to handle
     kprintf("\r\nTesting random job...\r\n");
     kprintf("Current running thread: %d\r\n\r\n", thrcurrent);
@@ -64,8 +66,10 @@ kprintf("	        `--------' '--'     \r\n");
 
 void testmain()
 {
+	enable();
+
 	int tid;
-        kprintf("\r\n------------------------------- This is thread 1 -------------------------------\r\n");
+    kprintf("\r\n------------------------------- This is thread 1 -------------------------------\r\n");
 	tid=create((void *) testproc, INITSTK, 1, "THREAD 1", 0, NULL);
 	ready(tid, 0);
 	kprintf("Done readying thread: %d\r\n", tid);
@@ -83,16 +87,18 @@ void testmain()
 	kprintf("Done readying thread: %d\r\n", tid);
 	printtid(tid);
 
-	while(1)
-	{
-		kprintf("Rescheding...\r\n");
-		resched(); 
-		kprintf("Resched complete.\r\n");
-	}
+//	while(1)
+//	{
+//		kprintf("Rescheding...\r\n");
+//		resched(); 
+//		kprintf("Resched complete.\r\n");
+//	}
 }
 
 void testbigargs(int a, int b, int c, int d, int e, int f, int g, int h, int i)
 {
+	enable();
+
     kprintf("Current running thread: %d\r\n", thrcurrent);
     kprintf("Testing bigargs...\r\n");
     kprintf("a = 0x%08X\r\n", a);

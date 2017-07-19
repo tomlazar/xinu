@@ -45,7 +45,7 @@ ulong time_intr_freq = 0;     /** frequency of XINU clock interrupt   */
  */
 void clkinit(void)
 {
-//    sleepq = queinit();         /* initialize sleep queue       */
+	sleepq = queinit();         /* initialize sleep queue       */
 
     clkticks = 0;
 

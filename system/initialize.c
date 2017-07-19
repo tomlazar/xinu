@@ -19,6 +19,7 @@
 #endif
 
 /* Function prototypes */
+extern void testmain();
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
 
@@ -40,18 +41,6 @@ ulong cpuid;                    /* Processor id                        */
 
 struct platform platform;       /* Platform specific configuration     */
 
-#define IO_BASE     0x3f000000
-#define GP_BASE     (IO_BASE + 0x200000)
-
-#define GPFSEL1     (*(volatile unsigned *)(GP_BASE + 0x04))
-#define GPPUD       (*(volatile unsigned *)(GP_BASE + 0x94))
-#define GPPUDCLK0   (*(volatile unsigned *)(GP_BASE + 0x98))
-#define GPSET0      (*(volatile unsigned *)(GP_BASE + 0x1C))
-#define GPCLR0      (*(volatile unsigned *)(GP_BASE + 0x28))
-#define GPLEV0	    (*(volatile unsigned *)(GP_BASE + 0x34))
-
-#define _UART_CLK    48000000	/* UART CLOCK is set to 48MHz, which is the UART clock of
-				 * all Raspberry Pis (as of updated 2016 firmware) */
 void init_led(void)
 {
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
@@ -114,17 +103,22 @@ void nulluser(void)
 
 	kprintf("\r\n");
 
-	/* Call to test method (located in test/test_processcreation.c) */
-	testmain();
-
 	/* Enable interrupts  */
 	enable();
+
+
+	/* Spawn the testmain thread */
+	ready(create(testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_NO);
+
 
 	/* Spawn the main thread  */
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
-	while (TRUE){}
+	while (TRUE)
+	{
+		
+	}
 }
 
 /**
