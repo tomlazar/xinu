@@ -148,6 +148,7 @@ reset_handler:
 bssloopb:
 	stmia r0!, {r2-r5}
 
+//mailbox: 	.word 0x4000008C
 bssloopa:
 	cmp r0, r1 	/* check that we still haven't hit the end of bss yet */
 	blo bssloopb	/* if still below, go backwards and loop */
@@ -172,6 +173,20 @@ bssloopa:
 	cmp	r1, #0
 	beq	__start_master
 
+//	mov	r5, #1
+//	lsl	r5, r0
+
+	/* Mailbox address loaded (to be accessed by core.c) */
+//	ldr	r5, mailbox			// mailbox
+//	add	r5, #(0x400000CC-0x4000008C)	// mailbox
+
+	/* Load mailbox into r4. When r4 != 0, (mailbox interrupt),
+	 * break out of loop and clear the mailbox */
+//1:
+//	ldr	r4, [r5, r1, lsl #4]
+//	cmp	r4, #0
+//	beq	1
+
 not_zero:
 	wfi
 	b not_zero
@@ -179,6 +194,5 @@ not_zero:
 __start_master:
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */ 
-	
 	b	nulluser
 	.endfunc

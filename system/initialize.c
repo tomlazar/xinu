@@ -79,12 +79,8 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	uint mode, cpuid;
+	uint mode, cpuid, cr1, cr2, cr3;
 	int i;
-	unsigned int ra;
-    	unsigned int rb;
-    	unsigned int rc;
-	uint cpu0;
 
 	init_led();
 
@@ -93,18 +89,71 @@ void nulluser(void)
 
 	/* General initialization  */
 	sysinit();
-	kprintf("reach after sysinit.\r\n");
+	kprintf("Reach nulluser\r\nInitialized core 0.\r\n");
 
+	/*
 	cpu0 = showcpu0();
 	for(i=7; i>=0; i++)
 		kprintf("%X", (cpu0 >> i) & 1);
+	*/
 
-        PUT32(0x40,0);
-        ra=GET32(0x40);
-	start1();
-    	start2();
-    	start3();
+    PUT32(0x40,0);
+    cr1=GET32(0x40);
+    start1();
+    kprintf("1: 0x%X\r\n", cr1);
+    start_core1(core1_main);
+    get_core_number();
 
+    PUT32(0x40,0);
+    cr2=GET32(0x40);
+    start2();
+    kprintf("2: 0x%X\r\n", cr2);
+    start_core1(core1_main);
+
+    get_core_number();
+    PUT32(0x40,0);
+    cr3=GET32(0x40);
+    start3();
+    kprintf("3: 0x%X\r\n", cr3);
+    start_core1(core1_main);
+    get_core_number();
+
+/*
+    for(rc=0;rc<10;)
+    {
+        rb=GET32(0x40);
+        if(rb!=ra)	// Core 0 prints out 0x40 when it sees a change at that address.
+        {
+            ra=rb;
+
+	    switch(ra)
+	    {
+	    case 0x80000001:
+		kprintf("Core 1 started.\r\n");
+		start_core1(core1_main);
+		get_core_number();
+
+	    case 0x80000002:
+	        kprintf("Core 2 started.\r\n");
+		start_core2(core2_main);
+		get_core_number();
+
+	    case 0x80000003:
+		kprintf("Core 3 started.\r\n");
+		start_core3(core3_main);
+		get_core_number();
+
+	    default:
+		kprintf("default case.\r\n");
+	    }
+
+	    kprintf("Result: 0x%X\r\n", ra);
+
+            rc++;
+        }
+    }
+//    return(0);
+*/
 	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
@@ -133,13 +182,7 @@ void nulluser(void)
 		tmp+=1;
 		kprintf("0x%X\r\n", tmp);
 	}*/
-	start_core1(core1_main);
-	get_core_number();
-
 	start_core2(core2_main);
-	get_core_number();
-
-	start_core3(core3_main);
 	get_core_number();
 
 	/* Call to test method (located in test/test_processcreation.c) */
