@@ -23,9 +23,6 @@
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
-static void core1_main(void) __attribute__((naked));
-static void core2_main(void) __attribute__((naked));
-static void core3_main(void) __attribute__((naked));
 
 /* Declarations of major kernel variables */
 struct thrent thrtab[NTHREAD];  /* Thread table                   */
@@ -43,11 +40,14 @@ tid_typ thrcurrent;             /* Id of currently running thread      */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
 ulong cpuid;                    /* Processor id                        */
 
+/* Raspberry Pi 3 array for initial stack pointer addresses for each core */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+unsigned int core_init_sp[4];
+int token = 0;
+#endif
+
 struct platform platform;       /* Platform specific configuration     */
 
-bool c1 = FALSE;
-long tmp;
-int i;
 void init_led(void)
 {
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
@@ -79,82 +79,16 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	uint mode, cpuid, cr1, cr2, cr3;
+	uint mode, cpuid;
 	int i;
-
-	init_led();
 
 	/* Platform-specific initialization (system/platforms/arm-rpi3/platforminit.c) */
 	platforminit();
 
 	/* General initialization  */
 	sysinit();
-	kprintf("Reach nulluser\r\nInitialized core 0.\r\n");
-
-	/*
-	cpu0 = showcpu0();
-	for(i=7; i>=0; i++)
-		kprintf("%X", (cpu0 >> i) & 1);
-	*/
-
-    PUT32(0x40,0);
-    cr1=GET32(0x40);
-    start1();
-    kprintf("1: 0x%X\r\n", cr1);
-    start_core1(core1_main);
-    get_core_number();
-
-    PUT32(0x40,0);
-    cr2=GET32(0x40);
-    start2();
-    kprintf("2: 0x%X\r\n", cr2);
-    start_core1(core1_main);
-
-    get_core_number();
-    PUT32(0x40,0);
-    cr3=GET32(0x40);
-    start3();
-    kprintf("3: 0x%X\r\n", cr3);
-    start_core1(core1_main);
-    get_core_number();
-
-/*
-    for(rc=0;rc<10;)
-    {
-        rb=GET32(0x40);
-        if(rb!=ra)	// Core 0 prints out 0x40 when it sees a change at that address.
-        {
-            ra=rb;
-
-	    switch(ra)
-	    {
-	    case 0x80000001:
-		kprintf("Core 1 started.\r\n");
-		start_core1(core1_main);
-		get_core_number();
-
-	    case 0x80000002:
-	        kprintf("Core 2 started.\r\n");
-		start_core2(core2_main);
-		get_core_number();
-
-	    case 0x80000003:
-		kprintf("Core 3 started.\r\n");
-		start_core3(core3_main);
-		get_core_number();
-
-	    default:
-		kprintf("default case.\r\n");
-	    }
-
-	    kprintf("Result: 0x%X\r\n", ra);
-
-            rc++;
-        }
-    }
-//    return(0);
-*/
-	kprintf("\r\n***********************************************************\r\n");
+	
+        kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 	/* Print memory usage (located in system/main.c) */
@@ -173,20 +107,17 @@ void nulluser(void)
 	for (i = 31; i >= 0; i--)
 		kprintf("%d", (cpuid >> i) & 1);
 
+	kprintf("Printing out core_init_sp array:\r\n");
+	for (i = 0; i < 4; i++)
+		kprintf("%d: 0x%08X\r\n", i, core_init_sp[i]);
+
 	kprintf("\r\n");
 
-	tmp = CORE1_START;
-	/* Test cores --------------------******************* */
-/*	while(c1 != TRUE){
-		start_core1(core1_main);
-		tmp+=1;
-		kprintf("0x%X\r\n", tmp);
-	}*/
-	start_core2(core2_main);
-	get_core_number();
+	/*  Test all cores (located in test/test_semaphore_core.c) */
+	testallcores();
 
 	/* Call to test method (located in test/test_processcreation.c) */
-	testmain();
+	//testmain();
 
 	/* Enable interrupts  */
 	enable();
@@ -195,40 +126,8 @@ void nulluser(void)
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
+	token = 4;
 	while (TRUE){}
-}
-
-static void core1_main(void)
-{
-    //asm volatile ("mov sp,%0" : :"r" (ram1));
-    c1 = TRUE;
-    while(1)
-    {
-	for(i=0; i < 500000; i++); //wait a moment
-	kprintf("This is core 1.");
-    }
-}
-
-static void core2_main(void)
-{
-    //asm volatile ("mov sp,%0" : :"r" (ram1));
-    
-    while(1)
-    {
-	for(i=0; i < 500000; i++); //wait a moment
-	kprintf("This is core 2.");
-    }
-}
-
-static void core3_main(void)
-{
-    //asm volatile ("mov sp,%0" : :"r" (ram1));
-    
-    while(1)
-    {
-	for(i=0; i < 500000; i++); //wait a moment
-	kprintf("This is core 3.");
-    }
 }
 
 /**

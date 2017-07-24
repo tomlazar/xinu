@@ -12,6 +12,12 @@ extern void main(int, char *);
 void testproc(void);
 void printtid(int tid);
 void testbigargs(int, int, int, int, int, int, int, int, int);
+void test_thr_core(void);
+void corejob_t1(void);
+void corejob_t2(void);
+void corejob_t3(void);
+
+
 
 void testproc(void)
 {
@@ -89,6 +95,46 @@ void testmain()
 		resched(); 
 		kprintf("Resched complete.\r\n");
 	}
+}
+
+void corejob_t1(void){
+
+	kprintf("***");
+
+}
+
+void corejob_t2(void){
+
+        kprintf("+++");
+
+}
+
+void corejob_t3(void){
+
+        kprintf("---");
+
+}
+
+void test_thr_core(){
+        int tidc;
+        tidc=create((void *) corejob_t1, INITSTK, 1, "THREAD 3", 9, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        ready(tidc, 0);
+        
+	tidc=create((void *) corejob_t2, INITSTK, 2, "THREAD 3", 9, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        ready(tidc, 0);
+        
+	tidc=create((void *) corejob_t3, INITSTK, 3, "THREAD 3", 9, 9, 8, 7, 6, 5, 4, 3, 2, 1);
+        ready(tidc, 0);
+        
+
+
+	while(1)
+        {
+                kprintf("Rescheding...\r\n");
+                resched();
+                kprintf("Resched complete.\r\n");
+        }
+
 }
 
 void testbigargs(int a, int b, int c, int d, int e, int f, int g, int h, int i)

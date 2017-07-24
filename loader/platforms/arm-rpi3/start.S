@@ -54,7 +54,6 @@ _start:
 	moveq   r2, #0x100
 	str 	r2, [r3]
 
-	bl	init_led	
 
        /* Upon boot, the device loads into HYP (hypervisor) mode, which does not have permission to
 	* access the CPS opcode. Therefore, to enter the most privelaged mode,
@@ -115,8 +114,6 @@ reset_handler:
 	 * disabled so the ARM processor is in a known state. */
 	cpsid	if, #ARM_MODE_SYS
 
-	bl	led_on
-
 	/* Copy the ARM exception table from .init section to address 0,
 	 * including the absolute address table.  Here we assume it is exactly
 	 * 16 words.  */
@@ -148,13 +145,25 @@ reset_handler:
 bssloopb:
 	stmia r0!, {r2-r5}
 
-//mailbox: 	.word 0x4000008C
 bssloopa:
 	cmp r0, r1 	/* check that we still haven't hit the end of bss yet */
 	blo bssloopb	/* if still below, go backwards and loop */
 
+	ldr	r3, =core_init_sp
+
 	/* Put the null thread's stack directly after the kernel image.  */
-	add sp, r1, #NULLSTK
+	add 	sp, r1, #NULLSTK
+	str	sp, [r3, #0]
+	
+	add	r0, sp, #NULLSTK
+	str	r0, [r3, #4]
+
+	add	r1, r0, #NULLSTK
+	str	r1, [r3, #8]
+
+	add	r2, r1, #NULLSTK
+	str	r2, [r3, #12]
+
 
 	/* The remaining memory available to the ARM will be Xinu's "memheap"
 	 * region, which is used for dynamic memory allocation.  Set its
@@ -168,31 +177,12 @@ bssloopa:
 	/* http://infocenter.arm.com/help/topic/com.arm.doc.ddi0500d/DDI0500D_cortex_a53_r0p2_trm.pdf */
 
 	mrc 	p15, 0, r0, c0, c0, 5
-	mov	r1, #0xFF
+	mov	r1, #3
 	and	r1, r0, r1
 	cmp	r1, #0
-	beq	__start_master
-
-//	mov	r5, #1
-//	lsl	r5, r0
-
-	/* Mailbox address loaded (to be accessed by core.c) */
-//	ldr	r5, mailbox			// mailbox
-//	add	r5, #(0x400000CC-0x4000008C)	// mailbox
-
-	/* Load mailbox into r4. When r4 != 0, (mailbox interrupt),
-	 * break out of loop and clear the mailbox */
-//1:
-//	ldr	r4, [r5, r1, lsl #4]
-//	cmp	r4, #0
-//	beq	1
-
-not_zero:
-	wfi
-	b not_zero
-
-__start_master:
+	
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */ 
-	b	nulluser
+	beq	nulluser
+
 	.endfunc
