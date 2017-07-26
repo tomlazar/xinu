@@ -36,8 +36,6 @@ interrupt clkhandler(void)
         clkticks = 0;
     }
 
-	/* We do not have preemption yet.. this breaks the code.. */
-#if 0
     /* If sleepq is not empty, decrement first key.   */
     /* If key reaches zero, call wakeup.              */
     if (nonempty(sleepq) && (--firstkey(sleepq) <= 0))
@@ -48,7 +46,6 @@ interrupt clkhandler(void)
     {
         resched();
     }
-#endif
 }
 
 #endif /* RTCLOCK */

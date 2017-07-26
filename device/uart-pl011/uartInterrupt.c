@@ -145,6 +145,6 @@ interrupt uartInterrupt(void)
 	if (--resdefer > 0)
 	{
 		resdefer = 0;
-//		resched();		/* XXX Hack used because resched() does not work... */
+		resched();			
 	}
 }

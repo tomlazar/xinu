@@ -55,7 +55,6 @@ int resched(void)
 
     /* change address space identifier to thread id */
     asid = thrcurrent & 0xff;
-    kprintf("\r\nContext switching...\r\n");
     ctxsw(&throld->stkptr, &thrnew->stkptr, asid);
 
     /* old thread returns here when resumed */
