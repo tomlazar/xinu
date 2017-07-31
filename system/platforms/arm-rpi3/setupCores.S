@@ -15,8 +15,8 @@ Core1Setup:
 	ldr r0, =core_init_sp
 	ldr sp, [r0, #4] 
 	
-	ldr r0, =checkcore1
-	bl kprintf
+//	ldr r0, =checkcore1
+//	bl kprintf
 
 	b createnullthread
 
@@ -34,8 +34,8 @@ Core2Setup:
 
 	ldr r0, =core_init_sp
 	ldr sp, [r0, #8]
-	ldr r0, =checkcore2
-	bl kprintf
+//	ldr r0, =checkcore2
+//	bl kprintf
 	b createnullthread
 
 .globl Core3Setup
@@ -52,8 +52,8 @@ Core3Setup:
 
 	ldr r0, =core_init_sp
 	ldr sp, [r0, #12] 
-	ldr r0, =checkcore3
-	bl kprintf
+//	ldr r0, =checkcore3
+//	bl kprintf
 	b createnullthread
 
 

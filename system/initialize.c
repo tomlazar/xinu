@@ -67,6 +67,33 @@ void led_off(void)
 	regptr->gpclr[0] = 1 << 16;
 }
 
+/* For MMU configuration */
+/* dwelch MMU code */
+#define MMUTABLEBASE	0x00004000
+
+extern void PUT32(unsigned int, unsigned int);
+extern unsigned int GET32(unsigned int);
+
+extern void start_mmu(unsigned int, unsigned int);
+extern void stop_mmu(void);
+extern void invalidate_tlbs(void);
+
+extern unsigned int exclusive_text(unsigned int);
+
+unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
+{
+	unsigned int ra, rb, rc;
+
+	ra = vadd >> 20;
+	rb = MMUTABLEBASE | (ra << 2);
+	rc = (padd & 0xFFF00000) | 0xC00 | flags | 2;
+	PUT32(rb, rc);
+	
+	return 0;
+}
+
+extern unsigned serial_lock;
+
 /*
  * Intializes the system and becomes the null thread.
  * This is where the system begins after the C environment has been
@@ -79,25 +106,56 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	uint mode, cpuid;
-	int i;
+	uint mode, cpuid, ra;
+	int i, tret;
 
+	init_led();
+
+	/* dwelch mmu code */
+	/* setting up virtual addresses == to physical addresses */
+	for (ra = 0; ; ra += 0x00100000)
+	{
+		mmu_section(ra, ra, 0x0000 | 8 | 4);
+		//mmu_section(ra, ra, 0x0);
+		if (ra == 0x3EF00000) 
+			break;	/* stop before IO peripherals, dont want cache on those... */
+	}
+
+	// peripherals
+	for ( ; ; ra += 0x00100000)
+	{
+		mmu_section(ra, ra, 0x0000);
+		if (ra == 0xFFF00000) break;
+	}
+
+	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
+
+	
 	/* Platform-specific initialization (system/platforms/arm-rpi3/platforminit.c) */
 	platforminit();
 
 	/* General initialization  */
 	sysinit();
 	
-        kprintf("\r\n***********************************************************\r\n");
+    kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 	/* Print memory usage (located in system/main.c) */
 	print_os_info();
 
+	/* ldrex/strex test */
+	i = 0;
+	
+//	kprintf("starting ldrex/strex test, i = %d\r\n", i);
+//	tret = exclusive_test(&i);
+//	kprintf("after test, i = %d, tret = %d\r\n", i, tret);
+
+//	kprintf("serial_lock = %d, &serial_lock = 0x%08X\r\n", serial_lock, &serial_lock);
+
 	// cpsr
 	mode = getmode();
 	
-	kprintf("Printing out CPSR:\r\n");
+	kprintf("\r\nPrinting out CPSR:\r\n");
 	// print out bits of cpsr
 	for (i = 31; i >= 0; i--)
 		kprintf("%d", (mode >> i) & 1);
@@ -107,7 +165,7 @@ void nulluser(void)
 	for (i = 31; i >= 0; i--)
 		kprintf("%d", (cpuid >> i) & 1);
 
-	kprintf("Printing out core_init_sp array:\r\n");
+	kprintf("\r\nPrinting out core_init_sp array:\r\n");
 	for (i = 0; i < 4; i++)
 		kprintf("%d: 0x%08X\r\n", i, core_init_sp[i]);
 

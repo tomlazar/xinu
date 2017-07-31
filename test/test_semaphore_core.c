@@ -7,6 +7,10 @@ void testallcores(void);
 
 int semaphore = 0;
 
+extern unsigned int serial_lock;
+extern void mutex_acquire(void *);
+extern void mutex_release(void *);
+
 void testallcores(void)
 {
 	unparkcore(1, (void *)testcore1);

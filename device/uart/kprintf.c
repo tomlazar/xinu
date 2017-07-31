@@ -7,6 +7,8 @@
 #include <kernel.h>
 #include <stdarg.h>
 
+#include <mutex.h>
+
 /**
  * @ingroup uartgeneric
  *
@@ -22,13 +24,25 @@
  * @return
  *      The number of characters written.
  */
+
+unsigned int serial_lock = UNLOCKED;
+
+extern void mutex_acquire(void *);
+extern void mutex_release(void *);
+
 syscall kprintf(const char *format, ...)
 {
     int retval;
     va_list ap;
 
     va_start(ap, format);
-    retval = kvprintf(format, ap);
-    va_end(ap);
-    return retval;
+
+//	mutex_acquire(&serial_lock);
+	retval = kvprintf(format, ap);
+//	mutex_release(&serial_lock);	
+
+	va_end(ap);
+    
+	return retval;
+
 }

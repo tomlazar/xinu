@@ -67,8 +67,8 @@ _start:
 	/* Required to use exception return method */
 	/* Continues execution at line "b reset_handler" */
 	mrs	r0, cpsr
-	bic	r0, r0, #ARM_MODE_SYS
-	orr	r0, r0, #ARM_MODE_SVC
+//	bic	r0, r0, #ARM_MODE_SYS
+	orr	r0, r0, #ARM_MODE_SYS
 	msr	spsr_cxsf, r0
 	add	r0, pc, #4
 	msr	ELR_hyp, r0
@@ -112,8 +112,8 @@ reset_handler:
 
 	/* After entering SUPERVISOR mode, enter SYSTEM mode with all interrupts
 	 * disabled so the ARM processor is in a known state. */
-	cpsid	if, #ARM_MODE_SYS
-
+//	cpsid	if, #ARM_MODE_SYS
+	cpsid	if
 	/* Copy the ARM exception table from .init section to address 0,
 	 * including the absolute address table.  Here we assume it is exactly
 	 * 16 words.  */
@@ -137,7 +137,7 @@ reset_handler:
 	ldr r0, =_bss
 	ldr r1, =_end
   	mov r2, #0
-        mov r3, #0
+    mov r3, #0
 	mov r4, #0
 	mov r5, #0
   	b bssloopa
@@ -169,20 +169,84 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr r0, =memheap
-        str sp, [r0]
+    str sp, [r0]
+
 
 	/* Move to ARM register r0 from coprocessor register p15, at op2 5, which is the MPIDR. */
 	/* If left shift is zero, start. If not, wait for interrupts in a loop. */
 	/* Refer to ARM Cortex-A53 documentation, Section 4.4.1, Table 4-122: */
 	/* http://infocenter.arm.com/help/topic/com.arm.doc.ddi0500d/DDI0500D_cortex_a53_r0p2_trm.pdf */
-
-	mrc 	p15, 0, r0, c0, c0, 5
+	mrc p15, 0, r0, c0, c0, 5
 	mov	r1, #3
 	and	r1, r0, r1
 	cmp	r1, #0
 	
 	/* Branch to nulluser function, located in xinu/system/initialize.c
-	/* The function will initialize the system and become the null thread. */ 
+	/* The function will initialize the system and become the null thread. */
 	beq	nulluser
 
 	.endfunc
+
+/* Credit due to David Welch, github: https://github.com/dwelch67/raspberrypi/tree/master/mmu */
+/* Modified for new architecture */
+.globl start_mmu
+start_mmu:
+	mov r2,#0
+//  mcr p15,0,r2,c7,c7,0 ;@ invalidate caches /* not supported in new architecture */
+	mcr	p15,0,r2,c7,c1,0 ;@ invalidate all i caches inner shareable to PoU
+	mcr	p15,0,r2,c7,c5,0 ;@ invalidate all i caches to PoU
+	mcr	p15,0,r2,c7,c6,1 ;@ invalidate d cache line by VA to PoC
+	mcr	p15,0,r2,c7,c6,2 ;@ invalidate d cache line by set/way
+    mcr p15,0,r2,c8,c7,0 ;@ invalidate tlb	/* invalidate unified TLB */
+	dsb
+
+    mvn r2,#0
+    mcr p15,0,r2,c3,c0,0 ;@ domain
+
+    mcr p15,0,r0,c2,c0,0 ;@ tlb base
+    mcr p15,0,r0,c2,c0,1 ;@ tlb base
+
+	/* SCTLR configuration */
+    mrc p15,0,r2,c1,c0,0
+    orr r2,r2,r1			/* Set what was passed in as 2nd argument */
+    mcr p15,0,r2,c1,c0,0
+
+    bx lr
+
+.globl stop_mmu
+stop_mmu:
+    mrc p15,0,r2,c1,c0,0
+    bic r2,#0x1000
+    bic r2,#0x0004
+    bic r2,#0x0001
+    mcr p15,0,r2,c1,c0,0
+    bx lr
+
+.globl invalidate_tlbs
+invalidate_tlbs:
+    mov r2,#0
+    mcr p15,0,r2,c8,c7,0  ;@ invalidate tlb
+    dsb
+	bx	lr
+
+.globl GET32
+GET32:
+	ldr	r0, [r0]
+	bx	lr
+
+.globl PUT32
+PUT32:
+	str	r1, [r0]
+	bx	lr
+
+.globl exclusive_test
+exclusive_test:
+	push {lr}
+
+	ldrex r1, [r0]
+	add	r1, #1
+	strex r2, r1, [r0]
+	mov	r0, r2
+
+	pop {lr}
+	bx	lr
