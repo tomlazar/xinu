@@ -42,16 +42,16 @@ void createnullthread(void)
 	uint cpuid;
 	uint ra;
 	uint i;
-	
+
 	/* dwelch mmu code for initializing mmu */
 	/* same thing as done on core 0 in nulluser */
 	/* have to do on all cores because each core has separate MMU */
-	/*	
+	/*
 	for (ra = 0; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x0 | 8 | 4);
 		if (ra == 0x3EF0000)
-			break;	
+			break;
 	}
 	for ( ; ; ra += 0x00100000)
 	{
@@ -62,11 +62,8 @@ void createnullthread(void)
 	*/
 	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
 
-	// getcpuid() returns MPIDR register
-	// have to do bit operations to get first 3 bits,
-	// which show the actual id of the cpu
+	// getcpuid() returns first 3 bits of the MPIDR register
 	cpuid = getcpuid();
-	cpuid = cpuid & 7;	
 
 //	kprintf("Core %d: Beginning of createnullthread\r\n", cpuid);
 //	kprintf("Core %d: Corestart is now 0x%08X\r\n", cpuid, corestart);
@@ -76,7 +73,7 @@ void createnullthread(void)
 //	ready(create((void *)idle_thread3, INITSTK, 5, "null thread", 0, NULL), 1);
 
 	// only prints 100 times for the sake of readability
-	i = 0;	
+	i = 0;
 	while(i < 100)
 	{
 		kprintf("This is Core %d\r\n", cpuid);
