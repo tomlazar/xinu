@@ -115,8 +115,9 @@ void nulluser(void)
 	/* setting up virtual addresses == to physical addresses */
 	for (ra = 0; ; ra += 0x00100000)
 	{
-		mmu_section(ra, ra, 0x0000 | 8 | 4);
-		//mmu_section(ra, ra, 0x0);
+//		mmu_section(ra, ra, 0x0000 | 0x8 | 0x4);
+//		mmu_section(ra, ra, 0x0);
+		mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra == 0x3EF00000) 
 			break;	/* stop before IO peripherals, dont want cache on those... */
 	}
@@ -155,21 +156,21 @@ void nulluser(void)
 	// cpsr
 	mode = getmode();
 	
-	kprintf("\r\nPrinting out CPSR:\r\n");
+//	kprintf("\r\nPrinting out CPSR:\r\n");
 	// print out bits of cpsr
-	for (i = 31; i >= 0; i--)
-		kprintf("%d", (mode >> i) & 1);
+//	for (i = 31; i >= 0; i--)
+//		kprintf("%d", (mode >> i) & 1);
 
 	cpuid = getcpuid();
-	kprintf("\r\nPrinting out MPIDR:\r\n");
-	for (i = 31; i >= 0; i--)
-		kprintf("%d", (cpuid >> i) & 1);
+//	kprintf("\r\nPrinting out MPIDR:\r\n");
+//	for (i = 31; i >= 0; i--)
+//		kprintf("%d", (cpuid >> i) & 1);
 
-	kprintf("\r\nPrinting out core_init_sp array:\r\n");
-	for (i = 0; i < 4; i++)
-		kprintf("%d: 0x%08X\r\n", i, core_init_sp[i]);
+//	kprintf("\r\nPrinting out core_init_sp array:\r\n");
+//	for (i = 0; i < 4; i++)
+//		kprintf("%d: 0x%08X\r\n", i, core_init_sp[i]);
 
-	kprintf("\r\n");
+//	kprintf("\r\n");
 
 	/*  Test all cores (located in test/test_semaphore_core.c) */
 	testallcores();
@@ -184,7 +185,7 @@ void nulluser(void)
 	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
-	token = 4;
+//	token = 4;
 	while (TRUE){}
 }
 

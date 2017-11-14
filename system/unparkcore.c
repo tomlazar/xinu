@@ -37,10 +37,11 @@ void unparkcore(int num, void *procaddr) {
 	    	*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = Core3Setup;
 }
 
-
 void createnullthread(void)
 {
+	uint cpuid;
 	uint ra;
+	uint i;
 	
 	/* dwelch mmu code for initializing mmu */
 	/* same thing as done on core 0 in nulluser */
@@ -61,14 +62,26 @@ void createnullthread(void)
 	*/
 	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
 
-	kprintf("Beginning of createnullthread\r\n");
-	kprintf("Corestart is now 0x%08X\r\n", corestart);
-	printcpsr();
-	ready(create((void *)idle_thread1, INITSTK, 5, "null thread", 0, NULL), 1);
-	ready(create((void *)idle_thread2, INITSTK, 5, "null thread", 0, NULL), 1);
-	ready(create((void *)idle_thread3, INITSTK, 5, "null thread", 0, NULL), 1);
-	while(1)
-		;
+	// getcpuid() returns MPIDR register
+	// have to do bit operations to get first 3 bits,
+	// which show the actual id of the cpu
+	cpuid = getcpuid();
+	cpuid = cpuid & 7;	
+
+//	kprintf("Core %d: Beginning of createnullthread\r\n", cpuid);
+//	kprintf("Core %d: Corestart is now 0x%08X\r\n", cpuid, corestart);
+//	printcpsr();
+//	ready(create((void *)idle_thread1, INITSTK, 5, "null thread", 0, NULL), 1);
+//	ready(create((void *)idle_thread2, INITSTK, 5, "null thread", 0, NULL), 1);
+//	ready(create((void *)idle_thread3, INITSTK, 5, "null thread", 0, NULL), 1);
+
+	// only prints 100 times for the sake of readability
+	i = 0;	
+	while(i < 100)
+	{
+		kprintf("This is Core %d\r\n", cpuid);
+		i++;
+	}
 }
 
 void idle_thread1(void){
