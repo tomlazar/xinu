@@ -17,28 +17,28 @@ mutex_acquire:
 	push	{lr}
 
 loop:
-	pld		[r0]			/* Preload Data into cache */
+	pld		[r0]			/* Preload Data into cache to increase chance of success 	*/
 
-	mov		r1, #0
+//	mov		r1, #0
 	/* nop sled to wait for data the load into cache */
-	cmp		r1, #250
-	bge		continue
-	nop
-	add		r1, #1	
+//	cmp		r1, #250
+//	bge		continue
+//	nop
+//	add		r1, #1	
 
 
 continue:
-	ldrex	r1, [r0]
+	ldrex	r1, [r0]		/* Load the value of the lock from memory					*/
 
-	cmp		r1, #LOCKED
-	beq		loop
+	cmp		r1, #LOCKED		/* IF already locked ,										*/
+	beq		loop			/* THEN try again...										*/
 
-	mov		r1, #LOCKED
-	strex	r2, r1, [r0]
-	cmp		r2, #0x0
-	bne		loop
-	dmb
-
+	mov		r1, #LOCKED		/* ELSE unlocked, try to lock..								*/
+	strex	r2, r1, [r0]	
+	cmp		r2, #0x0		/* IF lock acquire failed this time around,					*/
+	bne		loop			/* THEN try again back up at the top						*/
+	dmb						/* Data Memory Barrier opcode waits for memory accesses		*/
+							/*    to complete before returning. 						*/
 	pop		{lr}
 	bx		lr
 

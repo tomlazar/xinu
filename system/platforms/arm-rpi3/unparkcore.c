@@ -5,6 +5,7 @@
 extern int getmode(void);
 extern void setmode(void);
 extern void unparkcore(int, void *);
+extern void CoreSetup(void) __attribute__((naked));
 extern void Core1Setup (void) __attribute__((naked));
 extern void Core2Setup (void) __attribute__((naked));
 extern void Core3Setup (void) __attribute__((naked));
@@ -13,7 +14,7 @@ void idle_thread1(void);
 void idle_thread2(void);
 void idle_thread3(void);
 
-void *corestart;
+void *corestart[4];
 int numcore;
 
 void printcpsr(void);
@@ -26,15 +27,22 @@ extern unsigned int mmu_section(unsigned int, unsigned int, unsigned int);
 #define MMUTABLEBASE	0x00004000
 
 void unparkcore(int num, void *procaddr) {
-	corestart = procaddr;
+	corestart[num] = procaddr;
 //	kprintf("Proc addr passed into unparkcore is 0x%08X\r\n", procaddr);
 	numcore = num;
+/*
 	if (num == 1)
 		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = Core1Setup;
 	if (num == 2)
 	    	*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = Core2Setup;
         if (num == 3)
 	    	*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = Core3Setup;
+*/
+	/* parameter checking */
+	if (num > 0 && num < 4)
+	{
+		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = CoreSetup;
+	}
 }
 
 void createnullthread(void)
@@ -62,7 +70,6 @@ void createnullthread(void)
 	*/
 	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
 
-	// getcpuid() returns first 3 bits of the MPIDR register
 	cpuid = getcpuid();
 
 //	kprintf("Core %d: Beginning of createnullthread\r\n", cpuid);
@@ -76,6 +83,7 @@ void createnullthread(void)
 	i = 0;
 	while(i < 100)
 	{
+		udelay(2 * cpuid);	// delay for reducing number of print statements
 		kprintf("This is Core %d\r\n", cpuid);
 		i++;
 	}
