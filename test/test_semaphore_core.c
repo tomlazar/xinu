@@ -1,51 +1,33 @@
 #include <core.h>
-void testcore1(void);
-void testcore2(void);
-void testcore3(void);
-void testcore4(void);
-void testallcores(void);
+#include <mmu.h>
 
-int semaphore = 0;
+void led_test(void);
 
-extern unsigned int serial_lock;
-extern void mutex_acquire(void *);
-extern void mutex_release(void *);
-
-extern void start_mmu(unsigned int, unsigned int);
 extern void createnullthread(void);
 
-#define MMUTABLEBASE	0x00004000
+extern void init_led(void);
+extern void led_on(void);
+extern void led_off(void);
+extern void udelay(unsigned int);
+
 
 void testallcores(void)
 {
 	unparkcore(1, (void *)createnullthread);
 	unparkcore(2, (void *)createnullthread);
-	unparkcore(3, (void *)createnullthread);
+	unparkcore(3, (void *)led_test);
 }
 
-void testcore1(void)
+void led_test()
 {
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
+	init_led();
+	led_off();
 	while(1)
-		kprintf("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\r\n");
+	{
+		udelay(1000);
+		led_on();
+		udelay(1000);
+		led_off();
+	}
 }
 
-void testcore2(void)
-{
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
-	while(1)
-		kprintf("22222222222222222222222222222222\r\n");
-}
-
-void testcore3(void)
-{
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
-	while(1)
-		kprintf("33333333333333333333333333333333\r\n");
-}
-
-void testcore4(void)
-{
-	while(1)
-		kprintf("44444444444444444444444444444444\r\n");
-}

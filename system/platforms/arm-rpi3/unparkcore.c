@@ -79,9 +79,9 @@ void createnullthread(void)
 //	ready(create((void *)idle_thread2, INITSTK, 5, "null thread", 0, NULL), 1);
 //	ready(create((void *)idle_thread3, INITSTK, 5, "null thread", 0, NULL), 1);
 
-	// only prints 100 times for the sake of readability
+	// only prints 25 times for the sake of readability
 	i = 0;
-	while(i < 100)
+	while(i < 25)
 	{
 		udelay(2 * cpuid);	// delay for reducing number of print statements
 		kprintf("This is Core %d\r\n", cpuid);

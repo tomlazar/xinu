@@ -7,6 +7,7 @@
 #include <string.h>
 #include "bcm2837.h"
 #include "../../../device/uart-pl011/pl011.h"
+#include <mmu.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -163,5 +164,8 @@ int platforminit(void)
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
 	parse_atag_list();
 	bcm2837_power_init(); 
+
+	mmu_init();
+
 	return OK;
 }
