@@ -49,6 +49,9 @@ struct platform platform;       /* Platform specific configuration     */
 
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
+
+extern void test_boundedbuffer(void);
+
 void init_led(void)
 {
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
@@ -95,7 +98,9 @@ void nulluser(void)
 	print_os_info();
 
 	/*  Test all cores (located in test/test_semaphore_core.c) */
-	testallcores();
+	//testallcores();
+	
+	test_boundedbuffer();
 
 	/* Call to test method (located in test/test_processcreation.c) */
 	//testmain();
