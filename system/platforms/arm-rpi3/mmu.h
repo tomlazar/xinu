@@ -3,7 +3,7 @@
 
 #define MMUTABLEBASE	0x00004000
 
-extern void start_mmu(unsigned int, unsigned int);
+extern void start_mmu(unsigned int);
 extern void stop_mmu(void);
 extern void invalidate_tlbs(void);
 extern int mmu_section(unsigned int, unsigned int, unsigned int);

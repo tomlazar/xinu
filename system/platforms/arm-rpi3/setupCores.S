@@ -22,7 +22,13 @@ CoreSetup:
 	ldr		r2, =core_init_sp
 	ldr		sp, [r2, r1]
 
+	/* move value to non-volatile registers before calling start_mmu */
+	mov		r4, r1
+
+	mov		r0, #0x00004000		/* MMUTABLEBASE from mmu.h */
+	bl		start_mmu
+
 	ldr		r2, =corestart
-	ldr		pc, [r2, r1]	
+	ldr		pc, [r2, r4]	
 
 

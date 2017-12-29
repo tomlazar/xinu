@@ -15,7 +15,6 @@ void idle_thread2(void);
 void idle_thread3(void);
 
 void *corestart[4];
-int numcore;
 
 void printcpsr(void);
 
@@ -27,9 +26,7 @@ extern unsigned int mmu_section(unsigned int, unsigned int, unsigned int);
 #define MMUTABLEBASE	0x00004000
 
 void unparkcore(int num, void *procaddr) {
-	corestart[num] = procaddr;
 //	kprintf("Proc addr passed into unparkcore is 0x%08X\r\n", procaddr);
-	numcore = num;
 /*
 	if (num == 1)
 		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = Core1Setup;
@@ -41,6 +38,7 @@ void unparkcore(int num, void *procaddr) {
 	/* parameter checking */
 	if (num > 0 && num < 4)
 	{
+		corestart[num] = (void *) procaddr;
 		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = CoreSetup;
 	}
 }

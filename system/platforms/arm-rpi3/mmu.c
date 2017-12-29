@@ -34,5 +34,5 @@ void mmu_init()
 			break;
 	}
 
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
+	start_mmu(MMUTABLEBASE);
 }

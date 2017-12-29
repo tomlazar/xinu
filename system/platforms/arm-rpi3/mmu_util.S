@@ -17,6 +17,12 @@ start_mmu:
 
 	/* SCTLR configuration*/
 	mrc	p15, 0, r2, c1, c0, 0
+//	orr	r2, r2, r1
+	/* gets rid of the need for a 2nd argument when using start_mmu() */
+	/* makes it simpler to use */
+	mov r1, #0x1
+	orr	r1, r1, #0x1000
+	orr	r1, r1, #0x4
 	orr	r2, r2, r1
 	mcr	p15, 0, r2, c1, c0, 0
 
