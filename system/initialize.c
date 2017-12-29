@@ -70,6 +70,8 @@ void led_off(void)
 	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
 	regptr->gpclr[0] = 1 << 16;
 }
+
+
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /*
@@ -98,18 +100,18 @@ void nulluser(void)
 	print_os_info();
 
 	/*  Test all cores (located in test/test_semaphore_core.c) */
-	//testallcores();
+//	testallcores();
 	
 	test_boundedbuffer();
 
 	/* Call to test method (located in test/test_processcreation.c) */
-	//testmain();
+//	testmain();
 
 	/* Enable interrupts  */
 	enable();
 
 	/* Spawn the main thread  */
-	//ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+//	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}

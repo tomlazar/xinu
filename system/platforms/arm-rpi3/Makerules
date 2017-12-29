@@ -15,7 +15,9 @@ S_FILES = ctxsw.S          \
 		  setupCores.S	   \
 		  setmode.S		   \
 		  mutex.S		   \
-		  mmu_util.S
+		  mmu_util.S	   \
+		  preloadData.S    \
+		  dataSyncBarrier.S
 
 C_FILES = setupStack.c       \
 		  bcm2837_power.c    \

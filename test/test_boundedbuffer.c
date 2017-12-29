@@ -27,6 +27,9 @@ extern void led_test(void);
 
 extern void udelay(unsigned long);
 
+extern void preloadData(unsigned int *);
+extern void dataSyncBarrier(void);
+
 static void producer(void);
 static void consumer(void);
 static void print_bb_status(void);
@@ -42,6 +45,9 @@ static int out = 0;
 
 void test_boundedbuffer()
 {
+	kprintf("---------------------------------\r\n");
+	kprintf("\tBOUNDED BUFFER TEST\r\n");
+	kprintf("---------------------------------\r\n");
 	unparkcore(1, (void *) producer);
 	unparkcore(2, (void *) consumer);
 	unparkcore(3, (void *) print_bb_status);
@@ -50,19 +56,17 @@ void test_boundedbuffer()
 
 static void producer()
 {
-	// necessary since this is the first thing running on the core
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
 
 	udelay(5000);
 	kprintf("producer() starting...\r\n");
 
-	unsigned int next_produced = 0;
+	unsigned int next_produced = 1;
 	while (1)
 	{
 
 		// do nothing while buffer is full
 		while (((in + 1) % BUFFER_SIZE) == out)
-			;
+			preloadData(&out);
 
 		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
 		
@@ -72,6 +76,8 @@ static void producer()
 		buffer[in] = next_produced;
 		in = (in + 1) % BUFFER_SIZE;
 		next_produced = (next_produced + 1) % BUFFER_SIZE;
+
+		dataSyncBarrier();		
 		
 		mutex_release(&bb_mutex);		
 	}
@@ -79,8 +85,6 @@ static void producer()
 
 static void consumer()
 {
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);
-
 	udelay(5000);
 	kprintf("consumer() starting...\r\n");
 
@@ -88,21 +92,24 @@ static void consumer()
 	while (1)
 	{
 
-		kprintf("consumer(): before while\r\n");		
 		// do nothing while buffer is empty
+		// 
+		// preloadData is necessary otherwise cache coherency becomes an issue
+		// aka consumer() will read "outdated" value of "in" variable and will get stuck in loop
 		while (in == out)
-			;
-		kprintf("consumer(): after while\r\n");
+			preloadData(&in);
 
 		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
 
-		kprintf("consumer(): before mutex_acquire\r\n");		
 		mutex_acquire(&bb_mutex);
-		// do stuff
-		kprintf("consumer(): mutex acquired\r\n");
+		
 		consumed = buffer[out];
 		out = (out + 1) % BUFFER_SIZE;
-		//consume the item now...
+
+		// for cache coherency issue mentioned above..
+		dataSyncBarrier();
+		
+		// consume item now...
 
 		mutex_release(&bb_mutex);
 	}
@@ -110,13 +117,12 @@ static void consumer()
 
 static void print_bb_status()
 {
-	start_mmu(MMUTABLEBASE, 0x1 | 0x1000 | 0x4);	
 
 	int i;
 	while (1)
 	{
 
-		udelay(1000);
+		udelay(250);
 
 		mutex_acquire(&bb_mutex);
 		// print buffer & info
