@@ -57,7 +57,7 @@ void test_boundedbuffer()
 static void producer()
 {
 
-	udelay(5000);
+	udelay(2500);
 	kprintf("producer() starting...\r\n");
 
 	unsigned int next_produced = 1;
@@ -85,7 +85,7 @@ static void producer()
 
 static void consumer()
 {
-	udelay(5000);
+	udelay(2500);
 	kprintf("consumer() starting...\r\n");
 
 	unsigned int consumed;
@@ -122,7 +122,7 @@ static void print_bb_status()
 	while (1)
 	{
 
-		udelay(250);
+		udelay(500);
 
 		mutex_acquire(&bb_mutex);
 		// print buffer & info

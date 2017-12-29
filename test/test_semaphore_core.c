@@ -15,7 +15,8 @@ void testallcores(void)
 {
 	unparkcore(1, (void *)createnullthread);
 	unparkcore(2, (void *)createnullthread);
-	unparkcore(3, (void *)led_test);
+	unparkcore(3, (void *)createnullthread);
+	led_test();
 }
 
 void led_test()
