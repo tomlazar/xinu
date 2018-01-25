@@ -152,16 +152,16 @@ bssloopa:
 	ldr	r3, =core_init_sp
 
 	/* Put the null thread's stack directly after the kernel image.  */
-	add 	sp, r1, #NULLSTK
-	str	sp, [r3, #0]
+	add sp, r1, #NULLSTK	/* Core 0 stack pointer */
+	str	sp, [r3, #0]	
 	
-	add	r0, sp, #NULLSTK
+	add	r0, sp, #NULLSTK	/* Core 1 stack pointer */
 	str	r0, [r3, #4]
 
-	add	r1, r0, #NULLSTK
+	add	r1, r0, #NULLSTK	/* Core 2 stack pointer */
 	str	r1, [r3, #8]
 
-	add	r2, r1, #NULLSTK
+	add	r2, r1, #NULLSTK	/* Core 3 stack pointer */
 	str	r2, [r3, #12]
 
 
@@ -169,7 +169,7 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr r0, =memheap
-    str sp, [r0]
+    str r2, [r0]		/* use r2 because this is the last stack allocated for core 3 */
 
 
 	/* Move to ARM register r0 from coprocessor register p15, at op2 5, which is the MPIDR. */
