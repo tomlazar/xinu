@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftomlazar%2Fxinu.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftomlazar%2Fxinu?ref=badge_shield)
+
 # Embedded Xinu #
 
 Embedded Xinu, Copyright (C) 2008, 2009, 2010.  All rights reserved.
@@ -57,6 +59,9 @@ basic directory structure:
               environment (`startup.S`).
  * `test/`    contains a number of testcases (which can be run using the shell
               command `testsuite`).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftomlazar%2Fxinu.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftomlazar%2Fxinu?ref=badge_large)
 
 ## 3. Prerequisites ##
 
@@ -165,4 +170,3 @@ The home of the Embedded Xinu project
 More information about the Embedded Xinu Lab at Marquette University
 
     http://www.mscs.mu.edu/~brylow/xinu/
-
