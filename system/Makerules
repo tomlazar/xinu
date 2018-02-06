@@ -22,22 +22,20 @@ C_FILES += udelay.c
 C_FILES += signal.c signaln.c wait.c semcreate.c semfree.c semcount.c
  
 # Files for monitors
-#C_FILES += moncreate.c monfree.c moncount.c lock.c unlock.c
+C_FILES += moncreate.c monfree.c moncount.c lock.c unlock.c
 
 # Files for memory management
-C_FILES += memget.c memfree.c stkget.c 
-#bfpalloc.c bfpfree.c bufget.c buffree.c
+C_FILES += memget.c memfree.c stkget.c bfpalloc.c bfpfree.c bufget.c buffree.c
 
 # Files for interprocess communication
-C_FILES += send.c
-#receive.c recvclr.c recvtime.c
+C_FILES += send.c receive.c recvclr.c recvtime.c
 
 # Files for device drivers
-#C_FILES += close.c control.c getc.c
+C_FILES += close.c control.c getc.c
 C_FILES += ioerr.c ionull.c read.c putc.c seek.c write.c getdev.c open.c
 
 # Files for system debugging
-#C_FILES += debug.c
+C_FILES += debug.c
 
 # Files for MiniJava Compiler
 #C_FILES += minijava.c

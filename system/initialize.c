@@ -20,6 +20,8 @@
 #  include <usb_subsystem.h>
 #endif
 
+extern void testmain(void);
+
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
@@ -86,7 +88,6 @@ void led_off(void)
  */
 void nulluser(void)
 {
-	
 	/* Platform-specific initialization */		
 	platforminit();
 
@@ -102,7 +103,7 @@ void nulluser(void)
 	/*  Test all cores (located in test/test_semaphore_core.c) */
 //	testallcores();
 	
-	test_boundedbuffer();
+//	test_boundedbuffer();
 
 	/* Call to test method (located in test/test_processcreation.c) */
 //	testmain();
@@ -110,8 +111,11 @@ void nulluser(void)
 	/* Enable interrupts  */
 	enable();
 
+
 	/* Spawn the main thread  */
 //	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+
+	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
