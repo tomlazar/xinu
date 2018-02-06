@@ -20,7 +20,12 @@ void print_os_info(void);
  */
 thread main(void)
 {
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
+
+	kprintf("NETHER: %d\r\n", NETHER);
+#ifdef WITH_USB
+	kprintf("WITH_USB\r\n");
+#endif
+
 #if HAVE_SHELL
 	int shelldevs[4][3];
 	uint nshells = 0;
@@ -36,11 +41,14 @@ thread main(void)
 
 		for (i = 0; i < NETHER; i++)
 		{
+			kprintf("calling open for ETHER %d\r\n", i);
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
 				kprintf("WARNING: Failed to open %s\r\n",
 						ethertab[i].dev->name);
 			}
+			else
+				kprintf("opened ETHER %d\r\n", i);
 		}
 	}
 #endif /* NETHER */
@@ -125,7 +133,6 @@ thread main(void)
 			}
 		}
 	}
-#endif
 #endif
 
 	return 0;

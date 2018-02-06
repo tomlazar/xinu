@@ -162,7 +162,7 @@ int platforminit(void)
 	platform.clkfreq = 1200000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
-	parse_atag_list();
+//	parse_atag_list();
 	bcm2837_power_init(); 
 
 	mmu_init();

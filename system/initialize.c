@@ -14,6 +14,9 @@
 #include <bcm2837.h>
 #include <rpi_gpio.h>
 #include <core.h>
+
+#include <dhcpc.h> // FOR DHCPC TEST
+
 #endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
 #ifdef WITH_USB
@@ -98,7 +101,7 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 	/* Print memory usage (located in system/main.c) */
-	print_os_info();
+//	print_os_info();
 
 	/*  Test all cores (located in test/test_semaphore_core.c) */
 //	testallcores();
@@ -110,12 +113,27 @@ void nulluser(void)
 
 	/* Enable interrupts  */
 	enable();
-
-
+//
 	/* Spawn the main thread  */
-//	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
-	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
+//	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
+
+/*
+	kprintf("calling open(ETH0)\r\n");
+	if (SYSERR == open(ETH0))
+		kprintf("Failed to open ETH0\r\n");
+	else
+	{
+		kprintf("opened ETH0\r\n");
+
+		struct dhcpData data;
+	
+		kprintf("calling dhcpClient()\r\n");
+		dhcpClient(ETH0, 100000, &data);
+		kprintf("returned from dhcpClient()\r\n");
+	}
+*/
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
@@ -220,7 +238,7 @@ static int sysinit(void)
 
 #if NMAILBOX
 	/* intialize mailboxes */
-	//	mailboxInit();
+	mailboxInit();
 #endif
 
 #if NDEVS
@@ -232,6 +250,10 @@ static int sysinit(void)
 
 #if GPIO
 	gpioLEDOn(GPIO_LED_CISCOWHT);
+#endif
+
+#ifdef WITH_USB
+	usbinit();
 #endif
 	return OK;
 }

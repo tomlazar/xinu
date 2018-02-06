@@ -25,6 +25,7 @@
  */
 devcall etherOpen(device *devptr)
 {
+	kprintf("ENTERED ETHEROPEN()\r\n");
     struct ether *ethptr;
     struct usb_device *udev;
     irqmask im;
@@ -32,12 +33,14 @@ devcall etherOpen(device *devptr)
     int retval = SYSERR;
 
     im = disable();
-
+	
+	kprintf("IN ETHEROPEN(): before if statement\r\n");
     /* Wait for USB device to actually be attached.  */
     if (smsc9512_wait_device_attached(devptr->minor) != USB_STATUS_SUCCESS)
     {
         goto out_restore;
     }
+	kprintf("IN ETHEROPEN(): after if statement\r\n");
 
     /* Fail if device is not down.  */
     ethptr = &ethertab[devptr->minor];

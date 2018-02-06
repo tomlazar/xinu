@@ -85,10 +85,10 @@ enum board_power_feature {
     POWER_USB    = 3,
 };
 
-extern int bcm2835_setpower(enum board_power_feature feature, bool on);
-extern void bcm2835_power_init(void);
+extern int bcm2837_setpower(enum board_power_feature feature, bool on);
+extern void bcm2837_power_init(void);
 
-#define board_setpower bcm2835_setpower
+#define board_setpower bcm2837_setpower
 
 
 /************************************************************************

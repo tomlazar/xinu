@@ -189,8 +189,8 @@ randomEthAddr(uchar addr[ETH_ADDR_LEN])
 usb_status_t
 smsc9512_wait_device_attached(ushort minor)
 {
-    wait(smsc9512_attached[minor]);
-    signal(smsc9512_attached[minor]);
+//    wait(smsc9512_attached[minor]);
+//    signal(smsc9512_attached[minor]);
     return USB_STATUS_SUCCESS;
 }
 
