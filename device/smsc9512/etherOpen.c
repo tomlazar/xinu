@@ -34,21 +34,24 @@ devcall etherOpen(device *devptr)
 
     im = disable();
 	
-	kprintf("IN ETHEROPEN(): before if statement\r\n");
+	kprintf("IN ETHEROPEN(): before wait for attach statement\r\n");
     /* Wait for USB device to actually be attached.  */
     if (smsc9512_wait_device_attached(devptr->minor) != USB_STATUS_SUCCESS)
     {
         goto out_restore;
     }
-	kprintf("IN ETHEROPEN(): after if statement\r\n");
+	kprintf("IN ETHEROPEN(): after wait for attach statement\r\n");
 
+	kprintf("IN ETHEROPEN(): before device down check\r\n");
     /* Fail if device is not down.  */
     ethptr = &ethertab[devptr->minor];
     if (ethptr->state != ETH_STATE_DOWN)
     {
         goto out_restore;
     }
+	kprintf("IN ETHEROPEN(): after device down check\r\n");
 
+	kprintf ("IN ETHEROPEN(): before creating tx buffer pool\r\n");
     /* Create buffer pool for Tx transfers.  */
     ethptr->outPool = bfpalloc(sizeof(struct usb_xfer_request) + ETH_MAX_PKT_LEN +
                                    SMSC9512_TX_OVERHEAD,
@@ -57,7 +60,10 @@ devcall etherOpen(device *devptr)
     {
         goto out_restore;
     }
+	kprintf("IN ETHEROPEN(): after creating tx buffer pool\r\n");
 
+
+	kprintf("IN ETHEROPEN(): before creating rx buffer pool\r\n");
     /* Create buffer pool for Rx packets (not the actual USB transfers, which
      * are allocated separately).  */
     ethptr->inPool = bfpalloc(sizeof(struct ethPktBuffer) + ETH_MAX_PKT_LEN,
@@ -66,17 +72,20 @@ devcall etherOpen(device *devptr)
     {
         goto out_free_out_pool;
     }
+	kprintf("IN ETHEROPEN(): after creating rx buffer pool\r\n");
 
     /* We're abusing the csr field to store a pointer to the USB device
      * structure.  At least it's somewhat equivalent, since it's what we need to
      * actually communicate with the device hardware.  */
     udev = ethptr->csr;
 
+	kprintf("IN ETHEROPEN(): before setting mac address\r\n");
     /* Set MAC address */
     if (smsc9512_set_mac_address(udev, ethptr->devAddress) != USB_STATUS_SUCCESS)
     {
         goto out_free_in_pool;
     }
+	kprintf("IN ETHEROPEN(): after setting mac address\r\n");
 
     /* Initialize the Tx requests.  */
     {
@@ -107,11 +116,13 @@ devcall etherOpen(device *devptr)
     {
         struct usb_xfer_request *req;
         
+		kprintf("IN ETHEROPEN(): before allocating rx request %d\r\n", i);
         req = usb_alloc_xfer_request(SMSC9512_DEFAULT_HS_BURST_CAP_SIZE);
         if (req == NULL)
         {
             goto out_free_in_pool;
         }
+		kprintf("IN ETHEROPEN(): after allocating rx request %d\r\n", i);
         req->dev = udev;
         /* Assign Rx endpoint, checked in smsc9512_bind_device() */
         req->endpoint_desc = udev->endpoints[0][0];
@@ -120,6 +131,7 @@ devcall etherOpen(device *devptr)
         usb_submit_xfer_request(req);
     }
 
+	kprintf("IN ETHEROPEN(): before enabling rx/tx on hardware\r\n");
     /* Enable transmit and receive on the actual hardware.  After doing this and
      * restoring interrupts, the Rx transfers can complete at any time due to
      * incoming packets.  */
@@ -130,6 +142,7 @@ devcall etherOpen(device *devptr)
     {
         goto out_free_in_pool;
     }
+	kprintf("IN ETHEROPEN(): after enabling rx/tx on hardware\r\n");
 
     /* Success!  Set the device to ETH_STATE_UP. */
     ethptr->state = ETH_STATE_UP;

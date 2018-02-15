@@ -211,6 +211,8 @@ devcall etherInit(device *devptr)
     struct ether *ethptr;
     usb_status_t status;
 
+	kprintf("IN ETHERINIT(): I am here\r\n");
+
     /* Initialize the static `struct ether' for this device.  */
     ethptr = &ethertab[devptr->minor];
     bzero(ethptr, sizeof(struct ether));
@@ -221,6 +223,7 @@ devcall etherInit(device *devptr)
     ethptr->isema = semcreate(0);
     if (isbadsem(ethptr->isema))
     {
+		kprintf("IN ETHERINIT(): badsem(ethptr->isema)\r\n");
         goto err;
     }
 
@@ -228,6 +231,7 @@ devcall etherInit(device *devptr)
 
     if (isbadsem(smsc9512_attached[devptr->minor]))
     {
+		kprintf("IN ETHERINIT(): badsem(smsc9512_attached[devptr->minor])\r\n");
         goto err_free_isema;
     }
 
@@ -241,8 +245,10 @@ devcall etherInit(device *devptr)
     status = usb_register_device_driver(&smsc9512_driver);
     if (status != USB_STATUS_SUCCESS)
     {
+		kprintf("IN ETHERINIT(): usb_register_device_driver status not successful\r\n");
         goto err_free_attached_sema;
     }
+	kprintf("IN ETHERINIT(): returning OK\r\n");
     return OK;
 
 err_free_attached_sema:

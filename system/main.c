@@ -27,6 +27,7 @@ thread main(void)
 #endif
 
 #if HAVE_SHELL
+	kprintf("HAVE_SHELL == TRUE\r\n");
 	int shelldevs[4][3];
 	uint nshells = 0;
 #endif
@@ -134,7 +135,7 @@ thread main(void)
 		}
 	}
 #endif
-
+	kprintf("END OF MAIN()\r\n");
 	return 0;
 }
 
@@ -147,14 +148,13 @@ void print_os_info(void)
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 	ulong cpuid;
 	cpuid = getcpuid();	
-	cpuid &= 0xFF;
 	kprintf("Processor identification: 0x%08X\r\n", cpuid);
 #endif
-        kprintf(VERSION);
-        kprintf("\r\n\r\n");
+	kprintf(VERSION);
+	kprintf("\r\n\r\n");
 
-        /* Output detected platform. */
-        kprintf("Detected platform as: %s, %s\r\n\r\n",
+	/* Output detected platform. */
+	kprintf("Detected platform as: %s, %s\r\n\r\n",
 			platform.family, platform.name);
 
 	/* Output Xinu memory layout */

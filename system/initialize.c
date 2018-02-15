@@ -253,7 +253,8 @@ static int sysinit(void)
 #endif
 
 #ifdef WITH_USB
-	usbinit();
+	int r = usbinit();
+	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
 #endif
 	return OK;
 }

@@ -28,6 +28,7 @@
 usb_status_t
 smsc9512_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
 {
+	kprintf("IN SMSC_WRITE_REG(): I am here\r\n");
     return usb_control_msg(udev, NULL,
                            SMSC9512_VENDOR_REQUEST_WRITE_REGISTER,
                            USB_BMREQUESTTYPE_DIR_OUT |
@@ -148,11 +149,14 @@ smsc9512_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
     addrl = macaddr[0] | macaddr[1] << 8 | macaddr[2] << 16 | macaddr[3] << 24;
     addrh = macaddr[4] | macaddr[5] << 8;
 
+	kprintf("IN SMSC_SETMACADDRESS(): I am here\r\n");
     status = smsc9512_write_reg(udev, ADDRL, addrl);
     if (status != USB_STATUS_SUCCESS)
     {
+		kprintf("IN SMSC_SETMACADDRESS(): smsc9512 register write failed\r\n");
         return status;
     }
+	kprintf("IN SMSC_SETMACADDRESS(): smsc9512 register write succeeded\r\n");
     return smsc9512_write_reg(udev, ADDRH, addrh);
 }
 
