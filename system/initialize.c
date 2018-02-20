@@ -248,13 +248,18 @@ static int sysinit(void)
 	}
 #endif
 
-#if GPIO
-	gpioLEDOn(GPIO_LED_CISCOWHT);
-#endif
-
 #ifdef WITH_USB
 	int r = usbinit();
 	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
 #endif
+
+#if NNETIF
+	netInit();
+#endif
+
+#if GPIO
+	gpioLEDOn(GPIO_LED_CISCOWHT);
+#endif
+
 	return OK;
 }
