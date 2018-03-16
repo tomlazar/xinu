@@ -161,29 +161,15 @@ void printtid(int tid)
 	tthrent = &thrtab[tid];
 
 	/* Printing TID */
-	kprintf("Thread name              : %s \r\n", tthrent->name);
-	switch (tthrent->state)
-	{
-		case THRFREE:
-			kprintf("State of the thread      : FREE \r\n");
-			break;
-		case THRCURR:
-			kprintf("State of the thread      : CURRENT \r\n");
-			break;
-		case THRSUSP:
-			kprintf("State of the thread      : SUSPENDED \r\n");
-			break;
-		case THRREADY:
-			kprintf("State of the thread      : READY \r\n");
-			break;
-		default:
-			kprintf("ERROR: Process state not correctly set!\r\n");
-			break;
-	}
+	kprintf("TID:\t\t%d\r\n", tid);
+	kprintf("\tName:\t%s\r\n", tthrent->name);
+	kprintf("\tState:\t%d\r\n", tthrent->state);
 
+#if 0
 	/* Print TID contents and registers */
 	kprintf("Base of run time stack   : 0x%08X \r\n", tthrent->stkbase);
 	kprintf("Stack pointer of thread  : 0x%08X \r\n",
 			tthrent->stkptr);
 	kprintf("Stack length of thread   : %8u\r\n", tthrent->stklen);
+#endif
 }

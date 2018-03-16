@@ -25,10 +25,7 @@
  *      The number of characters written.
  */
 
-unsigned int serial_lock = UNLOCKED;
-
-extern void mutex_acquire(void *);
-extern void mutex_release(void *);
+mutex_t serial_lock = UNLOCKED;
 
 syscall kprintf(const char *format, ...)
 {

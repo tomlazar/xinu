@@ -201,6 +201,9 @@ usb_submit_xfer_request(struct usb_xfer_request *req)
     enum usb_transfer_type type;
     enum usb_direction dir;
 #endif
+
+	kprintf("IN USB_SUBMIT_XFER_REQUEST(): I am here\r\n");
+
     irqmask im;
     usb_status_t status;
 
@@ -459,7 +462,9 @@ usb_control_msg(struct usb_device *dev,
 	}
     usb_free_xfer_request(req);
     semfree(sem);
-    return status;
+  
+	kprintf("USB_CONTROL_MSG() returning status %s\r\n", usb_status_string(status));
+	return status;
 }
 
 /**

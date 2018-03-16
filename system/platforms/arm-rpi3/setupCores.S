@@ -1,4 +1,5 @@
 #include <arm.h>
+#include <mmu.h>
 
 .globl CoreSetup
 CoreSetup:
@@ -27,9 +28,7 @@ CoreSetup:
 	mov		r4, r1
 
 	/* call start_mmu so the programmer does not have to manual call it each time they unpark a core 			*/
-	/* NOTE: 0x00004000 is the MMUTABLEBASE from mmu.h but we cannot #include mmu.h because this is an assembly file 	*/
-	/* and the assembler does not recognize some of the syntax in mmu.h 										*/
-	mov		r0, #0x00004000		/* MMUTABLEBASE from mmu.h */
+	mov		r0, #MMUTABLEBASE		/* MMUTABLEBASE from mmu.h */
 	bl		start_mmu
 
 	/* corestart array of addresses for the instruction for each core to execute once setup is done */

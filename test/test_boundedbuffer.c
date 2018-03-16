@@ -1,8 +1,7 @@
 /**
  * @file: 		test_boundedbuffer.c
- * @provides	consumer
- * 				producer
- *
+ * @provides	test_boundedbuffer
+ * 
  * @usage		A producer-consumer problem test for the mutex for multicore rpi3
  * 
  * This code is straight from Dinosaur Book, essentially... slightly modified
@@ -19,9 +18,6 @@
 
 #define	BUFFER_SIZE	10
 
-extern void mutex_acquire(void *);
-extern void mutex_release(void *);
-
 extern void unparkcore(unsigned int, void *);
 extern void led_test(void);
 
@@ -36,7 +32,7 @@ static void print_bb_status(void);
 
 /* these are static so that they are not visible to the outside xinu world 
  * and dont interfere with any other variable names, just in case */
-static unsigned int bb_mutex = UNLOCKED;
+static mutex_t bb_mutex = UNLOCKED;
 
 static int buffer[BUFFER_SIZE];
 static int in  = 0;

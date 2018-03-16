@@ -113,27 +113,29 @@ void nulluser(void)
 
 	/* Enable interrupts  */
 	enable();
-//
+
+//	kprintf("calling usbinfo():\r\n");
+//	usbinfo();
+
+	extern void printtid(int);
+
+	/* print out thread table */
+	int i;
+	for (i = 0; i < NTHREAD; i++)
+	{
+		struct thrent *entry;
+		entry = &thrtab[i];
+		
+		if (THRFREE != entry->state)
+		{
+			printtid(i);
+		} 
+	}
+	
 	/* Spawn the main thread  */
-	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+//	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 //	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
-
-/*
-	kprintf("calling open(ETH0)\r\n");
-	if (SYSERR == open(ETH0))
-		kprintf("Failed to open ETH0\r\n");
-	else
-	{
-		kprintf("opened ETH0\r\n");
-
-		struct dhcpData data;
-	
-		kprintf("calling dhcpClient()\r\n");
-		dhcpClient(ETH0, 100000, &data);
-		kprintf("returned from dhcpClient()\r\n");
-	}
-*/
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
@@ -249,8 +251,12 @@ static int sysinit(void)
 #endif
 
 #ifdef WITH_USB
-	int r = usbinit();
-	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
+//	int r = usbinit();
+//	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
+#endif
+
+#if NVRAM
+	nvramInit();
 #endif
 
 #if NNETIF

@@ -21,7 +21,7 @@ void print_os_info(void);
 thread main(void)
 {
 
-	kprintf("NETHER: %d\r\n", NETHER);
+//	kprintf("NETHER: %d\r\n", NETHER);
 #ifdef WITH_USB
 	kprintf("WITH_USB\r\n");
 #endif

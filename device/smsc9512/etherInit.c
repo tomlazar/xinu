@@ -37,7 +37,8 @@ smsc9512_bind_device(struct usb_device *udev)
 	kprintf("IN SMSC_BIND_DEVICE(): I am here.\r\n");
 
 	kprintf("IN SMSC_BIND_DEVICE(): printing out udev struct\r\n");
-	kprintf("udev->inuse= %c\r\n", udev->inuse == TRUE ? '1' : '0');
+/*	
+ *	kprintf("udev->inuse= %c\r\n", udev->inuse == TRUE ? '1' : '0');
 	kprintf("udev->address= 0x%08X\r\n", udev->address);
 	kprintf("udev->depth= 0x%08X\r\n", udev->depth);
 	kprintf("udev->speed= 0x%08X\r\n", udev->speed);
@@ -46,7 +47,9 @@ smsc9512_bind_device(struct usb_device *udev)
 	kprintf("udev->descriptor.idProduct= 0x%08X\r\n", udev->descriptor.idProduct);
 	kprintf("udev->descriptor.iSerialNumber= 0x%08X\r\n", udev->descriptor.iSerialNumber);
 	kprintf("(udev->parent == NULL) = %s\r\n", (udev->parent == NULL) ? "TRUE" : "FALSE");
-
+*/
+	usb_print_device_descriptor(udev, &udev->descriptor);
+	kprintf ("Description: %s\r\n", usb_device_description(udev));
     /* Check if this is actually a SMSC LAN9512 by checking the USB device's
      * standard device descriptor, which the USB core already read into memory.
      * Also check to make sure the expected endpoints for sending/receiving
@@ -212,8 +215,8 @@ randomEthAddr(uchar addr[ETH_ADDR_LEN])
 usb_status_t
 smsc9512_wait_device_attached(ushort minor)
 {
-//    wait(smsc9512_attached[minor]);
-//    signal(smsc9512_attached[minor]);
+    wait(smsc9512_attached[minor]);
+    signal(smsc9512_attached[minor]);
     return USB_STATUS_SUCCESS;
 }
 
