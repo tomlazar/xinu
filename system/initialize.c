@@ -112,33 +112,16 @@ void nulluser(void)
 //	testmain();
 
 	/* Enable interrupts  */
-	enable();
-
-//	kprintf("calling usbinfo():\r\n");
-//	usbinfo();
-
-	extern void printtid(int);
-
-	/* print out thread table */
-	int i;
-	for (i = 0; i < NTHREAD; i++)
-	{
-		struct thrent *entry;
-		entry = &thrtab[i];
-		
-		if (THRFREE != entry->state)
-		{
-			printtid(i);
-		} 
-	}
+	enable();	
 	
 	/* Spawn the main thread  */
 //	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
-//	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
+	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
+
 }
 
 /**
@@ -251,8 +234,8 @@ static int sysinit(void)
 #endif
 
 #ifdef WITH_USB
-//	int r = usbinit();
-//	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
+  	int r = usbinit();
+  	kprintf("IN SYSINT(): usbinit() returned %s\r\n", (OK == r) ? "OK" : "SYSERR");
 #endif
 
 #if NVRAM

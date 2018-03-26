@@ -161,7 +161,7 @@ void printtid(int tid)
 	tthrent = &thrtab[tid];
 
 	/* Printing TID */
-	kprintf("TID:\t\t%d\r\n", tid);
+	kprintf("TID: %d\r\n", tid);
 	kprintf("\tName:\t%s\r\n", tthrent->name);
 	kprintf("\tState:\t%d\r\n", tthrent->state);
 

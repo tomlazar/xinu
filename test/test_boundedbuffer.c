@@ -23,8 +23,8 @@ extern void led_test(void);
 
 extern void udelay(unsigned long);
 
-extern void preloadData(unsigned int *);
-extern void dataSyncBarrier(void);
+extern void pld(unsigned int *);
+extern void dsb(void);
 
 static void producer(void);
 static void consumer(void);
@@ -62,7 +62,7 @@ static void producer()
 
 		// do nothing while buffer is full
 		while (((in + 1) % BUFFER_SIZE) == out)
-			preloadData(&out);
+			pld(&out);
 
 		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
 		
@@ -73,7 +73,7 @@ static void producer()
 		in = (in + 1) % BUFFER_SIZE;
 		next_produced = (next_produced + 1) % BUFFER_SIZE;
 
-		dataSyncBarrier();		
+		dsb();		
 		
 		mutex_release(&bb_mutex);		
 	}
@@ -93,7 +93,7 @@ static void consumer()
 		// preloadData is necessary otherwise cache coherency becomes an issue
 		// aka consumer() will read "outdated" value of "in" variable and will get stuck in loop
 		while (in == out)
-			preloadData(&in);
+			pld(&in);
 
 		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
 
@@ -103,7 +103,7 @@ static void consumer()
 		out = (out + 1) % BUFFER_SIZE;
 
 		// for cache coherency issue mentioned above..
-		dataSyncBarrier();
+		dsb();
 		
 		// consume item now...
 

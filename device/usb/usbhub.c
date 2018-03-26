@@ -727,6 +727,9 @@ hub_bind_device(struct usb_device *dev)
     usb_status_t status;
     struct usb_hub *hub;
     int hub_id;
+	
+	kprintf("IN HUB_BIND_DEVICE(): idVendor & idProduct -\r\n");
+	kprintf("0x%04X - 0x%04X\r\n", dev->descriptor.idVendor, dev->descriptor.idProduct);
 
     /* Check whether the new device a hub or not.  */
     if (dev->descriptor.bDeviceClass != USB_CLASS_CODE_HUB ||
@@ -735,7 +738,8 @@ hub_bind_device(struct usb_device *dev)
         (dev->endpoints[0][0]->bmAttributes & 0x3) !=
                 USB_TRANSFER_TYPE_INTERRUPT)
     {
-        return USB_STATUS_DEVICE_UNSUPPORTED;
+		kprintf("IN HUB_BIND_DEVICE(): device unsupported\r\n");
+		return USB_STATUS_DEVICE_UNSUPPORTED;
     }
 
     /* Do one-time initialization of the hub driver.  */

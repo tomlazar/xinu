@@ -13,7 +13,7 @@ CoreSetup:
 	
 	/* get CPUID from MPIDR register and put value in r0 */
 	mrc		p15, 0, r0, c0, c0, 5		/* MPIDR */
-	and		r0, r0, #7
+	and		r0, r0, #7					/* last 3 bits is CPUID */
 
 	/* multiply the CPUID by 4 to get the correct index for the arrays */
 	mov		r1, r0

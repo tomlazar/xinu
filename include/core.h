@@ -10,6 +10,5 @@
 #define CORE_MBOX_OFFSET    0x10
 
 extern unsigned int core_init_sp[];
-extern int token;
 
 #endif	/* _CORE_H_ */

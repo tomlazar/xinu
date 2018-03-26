@@ -32,3 +32,11 @@ dmb:
 	mcr	p15, 0, r12, c7, c10, 5
 	mov 	pc, lr
 	.endfunc
+
+
+.globl dsb
+dsb:
+	.func dsb
+	dsb
+	bx	lr
+	.endfunc

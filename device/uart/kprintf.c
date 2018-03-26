@@ -7,7 +7,10 @@
 #include <kernel.h>
 #include <stdarg.h>
 
-#include <mutex.h>
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#	include <mutex.h>
+	mutex_t serial_lock = UNLOCKED;
+#endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /**
  * @ingroup uartgeneric
@@ -25,7 +28,6 @@
  *      The number of characters written.
  */
 
-mutex_t serial_lock = UNLOCKED;
 
 syscall kprintf(const char *format, ...)
 {
@@ -34,9 +36,13 @@ syscall kprintf(const char *format, ...)
 
     va_start(ap, format);
 
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	mutex_acquire(&serial_lock);
 	retval = kvprintf(format, ap);
-	mutex_release(&serial_lock);	
+	mutex_release(&serial_lock);
+#else
+	retval = kvprintf(format, ap);
+#endif	
 
 	va_end(ap);
     
