@@ -35,4 +35,9 @@ CoreSetup:
 	ldr		r2, =corestart
 	ldr		pc, [r2, r4]	
 
-
+.globl sev
+sev:
+	.func sev
+	sev
+	bx	lr
+	.endfunc

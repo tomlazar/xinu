@@ -176,14 +176,14 @@ bssloopa:
 	/* If left shift is zero, start. If not, wait for interrupts in a loop. */
 	/* Refer to ARM Cortex-A53 documentation, Section 4.4.1, Table 4-122: */
 	/* http://infocenter.arm.com/help/topic/com.arm.doc.ddi0500d/DDI0500D_cortex_a53_r0p2_trm.pdf */
-	mrc p15, 0, r0, c0, c0, 5
-	mov	r1, #3
-	and	r1, r0, r1
-	cmp	r1, #0
+//	mrc p15, 0, r0, c0, c0, 5
+//	mov	r1, #3
+//	and	r1, r0, r1
+//	cmp	r1, #0
 	
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */
-	beq	nulluser
-
+//	beq	nulluser
+	b	nulluser
 	.endfunc
 

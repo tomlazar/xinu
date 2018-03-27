@@ -5,6 +5,7 @@
 
 extern void CoreSetup(void) __attribute__((naked));
 typedef void (*fn)(void);
+extern void sev(void);
 
 void printcpsr(void);
 
@@ -12,10 +13,12 @@ void printcpsr(void);
 void *corestart[4];
 
 void unparkcore(int num, void *procaddr) {
-	/* parameter checking */
 	if (num > 0 && num < 4)
 	{
 		corestart[num] = (void *) procaddr;
+		sev();	// send event
+				// this takes the core out of its sleeping state and allows it to
+				// start running code
 		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = CoreSetup;
 	}
 }
@@ -23,26 +26,16 @@ void unparkcore(int num, void *procaddr) {
 void createnullthread(void)
 {
 	uint cpuid;
-	uint ra;
-	uint i;
-
-	start_mmu(MMUTABLEBASE);
-
 	cpuid = getcpuid();
 
-//	kprintf("Core %d: Beginning of createnullthread\r\n", cpuid);
-//	kprintf("Core %d: Corestart is now 0x%08X\r\n", cpuid, corestart);
-//	ready(create((void *)idle_thread1, INITSTK, 5, "null thread", 0, NULL), 1);
-//	ready(create((void *)idle_thread2, INITSTK, 5, "null thread", 0, NULL), 1);
-//	ready(create((void *)idle_thread3, INITSTK, 5, "null thread", 0, NULL), 1);
 
-	// only prints 25 times for the sake of readability
-	i = 0;
-	while(i < 25)
+	/* enable interrupts */
+//	enable();
+
+	while(TRUE) 
 	{
-		udelay(2 * cpuid);	// delay for reducing number of print statements
-		kprintf("This is Core %d\r\n", cpuid);
-		i++;
+		kprintf("CORE %d IS RUNNING\r\n", cpuid);
+		udelay(250);
 	}
 }
 
