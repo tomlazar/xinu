@@ -375,7 +375,10 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
             /* Wait for command thread to finish */
             while (receive() != child);
+#ifndef _XINU_PLATFORM_ARM_RPI_3_ 	/* sleeps for 10 seconds on the RPI 3... not desirable */
+	    				/* maybe needed for other platforms.. not sure */
             sleep(10);
+#endif
         }
     }
 
