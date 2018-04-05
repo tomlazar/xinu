@@ -135,7 +135,6 @@ thread main(void)
 		}
 	}
 #endif
-	kprintf("END OF MAIN()\r\n");
 	return 0;
 }
 

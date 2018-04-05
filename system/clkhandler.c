@@ -24,7 +24,7 @@ int resched(void);
  */
 interrupt clkhandler(void)
 {
-    clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
 
     /* Another clock tick passes. */
     clkticks++;

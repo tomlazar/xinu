@@ -74,7 +74,6 @@ void led_off(void)
 	regptr->gpclr[0] = 1 << 16;
 }
 
-
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /*
@@ -99,7 +98,7 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 	/* Print memory usage (located in system/main.c) */
-	print_os_info();
+//	print_os_info();
 
 	/*  Test all cores (located in test/test_semaphore_core.c) */
 //	testallcores();
@@ -110,19 +109,21 @@ void nulluser(void)
 //	testmain();
 
 	/* Enable interrupts  */
-//	enable();	
+	enable();	
 	
 	/* Spawn the main thread  */
-//	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 //	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
 
+/*
 	kprintf("unparking cores 1, 2, and 3...\r\n");
 
 	extern void createnullthread(void);
 	unparkcore(1, (void *) createnullthread);
 	unparkcore(2, (void *) createnullthread);
 	unparkcore(3, (void *) createnullthread);
+*/
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}

@@ -133,14 +133,13 @@ devcall uartHwInit(device *devptr)
     /* Allow the UART to generate interrupts only when receiving or
      * transmitting.  */
     regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
-
     /* We have decided that we are going to leave FIFOs off for now.  Since the
      * FIFOs are of size 16 and the lowest trigger level you can set for the
      * receive FIFO is 1/8, the first interrupt isn't triggered until there are
      * at least two bytes in the receive FIFO.  We want an interrupt as soon as
      * a byte arrives */
-#if 0
-    /* Enable UART FIFOs. */
+#if 0    
+	/* Enable UART FIFOs. */
     regptr->lcrh |= PL011_LCRH_FEN;
 
     /* Set the interrupt FIFO level select register.  This configures the amount
@@ -155,7 +154,7 @@ devcall uartHwInit(device *devptr)
 
     /* Register the UART's interrupt handler with XINU's interrupt vector, then
      * actually enable the UART's interrupt line.  */
-    interruptVector[devptr->irq] = devptr->intr;
-    enable_irq(devptr->irq);
+	interruptVector[devptr->irq] = devptr->intr;
+	enable_irq(devptr->irq);
     return OK;
 }

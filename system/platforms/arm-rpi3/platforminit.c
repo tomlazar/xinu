@@ -120,7 +120,7 @@ parse_atag_list(void)
 }
 
 #define GPFSEL1     (*(volatile unsigned *)(GPIO_REGS_BASE + 0x04))
-void pl011init(void)
+void pl011_init(void)
 {
 	int i;
 
@@ -164,7 +164,7 @@ int platforminit(void)
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
 //	parse_atag_list();
 	bcm2837_power_init(); 
-
+//	pl011_init();
 	mmu_init();
 
 	return OK;

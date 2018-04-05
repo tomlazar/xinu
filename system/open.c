@@ -39,9 +39,7 @@ devcall open(int descrp, ...)
     }
     devptr = (device *)&devtab[descrp];
     va_start(ap, descrp);
-    kprintf("IN OPEN(): calling device open method\r\n");
 	result = ((*devptr->open) (devptr, ap));
-	kprintf("IN OPEN(): returned from device open method\r\n");
     va_end(ap);
     return result;
 }
