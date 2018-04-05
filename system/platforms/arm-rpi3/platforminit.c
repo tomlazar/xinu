@@ -147,7 +147,7 @@ void pl011_init(void)
 
 	regptr->cr = PL011_CR_RXE | PL011_CR_TXE | PL011_CR_UARTEN;
 
-	regptr->lcrh |= PL011_LCRH_FEN;
+//	regptr->lcrh |= PL011_LCRH_FEN;
 }
 
 /**

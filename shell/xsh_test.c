@@ -6,7 +6,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 
 /**
  * @ingroup shell
@@ -21,5 +21,6 @@
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
-    return 0;
+	printf("THIS IS A TEST.\n");
+	return 0;
 }

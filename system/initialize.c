@@ -15,6 +15,7 @@
 #include <rpi_gpio.h>
 #include <core.h>
 #include <mmu.h>
+#include "../device/uart-pl011/pl011.h"
 #endif /* _XINU_PLATFORM_ARM_RPI_3_ */
 
 #ifdef WITH_USB
@@ -74,6 +75,17 @@ void led_off(void)
 	regptr->gpclr[0] = 1 << 16;
 }
 
+static uchar pl011_kgetc(void)
+{
+	volatile struct pl011_uart_csreg *regptr = (volatile struct pl011_uart_csreg *)(PL011_REGS_BASE);
+	while (regptr->fr & PL011_FR_RXFE)
+	{
+
+	}
+
+	return regptr->dr;
+}
+
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /*
@@ -124,7 +136,14 @@ void nulluser(void)
 	unparkcore(2, (void *) createnullthread);
 	unparkcore(3, (void *) createnullthread);
 */
+#if 0
+	kprintf("PL011_REGS_BASE == 0x%08X\r\n", PL011_REGS_BASE);
 
+	uchar input;
+	kprintf("enter a char: ");
+	input = pl011_kgetc();
+	kprintf("\r\nreceived %c\r\n", input);
+#endif
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
 
