@@ -21,7 +21,6 @@ void print_os_info(void);
 thread main(void)
 {
 #if HAVE_SHELL
-	kprintf("HAVE_SHELL == TRUE\r\n");
 	int shelldevs[4][3];
 	uint nshells = 0;
 #endif
