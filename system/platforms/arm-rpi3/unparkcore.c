@@ -12,6 +12,10 @@ void printcpsr(void);
 /* array for holding the address of the starting point for each core */
 void *corestart[4];
 
+/* array for holding the initial stack pointer for each core */
+/* these values are set in start.S */
+unsigned int core_init_sp[4];
+
 void unparkcore(int num, void *procaddr) {
 	if (num > 0 && num < 4)
 	{
