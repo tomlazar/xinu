@@ -9,6 +9,7 @@
 #include <rpi_gpio.h>
 #include "../../../device/uart-pl011/pl011.h"
 #include <mmu.h>
+#include <random.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -191,6 +192,6 @@ int platforminit(void)
 	bcm2837_power_init(); 
 //	pl011_init();
 	mmu_init();
-
+	random_init();
 	return OK;
 }

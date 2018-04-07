@@ -42,6 +42,9 @@ C_FILES += xsh_nvram.c
 # XXX Hack for raspberry pi development, remove this
 C_FILES += xsh_kexec.c
 
+# XXX Used for raspberry pi 3 development to test random number generator
+C_FILES += xsh_random.c
+
 # USB commands (could be made conditional on USB support if the build system
 # were to support it...)
 C_FILES += xsh_usbinfo.c

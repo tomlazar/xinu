@@ -35,6 +35,8 @@ CoreSetup:
 	ldr		r2, =corestart
 	ldr		pc, [r2, r4]	
 
+
+/* Send EVent routine so we can use it in C code.. (unparkcore.c) */
 .globl sev
 sev:
 	.func sev

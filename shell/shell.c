@@ -62,7 +62,14 @@ const struct centry commandtab[] = {
 #if NETHER
     {"ping", FALSE, xsh_ping},
     {"pktgen", FALSE, xsh_pktgen},
-    {"rdate", FALSE, xsh_rdate},
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	{"random", TRUE, xsh_random},
+#endif
+
+#if NETHER
+	{"rdate", FALSE, xsh_rdate},
 #endif
     {"reset", FALSE, xsh_reset},
 #if NETHER

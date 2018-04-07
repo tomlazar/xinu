@@ -27,6 +27,9 @@
 *.boot
 *.bin
 
+# Temporary swap files (from open Vim windows)
+*.swp
+
 # Xinu build files
 compile/config/config
 compile/config/y.tab.h
