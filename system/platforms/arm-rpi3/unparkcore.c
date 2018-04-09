@@ -16,10 +16,13 @@ void *corestart[4];
 /* these values are set in start.S */
 unsigned int core_init_sp[4];
 
-void unparkcore(int num, void *procaddr) {
+void *init_args[4];
+
+void unparkcore(int num, void *procaddr, void *args) {
 	if (num > 0 && num < 4)
 	{
 		corestart[num] = (void *) procaddr;
+		init_args[num] = args;
 		sev();	// send event
 				// this takes the core out of its sleeping state and allows it to
 				// start running code

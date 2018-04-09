@@ -7,7 +7,18 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#include <core.h>
+extern unsigned int getcpuid(void);
+extern void udelay(uint);
+static void test(void *ar)
+{
+	int i = (int) ar;
+	udelay(250);
+	kprintf("Core %d, arg: %d\r\n", getcpuid(), i);
+	while (1) {}	
+}
+#endif
 /**
  * @ingroup shell
  *
@@ -21,6 +32,10 @@
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
-	printf("THIS IS A TEST.\n");
+	int i, a;
+	i = atoi(args[1]);
+	a = 69;
+	printf("Unparking core %d\n", i);
+	unparkcore(atoi(args[1]), (void *) test, (void *) a);
 	return 0;
 }

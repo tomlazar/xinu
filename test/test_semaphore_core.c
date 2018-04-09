@@ -1,11 +1,12 @@
 #include <core.h>
 #include <mmu.h>
+#include <stddef.h>
 
 void led_test(void);
 
 extern void createnullthread(void);
 
-extern void init_led(void);
+extern void led_init(void);
 extern void led_on(void);
 extern void led_off(void);
 extern void udelay(unsigned int);
@@ -13,15 +14,15 @@ extern void udelay(unsigned int);
 
 void testallcores(void)
 {
-	unparkcore(1, (void *)createnullthread);
-	unparkcore(2, (void *)createnullthread);
-	unparkcore(3, (void *)createnullthread);
+	unparkcore(1, (void *)createnullthread, NULL);
+	unparkcore(2, (void *)createnullthread, NULL);
+	unparkcore(3, (void *)createnullthread, NULL);
 	led_test();
 }
 
 void led_test()
 {
-	init_led();
+	led_init();
 	led_off();
 	while(1)
 	{
