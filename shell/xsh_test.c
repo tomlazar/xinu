@@ -11,11 +11,19 @@
 #include <core.h>
 extern unsigned int getcpuid(void);
 extern void udelay(uint);
+
+struct test_args
+{
+	int a;
+	int b;	
+};
+
 static void test(void *ar)
 {
-	int i = (int) ar;
-	udelay(250);
-	kprintf("Core %d, arg: %d\r\n", getcpuid(), i);
+	struct test_args *i = (struct test_args *) ar;
+	udelay(1);
+	kprintf("\r\nCore %d, arg: %d, %d\r\n", getcpuid(), i->a, i->b);
+	free(i);
 	while (1) {}	
 }
 #endif
@@ -32,9 +40,11 @@ static void test(void *ar)
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
-	int i, a;
+	struct test_args *a = (struct test_args *) malloc(sizeof(struct test_args));
+	int i;
 	i = atoi(args[1]);
-	a = 69;
+	a->a = atoi(args[2]);
+	a->b = atoi(args[3]);
 	printf("Unparking core %d\n", i);
 	unparkcore(atoi(args[1]), (void *) test, (void *) a);
 	return 0;
