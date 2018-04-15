@@ -9,7 +9,8 @@ void random_init()
 	while(!((*RNG_STATUS)>>24)) asm volatile("nop");
 }
 
-unsigned int random(unsigned int min, unsigned int max)
+unsigned int random()
 {
-	return *RNG_DATA % (max - min) + min;
+//	return *RNG_DATA % (max - min) + min;
+	return (unsigned int) *RNG_DATA;
 }

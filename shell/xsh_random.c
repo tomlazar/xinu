@@ -51,7 +51,7 @@ shellcmd xsh_random(int nargs, char *args[])
 		max = DEFAULT_MAX;
 	}
 
-	rand = random(min, max);
+	rand = random() % (max - min) + min;
 	printf("%u\n", rand);
 	return SHELL_OK;
 #else

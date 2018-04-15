@@ -28,7 +28,8 @@ C_FILES = setupStack.c       \
 		  watchdog.c		 \
 		  unparkcore.c		 \
 		  mmu.c				 \
-		  random.c
+		  random.c			 \
+		  des.c
 
 # Add the files to the compile source path
 					DIR = ${TOPDIR}/${COMP}

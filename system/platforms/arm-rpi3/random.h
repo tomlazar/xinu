@@ -9,6 +9,6 @@
 #define RNG_INT_MASK    ((volatile unsigned int*)(PERIPHERALS_BASE+0x00104010))
 
 extern void random_init(void);
-extern unsigned int random(unsigned int, unsigned int);
+extern unsigned int random(void);
 
 #endif 	/* _RANDOM_H_ */
