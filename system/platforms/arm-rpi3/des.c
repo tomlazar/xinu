@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-
+#include <clock.h>
 #include "des.h"
 #include "random.h"
 
@@ -322,6 +322,9 @@ void rounds(uint64_t *data, uint64_t key)
 
 void genkey(uint64_t *key)
 {
+
+	srand(clkcount());
+
 	int ii, jj;
 	int parity_bit = 0;
 	// generate key
@@ -336,7 +339,7 @@ void genkey(uint64_t *key)
 		}
 		else
 		{
-			if (random() % 2 == 1)
+			if (rand() % 2 == 1)
 			{
 				*key += (FIRSTBIT >> ii);
 				parity_bit = parity_bit == 0 ? 1 : 0;
@@ -421,7 +424,7 @@ void des_encrypt(char *in, int isize, char *out, uint64_t key)
 		data = input[block];
 		Permutation(&data, TRUE);
 
-		for (i = 15; i >= 0; i--)
+		for (i = 0; i < 16; i++)
 			rounds(&data, a_key[i]);
 
 		/* final permutation */
@@ -481,7 +484,7 @@ void des_decrypt(char *in, int isize, char *out, uint64_t key)
 		/* switching blocks */
 		data = (data << 32) + (data >> 32);
 
-		for (i = 0; i < 16; i++)
+		for (i = 15; i >= 0; i--)
 			rounds(&data, a_key[i]);
 
 		/* switching blocks back */

@@ -11,8 +11,8 @@
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #include <core.h>
 #include <des.h>
+#include <clock.h>
 extern unsigned int getcpuid(void);
-extern void udelay(uint);
 
 struct test_args
 {
@@ -52,7 +52,7 @@ shellcmd xsh_test(int nargs, char *args[])
 	unparkcore(atoi(args[1]), (void *) test, (void *) a);
 	return 0;
 #endif
-	int i;
+	int i, a, b;
 
 	char msg[16] = "Hello_World1234";
 	char cipher[16];	
@@ -82,8 +82,12 @@ shellcmd xsh_test(int nargs, char *args[])
 	}
 	printf("\n\n");
 
+	a = clkcount();
 	des_decrypt(cipher, 16, d, key);
+	b = clkcount();
 	printf("decrypted message: %s\n", d);
+
+	printf("\nb - a = %d\n", b - a);
 
 	return 0;
 }
