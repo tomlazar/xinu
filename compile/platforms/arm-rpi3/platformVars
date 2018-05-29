@@ -30,7 +30,7 @@ APPCOMPS :=	test	    \
 # Embedded Xinu device drivers to build into the kernel image
 DEVICES  := uart-pl011      \
             tty	        	\
-#           usb             \
+            usb             \
 #           smsc9512        \
 #       	ethloop         \
 #           raw             \

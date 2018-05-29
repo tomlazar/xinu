@@ -476,100 +476,100 @@ void
 usb_print_device_descriptor(const struct usb_device *dev,
 		const struct usb_device_descriptor *desc)
 {
-	kprintf("    [Device Descriptor]\r\n");
-	kprintf("    bLength:             %u\r\n", desc->bLength);
-	kprintf("    bDescriptorType:     0x%02x (Device)\r\n", desc->bDescriptorType);
-	kprintf("    bcdUSB:              0x%02x (USB %s compliant)\r\n",
+	printf("    [Device Descriptor]\n");
+	printf("    bLength:             %u\n", desc->bLength);
+	printf("    bDescriptorType:     0x%02x (Device)\n", desc->bDescriptorType);
+	printf("    bcdUSB:              0x%02x (USB %s compliant)\n",
 			desc->bcdUSB, usb_bcd_version_to_string(desc->bcdUSB));
-	kprintf("    bDeviceClass:        0x%02x (%s)\r\n",
+	printf("    bDeviceClass:        0x%02x (%s)\n",
 			desc->bDeviceClass, usb_class_code_to_string(desc->bDeviceClass));
-	kprintf("    bDeviceSubClass:     0x%02x\r\n", desc->bDeviceSubClass);
-	kprintf("    bDeviceProtocol:     0x%02x\r\n", desc->bDeviceProtocol);
-	kprintf("    bMaxPacketSize0:     %u\r\n", desc->bMaxPacketSize0);
-	kprintf("    idVendor:            0x%04x\r\n", desc->idVendor);
-	kprintf("    idProduct:           0x%04x\r\n", desc->idProduct);
-	kprintf("    iManufacturer:       %u\r\n", desc->iManufacturer);
+	printf("    bDeviceSubClass:     0x%02x\n", desc->bDeviceSubClass);
+	printf("    bDeviceProtocol:     0x%02x\n", desc->bDeviceProtocol);
+	printf("    bMaxPacketSize0:     %u\n", desc->bMaxPacketSize0);
+	printf("    idVendor:            0x%04x\n", desc->idVendor);
+	printf("    idProduct:           0x%04x\n", desc->idProduct);
+	printf("    iManufacturer:       %u\n", desc->iManufacturer);
 	if (dev->manufacturer[0] != '\0')
 	{
-		kprintf("        (%s)\r\n", dev->manufacturer);
+		printf("        (%s)\n", dev->manufacturer);
 	}
-	kprintf("    iProduct:            %u\r\n", desc->iProduct);
+	printf("    iProduct:            %u\n", desc->iProduct);
 	if (dev->product[0] != '\0')
 	{
-		kprintf("        (%s)\r\n", dev->product);
+		printf("        (%s)\n", dev->product);
 	}
-	kprintf("    iSerialNumber:       %u\r\n", desc->iSerialNumber);
-	kprintf("    bNumConfigurations:  %u\r\n", desc->bNumConfigurations);
-	//    putchar('\n');
+	printf("    iSerialNumber:       %u\n", desc->iSerialNumber);
+	printf("    bNumConfigurations:  %u\n", desc->bNumConfigurations);
+	putchar('\n');
 }
 
 static void
 usb_print_configuration_descriptor(const struct usb_device *dev,
 		const struct usb_configuration_descriptor *desc)
 {
-	kprintf("        [Configuration Descriptor]\r\n");
-	kprintf("        bLength:             %u\r\n", desc->bLength);
-	kprintf("        bDescriptorType:     0x%02x (Configuration)\r\n",
+	printf("        [Configuration Descriptor]\n");
+	printf("        bLength:             %u\n", desc->bLength);
+	printf("        bDescriptorType:     0x%02x (Configuration)\n",
 			desc->bDescriptorType);
-	kprintf("        wTotalLength:        %u\r\n", desc->wTotalLength);
-	kprintf("        bNumInterfaces:      %u\r\n", desc->bNumInterfaces);
-	kprintf("        bConfigurationValue: %u\r\n", desc->bConfigurationValue);
-	kprintf("        iConfiguration:      %u\r\n", desc->iConfiguration);
-	kprintf("        bmAttributes:        0x%02x\r\n", desc->bmAttributes);
+	printf("        wTotalLength:        %u\n", desc->wTotalLength);
+	printf("        bNumInterfaces:      %u\n", desc->bNumInterfaces);
+	printf("        bConfigurationValue: %u\n", desc->bConfigurationValue);
+	printf("        iConfiguration:      %u\n", desc->iConfiguration);
+	printf("        bmAttributes:        0x%02x\n", desc->bmAttributes);
 	if (desc->bmAttributes & USB_CONFIGURATION_ATTRIBUTE_SELF_POWERED)
 	{
-		kprintf("            (Self powered)\r\n");
+		printf("            (Self powered)\n");
 	}
 	if (desc->bmAttributes & USB_CONFIGURATION_ATTRIBUTE_REMOTE_WAKEUP)
 	{
-		kprintf("            (Remote wakeup)\r\n");
+		printf("            (Remote wakeup)\n");
 	}
-	kprintf("        bMaxPower:           %u (%u mA)\r\n",
+	printf("        bMaxPower:           %u (%u mA)\n",
 			desc->bMaxPower, desc->bMaxPower * 2);
-//	putchar('\n');
-	kprintf("\r\n");
+	putchar('\n');
+//	kprintf("\r\n");
 }
 
 static void
 usb_print_interface_descriptor(const struct usb_device *dev,
 		const struct usb_interface_descriptor *desc)
 {
-	kprintf("            [Interface Descriptor]\r\n");
-	kprintf("            bLength:             %u\r\n", desc->bLength);
-	kprintf("            bDescriptorType:     0x%02x (Interface)\r\n", desc->bDescriptorType);
-	kprintf("            bInterfaceNumber:    %u\r\n", desc->bInterfaceNumber);
-	kprintf("            bAlternateSetting:   %u\r\n", desc->bAlternateSetting);
-	kprintf("            bNumEndpoints:       %u\r\n", desc->bNumEndpoints);
-	kprintf("            bInterfaceClass:     0x%02x (%s)\r\n", desc->bInterfaceClass,
+	printf("            [Interface Descriptor]\n");
+	printf("            bLength:             %u\n", desc->bLength);
+	printf("            bDescriptorType:     0x%02x (Interface)\n", desc->bDescriptorType);
+	printf("            bInterfaceNumber:    %u\n", desc->bInterfaceNumber);
+	printf("            bAlternateSetting:   %u\n", desc->bAlternateSetting);
+	printf("            bNumEndpoints:       %u\n", desc->bNumEndpoints);
+	printf("            bInterfaceClass:     0x%02x (%s)\n", desc->bInterfaceClass,
 			usb_class_code_to_string(desc->bInterfaceClass));
-	kprintf("            bInterfaceSubClass:  0x%02x\r\n", desc->bInterfaceSubClass);
-	kprintf("            bInterfaceProtocol:  0x%02x\r\n", desc->bInterfaceProtocol);
-	kprintf("            iInterface:          %u\r\n", desc->iInterface);
-//	putchar('\n');
-	kprintf("\r\n");
+	printf("            bInterfaceSubClass:  0x%02x\n", desc->bInterfaceSubClass);
+	printf("            bInterfaceProtocol:  0x%02x\n", desc->bInterfaceProtocol);
+	printf("            iInterface:          %u\n", desc->iInterface);
+	putchar('\n');
+//	kprintf("\r\n");
 }
 
 static void
 usb_print_endpoint_descriptor(const struct usb_device *dev,
 		const struct usb_endpoint_descriptor *desc)
 {
-	kprintf("                [Endpoint Descriptor]\r\n");
-	kprintf("                bLength:             %u\r\n", desc->bLength);
-	kprintf("                bDescriptorType:     0x%02x (Endpoint)\r\n", desc->bDescriptorType);
-	kprintf("                bEndpointAddress:    0x%02x (Number %u, %s)\r\n",
+	printf("                [Endpoint Descriptor]\n");
+	printf("                bLength:             %u\n", desc->bLength);
+	printf("                bDescriptorType:     0x%02x (Endpoint)\n", desc->bDescriptorType);
+	printf("                bEndpointAddress:    0x%02x (Number %u, %s)\n",
 			desc->bEndpointAddress, desc->bEndpointAddress & 0xf,
 			((desc->bEndpointAddress >> 7) ? "IN" : "OUT"));
-	kprintf("                bmAttributes:        0x%02x (%s endpoint)\r\n",
+	printf("                bmAttributes:        0x%02x (%s endpoint)\n",
 			desc->bmAttributes,
 			((desc->bmAttributes & 0x3) == USB_TRANSFER_TYPE_CONTROL ? "control" :
 			 (desc->bmAttributes & 0x3) == USB_TRANSFER_TYPE_ISOCHRONOUS ? "isochronous" :
 			 (desc->bmAttributes & 0x3) == USB_TRANSFER_TYPE_BULK ? "bulk" :
 			 "interrupt"));
-	kprintf("                wMaxPacketSize:      0x%02x (max packet size %u bytes)\r\n",
+	printf("                wMaxPacketSize:      0x%02x (max packet size %u bytes)\n",
 			desc->wMaxPacketSize, desc->wMaxPacketSize & 0x7ff);
-	kprintf("                bInterval:           %u\r\n", desc->bInterval);
-//	putchar('\n');
-	kprintf("\r\n");
+	printf("                bInterval:           %u\n", desc->bInterval);
+	putchar('\n');
+//	kprintf("\r\n");
 }
 
 static void
@@ -594,12 +594,12 @@ usb_print_configuration(const struct usb_device *dev)
 static usb_status_t
 usbinfo_device_callback(struct usb_device *dev)
 {
-	kprintf("[USB Device %03u]\r\n", dev->address);
+	printf("[USB Device %03u]\n", dev->address);
 	usb_print_device_descriptor(dev, &dev->descriptor);
 	usb_print_configuration(dev);
 
-//	putchar('\n');
-	kprintf("\r\n");
+	putchar('\n');
+//	kprintf("\r\n");
 	return USB_STATUS_SUCCESS;
 }
 
@@ -620,23 +620,23 @@ usbinfo_tree_callback(struct usb_device *dev)
 			{
 				putchar(' ');
 			}
-//			putchar('|');
-//			putchar('\n');
-			kprintf("|\r\n");
+			putchar('|');
+			putchar('\n');
+//			kprintf("|\r\n");
 		}
 		for (i = 0; i < n; i++)
 		{
-//			putchar(' ');
-			kprintf(" ");
+			putchar(' ');
+//			kprintf(" ");
 		}
 		for (i = 0; i < USBINFO_TREE_SPACES_PER_LEVEL; i++)
 		{
-//			putchar('-');
-			kprintf("-");
+			putchar('-');
+//			kprintf("-");
 		}
 	}
-//	printf("%03u [%s]\n", dev->address, usb_device_description(dev));
-	kprintf("%03u [%s]\r\n", dev->address, usb_device_description(dev));
+	printf("%03u [%s]\n", dev->address, usb_device_description(dev));
+//	kprintf("%03u [%s]\r\n", dev->address, usb_device_description(dev));
 	return USB_STATUS_SUCCESS;
 }
 
@@ -661,8 +661,8 @@ syscall usbinfo(void)
 
 	if (root_hub == NULL)
 	{
-//		fprintf(stderr, "USB subsystem not initialized.\n");
-		kprintf("USB subsystem not initialized.\r\n");
+		fprintf(stderr, "USB subsystem not initialized.\n");
+//		kprintf("USB subsystem not initialized.\r\n");
 		return SYSERR;
 	}
 
@@ -674,8 +674,8 @@ syscall usbinfo(void)
 	usb_lock_bus();
 	usb_hub_for_device_in_tree(root_hub, usbinfo_device_callback);
 
-//	printf("\nDiagram of USB:\n\n");
-	kprintf("\r\nDiagram of USB:\r\n\r\n");
+	printf("\nDiagram of USB:\n\n");
+//	kprintf("\r\nDiagram of USB:\r\n\r\n");
 	usb_hub_for_device_in_tree(root_hub, usbinfo_tree_callback);
 	usb_unlock_bus();
 	return OK;
