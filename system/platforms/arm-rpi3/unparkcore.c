@@ -2,6 +2,7 @@
 #include <thread.h>
 #include <core.h>
 #include <mmu.h>
+#include <clock.h>
 
 extern void CoreSetup(void) __attribute__((naked));
 typedef void (*fn)(void);

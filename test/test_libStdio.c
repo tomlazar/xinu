@@ -9,8 +9,8 @@
 #define TEST_STR "75 113 4b K ABC"
 #define TEST_STR_LEN (sizeof(TEST_STR) - 1)
 
-static bool do_detailed_fprintf_tests(bool verbose, bool passed);
-static bool do_detailed_fscanf_tests(bool verbose, bool passed);
+extern bool do_detailed_fprintf_tests(bool verbose, bool passed);
+extern bool do_detailed_fscanf_tests(bool verbose, bool passed);
 
 /**
  * Tests the stdio.h header in the Xinu Standard Library.

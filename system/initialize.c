@@ -10,6 +10,10 @@
 #include <platform.h>
 #include <stdint.h>
 
+#ifdef WITH_USB
+	#include <usb_subsystem.h>
+#endif
+
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */

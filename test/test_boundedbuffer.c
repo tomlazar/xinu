@@ -18,14 +18,12 @@
 
 #define	BUFFER_SIZE	10
 
+void test_boundedbuffer(void);
 extern void unparkcore(unsigned int, void *);
 extern void led_test(void);
-
 extern void udelay(unsigned long);
-
 extern void pld(unsigned int *);
 extern void dsb(void);
-
 static void producer(void);
 static void consumer(void);
 static void print_bb_status(void);
@@ -34,10 +32,9 @@ static void print_bb_status(void);
  * and dont interfere with any other variable names, just in case */
 static mutex_t bb_mutex = UNLOCKED;
 
-static int buffer[BUFFER_SIZE];
-static int in  = 0;
-static int out = 0;
-
+static unsigned int buffer[BUFFER_SIZE];
+static unsigned int in  = 0;
+static unsigned int out = 0;
 
 void test_boundedbuffer()
 {
@@ -100,6 +97,7 @@ static void consumer()
 		mutex_acquire(&bb_mutex);
 		
 		consumed = buffer[out];
+		consumed += 1;
 		out = (out + 1) % BUFFER_SIZE;
 
 		// for cache coherency issue mentioned above..

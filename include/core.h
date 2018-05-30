@@ -10,6 +10,8 @@
 #define CORE_MBOX_BASE      0x4000008C
 #define CORE_MBOX_OFFSET    0x10
 
+extern unsigned int getmode(void);
+extern unsigned int getcpuid(void);
 extern unsigned int core_init_sp[];
 extern void unparkcore(int, void *, void *);
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
