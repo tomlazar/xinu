@@ -198,12 +198,20 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
         if (NULL != hostptr)
         {
-            printf("@%s$ ", hostptr);
-        }
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	    printf("@%s$ \033[0;39m", hostptr);
+#else
+	    printf("@%s$ ", hostptr);
+#endif
+	}
         else
         {
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	    printf("$ \033[0;39m");
+#else
             printf("$ ");
-        }
+#endif
+	}
 
         /* Setup proper tty modes for input and output */
         control(stdin, TTY_CTRL_CLR_IFLAG, TTY_IRAW, NULL);

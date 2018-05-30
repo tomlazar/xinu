@@ -11,8 +11,11 @@
 #include <shell.h> /* for banner */
 #include <kernel.h>
 
-// XXX HACK changed it from the 2837, fix this later
+#if defined(_XINU_PLATFORM_ARM_RPI_3_)
 #include <bcm2837.h>
+#elif defined (_XINU_PLATFORM_ARM_RPI_)
+#include <bcm2835.h>
+#endif
 
 int rows;
 int cols;
