@@ -32,9 +32,13 @@ CoreSetup:
 	bl		start_mmu
 
 	/* corestart array of addresses for the instruction for each core to execute once setup is done */
+	ldr		r0, =init_args
+	ldr		r0, [r0, r4]
 	ldr		r2, =corestart
 	ldr		pc, [r2, r4]	
 
+
+/* Send EVent routine so we can use it in C code.. (unparkcore.c) */
 .globl sev
 sev:
 	.func sev

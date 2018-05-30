@@ -216,7 +216,7 @@ dwc_power_on(void)
     int retval;
 
     usb_info("Powering on Synopsys DesignWare Hi-Speed "
-             "USB 2.0 On-The-Go Controller\n");
+             "USB 2.0 On-The-Go Controller\r\n");
     retval = board_setpower(POWER_USB, TRUE);
     return (retval == OK) ? USB_STATUS_SUCCESS : USB_STATUS_HARDWARE_ERROR;
 }
@@ -225,7 +225,7 @@ static void
 dwc_power_off(void)
 {
     usb_info("Powering off Synopsys DesignWare Hi-Speed "
-             "USB 2.0 On-The-Go Controller\n");
+             "USB 2.0 On-The-Go Controller\r\n");
     board_setpower(POWER_USB, FALSE);
 }
 
@@ -238,7 +238,7 @@ dwc_power_off(void)
 static void
 dwc_soft_reset(void)
 {
-    usb_debug("Resetting USB controller\n");
+    usb_debug("Resetting USB controller\r\n");
 
     /* Set soft reset flag, then wait until it's cleared.  */
     regs->core_reset = DWC_SOFT_RESET;
@@ -269,8 +269,8 @@ dwc_setup_dma_mode(void)
      * receiving data will fail in virtually impossible to debug ways that cause
      * memory corruption.  This is true even though we are using DMA and not
      * otherwise interacting with the Host Controller's FIFOs in this driver. */
-    usb_debug("%u words of RAM available for dynamic FIFOs\n", regs->hwcfg3 >> 16);
-    usb_debug("original FIFO sizes: rx 0x%08x,  tx 0x%08x, ptx 0x%08x\n",
+    usb_debug("%u words of RAM available for dynamic FIFOs\r\n", regs->hwcfg3 >> 16);
+    usb_debug("original FIFO sizes: rx 0x%08x,  tx 0x%08x, ptx 0x%08x\r\n",
               regs->rx_fifo_size, regs->nonperiodic_tx_fifo_size,
               regs->host_periodic_tx_fifo_size);
     regs->rx_fifo_size = rx_words;
@@ -310,7 +310,7 @@ dwc_power_on_host_port(void)
 {
     union dwc_host_port_ctrlstatus hw_status;
 
-    usb_debug("Powering on host port.\n");
+    usb_debug("Powering on host port.\r\n");
     hw_status = dwc_get_host_port_ctrlstatus();
     hw_status.powered = 1;
     regs->host_port_ctrlstatus = hw_status;
@@ -325,7 +325,7 @@ dwc_reset_host_port(void)
 {
     union dwc_host_port_ctrlstatus hw_status;
 
-    usb_debug("Resetting host port\n");
+    usb_debug("Resetting host port\r\n");
 
     /* Set the reset flag on the port, then clear it after a certain amount of
      * time.  */
@@ -469,7 +469,7 @@ dwc_host_port_status_changed(void)
     {
         root_hub_status_change_request = NULL;
         usb_debug("Host port status changed; "
-                  "responding to status changed transfer on root hub\n");
+                  "responding to status changed transfer on root hub\r\n");
         *(uint8_t*)req->recvbuf = 0x2; /* 0x2 means Port 1 status changed (bit 0 is
                                      used for the hub itself) */
         req->actual_size = 1;
@@ -729,7 +729,7 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
     if (req->endpoint_desc == NULL)
     {
         /* Control transfer request to/from default control endpoint.  */
-        usb_debug("Simulating request to root hub's default endpoint\n");
+        usb_debug("Simulating request to root hub's default endpoint\r\n");
         req->status = dwc_root_hub_control_msg(req);
         usb_complete_xfer(req);
     }
@@ -737,7 +737,7 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
     {
         /* Interrupt transfer request from status change endpoint.  Assumes that
          * only one request can be submitted at a time.  */
-        usb_debug("Posting status change request to root hub\n");
+        usb_debug("Posting status change request to root hub\r\n");
         root_hub_status_change_request = req;
         if (host_port_status.wPortChange != 0)
         {
@@ -870,7 +870,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         switch (req->control_phase)
         {
             case 0: /* SETUP phase of control transfer */
-                usb_dev_debug(req->dev, "Starting SETUP transaction\n");
+                usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
                 data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
@@ -878,7 +878,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 break;
 
             case 1: /* DATA phase of control transfer */
-                usb_dev_debug(req->dev, "Starting DATA transactions\n");
+                usb_dev_debug(req->dev, "Starting DATA transactions\r\n");
                 characteristics.endpoint_direction =
                                         req->setup_data.bmRequestType >> 7;
                 /* We need to carefully take into account that we might be
@@ -900,7 +900,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 break;
 
             default: /* STATUS phase of control transfer */
-                usb_dev_debug(req->dev, "Starting STATUS transaction\n");
+                usb_dev_debug(req->dev, "Starting STATUS transaction\r\n");
                 /* The direction of the STATUS transaction is opposite the
                  * direction of the DATA transactions, or from device to host if
                  * there were no DATA transactions.  */
@@ -1036,12 +1036,12 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
      * can find it.  */
     channel_pending_xfers[chan] = req;
 
-    usb_dev_debug(req->dev, "Setting up transactions on channel %u:\n"
+    usb_dev_debug(req->dev, "Setting up transactions on channel %u:\r\n"
                   "\t\tmax_packet_size=%u, "
-                  "endpoint_number=%u, endpoint_direction=%s,\n"
-                  "\t\tlow_speed=%u, endpoint_type=%s, device_address=%u,\n\t\t"
+                  "endpoint_number=%u, endpoint_direction=%s,\r\n"
+                  "\t\tlow_speed=%u, endpoint_type=%s, device_address=%u,\r\n\t\t"
                   "size=%u, packet_count=%u, packet_id=%u, split_enable=%u, "
-                  "complete_split=%u\n",
+                  "complete_split=%u\r\n",
                   chan,
                   characteristics.max_packet_size,
                   characteristics.endpoint_number,
@@ -1108,7 +1108,7 @@ defer_xfer_thread(struct usb_xfer_request *req)
             irqmask im;
 
             usb_dev_debug(req->dev,
-                          "Waiting for start-of-frame\n");
+                          "Waiting for start-of-frame\r\n");
 
             im = disable();
             chan = dwc_get_free_channel();
@@ -1128,7 +1128,7 @@ defer_xfer_thread(struct usb_xfer_request *req)
 #endif /* START_SPLIT_INTR_TRANSFERS_ON_SOF */
         {
             usb_dev_debug(req->dev,
-                          "Waiting %u ms to start xfer again\n", interval_ms);
+                          "Waiting %u ms to start xfer again\r\n", interval_ms);
             sleep(interval_ms);
             chan = dwc_get_free_channel();
             dwc_channel_start_xfer(chan, req);
@@ -1171,13 +1171,13 @@ defer_xfer_thread(struct usb_xfer_request *req)
 static usb_status_t
 defer_xfer(struct usb_xfer_request *req)
 {
-    usb_dev_debug(req->dev, "Deferring transfer\n");
+    usb_dev_debug(req->dev, "Deferring transfer\r\n");
     if (SYSERR == req->deferer_thread_sema)
     {
         req->deferer_thread_sema = semcreate(0);
         if (SYSERR == req->deferer_thread_sema)
         {
-            usb_dev_error(req->dev, "Can't create semaphore\n");
+            usb_dev_error(req->dev, "Can't create semaphore\r\n");
             return USB_STATUS_OUT_OF_MEMORY;
         }
     }
@@ -1192,7 +1192,7 @@ defer_xfer(struct usb_xfer_request *req)
         {
             req->deferer_thread_tid = BADTID;
             usb_dev_error(req->dev,
-                          "Can't create thread to service periodic transfer\n");
+                          "Can't create thread to service periodic transfer\r\n");
             return USB_STATUS_OUT_OF_MEMORY;
         }
     }
@@ -1225,7 +1225,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
     uint packets_transferred = req->attempted_packets_remaining -
                                packets_remaining;
 
-    usb_dev_debug(req->dev, "%u packets transferred on channel %u\n",
+    usb_dev_debug(req->dev, "%u packets transferred on channel %u\r\n",
                   packets_transferred, chan);
 
     if (packets_transferred != 0)
@@ -1281,7 +1281,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             }
         }
 
-        usb_dev_debug(req->dev, "Calculated %u bytes transferred\n",
+        usb_dev_debug(req->dev, "Calculated %u bytes transferred\r\n",
                       bytes_transferred);
 
         /* Account for packets and bytes transferred  */
@@ -1304,7 +1304,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             {
                 usb_dev_error(req->dev, "transfer_completed flag not "
                               "set on channel %u as expected "
-                              "(interrupts=0x%08x, transfer=0x%08x).\n", chan,
+                              "(interrupts=0x%08x, transfer=0x%08x).\r\n", chan,
                               interrupts.val, chanptr->transfer.val);
                 return XFER_FAILED;
             }
@@ -1321,7 +1321,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             {
                 usb_dev_debug(req->dev,
                               "Starting next part of %u-byte transfer "
-                              "after short attempt of %u bytes\n",
+                              "after short attempt of %u bytes\r\n",
                               req->size, req->attempted_size);
                 req->complete_split = 0;
                 req->next_data_pid = chanptr->transfer.packet_id;
@@ -1362,7 +1362,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 
             /* Transfer is actually complete (or at least, it was an IN transfer
              * that completed with fewer bytes transferred than requested).  */
-            usb_dev_debug(req->dev, "Transfer completed on channel %u\n", chan);
+            usb_dev_debug(req->dev, "Transfer completed on channel %u\r\n", chan);
             return XFER_COMPLETE;
         }
         else
@@ -1375,7 +1375,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                 req->complete_split ^= 1;
             }
 
-            usb_dev_debug(req->dev, "Continuing transfer (complete_split=%u)\n",
+            usb_dev_debug(req->dev, "Continuing transfer (complete_split=%u)\r\n",
                           req->complete_split);
             return XFER_NEEDS_TRANS_RESTART;
         }
@@ -1392,13 +1392,13 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         {
             /* Start CSPLIT */
             req->complete_split = 1;
-            usb_dev_debug(req->dev, "Continuing transfer (complete_split=%u)\n",
+            usb_dev_debug(req->dev, "Continuing transfer (complete_split=%u)\r\n",
                           req->complete_split);
             return XFER_NEEDS_TRANS_RESTART;
         }
         else
         {
-            usb_dev_error(req->dev, "No packets transferred.\n");
+            usb_dev_error(req->dev, "No packets transferred.\r\n");
             return XFER_FAILED;
         }
     }
@@ -1421,9 +1421,9 @@ dwc_handle_channel_halted_interrupt(uint chan)
     union dwc_host_channel_interrupts interrupts = chanptr->interrupts;
     enum dwc_intr_status intr_status;
 
-    usb_debug("Handling channel %u halted interrupt\n"
+    usb_debug("Handling channel %u halted interrupt\r\n"
               "\t\t(interrupts pending: 0x%08x, characteristics=0x%08x, "
-              "transfer=0x%08x)\n",
+              "transfer=0x%08x)\r\n",
               chan, interrupts.val, chanptr->characteristics.val,
               chanptr->transfer.val);
 
@@ -1439,7 +1439,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
         /* An error occurred.  Complete the transfer immediately with an error
          * status.  */
         usb_dev_error(req->dev, "Transfer error on channel %u "
-                      "(interrupts pending: 0x%08x, packet_count=%u)\n",
+                      "(interrupts pending: 0x%08x, packet_count=%u)\r\n",
                       chan, interrupts.val, chanptr->transfer.packet_count);
         intr_status = XFER_FAILED;
     }
@@ -1448,7 +1448,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
         /* Restart transactions that fail sporatically due to frame overruns.
          * TODO: why does this happen?  */
         usb_dev_debug(req->dev, "Frame overrun on channel %u; "
-                      "restarting transaction\n", chan);
+                      "restarting transaction\r\n", chan);
         intr_status = XFER_NEEDS_TRANS_RESTART;
     }
     else if (interrupts.nyet_response_received)
@@ -1458,11 +1458,11 @@ dwc_handle_channel_halted_interrupt(uint chan)
          * received, restart the entire split transaction.  (Apparently, because
          * of frame overruns or some other reason it's possible for NYETs to be
          * issued indefinitely until the transaction is retried.)  */
-        usb_dev_debug(req->dev, "NYET response received on channel %u\n", chan);
+        usb_dev_debug(req->dev, "NYET response received on channel %u\r\n", chan);
         if (++req->csplit_retries >= 10)
         {
             usb_dev_debug(req->dev, "Restarting split transaction "
-                          "(CSPLIT tried %u times)\n", req->csplit_retries);
+                          "(CSPLIT tried %u times)\r\n", req->csplit_retries);
             req->complete_split = FALSE;
         }
         intr_status = XFER_NEEDS_TRANS_RESTART;
@@ -1473,7 +1473,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
          * send at this time.  Try again later.  Special case: if the NAK was
          * sent during a Complete Split transaction, restart with the Start
          * Split, not the Complete Split.  */
-        usb_dev_debug(req->dev, "NAK response received on channel %u\n", chan);
+        usb_dev_debug(req->dev, "NAK response received on channel %u\r\n", chan);
         intr_status = XFER_NEEDS_DEFERRAL;
         req->complete_split = FALSE;
     }
@@ -1575,7 +1575,7 @@ dwc_interrupt_handler(void)
     {
         /* Start of frame (SOF) interrupt occurred.  */
 
-        usb_debug("Received SOF intr (host_frame_number=0x%08x)\n",
+        usb_debug("Received SOF intr (host_frame_number=0x%08x)\r\n",
                   regs->host_frame_number);
         if ((regs->host_frame_number & 0x7) != 6)
         {
@@ -1632,7 +1632,7 @@ dwc_interrupt_handler(void)
 
         union dwc_host_port_ctrlstatus hw_status = regs->host_port_ctrlstatus;
 
-        usb_debug("Port interrupt detected: host_port_ctrlstatus=0x%08x\n",
+        usb_debug("Port interrupt detected: host_port_ctrlstatus=0x%08x\r\n",
                   hw_status.val);
 
         host_port_status.connected   = hw_status.connected;

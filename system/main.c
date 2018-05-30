@@ -20,14 +20,7 @@ void print_os_info(void);
  */
 thread main(void)
 {
-
-//	kprintf("NETHER: %d\r\n", NETHER);
-#ifdef WITH_USB
-	kprintf("WITH_USB\r\n");
-#endif
-
 #if HAVE_SHELL
-	kprintf("HAVE_SHELL == TRUE\r\n");
 	int shelldevs[4][3];
 	uint nshells = 0;
 #endif
@@ -135,7 +128,6 @@ thread main(void)
 		}
 	}
 #endif
-	kprintf("END OF MAIN()\r\n");
 	return 0;
 }
 
@@ -144,12 +136,6 @@ extern void _start(void);
 
 void print_os_info(void)
 {
-	/* Only the Pi 3 has multiple cores... */
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-	ulong cpuid;
-	cpuid = getcpuid();	
-	kprintf("Processor identification: 0x%08X\r\n", cpuid);
-#endif
 	kprintf(VERSION);
 	kprintf("\r\n\r\n");
 

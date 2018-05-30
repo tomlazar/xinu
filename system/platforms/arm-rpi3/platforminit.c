@@ -5,9 +5,11 @@
 
 #include <platform.h>
 #include <string.h>
-#include "bcm2837.h"
+#include <bcm2837.h>
+#include <rpi_gpio.h>
 #include "../../../device/uart-pl011/pl011.h"
 #include <mmu.h>
+#include <random.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -120,7 +122,7 @@ parse_atag_list(void)
 }
 
 #define GPFSEL1     (*(volatile unsigned *)(GPIO_REGS_BASE + 0x04))
-void pl011init(void)
+void pl011_init(void)
 {
 	int i;
 
@@ -147,7 +149,31 @@ void pl011init(void)
 
 	regptr->cr = PL011_CR_RXE | PL011_CR_TXE | PL011_CR_UARTEN;
 
-	regptr->lcrh |= PL011_LCRH_FEN;
+//	regptr->lcrh |= PL011_LCRH_FEN;
+}
+
+/**
+ * This code is irrelevant to Embedded Xinu and is only used as a means of testing on the RPI 3 boards
+ */
+/* Initialize GPIO pin 16 as an output */
+void led_init(void)
+{
+	volatile struct rpi_gpio_regs *regptr;
+	regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+	regptr->gpfsel[1] &= ~(7 << 18);
+	regptr->gpfsel[1] |=  (1 << 18);	
+}
+/* Set GPIO pin 16 to ON */
+void led_on(void)
+{	
+	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+	regptr->gpset[0] = 1 << 16;
+}
+/* Set GPIO pin 16 to OFF */
+void led_off(void)
+{	
+	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+	regptr->gpclr[0] = 1 << 16;
 }
 
 /**
@@ -164,8 +190,8 @@ int platforminit(void)
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
 //	parse_atag_list();
 	bcm2837_power_init(); 
-
+//	pl011_init();
 	mmu_init();
-
+	random_init();
 	return OK;
 }

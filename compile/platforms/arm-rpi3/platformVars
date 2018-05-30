@@ -23,14 +23,14 @@ DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
 # Embedded Xinu components to build into the kernel image
 APPCOMPS :=	test	    \
 			mailbox \
+			shell   \
+			apps    \
 			#network \
-			#apps    \
-			#shell
 
 # Embedded Xinu device drivers to build into the kernel image
 DEVICES  := uart-pl011      \
             tty	        	\
-#           usb             \
+            usb             \
 #           smsc9512        \
 #       	ethloop         \
 #           raw             \

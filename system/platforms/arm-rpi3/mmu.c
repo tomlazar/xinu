@@ -22,7 +22,7 @@ void mmu_init()
 	for (ra = 0; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x0 | 0x8);
-		if (ra == 0x3EF00000)
+		if (ra >= 0x3F000000)
 			break;	/* stop before IO peripherals, dont want cache on those... */
 	}
 

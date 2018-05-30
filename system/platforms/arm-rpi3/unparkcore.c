@@ -12,10 +12,17 @@ void printcpsr(void);
 /* array for holding the address of the starting point for each core */
 void *corestart[4];
 
-void unparkcore(int num, void *procaddr) {
+/* array for holding the initial stack pointer for each core */
+/* these values are set in start.S */
+unsigned int core_init_sp[4];
+
+void *init_args[4];
+
+void unparkcore(int num, void *procaddr, void *args) {
 	if (num > 0 && num < 4)
 	{
 		corestart[num] = (void *) procaddr;
+		init_args[num] = args;
 		sev();	// send event
 				// this takes the core out of its sleeping state and allows it to
 				// start running code

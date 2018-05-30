@@ -10,19 +10,6 @@
 #include <platform.h>
 #include <stdint.h>
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#include <bcm2837.h>
-#include <rpi_gpio.h>
-#include <core.h>
-#include <mmu.h>
-#endif /* _XINU_PLATFORM_ARM_RPI_3_ */
-
-#ifdef WITH_USB
-#  include <usb_subsystem.h>
-#endif
-
-extern void testmain(void);
-
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
@@ -43,39 +30,7 @@ tid_typ thrcurrent;             /* Id of currently running thread      */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
 ulong cpuid;                    /* Processor id                        */
 
-/* Raspberry Pi 3 array for initial stack pointer addresses for each core */
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-unsigned int core_init_sp[4];
-#endif
-
 struct platform platform;       /* Platform specific configuration     */
-
-
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
-extern void test_boundedbuffer(void);
-
-void init_led(void)
-{
-	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
-	regptr->gpfsel[1] &= ~(7 << 18);
-	regptr->gpfsel[1] |=  (1 << 18);
-}
-
-void led_on(void)
-{
-	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
-	regptr->gpset[0] = 1 << 16;
-}
-
-void led_off(void)
-{
-	volatile struct rpi_gpio_regs *regptr = (volatile struct rpi_gpio *)(GPIO_REGS_BASE);
-	regptr->gpclr[0] = 1 << 16;
-}
-
-
-#endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /*
  * Intializes the system and becomes the null thread.
@@ -98,32 +53,14 @@ void nulluser(void)
     kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
-	/* Print memory usage (located in system/main.c) */
-	print_os_info();
 
-	/*  Test all cores (located in test/test_semaphore_core.c) */
-//	testallcores();
-	
-//	test_boundedbuffer();
-
-	/* Call to test method (located in test/test_processcreation.c) */
-//	testmain();
 
 	/* Enable interrupts  */
-//	enable();	
+	enable();	
 	
 	/* Spawn the main thread  */
-//	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
-
-//	ready(create((void *) testmain, INITSTK, INITPRIO, "TEST", 0), RESCHED_YES);	
-
-	kprintf("unparking cores 1, 2, and 3...\r\n");
-
-	extern void createnullthread(void);
-	unparkcore(1, (void *) createnullthread);
-	unparkcore(2, (void *) createnullthread);
-	unparkcore(3, (void *) createnullthread);
-
+	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+		
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
 
