@@ -11,11 +11,13 @@
 #include <shell.h>
 #include <string.h>
 #include <ctype.h>
+#include <clock.h>
 
 #include <usb_core_driver.h>
 #include <usb_std_defs.h>
 
 extern struct usb_device usb_devices[];
+
 /**
  * @ingroup shell
  *
@@ -29,18 +31,30 @@ extern struct usb_device usb_devices[];
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
+	usb_status_t status1, status2;
 
-	int i;
-	for (i = 0; i < 32; i++)
-	{
-		if (usb_devices[i].inuse == 1)
-		{
-			printf("%d: depth     = %d\n", i, usb_devices[i].depth);
-			printf("%d: idProduct = 0x%04X\n", i, usb_devices[i].descriptor.idProduct);
-			printf("%d: idVendor  = 0x%04X\n", i, usb_devices[i].descriptor.idVendor);
-		}
-	}
+	struct usb_device *ud = usb_alloc_device(&usb_devices[0]);
+
+	struct usb_device_descriptor *desc =
+		(struct usb_device_descriptor *) malloc(sizeof(struct usb_device_descriptor));
+
+	status1 = usb_get_descriptor(ud, USB_DEVICE_REQUEST_GET_DESCRIPTOR, 
+							USB_BMREQUESTTYPE_DIR_IN |
+							USB_BMREQUESTTYPE_TYPE_STANDARD |
+							USB_BMREQUESTTYPE_RECIPIENT_DEVICE, 
+							USB_DESCRIPTOR_TYPE_DEVICE << 8, 0x0, 
+							desc, sizeof(struct usb_device_descriptor) );
+
+	status2 = usb_attach_device(ud);
+	
+	udelay(250);
+	
+	printf("usb_get_descriptor status: %d, %s\n", status1, usb_status_string(status1));
+	printf("usb_attach_device  status: %d, %s\n", status2, usb_status_string(status2));
+
+	udelay(250);
+
+	usb_free_device(ud);
 
 	return 0;
-
 }
