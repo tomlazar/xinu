@@ -535,7 +535,8 @@ usb_get_descriptor(struct usb_device *dev, uint8_t bRequest, uint8_t bmRequestTy
 
 /* Read a USB device's device descriptor, or a prefix of it, into
  * dev->descriptor.  */
-static usb_status_t
+// XXX static usb_status_t
+usb_status_t
 usb_read_device_descriptor(struct usb_device *dev, uint16_t maxlen)
 {
     /* Note: we do not really need to use usb_get_descriptor() here because we
