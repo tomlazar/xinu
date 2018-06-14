@@ -108,6 +108,7 @@ static volatile struct dwc_regs * const regs = (void*)DWC_REGS_BASE;
  */
 #define XFER_SCHEDULER_THREAD_PRIORITY 60
 
+//
 /** Name of USB transfer request scheduler thread.  */
 #define XFER_SCHEDULER_THREAD_NAME "USB scheduler"
 
@@ -166,6 +167,19 @@ static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
 static inline ulong first_set_bit(ulong word)
 {
     return 31 - __builtin_clz(word);
+}
+
+static void
+_memcpy(uint8_t *dest, uint8_t *source, uint32_t size)
+{
+	if (dest && source && size)
+	{
+		while (size)
+		{
+			*dest++ = *source++;
+			size--;
+		}
+	}
 }
 
 /**
@@ -501,7 +515,7 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
     {
         case USB_DEVICE_REQUEST_GET_STATUS:
             len = min(setup->wLength, sizeof(root_hub_device_status));
-            memcpy(req->recvbuf, &root_hub_device_status, len);
+            _memcpy(req->recvbuf, &root_hub_device_status, len);
             req->actual_size = len;
             return USB_STATUS_SUCCESS;
 
@@ -513,13 +527,13 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
             {
                 case USB_DESCRIPTOR_TYPE_DEVICE:
                     len = min(setup->wLength, root_hub_device_descriptor.bLength);
-                    memcpy(req->recvbuf, &root_hub_device_descriptor, len);
+                    _memcpy(req->recvbuf, &root_hub_device_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
                 case USB_DESCRIPTOR_TYPE_CONFIGURATION:
                     len = min(setup->wLength,
                               root_hub_configuration.configuration.wTotalLength);
-                    memcpy(req->recvbuf, &root_hub_configuration, len);
+                    _memcpy(req->recvbuf, &root_hub_configuration, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
                 case USB_DESCRIPTOR_TYPE_STRING:
@@ -529,7 +543,7 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
                         const struct usb_string_descriptor *desc =
                                 root_hub_strings[setup->wValue & 0xff];
                         len = min(setup->wLength, desc->bLength);
-                        memcpy(req->recvbuf, desc, len);
+                        _memcpy(req->recvbuf, desc, len);
                         req->actual_size = len;
                         return USB_STATUS_SUCCESS;
                     }
@@ -642,7 +656,7 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                 case USB_DESCRIPTOR_TYPE_HUB:
                     /* GetHubDescriptor (11.24.2) */
                     len = min(setup->wLength, root_hub_hub_descriptor.bDescLength);
-                    memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
+                    _memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
             }
@@ -664,7 +678,7 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                     /* GetPortStatus (11.24.2) */
                     if (setup->wLength >= sizeof(struct usb_port_status))
                     {
-                        memcpy(req->recvbuf, &host_port_status,
+                        _memcpy(req->recvbuf, &host_port_status,
                                sizeof(struct usb_port_status));
                         req->actual_size = sizeof(struct usb_port_status);
                         return USB_STATUS_SUCCESS;
@@ -1007,7 +1021,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-            memcpy(aligned_bufs[chan], data, transfer.size);
+            _memcpy(aligned_bufs[chan], data, transfer.size);
         }
     }
 
@@ -1250,7 +1264,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             /* Copy data from DMA buffer if needed */
             if (!IS_WORD_ALIGNED(req->cur_data_ptr))
             {
-                memcpy(req->cur_data_ptr,
+                _memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);

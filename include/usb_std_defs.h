@@ -148,13 +148,13 @@ struct usb_control_setup_data {
     uint16_t wValue;
     uint16_t wIndex;
     uint16_t wLength;
-} __attribute__((packed, aligned(8)));
+} __packed;
 
 /** Fields that begin every standard USB descriptor.  */
-struct usb_descriptor_header {
+struct __attribute__((__packed__, aligned(4))) usb_descriptor_header {
     uint8_t bLength;
     uint8_t bDescriptorType;
-} __attribute__((packed, aligned(2)));
+};
 
 /** Standard format of USB device descriptors.  See Table 9-8 in 9.6.1 of the
  * USB 2.0 specification.  */
@@ -173,7 +173,7 @@ struct usb_device_descriptor {
     uint8_t  iProduct;
     uint8_t  iSerialNumber;
     uint8_t  bNumConfigurations;
-} __attribute__((packed, aligned(32)));
+} __packed;
 
 /** Standard format of USB configuration descriptors.  See Table 9-10 in Section
  * 9.6.3 of the USB 2.0 specification.  */
@@ -186,7 +186,7 @@ struct usb_configuration_descriptor {
     uint8_t  iConfiguration;
     uint8_t  bmAttributes;
     uint8_t  bMaxPower;
-} __attribute__((packed, aligned(16)));
+} __packed;
 
 /* Values for bmAttributes in struct usb_configuration_descriptor */
 #define USB_CONFIGURATION_ATTRIBUTE_RESERVED_HIGH   0x80
@@ -206,7 +206,7 @@ struct usb_interface_descriptor {
     uint8_t bInterfaceSubClass;
     uint8_t bInterfaceProtocol;
     uint8_t iInterface;
-} __attribute__((packed, aligned(16)));
+} __packed;
 
 /** Standard format of USB endpoint descriptors.  See Table 9-13 in Section
  * 9.6.6 of the USB 2.0 specification.  */
@@ -217,7 +217,7 @@ struct usb_endpoint_descriptor {
     uint8_t bmAttributes;
     uint16_t wMaxPacketSize;
     uint8_t bInterval;
-} __attribute__((packed, aligned(8)));
+} __packed;
 
 /** Standard format of USB string descriptors.  See Table 9-16 in Section 9.7 of
  * the USB 2.0 specification.  */
@@ -226,7 +226,7 @@ struct usb_string_descriptor {
     uint8_t  bDescriptorType;
     uint16_t bString[]; /* UTF-16LE encoded string
                       (spec ambigiously just says "UNICODE") */
-} __attribute__((packed, aligned(4)));
+} __packed;
 
 #define USB_DEVICE_STATUS_SELF_POWERED  (1 << 0)
 #define USB_DEVICE_STATUS_REMOTE_WAKEUP (1 << 1)
@@ -236,7 +236,7 @@ struct usb_string_descriptor {
  * Documented in Section 9.4.6 of the USB 2.0 specification.  */
 struct usb_device_status {
     uint16_t wStatus;
-} __attribute__((packed, aligned(2)));
+} __packed;
 
 /**
  * Number of USB frames per millisecond.
