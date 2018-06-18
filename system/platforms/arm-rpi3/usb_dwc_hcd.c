@@ -1002,7 +1002,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     if (IS_WORD_ALIGNED(data))
     {
         /* Can DMA directly from source or to destination if word-aligned.  */
-        chanptr->dma_address = (uint32_t)data;
+        chanptr->dma_address = (uint32_t)data | 0xC0000000;
     }
     else
     {
@@ -1010,7 +1010,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan];
+        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -

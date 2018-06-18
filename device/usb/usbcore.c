@@ -506,7 +506,7 @@ usb_get_descriptor(struct usb_device *dev, uint8_t bRequest, uint8_t bmRequestTy
     {
         /* Get descriptor length.  */
         struct usb_descriptor_header hdr;
-
+	
         status = usb_control_msg(dev, NULL, bRequest, bmRequestType,
                                  wValue, wIndex, &hdr, sizeof(hdr));
         if (status != USB_STATUS_SUCCESS)
@@ -541,7 +541,8 @@ usb_read_device_descriptor(struct usb_device *dev, uint16_t maxlen)
 {
     /* Note: we do not really need to use usb_get_descriptor() here because we
      * never read more than the minimum length of the device descriptor.  */
-    return usb_control_msg(dev, NULL,
+    usb_debug("&dev->descriptor: 0x%08X\r\n", &dev->descriptor);
+	return usb_control_msg(dev, NULL,
                            USB_DEVICE_REQUEST_GET_DESCRIPTOR,
                            USB_BMREQUESTTYPE_DIR_IN |
                                USB_BMREQUESTTYPE_TYPE_STANDARD |
