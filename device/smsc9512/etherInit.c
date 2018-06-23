@@ -34,22 +34,6 @@ smsc9512_bind_device(struct usb_device *udev)
 {
     struct ether *ethptr;
 
-	kprintf("IN SMSC_BIND_DEVICE(): I am here.\r\n");
-
-	kprintf("IN SMSC_BIND_DEVICE(): printing out udev struct\r\n");
-/*	
- *	kprintf("udev->inuse= %c\r\n", udev->inuse == TRUE ? '1' : '0');
-	kprintf("udev->address= 0x%08X\r\n", udev->address);
-	kprintf("udev->depth= 0x%08X\r\n", udev->depth);
-	kprintf("udev->speed= 0x%08X\r\n", udev->speed);
-	kprintf("udev->configuration= 0x%08X\r\n", udev->configuration);
-	kprintf("udev->descriptor.idVendor= 0x%08X\r\n", udev->descriptor.idVendor);
-	kprintf("udev->descriptor.idProduct= 0x%08X\r\n", udev->descriptor.idProduct);
-	kprintf("udev->descriptor.iSerialNumber= 0x%08X\r\n", udev->descriptor.iSerialNumber);
-	kprintf("(udev->parent == NULL) = %s\r\n", (udev->parent == NULL) ? "TRUE" : "FALSE");
-*/
-	usb_print_device_descriptor(udev, &udev->descriptor);
-	kprintf ("Description: %s\r\n", usb_device_description(udev));
     /* Check if this is actually a SMSC LAN9512 by checking the USB device's
      * standard device descriptor, which the USB core already read into memory.
      * Also check to make sure the expected endpoints for sending/receiving
@@ -63,13 +47,6 @@ smsc9512_bind_device(struct usb_device *udev)
         (udev->endpoints[0][1]->bEndpointAddress >> 7) != USB_DIRECTION_OUT ||
         udev->speed != USB_SPEED_HIGH)
     {
-		if (udev->descriptor.idVendor != SMSC9512_VENDOR_ID)
-			kprintf("udev->descriptor.idVendor != VENDOR_ID\r\n");
-		if (udev->descriptor.idProduct != SMSC9512_PRODUCT_ID)
-			kprintf("udev->descriptor.idProduct != PRODUCT_ID\r\n");
-
-		kprintf("idVendor: 0x%08X, productID: 0x%08X\r\n", udev->descriptor.idVendor, udev->descriptor.idProduct);
-		kprintf("IN SMSC_BIND_DEVICE(): returning USB_DEVICE_UNSUPPORTED ERROR\r\n");
         return USB_STATUS_DEVICE_UNSUPPORTED;
     }
 
@@ -119,9 +96,6 @@ smsc9512_bind_device(struct usb_device *udev)
     ethptr->csr = udev;
     udev->driver_private = ethptr;
     signal(smsc9512_attached[ethptr - ethertab]);
-
-	kprintf("IN SMSC_BIND_DEVICE(): returning OK\r\n");	
-
     return USB_STATUS_SUCCESS;
 }
 
@@ -237,8 +211,6 @@ devcall etherInit(device *devptr)
     struct ether *ethptr;
     usb_status_t status;
 
-	kprintf("IN ETHERINIT(): I am here\r\n");
-
     /* Initialize the static `struct ether' for this device.  */
     ethptr = &ethertab[devptr->minor];
     bzero(ethptr, sizeof(struct ether));
@@ -249,7 +221,6 @@ devcall etherInit(device *devptr)
     ethptr->isema = semcreate(0);
     if (isbadsem(ethptr->isema))
     {
-		kprintf("IN ETHERINIT(): badsem(ethptr->isema)\r\n");
         goto err;
     }
 
@@ -257,7 +228,6 @@ devcall etherInit(device *devptr)
 
     if (isbadsem(smsc9512_attached[devptr->minor]))
     {
-		kprintf("IN ETHERINIT(): badsem(smsc9512_attached[devptr->minor])\r\n");
         goto err_free_isema;
     }
 
@@ -271,10 +241,8 @@ devcall etherInit(device *devptr)
     status = usb_register_device_driver(&smsc9512_driver);
     if (status != USB_STATUS_SUCCESS)
     {
-		kprintf("IN ETHERINIT(): usb_register_device_driver status not successful\r\n");
         goto err_free_attached_sema;
     }
-	kprintf("IN ETHERINIT(): returning OK\r\n");
     return OK;
 
 err_free_attached_sema:

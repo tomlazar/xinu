@@ -75,8 +75,7 @@
 
 /** Table of USB device structures that can be dynamically assigned to actual
  * devices as needed.  */
-/* XXX static struct usb_device usb_devices[MAX_NUSBDEV]; */
-struct usb_device usb_devices[MAX_NUSBDEV];
+static struct usb_device usb_devices[MAX_NUSBDEV];
 
 /** Table of USB device drivers that have been registered with the USB core. */
 static const struct usb_device_driver *usb_device_drivers[MAX_NUSBDEV];
@@ -203,8 +202,6 @@ usb_submit_xfer_request(struct usb_xfer_request *req)
     enum usb_direction dir;
 #endif
 
-	//kprintf("IN USB_SUBMIT_XFER_REQUEST(): I am here\r\n");
-
     irqmask im;
     usb_status_t status;
 
@@ -213,17 +210,7 @@ usb_submit_xfer_request(struct usb_xfer_request *req)
     {
         usb_error("Bad usb_xfer_request: no device or completion callback "
                   "function\r\n");
-		//kprintf("IN USB_SUBMIT_XFER_REQUEST(): invalid parameter(s)\r\n");
-			
-		if (!req)
-			kprintf("!req\r\n");
-		if (!req->dev)
-			kprintf("!req->dev\r\n");
-		if (!req->completion_cb_func)
-			kprintf("!req->completion_cb_func\r\n");	
-		if (!req->dev->inuse)
-			kprintf("!req->dev->inuse\r\n");
-
+		
         return USB_STATUS_INVALID_PARAMETER;
     }
 
@@ -411,8 +398,6 @@ usb_control_msg(struct usb_device *dev,
                 uint8_t bRequest, uint8_t bmRequestType,
                 uint16_t wValue, uint16_t wIndex, void *data, uint16_t wLength)
 {
-	//kprintf("IN USB_CONTROL_MSG(): I am here\r\n");
-
     usb_status_t status;
     struct usb_xfer_request *req;
     semaphore sem;
@@ -420,13 +405,11 @@ usb_control_msg(struct usb_device *dev,
     sem = semcreate(0);
     if (isbadsem(sem))
     {
-		//kprintf("IN USB_CONTROL_MSG(): bad semaphore created\r\n");
         return USB_STATUS_OUT_OF_MEMORY;
     }
     req = usb_alloc_xfer_request(wLength);
     if (req == NULL)
     {
-		//kprintf("IN USB_CONTROL_MSG(): usb_alloc_xfer_request() failed\r\n");
         semfree(sem);
         return USB_STATUS_OUT_OF_MEMORY;
     }
@@ -456,15 +439,9 @@ usb_control_msg(struct usb_device *dev,
             req->dev->last_error = status;
         }
     }
-	else
-	{
-		//kprintf("IN USB_CONTROL_MSG(): usb_submit_xfer_request status was not successful\r\n");
-		//kprintf("IN USB_CONTROL_MSG(): usb_submit_xfer_request returned %d\r\n", status);
-	}
     usb_free_xfer_request(req);
     semfree(sem);
   
-	//kprintf("USB_CONTROL_MSG() returning status %s\r\n", usb_status_string(status));
 	return status;
 }
 
@@ -535,13 +512,11 @@ usb_get_descriptor(struct usb_device *dev, uint8_t bRequest, uint8_t bmRequestTy
 
 /* Read a USB device's device descriptor, or a prefix of it, into
  * dev->descriptor.  */
-// XXX static usb_status_t
-usb_status_t
+static usb_status_t
 usb_read_device_descriptor(struct usb_device *dev, uint16_t maxlen)
 {
     /* Note: we do not really need to use usb_get_descriptor() here because we
      * never read more than the minimum length of the device descriptor.  */
-    usb_debug("&dev->descriptor: 0x%08X\r\n", &dev->descriptor);
 	return usb_control_msg(dev, NULL,
                            USB_DEVICE_REQUEST_GET_DESCRIPTOR,
                            USB_BMREQUESTTYPE_DIR_IN |
