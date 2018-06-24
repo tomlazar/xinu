@@ -1,3 +1,5 @@
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+
 #include <core.h>
 #include <mmu.h>
 #include <stddef.h>
@@ -33,3 +35,4 @@ void led_test()
 	}
 }
 
+#endif

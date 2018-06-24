@@ -108,6 +108,7 @@ static volatile struct dwc_regs * const regs = (void*)DWC_REGS_BASE;
  */
 #define XFER_SCHEDULER_THREAD_PRIORITY 60
 
+//
 /** Name of USB transfer request scheduler thread.  */
 #define XFER_SCHEDULER_THREAD_NAME "USB scheduler"
 
@@ -988,7 +989,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     if (IS_WORD_ALIGNED(data))
     {
         /* Can DMA directly from source or to destination if word-aligned.  */
-        chanptr->dma_address = (uint32_t)data;
+        chanptr->dma_address = (uint32_t)data | 0xC0000000;					/* convert ARM address to VC4 address */
     }
     else
     {
@@ -996,7 +997,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan];
+        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;	/* convert ARM address to VC4 address */	
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -

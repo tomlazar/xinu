@@ -16,7 +16,7 @@ void test_thr_core(void);
 void corejob_t1(void);
 void corejob_t2(void);
 void corejob_t3(void);
-
+void testmain(void);
 
 
 void testproc(void)

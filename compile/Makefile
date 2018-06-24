@@ -31,7 +31,7 @@ CFLAGS  += -c
 
 # Optimize for size.
 CFLAGS  += -Os
-
+#C_FLAGS += -O0
 # Enable most useful compiler warnings.
 CFLAGS  += -Wall
 
