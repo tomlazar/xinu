@@ -31,6 +31,7 @@ APPCOMPS :=	test	    \
 DEVICES  := uart-pl011      \
             tty	        	\
             usb             \
+			lan7800			\
 #           smsc9512        \
 #       	ethloop         \
 #           raw             \
