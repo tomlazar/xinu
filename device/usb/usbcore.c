@@ -75,7 +75,8 @@
 
 /** Table of USB device structures that can be dynamically assigned to actual
  * devices as needed.  */
-static struct usb_device usb_devices[MAX_NUSBDEV];
+// XXX change back to static
+struct usb_device usb_devices[MAX_NUSBDEV];
 
 /** Table of USB device drivers that have been registered with the USB core. */
 static const struct usb_device_driver *usb_device_drivers[MAX_NUSBDEV];

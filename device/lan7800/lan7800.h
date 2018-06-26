@@ -40,7 +40,7 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 {
 	uint32_t val = 0;
 	lan7800_read_reg(udev, index, &val);
-	kprintf("LAN7800: %s = 0x%08X\n", name, val);
+	kprintf("LAN7800: %s = 0x%08X\r\n", name, val);
 }
 
 #define lan7800_dump_reg(udev, index) __lan7800_dump_reg(udev, index, #index)

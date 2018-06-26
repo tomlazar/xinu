@@ -13,6 +13,12 @@
 #include <ctype.h>
 #include <clock.h>
 
+#include <usb_core_driver.h>
+#include <usb_util.h>
+#include "../device/lan7800/lan7800.h"
+
+extern struct usb_device usb_devices[];
+
 /**
  * @ingroup shell
  *
@@ -26,8 +32,26 @@
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
-	printf("arg: %d\n", atoi(args[1]));
-	sleep(atoi(args[1]));
-		
+#if 0
+	uint i;
+	for (i = 0; i < 32; i++)
+	{
+		printf("%d inuse: %c; address: %d\n", i, usb_devices[i].inuse == 1 ? 'Y' : 'N', usb_devices[i].address);
+	}
+#endif
+	usb_status_t status;
+	uint32_t val = 0;
+
+	#define RX_ADDRL 0x11C
+
+	status = lan7800_read_reg(&usb_devices[3], RX_ADDRL, &val);
+	printf("RX_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
+
+	status = lan7800_write_reg(&usb_devices[3], RX_ADDRL, 0xDEADBEEF);
+	printf("\nwrite status: %s\n", usb_status_string(status));
+
+	status = lan7800_read_reg(&usb_devices[3], RX_ADDRL, &val);
+	printf("\nRX_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
+
 	return 0;
 }
