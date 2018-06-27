@@ -187,9 +187,11 @@ static int sysinit(void)
 	nvramInit();
 #endif
 
-#if NNETIF
+	/* //XXX
+#if NETHER
 	netInit();
 #endif
+	*/
 
 #if GPIO
 	gpioLEDOn(GPIO_LED_CISCOWHT);

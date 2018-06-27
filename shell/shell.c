@@ -19,7 +19,7 @@
 
 const struct centry commandtab[] = {
 #if NETHER
-    {"arp", FALSE, xsh_arp},
+    //XXX{"arp", FALSE, xsh_arp},
 #endif
     {"clear", TRUE, xsh_clear},
     {"date", FALSE, xsh_date},
@@ -27,7 +27,7 @@ const struct centry commandtab[] = {
     {"dumptlb", FALSE, xsh_dumptlb},
 #endif
 #if NETHER
-    {"ethstat", FALSE, xsh_ethstat},
+    //XXX{"ethstat", FALSE, xsh_ethstat},
 #endif
     {"exit", TRUE, xsh_exit},
 #if NFLASH
@@ -47,21 +47,21 @@ const struct centry commandtab[] = {
     {"memstat", FALSE, xsh_memstat},
     {"memdump", FALSE, xsh_memdump},
 #if NETHER
-    {"nc", FALSE, xsh_nc},
-    {"netdown", FALSE, xsh_netdown},
+    //XXX{"nc", FALSE, xsh_nc},
+    //XXX{"netdown", FALSE, xsh_netdown},
 #if NETEMU
     {"netemu", FALSE, xsh_netemu},
 #endif
-    {"netstat", FALSE, xsh_netstat},
-    {"netup", FALSE, xsh_netup},
+    //XXX{"netstat", FALSE, xsh_netstat},
+    //XXX{"netup", FALSE, xsh_netup},
 #endif
 #if NVRAM
     {"nvram", FALSE, xsh_nvram},
 #endif
     {"ps", FALSE, xsh_ps},
 #if NETHER
-    {"ping", FALSE, xsh_ping},
-    {"pktgen", FALSE, xsh_pktgen},
+    //XXX{"ping", FALSE, xsh_ping},
+    //XXX{"pktgen", FALSE, xsh_pktgen},
 #endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
@@ -69,30 +69,30 @@ const struct centry commandtab[] = {
 #endif
 
 #if NETHER
-	{"rdate", FALSE, xsh_rdate},
+	//XXX{"rdate", FALSE, xsh_rdate},
 #endif
     {"reset", FALSE, xsh_reset},
 #if NETHER
-    {"route", FALSE, xsh_route},
+    //XXX{"route", FALSE, xsh_route},
 #endif
     {"sleep", TRUE, xsh_sleep},
 #if NETHER
-    {"snoop", FALSE, xsh_snoop},
+    //XXX{"snoop", FALSE, xsh_snoop},
 #endif
 #if USE_TAR
     {"tar", FALSE, xsh_tar},
 #endif
 #if NETHER
-    {"tcpstat", FALSE, xsh_tcpstat},
-    {"telnet", FALSE, xsh_telnet},
-    {"telnetserver", FALSE, xsh_telnetserver},
+    //XXX{"tcpstat", FALSE, xsh_tcpstat},
+    //XXX{"telnet", FALSE, xsh_telnet},
+    //XXX{"telnetserver", FALSE, xsh_telnetserver},
 #endif
     {"test", FALSE, xsh_test},
 #if HAVE_TESTSUITE
     {"testsuite", TRUE, xsh_testsuite},
 #endif
 #if NETHER
-    {"timeserver", FALSE, xsh_timeserver},
+    //XXX{"timeserver", FALSE, xsh_timeserver},
 #endif
 #if FRAMEBUF
     {"turtle", FALSE, xsh_turtle},
@@ -107,10 +107,10 @@ const struct centry commandtab[] = {
     {"user", FALSE, xsh_user},
 #endif
 #if NETHER
-    {"udpstat", FALSE, xsh_udpstat},
-    {"vlanstat", FALSE, xsh_vlanstat},
-    {"voip", FALSE, xsh_voip},
-    {"xweb", FALSE, xsh_xweb},
+    //XXX{"udpstat", FALSE, xsh_udpstat},
+    //XXX{"vlanstat", FALSE, xsh_vlanstat},
+    //XXX{"voip", FALSE, xsh_voip},
+    //XXX{"xweb", FALSE, xsh_xweb},
 #endif
     {"?", FALSE, xsh_help}
 };

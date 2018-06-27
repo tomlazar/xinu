@@ -17,6 +17,7 @@
 #include <usb_util.h>
 #include "../device/lan7800/lan7800.h"
 #include <ether.h>
+#include <random.h>
 
 extern struct usb_device usb_devices[];
 
@@ -71,7 +72,14 @@ shellcmd xsh_test(int nargs, char *args[])
 	etherOpen(&usb_devices[3]);
 #endif
 
-	uint8_t macaddr[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+	uint8_t r[6];
+
+	int j;
+	for(j = 0; j < 6; j++){
+		r[j] = random() % (255 - 0) + 0;
+	}
+
+	uint8_t macaddr[] = {r[0], r[1], r[2], r[3], r[4], r[5]};
 
 	printf("\n\n====START MAC TEST:====\n");
 	
@@ -87,7 +95,9 @@ shellcmd xsh_test(int nargs, char *args[])
 	/* [for debugging] Print MAC bits 0-5 which are set in lan7800_set_mac_address() */
 	int i;
 	for(i = 0; i < 6; i ++){
-		printf("0x%02X ", macaddr[i]);
+		printf("%02X", macaddr[i]);
+		if(i != 5)
+			printf(":");
 	}
 
 	printf("\n\n");
@@ -106,7 +116,7 @@ shellcmd xsh_test(int nargs, char *args[])
 	printf("!ethptr->dev:			%c\n", (!ethptr->dev) ? 'Y' : 'N');
 	printf("ethptr->state:			0x%08X\n", ethptr->state);
 	printf("ethptr->mtu:			0x%08X\n", ethptr->mtu);
-	printf("ethptr->addressLength:	0x%08X\n", ethptr->addressLength);
+	printf("ethptr->addressLength:	        0x%08X\n", ethptr->addressLength);
 
 	return 0;
 }
