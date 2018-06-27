@@ -9,8 +9,8 @@ C_FILES =                \
         etherClose.c     \
         etherControl.c   \
         etherInit.c      \
-        etherInterrupt.c \
-        etherOpen.c      \
+        #etherInterrupt.c \
+        #etherOpen.c      \
         etherRead.c      \
         etherStat.c      \
         etherWrite.c     \
