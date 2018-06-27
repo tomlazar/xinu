@@ -19,7 +19,6 @@
 #include <ether.h>
 
 extern struct usb_device usb_devices[];
-struct ether ethertab[1];
 
 /**
  * @ingroup shell
@@ -92,6 +91,22 @@ shellcmd xsh_test(int nargs, char *args[])
 	}
 
 	printf("\n\n");
+
+	status = lan7800_read_reg(&usb_devices[3], LAN7800_ADDRL, &val);
+	printf("LAN7800_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
+	status = lan7800_read_reg(&usb_devices[3], LAN7800_ADDRH, &val);
+	printf("\nLAN7800 ADDRH: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
+
+	
+	printf("\n\n====START ETHERTAB DUMP TEST:====\n");
+	
+	struct ether *ethptr;
+	ethptr = &ethertab[0];
+
+	printf("!ethptr->dev:			%c\n", (!ethptr->dev) ? 'Y' : 'N');
+	printf("ethptr->state:			0x%08X\n", ethptr->state);
+	printf("ethptr->mtu:			0x%08X\n", ethptr->mtu);
+	printf("ethptr->addressLength:	0x%08X\n", ethptr->addressLength);
 
 	return 0;
 }
