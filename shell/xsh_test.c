@@ -56,6 +56,7 @@ shellcmd xsh_test(int nargs, char *args[])
 	printf("\nRX_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
 	printf("\n====END READ/WRITE TEST:====\n");
 
+#if 0
 	struct ether *ethptr;
 
 	/* Bind the device */
@@ -69,22 +70,25 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	/* Attempt to open the device */
 	etherOpen(&usb_devices[3]);
+#endif
+
+	uint8_t macaddr[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
 
 	printf("\n\n====START MAC TEST:====\n");
 	
 	/* Attempt to set the MAC address */
-	status = lan7800_set_mac_address(&usb_devices[3], ethptr->devAddress);
+	status = lan7800_set_mac_address(&usb_devices[3], macaddr);
 	printf("\nMAC SET STATUS: %s\n", usb_status_string(status));	
 
 	/* Read the MAC address */
-	status = lan7800_get_mac_address(&usb_devices[3], ethptr->devAddress);
+	status = lan7800_get_mac_address(&usb_devices[3], macaddr);
 	printf("\nMAC GET STATUS: %s\n", usb_status_string(status));
 	printf("\nGET MAC: ");
 
 	/* [for debugging] Print MAC bits 0-5 which are set in lan7800_set_mac_address() */
 	int i;
 	for(i = 0; i < 6; i ++){
-		printf("%d", ethptr->devAddress[i]);
+		printf("0x%02X ", macaddr[i]);
 	}
 
 	printf("\n\n");
