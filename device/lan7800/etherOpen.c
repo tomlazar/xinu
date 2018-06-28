@@ -9,7 +9,6 @@
  */
 /* Embedded Xinu, Copyright (C) 2018.  All rights reserved. */
 
-#include "../smsc9512/smsc9512.h"
 #include <bufpool.h>
 #include <ether.h>
 #include <stdlib.h>
@@ -100,7 +99,7 @@ devcall etherOpen(device *devptr)
             goto out_free_in_pool;
         }
         req->dev = udev;
-        /* Assign Rx endpoint, checked in smsc9512_bind_device() */
+        /* Assign Rx endpoint, checked in lan7800_bind_device() */
         req->endpoint_desc = udev->endpoints[0][0];
         req->completion_cb_func = lan7800_rx_complete;
         req->private = ethptr;
@@ -112,7 +111,12 @@ devcall etherOpen(device *devptr)
      * incoming packets.  */
     udev->last_error = USB_STATUS_SUCCESS;
     lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN | LAN7800_MAC_CR_RXEN);
-    lan7800_write_reg(udev, TX_CFG, TX_CFG_ON);
+
+    /* ??? XXX Registers are unknown. Needs to be:
+     * (udev, Transmit Configuration register, Transmit On flag)
+     * At most likely the physical layer since this is actual hardware.
+     * Closest I could find in the Linux Implementation is at MAC layer. */
+    lan7800_write_reg(udev, LAN7800_MAC_TX, LAN7800_MAC_TX_TXEN);
     if (udev->last_error != USB_STATUS_SUCCESS)
     {
         goto out_free_in_pool;

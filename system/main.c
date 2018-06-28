@@ -35,14 +35,11 @@ thread main(void)
 
 		for (i = 0; i < NETHER; i++)
 		{
-			kprintf("calling open for ETHER %d\r\n", i);
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
 				kprintf("WARNING: Failed to open %s\r\n",
 						ethertab[i].dev->name);
 			}
-			else
-				kprintf("opened ETHER %d\r\n", i);
 		}
 	}
 #endif /* NETHER */

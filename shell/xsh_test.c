@@ -42,7 +42,7 @@ shellcmd xsh_test(int nargs, char *args[])
 	}
 #endif
 	/* Attempt to change value */
-	printf("\n====START READ/WRITE TEST:====\n");
+	printf("\n====\tSTART READ/WRITE TEST:\t====\n");
 	usb_status_t status;
 	uint32_t val = 0;
 
@@ -54,7 +54,6 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	status = lan7800_read_reg(&usb_devices[3], LAN7800_ADDRL, &val);
 	printf("\nRX_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
-	printf("\n====END READ/WRITE TEST:====\n");
 
 #if 0
 	struct ether *ethptr;
@@ -81,8 +80,17 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	uint8_t macaddr[] = {r[0], r[1], r[2], r[3], r[4], r[5]};
 
-	printf("\n\n====START MAC TEST:====\n");
+	printf("\n\n====\tSTART MAC TEST:\t====\n");
+
+	printf("\nMAC TO SET:\t");
+	int i;
+	for(i = 0; i < 6; i ++){
+	         printf("%02X", macaddr[i]);
+	         if(i != 5)
+                 	printf(":");
+  	}  
 	
+
 	/* Attempt to set the MAC address */
 	status = lan7800_set_mac_address(&usb_devices[3], macaddr);
 	printf("\nMAC SET STATUS: %s\n", usb_status_string(status));	
@@ -90,10 +98,9 @@ shellcmd xsh_test(int nargs, char *args[])
 	/* Read the MAC address */
 	status = lan7800_get_mac_address(&usb_devices[3], macaddr);
 	printf("\nMAC GET STATUS: %s\n", usb_status_string(status));
-	printf("\nGET MAC: ");
+	printf("\nGET MAC:\t");
 
 	/* [for debugging] Print MAC bits 0-5 which are set in lan7800_set_mac_address() */
-	int i;
 	for(i = 0; i < 6; i ++){
 		printf("%02X", macaddr[i]);
 		if(i != 5)
@@ -108,7 +115,7 @@ shellcmd xsh_test(int nargs, char *args[])
 	printf("\nLAN7800 ADDRH: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
 
 	
-	printf("\n\n====START ETHERTAB DUMP TEST:====\n");
+	printf("\n\n====\tSTART ETHERTAB DUMP TEST:\t====\n");
 	
 	struct ether *ethptr;
 	ethptr = &ethertab[0];
