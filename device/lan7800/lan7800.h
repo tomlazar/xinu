@@ -16,7 +16,7 @@
 #include "usb_util.h"
 
 #define LAN7800_VENDOR_ID	0x424
-#define LAN7800_PRODUCT_ID	0x2514
+#define LAN7800_PRODUCT_ID	0x7800
 
 usb_status_t lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data);
 usb_status_t lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data);
@@ -81,7 +81,7 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 */
 
 /* MAC TX/RX */
-#define LAN8900_MAC_RX				0x104
+#define LAN7800_MAC_RX				0x104
 
 /* High and low RX register offsets */
 #define LAN7800_ADDRH				0x118
