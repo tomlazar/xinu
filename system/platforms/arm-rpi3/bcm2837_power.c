@@ -27,7 +27,8 @@ static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
 #define MAILBOX_CHANNEL_MASK       0xf
 
 /* Write to the specified channel of the mailbox.  */
-static void
+//static 
+void
 bcm2837_mailbox_write(uint channel, uint value)
 {
     while (mailbox_regs[MAILBOX_STATUS] & MAILBOX_FULL)
@@ -37,7 +38,8 @@ bcm2837_mailbox_write(uint channel, uint value)
 }
 
 /* Read from the specified channel of the mailbox.  */
-static uint
+//static 
+uint
 bcm2837_mailbox_read(uint channel)
 {
     uint value;
