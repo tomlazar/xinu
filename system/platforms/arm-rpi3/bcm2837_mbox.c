@@ -11,17 +11,12 @@
 #include <string.h>
 #include "bcm2837_mbox.h"
 
-/* Function prototypes */
 extern void bcm2837_mailbox_write(uint, uint);
 extern void bcm2837_mailbox_read(uint);
-void bzero(volatile uint32_t* s, size_t n);
+extern void bzero(volatile uint32_t *, size_t);
 
-volatile uint32_t mailbuffer[1024]; /* Buffer array for mailbox  */
-
-/* Clear the mailbox buffer entirely. */
-void mbox_clear(void){
-	bzero(mailbuffer, 1024);
-	kprintf("\r\nMailbox cleared.\r\n");
+void init_mailbuffer(volatile uint32_t* mailbuffer){
+	bzero(mailbuffer, MBOX_BUFLEN);
 }
 
 /* Add a tag to the mailbox buffer. */
@@ -45,16 +40,16 @@ void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, u
 }
 
 /* Ready the buffer (done after the tag is added) */
-void build_mailbox_request(volatile uint32_t* buffer) {
-	uint32_t tag_length = buffer[MBOX_HEADER_LENGTH + SLOT_TAG_BUFLEN];
+void build_mailbox_request(volatile uint32_t* mailbuffer) {
+	uint32_t tag_length = mailbuffer[MBOX_HEADER_LENGTH + SLOT_TAG_BUFLEN];
 	uint32_t end = (MBOX_HEADER_LENGTH*4) + (TAG_HEADER_LENGTH*4) + tag_length;
 	uint32_t overall_length = end + 4;
-	buffer[SLOT_OVERALL_LENGTH] = overall_length;
-	buffer[SLOT_RR] = RR_REQUEST;
+	mailbuffer[SLOT_OVERALL_LENGTH] = overall_length;
+	mailbuffer[SLOT_RR] = RR_REQUEST;
 }
 
 /* Print the mailbox buffer. */
-void dump_response(const char* name, int nwords) {
+void dump_response(volatile uint32_t* mailbuffer, const char* name, int nwords) {
 	kprintf("%s: ", name);
 	for (int i = 0; i < nwords; ++i) {
 		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
@@ -64,20 +59,27 @@ void dump_response(const char* name, int nwords) {
 }
 
 /* Print a parameter of the mailbox buffer. */
-void print_parameter(const char* name, uint32_t tag, int nwords) {
+void print_parameter(volatile uint32_t* mailbuffer, const char* name, uint32_t tag, int nwords) {
 	add_mailbox_tag(mailbuffer, tag, nwords * 4, 0, 0);
 	build_mailbox_request(mailbuffer);
 			
 	bcm2837_mailbox_write(8, (uint32_t)mailbuffer);		
 	bcm2837_mailbox_read(8);
 
-	kprintf("\r\nMB[1]: 0x%08X\r\n\n", mailbuffer[1]);
-
 	/* Valid response in data structure */
 	if(mailbuffer[1] != RR_RESPONSE_OK) {
 		kprintf("MAILBOX ERROR\r\n");
 	} else {
-		dump_response(name, nwords);
+		dump_response(mailbuffer, name, nwords);
 	}
 }
 
+/* Function for getting the MAC address using the corresponding MAC mailbox tag. 
+ * @param volatile uint32_t* mailbuffer		Mailbox buffer written with MAC address upon conclusion. */
+void get_mac_mailbox(volatile uint32_t* mailbuffer){
+	add_mailbox_tag(mailbuffer, MBX_TAG_GET_MAC_ADDRESS, 8, 0, 0);
+	build_mailbox_request(mailbuffer);
+
+	bcm2837_mailbox_write(8, (uint32_t)mailbuffer);
+	bcm2837_mailbox_read(8);
+}

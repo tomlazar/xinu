@@ -7,11 +7,15 @@
  */
 
 /* Mailbox functions */
-void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, uint32_t len, uint32_t* data);
-void build_mailbox_request(volatile uint32_t* buffer);
-void dump_response(const char* name, int nwords);
-void print_parameter(const char* name, uint32_t tag, int nwords);
-void mbox_clear(void);
+void init_mailbuffer(volatile uint32_t*);
+void add_mailbox_tag(volatile uint32_t*, uint32_t, uint32_t, uint32_t, uint32_t*);
+void build_mailbox_request(volatile uint32_t*);
+void dump_response(volatile uint32_t*, const char*, int);
+void print_parameter(volatile uint32_t*, const char*, uint32_t, int);
+void get_mac_mailbox(volatile uint32_t*);
+
+/* Length of mailbox buffer. */
+#define MBOX_BUFLEN 1024
 
 #define RR_REQUEST 0x00000000
 #define RR_RESPONSE_OK 0x80000000

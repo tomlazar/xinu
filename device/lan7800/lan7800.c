@@ -205,4 +205,5 @@ lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 	macaddr[5] = (addrh >> 8)  & 0xff;
 
 	return USB_STATUS_SUCCESS;
+	
 }
