@@ -71,11 +71,11 @@ lan7800_bind_device(struct usb_device *udev)
 	STATIC_ASSERT(NETHER == 1);
 	if (ethptr->csr != NULL)
 	{
-		kprintf("\r\nDEVICE UNSUPPORTED 2\r\n");
+		kprintf("\r\nDEVICE UNSUPPORTED 2: driver already bound.\r\n");
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
 
-	kprintf("\r\n\r\nDEVICE ATTACHED:\r\nvendorId: 0x%04X; productId: 0x%04X\r\n",
+	kprintf("\r\n\nDEVICE ATTACHED:\r\nvendorId: 0x%04X; productId: 0x%04X\r\n\n",
 			udev->descriptor.idVendor, udev->descriptor.idProduct);
 
 	/* The rest of this function is responsible for making the SMSC LAN9512
@@ -97,6 +97,7 @@ lan7800_bind_device(struct usb_device *udev)
 
 	/* Set MAC address.  */
 	lan7800_set_mac_address(udev, ethptr->devAddress);
+	kprintf("\r\n\nlan7800_set_mac_address() called.\r\n\n");
 
 	/* Allow multiple Ethernet frames to be received in a single USB transfer.
 	 * Also set a couple flags of unknown function.  */
@@ -131,6 +132,7 @@ lan7800_unbind_device(struct usb_device *udev)
 
 	struct ether *ethptr = udev->driver_private;
 
+	kprintf("\r\nWAIT FOR SEMAPHORE.\r\n");
 	/* Reset attached semaphore to 0.  */
 	wait(lan7800_attached[ethptr - ethertab]);
 
@@ -149,6 +151,7 @@ static const struct usb_device_driver lan7800_driver = {
 	.unbind_device	= lan7800_unbind_device,
 };
 
+/*
 static void
 randomEthAddr(uchar addr[ETH_ADDR_LEN])
 {
@@ -158,10 +161,11 @@ randomEthAddr(uchar addr[ETH_ADDR_LEN])
 	{
 		addr[i] = rand();
 	}
-	/* Clear multicast bit and set locally assigned bit */
+	// Clear multicast bit and set locally assigned bit
 	addr[0] &= 0xFE;
 	addr[0] |= 0x02;
 }
+*/
 
 /**
  * @ingroup etherspecific
@@ -212,9 +216,11 @@ devcall etherInit(device *devptr)
 	ethptr->isema = semcreate(0);
 	if (isbadsem(ethptr->isema))
 	{
+		kprintf("\r\n<<<BAD SEMAPHORE>>> ERROR.\r\n");
 		goto err;
 	}
 
+	kprintf("\r\nCREATE SEM\r\n");
 	lan7800_attached[devptr->minor] = semcreate(0);
 
 	if (isbadsem(lan7800_attached[devptr->minor]))
@@ -227,7 +233,9 @@ devcall etherInit(device *devptr)
 	 * The EEPROM is normally used to store MAC address of the adapter,
 	 * along with some other information. As a result, software needs to set
 	 * the MAC address to a value of its choosing (random number...). */
-	randomEthAddr(ethptr->devAddress);
+	//randomEthAddr(ethptr->devAddress);
+	
+	
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);
@@ -235,6 +243,8 @@ devcall etherInit(device *devptr)
 	{
 		goto err_free_attached_sema;
 	}
+
+	kprintf("\r\nRETURN OK...\r\n\n");
 	return OK;
 
 err_free_attached_sema:

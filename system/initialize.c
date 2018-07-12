@@ -67,7 +67,10 @@ void nulluser(void)
 
 	/* Store the MAC Address into the ether struct's devAddress member,
 	 * obtained using the BCM2837B0's mailbox. */
-	struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
+	//struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
+	struct ether *ethptr;
+	ethptr = &ethertab[0];
+
 	uint8_t macaddr[6] = {0};		// Temporary storage of MAC address
 	init_mailbuffer(mailbuffer);
 
@@ -234,17 +237,19 @@ static int sysinit(void)
 	}
 #endif
 
+
 #ifdef WITH_USB
 	usbinit();
 #endif
+
 
 #if NVRAM
 	nvramInit();
 #endif
 
-	/* //XXX
+	/*
 #if NETHER
-netInit();
+	netInit();
 #endif
 */
 

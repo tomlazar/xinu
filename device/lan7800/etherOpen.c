@@ -16,7 +16,7 @@
 #include <usb_core_driver.h>
 #include "lan7800.h"
 
-/* Implementation of etherOpen() for the smsc9512; see the documentation for
+/* Implementation of etherOpen() for the lan7800; see the documentation for
  * this function in ether.h.  */
 devcall etherOpen(device *devptr)
 {
@@ -32,6 +32,7 @@ devcall etherOpen(device *devptr)
     ethptr = &ethertab[devptr->minor];
     if (ethptr->state != ETH_STATE_DOWN)
     {
+	kprintf("\r\nDevice not known.\r\n");
         goto out_restore;
     }
 
@@ -41,6 +42,7 @@ devcall etherOpen(device *devptr)
                                LAN7800_MAX_TX_REQUESTS);
     if (ethptr->outPool == SYSERR)
     {
+	kprintf("\r\nError. Cannot create buffer pool.\r\n");
         goto out_restore;
     }
 
@@ -50,6 +52,7 @@ devcall etherOpen(device *devptr)
                               ETH_IBLEN);
     if (ethptr->inPool == SYSERR)
     {
+	kprintf("\r\nError. Cannot create buffer pool for Rx packets.\r\n");
         goto out_free_out_pool;
     }
 
@@ -61,6 +64,7 @@ devcall etherOpen(device *devptr)
     /* Set MAC address */
     if (lan7800_set_mac_address(udev, ethptr->devAddress) != USB_STATUS_SUCCESS)
     {
+	kprintf("\r\nSET MAC ADDRESS FAILED.\r\n");
         goto out_free_in_pool;
     }
 
@@ -69,12 +73,13 @@ devcall etherOpen(device *devptr)
         struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
         for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
         {
+	    kprintf("\r\nIntializing USB xfer request.\r\n");
             struct usb_xfer_request *req;
             
             req = bufget(ethptr->outPool);
             usb_init_xfer_request(req);
             req->dev = udev;
-            /* Assign Tx endpoint, checked in smsc9512_bind_device() */
+            /* Assign Tx endpoint, checked in lan7800_bind_device() */
             req->endpoint_desc = udev->endpoints[0][1];
             req->sendbuf = (uint8_t*)req + sizeof(struct usb_xfer_request);
             req->completion_cb_func = lan7800_tx_complete;
@@ -110,13 +115,15 @@ devcall etherOpen(device *devptr)
      * restoring interrupts, the Rx transfers can complete at any time due to
      * incoming packets.  */
     udev->last_error = USB_STATUS_SUCCESS;
+
+    /* MAC Layer */
     lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN | LAN7800_MAC_CR_RXEN);
 
-    /* ??? XXX Registers are unknown. Needs to be:
-     * (udev, Transmit Configuration register, Transmit On flag)
-     * At most likely the physical layer since this is actual hardware.
-     * Closest I could find in the Linux Implementation is at MAC layer. */
-    lan7800_write_reg(udev, LAN7800_MAC_TX, LAN7800_MAC_TX_TXEN);
+    /* Physical (PHY) layer
+     * The following line uses the TX control registers that I believe are correct,
+     * as used in torvalds/linux for its lan78xx device driver. */
+    lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, LAN7800_FCT_TX_CTL_EN);
+    
     if (udev->last_error != USB_STATUS_SUCCESS)
     {
         goto out_free_in_pool;

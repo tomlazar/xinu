@@ -115,16 +115,16 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define HW_CFG_ETC_			(0x00000008)
 
 /* Multiple Ethernet Frames. */
-#define LAN7800_HW_CFG_MEF			(0x00000010)
+#define LAN7800_HW_CFG_MEF		(0x00000010)
 
 /* Lite reset flag. */
-#define LAN7800_HW_CFG_LRST			(0x00000002)
+#define LAN7800_HW_CFG_LRST		(0x00000002)
 
 /* ??? */
-#define LAN7800_HW_CFG_SRST			(0x00000001)
+#define LAN7800_HW_CFG_SRST		(0x00000001)
 
 /* Offset of Burst Cap Register. HW_CFG_MEF bust be set first. */
-#define LAN7800_BURST_CAP			(0x090)
+#define LAN7800_BURST_CAP		(0x090)
 #define BURST_CAP_SIZE_MASK		(0x000000FF)
 
 /* Bulk In ??? */
@@ -134,9 +134,18 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define LAN7800_CFG_BCE			(0x00000020)
 
 /* Mac-layer transmission. */
-#define LAN7800_MAC_TX				(0x108)
+#define LAN7800_MAC_TX			(0x108)
 
 /* Transmit enable at MAC layer ??? */
-#define LAN7800_MAC_TX_TXEN			(0x00000001)
+#define LAN7800_MAC_TX_TXEN	 	(0x00000001)
+
+/* Transmit contrl status register (SCSR) */
+#define LAN7800_FCT_TX_CTL			(0x0C4)
+
+/* Transmit Enable System Control Status Register */
+#define LAN7800_FCT_TX_CTL_EN		(0x80000000)
+
+/* Receive control status register */
+#define LAN78XX_FCT_RX_CTL		(0x0C0)
 
 #endif	/* _LAN7800_H_ */

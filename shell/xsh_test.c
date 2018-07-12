@@ -70,56 +70,35 @@ shellcmd xsh_test(int nargs, char *args[])
 	/* Attempt to open the device */
 	etherOpen(&usb_devices[3]);
 #endif
-
-	uint8_t r[6];
-
-	int j;
-	for(j = 0; j < 6; j++){
-		r[j] = random() % (255 - 0) + 0;
-	}
-
-	uint8_t macaddr[] = {r[0], r[1], r[2], r[3], r[4], r[5]};
-
+	struct ether *ethptr;
+	ethptr = &ethertab[0];
 	printf("\n\n====\tSTART MAC TEST:\t====\n");
 
 	printf("\nMAC TO SET:\t");
 	int i;
 	for(i = 0; i < 6; i ++){
-	         printf("%02X", macaddr[i]);
+		 
+	         printf("%02X", ethptr->devAddress[i]);
 	         if(i != 5)
                  	printf(":");
   	}  
 	
-
 	/* Attempt to set the MAC address */
-	status = lan7800_set_mac_address(&usb_devices[3], macaddr);
+	status = lan7800_set_mac_address(&usb_devices[3], ethptr->devAddress);
 	printf("\nMAC SET STATUS: %s\n", usb_status_string(status));	
 
 	/* Read the MAC address */
-	status = lan7800_get_mac_address(&usb_devices[3], macaddr);
+	status = lan7800_get_mac_address(&usb_devices[3], ethptr->devAddress);
 	printf("\nMAC GET STATUS: %s\n", usb_status_string(status));
-	printf("\nGET MAC:\t");
+	printf("\nGET MAC:\t\n\n");
 
-	/* [for debugging] Print MAC bits 0-5 which are set in lan7800_set_mac_address() */
-	for(i = 0; i < 6; i ++){
-		printf("%02X", macaddr[i]);
-		if(i != 5)
-			printf(":");
-	}
-
-	printf("\n\n");
-
+/*
 	status = lan7800_read_reg(&usb_devices[3], LAN7800_ADDRL, &val);
 	printf("LAN7800_ADDRL: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
 	status = lan7800_read_reg(&usb_devices[3], LAN7800_ADDRH, &val);
 	printf("\nLAN7800 ADDRH: 0x%08X\nstatus: %s\n", val, usb_status_string(status));
-
+*/
 	
-	printf("\n\n====\tSTART ETHERTAB DUMP TEST:\t====\n");
-	
-	struct ether *ethptr;
-	ethptr = &ethertab[0];
-
 	printf("!ethptr->dev:			%c\n", (!ethptr->dev) ? 'Y' : 'N');
 	printf("ethptr->state:			0x%08X\n", ethptr->state);
 	printf("ethptr->mtu:			0x%08X\n", ethptr->mtu);

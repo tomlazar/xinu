@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <thread.h>
 #include <version.h>
+#include <stdlib.h>
 
 void print_os_info(void);
 
@@ -31,15 +32,19 @@ thread main(void)
 	/* Open all ethernet devices */
 #if NETHER
 	{
+		struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
 		uint i;
 
 		for (i = 0; i < NETHER; i++)
 		{
+			kprintf("\r\n\nAttempting to open ETH device %d\r\n", i);
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
+				kprintf("\r\nethptr->state = 0x%X\r\n", ethptr->state);
 				kprintf("WARNING: Failed to open %s\r\n",
 						ethertab[i].dev->name);
 			}
+			kprintf("\r\nethptr->state = 0x%X\r\n", ethptr->state);
 		}
 	}
 #endif /* NETHER */
