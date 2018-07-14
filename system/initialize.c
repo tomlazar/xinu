@@ -16,7 +16,6 @@
 #include "../device/lan7800/lan7800.h"
 #include "platforms/arm-rpi3/bcm2837_mbox.h"
 #include <ether.h>
-#include <stdlib.h>
 #endif
 
 /* Function prototypes */
@@ -65,56 +64,8 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
-	/* Store the MAC Address into the ether struct's devAddress member,
-	 * obtained using the BCM2837B0's mailbox. */
-	//struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
-	struct ether *ethptr;
-	ethptr = &ethertab[0];
-
-	uint8_t macaddr[6] = {0};		// Temporary storage of MAC address
-	init_mailbuffer(mailbuffer);
-
-	//print_parameter(mailbuffer, "MAC address", MBX_TAG_GET_MAC_ADDRESS, 2);
-
-	#ifdef NETHER
-	/* Fill the mailbox buffer with the MAC address */
-        get_mac_mailbox(mailbuffer);
-
-	int i;
-	/* Print the buffer */
-        for (i = 0; i < 2; ++i) {
-		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
-
-		/* Store the low MAC address bits into a temporary array */
-		if(i == 0){
-		        macaddr[0] = (value >> 0)  & 0xff;
-		        macaddr[1] = (value >> 8)  & 0xff;
-		        macaddr[2] = (value >> 16) & 0xff;
-		        macaddr[3] = (value >> 24) & 0xff;
-		}
-
-		/* Store the high MAC address bits into a temporary array */
-		if(i == 1){
-		        macaddr[4] = (value >> 0)  & 0xff;
-			macaddr[5] = (value >> 8)  & 0xff;
-		}
-	}
-
-	for(i = 0; i < 6; i++){
-		kprintf("macaddr[%d]: 0x%X\r\n", i, macaddr[i]);
-	}
-
-	kprintf("\r\n\nPrinting ethptr->devAddress...\r\n");
-        /* Place the MAC (obtained from VC mailbox) into the Ethernet Control Block. */
-	for(i = 0; i < 6; i ++){
-		ethptr->devAddress[i] = macaddr[i];
-		kprintf("0x%X ", ethptr->devAddress[i]);
-	}
-
-	#endif
 	//print_parameter(mailbuffer,"board serial", MBX_TAG_GET_BOARD_SERIAL, 2);
 
-	// kprintf("\r\nLAN7800_GET_MAC_ADDRESS: %08X\r\n", lan7800_get_mac_address(&usb_devices[3], macaddr));
 	kprintf("\r\n\n===========================================================\r\n");
 
 	/* Enable interrupts  */

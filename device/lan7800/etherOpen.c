@@ -26,6 +26,8 @@ devcall etherOpen(device *devptr)
     uint i;
     int retval = SYSERR;
 
+    kprintf("\r\n<<< BEGIN ETHEROPEN() >>>\r\n");
+
     im = disable();
 
     /* Fail if device is not down.  */
@@ -56,6 +58,7 @@ devcall etherOpen(device *devptr)
         goto out_free_out_pool;
     }
 
+    kprintf("\r\nethptr->csr: 0x%x\r\n", ethptr->csr);
     /* We're abusing the csr field to store a pointer to the USB device
      * structure.  At least it's somewhat equivalent, since it's what we need to
      * actually communicate with the device hardware.  */
@@ -69,11 +72,13 @@ devcall etherOpen(device *devptr)
     }
 
     /* Initialize the Tx requests.  */
-    {
+    {	// TODO: Why are these brackets here?
+
         struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
         for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
         {
-	    kprintf("\r\nIntializing USB xfer request.\r\n");
+	    kprintf("...Tx");
+	    kprintf("\r\nIntializing USB TX xfer request.\r\n");
             struct usb_xfer_request *req;
             
             req = bufget(ethptr->outPool);
@@ -96,6 +101,7 @@ devcall etherOpen(device *devptr)
      * */
     for (i = 0; i < LAN7800_MAX_RX_REQUESTS; i++)
     {
+        kprintf("...Rx");
         struct usb_xfer_request *req;
         
         req = usb_alloc_xfer_request(LAN7800_DEFAULT_HS_BURST_CAP_SIZE);
@@ -114,24 +120,29 @@ devcall etherOpen(device *devptr)
     /* Enable transmit and receive on the actual hardware.  After doing this and
      * restoring interrupts, the Rx transfers can complete at any time due to
      * incoming packets.  */
+    kprintf("\r\nSo far so good, USB success.\r\n");
     udev->last_error = USB_STATUS_SUCCESS;
 
+    kprintf("\r\nTry to set register bits.\r\n");
     /* MAC Layer */
     lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN | LAN7800_MAC_CR_RXEN);
 
     /* Physical (PHY) layer
      * The following line uses the TX control registers that I believe are correct,
      * as used in torvalds/linux for its lan78xx device driver. */
+    kprintf("\r\nTry to write register.\r\n");
     lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, LAN7800_FCT_TX_CTL_EN);
     
     if (udev->last_error != USB_STATUS_SUCCESS)
     {
+	kprintf("\r\nudev-> last error failed.\r\n");
         goto out_free_in_pool;
     }
 
     /* Success!  Set the device to ETH_STATE_UP. */
     ethptr->state = ETH_STATE_UP;
     retval = OK;
+
     goto out_restore;
 
 out_free_in_pool:
