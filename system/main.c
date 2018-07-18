@@ -35,6 +35,7 @@ thread main(void)
 		struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
 		uint i;
 
+		kprintf("\r\nNETHER = %d\r\n", NETHER);
 		for (i = 0; i < NETHER; i++)
 		{
 			kprintf("\r\n\nAttempting to open ETH device %d\r\n", i);

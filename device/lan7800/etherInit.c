@@ -18,10 +18,7 @@
 #include <stdlib.h>
 #include <usb_core_driver.h>
 #include <kernel.h>
-#include "lan7800.h"
-#include "../system/platforms/arm-rpi3/bcm2837_mbox.h"
-#include <ether.h>
-#include <stdlib.h>
+#include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 
 /* Global table of Ethernet devices. */
 struct ether ethertab[NETHER];
@@ -40,7 +37,6 @@ lan7800_bind_device(struct usb_device *udev)
 {
 	struct ether *ethptr;
 
-	kprintf("\r\nTrying to bind LAN7800...\r\n");
 	/* Check if this is actually a LAN7800 by checking the USB device's
 	 * standard device descriptor, which the USB core already read into memory.
 	 * Also check to make sure the expected endpoints for sending/receiving
@@ -87,8 +83,8 @@ lan7800_bind_device(struct usb_device *udev)
 	 * attached to.  */
 
 	/* Set MAC address.  */
+	kprintf("\r\n\nlan7800_set_mac_address() called on UDEV: 0x%X\r\n\n", udev);
 	lan7800_set_mac_address(udev, ethptr->devAddress);
-	kprintf("\r\n\nlan7800_set_mac_address() called.\r\n\n");
 
 	/* Allow multiple Ethernet frames to be received in a single USB transfer.
 	 * Also set a couple flags of unknown function.  */
@@ -123,7 +119,7 @@ lan7800_unbind_device(struct usb_device *udev)
 
 	struct ether *ethptr = udev->driver_private;
 
-	kprintf("\r\nUNBIND DEVICE. WAIT FOR SEMAPHORE.\r\n");
+	kprintf("\r\nWAIT FOR SEMAPHORE.\r\n");
 	/* Reset attached semaphore to 0.  */
 	wait(lan7800_attached[ethptr - ethertab]);
 
@@ -142,51 +138,61 @@ static const struct usb_device_driver lan7800_driver = {
 	.unbind_device	= lan7800_unbind_device,
 };
 
-/* Store the MAC Address into the ether struct's devAddress member,
- * obtained using the BCM2837B0's mailbox. */
+/* Get the Pi 3 B+'s MAC address using the ARM->VideoCore (VC) mailbox. */
 static void
-storeEthAddr(uchar addr[ETH_ADDR_LEN])
+getEthAddr(uchar addr[ETH_ADDR_LEN])
 {
-	volatile uint32_t mailbuffer[MBOX_BUFLEN];
-        struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
-        ethptr = &ethertab[0];
-	init_mailbuffer(mailbuffer);
-	
+	uint32_t mailbuffer[MBOX_BUFLEN];
+
+	/* Clear the mailbox buffer. */
+	bzero(mailbuffer, 1024);
+
+	/* Fill the mailbox buffer with the MAC address. */
 	get_mac_mailbox(mailbuffer);
 
 	int i;
-	for (i = 0; i < 2; ++i) { 
+	for (i = 0; i < 2; ++i) {
+
+		/* Access the MAC value within the buffer. */
 		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
 
-        	/* Store the low MAC address bits into a temporary array */
-        	if(i == 0){
- 	        	ethptr->devAddress[0] = (value >> 0)  & 0xff;
-	        	ethptr->devAddress[1] = (value >> 8)  & 0xff;
-                	ethptr->devAddress[2] = (value >> 16) & 0xff;
-			ethptr->devAddress[3] = (value >> 24) & 0xff;
+		/* Store the low MAC values. */
+		if(i == 0){
+			addr[0] = (value >> 0)  & 0xff;
+			addr[1] = (value >> 8)  & 0xff;
+			addr[2] = (value >> 16) & 0xff;
+			addr[3] = (value >> 24) & 0xff;
 		}
 
-		/*Store the high MAC address bits into a temporary array */
+		/* Store the high MAC values. */
 		if(i == 1){
-        		ethptr->devAddress[4] = (value >> 0)  & 0xff;		
-	 		ethptr->devAddress[5] = (value >> 8)  & 0xff;
+			addr[4] = (value >> 0)  & 0xff;
+			addr[5] = (value >> 8)  & 0xff;
 		}
 	}
-        kprintf("\r\n\nPrinting ethptr->devAddress...\r\n");
-      	/* Place the MAC (obtained from VC mailbox) into the Ethernet Control Block. */
-	for(i = 0; i < 6; i ++){
-		kprintf("0x%X ", ethptr->devAddress[i]);
-        }
 
 	// Clear multicast bit and set locally assigned bit
 	addr[0] &= 0xFE;
 	addr[0] |= 0x02;
-}
 
+	/* TODO: Figure out why this breaks the setup of ethptr->devAddress when commented out... */
+	int j = 0;
+/*	for(j = 0; j < 6; j++){
+		if(j < 5)
+			kprintf("%X:", addr[j]);
+		else
+			kprintf("%X", addr[j]);
+	} */
+
+	for(j = 0; j < 6; j++)
+		kprintf("addr[%d] = 0x%X\r\n", j, addr[j]);
+
+	//udelay(10000);
+}
 
 /**
  * @ingroup etherspecific
- 
+ *
  * Wait until the specified Ethernet device has been attached.
  *
  * This is necessary because USB is a dynamic bus, but Xinu expects static devices.
@@ -201,7 +207,7 @@ storeEthAddr(uchar addr[ETH_ADDR_LEN])
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
 {
-	kprintf("\r\nWAIT FOR DEVICE ATTACH SEMAPHORE.\r\n");
+	kprintf("\r\nWAIT FOR DEV ATTACH\r\n");
 	wait(lan7800_attached[minor]);
 	signal(lan7800_attached[minor]);
 	return USB_STATUS_SUCCESS;
@@ -220,6 +226,7 @@ lan7800_wait_device_attached(ushort minor)
 devcall etherInit(device *devptr)
 {
 	kprintf("\r\n<<<BEGIN ETHER INIT>>>\r\n");
+	kprintf("NDEVS= %d\r\n", NDEVS);
 	struct ether *ethptr;
 	usb_status_t status;
 
@@ -237,24 +244,31 @@ devcall etherInit(device *devptr)
 		goto err;
 	}
 
-	kprintf("\r\ndevptr->minor: 0x%X\r\n");
+	kprintf("\r\nCREATE SEM\r\n");
 	lan7800_attached[devptr->minor] = semcreate(0);
-	kprintf("\r\nETHERINIT SEM CREATED.\r\n");
 
 	if (isbadsem(lan7800_attached[devptr->minor]))
 	{
 		kprintf("\r\nBAD SEM\r\n");
 		goto err_free_isema;
 	}
+	
+	/* Get the MAC address and store it into the Ethernet device's structure. */
+	getEthAddr(ethptr->devAddress);
 
-	/* Store the MAC into the ethernet device address. */
-	storeEthAddr(ethptr->devAddress);
+	kprintf("\r\n<<<PRINTING DEV ADDRESS>>>\r\n");
+	int k = 0;
+	for(k = 0; k < 6; k++){
+		if(k < 5)
+			kprintf("%X:", ethptr->devAddress[k]);
+		else
+			kprintf("%X", ethptr->devAddress[k]);
+	}
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);
 	if (status != USB_STATUS_SUCCESS)
 	{
-		kprintf("\r\nERROR REGISTERING DEVICE w/ USB. FREE SEM.\r\n");
 		goto err_free_attached_sema;
 	}
 

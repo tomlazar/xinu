@@ -14,8 +14,6 @@
 #include <usb_subsystem.h>
 #include <usb_core_driver.h>
 #include "../device/lan7800/lan7800.h"
-#include "platforms/arm-rpi3/bcm2837_mbox.h"
-#include <ether.h>
 #endif
 
 /* Function prototypes */
@@ -38,9 +36,6 @@ tid_typ thrcurrent;             /* Id of currently running thread      */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
 ulong cpuid;                    /* Processor id                        */
 struct platform platform;       /* Platform specific configuration     */
-extern void bzero(void *, size_t);
-
-volatile uint32_t mailbuffer[MBOX_BUFLEN];
 
 /*
  * Intializes the system and becomes the null thread.
@@ -63,10 +58,6 @@ void nulluser(void)
 	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
-
-	//print_parameter(mailbuffer,"board serial", MBX_TAG_GET_BOARD_SERIAL, 2);
-
-	kprintf("\r\n\n===========================================================\r\n");
 
 	/* Enable interrupts  */
 	enable();	

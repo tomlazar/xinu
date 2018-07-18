@@ -5,10 +5,11 @@ COMP = device/lan7800
 
 # Source files for this component
 C_FILES =	lan7800.c			\
-			etherInit.c			\
+			etherInit.c		\
 		 	etherOpen.c 		\
 			etherClose.c		\
-			etherInterrupt.c
+			etherInterrupt.c	\
+			etherRead.c		\
 
 S_FILES =
 
