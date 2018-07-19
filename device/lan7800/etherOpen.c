@@ -32,7 +32,6 @@ devcall etherOpen(device *devptr)
     ethptr = &ethertab[devptr->minor];
     if (ethptr->state != ETH_STATE_DOWN)
     {
-	kprintf("\r\nDevice not known.\r\n");
         goto out_restore;
     }
 
@@ -42,7 +41,6 @@ devcall etherOpen(device *devptr)
                                LAN7800_MAX_TX_REQUESTS);
     if (ethptr->outPool == SYSERR)
     {
-	kprintf("\r\nError. Cannot create buffer pool.\r\n");
         goto out_restore;
     }
 
@@ -52,7 +50,6 @@ devcall etherOpen(device *devptr)
                               ETH_IBLEN);
     if (ethptr->inPool == SYSERR)
     {
-	kprintf("\r\nError. Cannot create buffer pool for Rx packets.\r\n");
         goto out_free_out_pool;
     }
 
@@ -61,37 +58,30 @@ devcall etherOpen(device *devptr)
      * actually communicate with the device hardware.  */
     udev = ethptr->csr;
 
-    kprintf("\r\nUDEV = 0x%X\r\n", udev);
-
     /* Set MAC address */
     if (lan7800_set_mac_address(udev, ethptr->devAddress) != USB_STATUS_SUCCESS)
     {
-	kprintf("\r\nSET MAC ADDRESS FAILED.\r\n");
-        goto out_free_in_pool;
+    	goto out_free_in_pool;
     }
 
     /* Initialize the Tx requests.  */
+    struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
+    for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
     {
-        struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
-        for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
-        {
-	    kprintf("\r\nIntializing USB xfer request.\r\n");
-            struct usb_xfer_request *req;
-            
-            req = bufget(ethptr->outPool);
-            usb_init_xfer_request(req);
-            req->dev = udev;
-            /* Assign Tx endpoint, checked in lan7800_bind_device() */
-            req->endpoint_desc = udev->endpoints[0][1];
-            req->sendbuf = (uint8_t*)req + sizeof(struct usb_xfer_request);
-            req->completion_cb_func = lan7800_tx_complete;
-            req->private = ethptr;
-            reqs[i] = req;
-        }
-        for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
-        {
-            buffree(reqs[i]);
-        }
+        struct usb_xfer_request *req;
+        req = bufget(ethptr->outPool);
+        usb_init_xfer_request(req);
+        req->dev = udev;
+        /* Assign Tx endpoint, checked in lan7800_bind_device() */
+        req->endpoint_desc = udev->endpoints[0][1];
+        req->sendbuf = (uint8_t*)req + sizeof(struct usb_xfer_request);
+        req->completion_cb_func = lan7800_tx_complete;
+        req->private = ethptr;
+        reqs[i] = req;
+    }
+    for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
+    {
+        buffree(reqs[i]);
     }
 
     /* Allocate and submit the Rx requests.  TODO: these aren't freed anywhere.
@@ -99,7 +89,6 @@ devcall etherOpen(device *devptr)
     for (i = 0; i < LAN7800_MAX_RX_REQUESTS; i++)
     {
         struct usb_xfer_request *req;
-        
         req = usb_alloc_xfer_request(LAN7800_DEFAULT_HS_BURST_CAP_SIZE);
         if (req == NULL)
         {

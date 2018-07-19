@@ -48,22 +48,23 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 /***************************************************************************
  * According to Linux's open-source 78xx driver:
  * https://github.com/torvalds/linux/blob/8fa3b6f9392bf6d90cb7b908e07bd90166639f0a/drivers/net/usb/lan78xx.h
-***************************************************************************/
+ * and also U-Boot:
+ * https://github.com/trini/u-boot/blob/890e79f2b1c26c5ba1a86d179706348aec7feef7/drivers/usb/eth/lan7x.h
+ ***************************************************************************/
 
 /* TX/RX Overhead
  * Used in sum to allocate for Tx transfer buffer in etherOpen() */
 #define LAN7800_TX_OVERHEAD			8
 #define LAN7800_RX_OVERHEAD                     4
 
-#define LAN7800_MAX_TX_REQUESTS			1
+#define LAN7800_MAX_RX_REQUESTS 		(DIV_ROUND_UP(60 * 1518, LAN7800_DEFAULT_HS_BURST_CAP_SIZE))
 
-/* Left as a TODO in smsc... */
-#define LAN7800_MAX_RX_REQUESTS                 1
+#define LAN7800_MAX_TX_REQUESTS 		(DIV_ROUND_UP(60 * 1518, LAN7800_DEFAULT_HS_BURST_CAP_SIZE))
 
-/* ??? */
+/* According to U-Boot's LAN78xx driver. */
 #define LAN7800_HS_USB_PKT_SIZE			512
 
-/* Cannot say for sure what this means. Calculation from SMSC driver. */
+/* Calculation from SMSC driver. */
 #define LAN7800_DEFAULT_HS_BURST_CAP_SIZE	(16 * 1024 + 5 * LAN7800_HS_USB_PKT_SIZE)
 
 #define LAN7800_VENDOR_REQUEST_WRITE		0xA0

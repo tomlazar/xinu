@@ -36,7 +36,6 @@
 usb_status_t
 lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
 {
-	kprintf("\r\nWriting to lan7800 register.\r\n");
 	return usb_control_msg(udev, NULL,
 				LAN7800_VENDOR_REQUEST_WRITE,
 				USB_BMREQUESTTYPE_DIR_OUT |
@@ -65,7 +64,6 @@ lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
 usb_status_t
 lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
 {
-	kprintf("\r\nReading from lan7800 register.\r\n");
 	return usb_control_msg(udev, NULL,
 				LAN7800_VENDOR_REQUEST_READ,
 				USB_BMREQUESTTYPE_DIR_IN |
@@ -100,7 +98,6 @@ usb_status_t
 lan7800_modify_reg(struct usb_device *udev, uint32_t index,
 				   uint32_t mask, uint32_t set)
 {
-	kprintf("\r\nModifying lan7800 registers.\r\n");
 	usb_status_t status;
 	uint32_t val;
 
@@ -135,14 +132,14 @@ lan7800_modify_reg(struct usb_device *udev, uint32_t index,
 usb_status_t
 lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 {
-	kprintf("\r\nSetting lan7800 register bits.\r\n");
 	return lan7800_modify_reg(udev, index, 0xFFFFFFFF, set);
 }
 
 /**
  * @ingroup etherspecific
  * 
- * Change the MAC address of the Microchip LAN7800 USB Ethernet Adapter.
+ * Change the MAC address of the Microchip LAN7800 USB Ethernet Adapter
+ * on the actual hardware by writing to its registers.
  * 
  * @param udev
  *          	USB device for the adapter
@@ -156,7 +153,6 @@ lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 usb_status_t
 lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 {
-	kprintf("\r\nSetting lan7800 MAC address.\r\n");
 	usb_status_t status;
 	uint32_t addrl, addrh;
 
@@ -166,11 +162,9 @@ lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 	status = lan7800_write_reg(udev, LAN7800_ADDRL, addrl);
 	if (status != USB_STATUS_SUCCESS)
 	{
-		kprintf("\r\nFailed to write low address.\r\n");
 		return status;
 	}
 
-	kprintf("\r\nSucessfully written low address to device register. Write high and return.\r\n\n");
 	return lan7800_write_reg(udev, LAN7800_ADDRH, addrh);
 }
 

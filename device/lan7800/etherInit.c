@@ -19,6 +19,7 @@
 #include <usb_core_driver.h>
 #include <kernel.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
+#include <string.h>
 
 /* Global table of Ethernet devices. */
 struct ether ethertab[NETHER];
@@ -28,6 +29,11 @@ struct ether ethertab[NETHER];
  * yet (in our case, attached to USB).
  */
 static semaphore lan7800_attached[NETHER];
+
+/* Global variable which contains the MAC address after
+ * getEthAddr() is called. This is copied to the
+ * devAddress member of the ether struct using memcpy(). */
+uchar addr[ETH_ADDR_LEN] = {0};
 
 /**
  * Try to bind the LAN7800 driver to a specific USB device.
@@ -52,38 +58,28 @@ lan7800_bind_device(struct usb_device *udev)
 	{
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
-	/* Make sure this driver isn't already bound to a SMSC LAN9512.
+	/* Make sure this driver isn't already bound to a LAN7800.
 	 *      * TODO: Support multiple devices of this type concurrently.  */
 	ethptr = &ethertab[0];
 	STATIC_ASSERT(NETHER == 1);
 	if (ethptr->csr != NULL)
 	{
-		kprintf("\r\nDEVICE UNSUPPORTED 2: driver already bound.\r\n");
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
 
-	kprintf("\r\n\nDEVICE ATTACHED:\r\nvendorId: 0x%04X; productId: 0x%04X\r\n\n",
-			udev->descriptor.idVendor, udev->descriptor.idProduct);
-
-	/* The rest of this function is responsible for making the SMSC LAN9512
+	/* The rest of this function is responsible for making the LAN7800
 	 * ready to use, but not actually enabling Rx and Tx (which is done in
 	 * etherOpen()).  This primarily involves writing to the registers on the
-	 * SMSC LAN9512.  But these are not memory mapped registers, as this is a
+	 * LAN7800.  But these are not memory mapped registers, as this is a
 	 * USB Ethernet Adapter that is attached on the USB!  Instead, registers are
 	 * read and written using USB control transfers.  It's somewhat of a pain,
 	 * and also unlike memory accesses it is possible for USB control transfers
 	 * to fail.  However, here we perform lazy error checking where we just do
 	 * all the needed reads and writes, then check at the end if an error
 	 * occurred. */
-
 	udev->last_error = USB_STATUS_SUCCESS;
 
-	/* Resetting the SMSC LAN9512 via its registers should not be necessary
-	 * because the USB code already performed a reset on the USB port it's
-	 * attached to.  */
-
 	/* Set MAC address.  */
-	kprintf("\r\n\nlan7800_set_mac_address() called on UDEV: 0x%X\r\n\n", udev);
 	lan7800_set_mac_address(udev, ethptr->devAddress);
 
 	/* Allow multiple Ethernet frames to be received in a single USB transfer.
@@ -98,7 +94,6 @@ lan7800_bind_device(struct usb_device *udev)
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
 	{
-		kprintf("\r\nLAST ERROR\r\n");
 		return udev->last_error;
 	}
 
@@ -106,7 +101,6 @@ lan7800_bind_device(struct usb_device *udev)
 	udev->driver_private = ethptr;
 	signal(lan7800_attached[ethptr - ethertab]);
 
-	kprintf("\r\nBEFORE BIND SUCCESS.\r\n");
 	return USB_STATUS_SUCCESS;
 }
 
@@ -119,7 +113,6 @@ lan7800_unbind_device(struct usb_device *udev)
 
 	struct ether *ethptr = udev->driver_private;
 
-	kprintf("\r\nWAIT FOR SEMAPHORE.\r\n");
 	/* Reset attached semaphore to 0.  */
 	wait(lan7800_attached[ethptr - ethertab]);
 
@@ -133,30 +126,43 @@ lan7800_unbind_device(struct usb_device *udev)
  * and not related to Xinu's primary device and driver model.
  */
 static const struct usb_device_driver lan7800_driver = {
-	.name			= "LAN7800 USB Ethernet Adapter Driver",
+	.name		= "LAN7800 USB Ethernet Adapter Driver",
 	.bind_device	= lan7800_bind_device,
 	.unbind_device	= lan7800_unbind_device,
 };
 
-/* Get the Pi 3 B+'s MAC address using the ARM->VideoCore (VC) mailbox. */
+/* Get static MAC address from Pi 3 B+ chip, based on the XinuPi
+ * mailbox technique.
+ *
+ * @details
+ *
+ * Get the Pi 3 B+'s MAC address using its ARM->VideoCore (VC) mailbox
+ * and assign corresponding values to a global array containing the MAC. 
+ * This array is then assigned to the devAddress member of the ether structure.
+ * 
+ * TODO:
+ * There exists a quirk in which the address does not get set unless kprintf is
+ * called at the very end of this function. This quirk is not one that udelay()
+ * solved, thus, I am led to believe there is some sort of dependency on UART
+ * communication here. */
 static void
-getEthAddr(uchar addr[ETH_ADDR_LEN])
+getEthAddr(void)
 {
+	/* Initialize and clear the mailbox buffer */
 	uint32_t mailbuffer[MBOX_BUFLEN];
-
-	/* Clear the mailbox buffer. */
 	bzero(mailbuffer, 1024);
 
-	/* Fill the mailbox buffer with the MAC address. */
+	/* Fill the mailbox buffer with the MAC address.
+	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */
 	get_mac_mailbox(mailbuffer);
 
 	int i;
 	for (i = 0; i < 2; ++i) {
 
-		/* Access the MAC value within the buffer. */
+		/* Access the MAC value within the buffer */
 		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
 
-		/* Store the low MAC values. */
+		/* Store the low MAC values */
 		if(i == 0){
 			addr[0] = (value >> 0)  & 0xff;
 			addr[1] = (value >> 8)  & 0xff;
@@ -164,7 +170,7 @@ getEthAddr(uchar addr[ETH_ADDR_LEN])
 			addr[3] = (value >> 24) & 0xff;
 		}
 
-		/* Store the high MAC values. */
+		/* Store the remaining high MAC values */
 		if(i == 1){
 			addr[4] = (value >> 0)  & 0xff;
 			addr[5] = (value >> 8)  & 0xff;
@@ -175,19 +181,17 @@ getEthAddr(uchar addr[ETH_ADDR_LEN])
 	addr[0] &= 0xFE;
 	addr[0] |= 0x02;
 
-	/* TODO: Figure out why this breaks the setup of ethptr->devAddress when commented out... */
+	/* TODO: Figure out why this function fails if kprintf is not called here.
+	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 
+	 * However, seems like a timing issue that a delay can fix because if this for
+	 * loop iterates less than five times, the bug appears.
+	 * Behavior: if kprintf is not called here at least five times, then the global
+	 * array @param addr does not contain the MAC address, looks like: 2:0:0:0:0:0. 
+	 * When kprintf is called here, then the MAC address is set successfully.
+	 * I have tried globally initializing the addr array, same issue. */
 	int j = 0;
-/*	for(j = 0; j < 6; j++){
-		if(j < 5)
-			kprintf("%X:", addr[j]);
-		else
-			kprintf("%X", addr[j]);
-	} */
-
 	for(j = 0; j < 6; j++)
-		kprintf("addr[%d] = 0x%X\r\n", j, addr[j]);
-
-	//udelay(10000);
+		kprintf("");
 }
 
 /**
@@ -207,7 +211,6 @@ getEthAddr(uchar addr[ETH_ADDR_LEN])
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
 {
-	kprintf("\r\nWAIT FOR DEV ATTACH\r\n");
 	wait(lan7800_attached[minor]);
 	signal(lan7800_attached[minor]);
 	return USB_STATUS_SUCCESS;
@@ -225,8 +228,6 @@ lan7800_wait_device_attached(ushort minor)
  */
 devcall etherInit(device *devptr)
 {
-	kprintf("\r\n<<<BEGIN ETHER INIT>>>\r\n");
-	kprintf("NDEVS= %d\r\n", NDEVS);
 	struct ether *ethptr;
 	usb_status_t status;
 
@@ -240,25 +241,27 @@ devcall etherInit(device *devptr)
 	ethptr->isema = semcreate(0);
 	if (isbadsem(ethptr->isema))
 	{
-		kprintf("\r\n<<<BAD SEMAPHORE>>> ERROR.\r\n");
 		goto err;
 	}
 
-	kprintf("\r\nCREATE SEM\r\n");
 	lan7800_attached[devptr->minor] = semcreate(0);
 
 	if (isbadsem(lan7800_attached[devptr->minor]))
 	{
-		kprintf("\r\nBAD SEM\r\n");
 		goto err_free_isema;
 	}
 	
-	/* Get the MAC address and store it into the Ethernet device's structure. */
-	getEthAddr(ethptr->devAddress);
+	/* Get the MAC address and store it into a global array called addr.. */
+	getEthAddr();
+
+	/* Copy the MAC address array into the devAddress member of the
+	 * Ether structure. */
+	memcpy(ethptr->devAddress, addr, sizeof(addr));
 
 	kprintf("\r\n<<<PRINTING DEV ADDRESS>>>\r\n");
 	int k = 0;
 	for(k = 0; k < 6; k++){
+
 		if(k < 5)
 			kprintf("%X:", ethptr->devAddress[k]);
 		else
@@ -272,7 +275,6 @@ devcall etherInit(device *devptr)
 		goto err_free_attached_sema;
 	}
 
-	kprintf("\r\nRETURN OK...\r\n\n");
 	return OK;
 
 err_free_attached_sema:
