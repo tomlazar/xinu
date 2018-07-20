@@ -31,19 +31,22 @@ thread main(void)
 
 	/* Open all ethernet devices */
 #if NETHER
-	{
-		struct ether *ethptr = (struct ether *)malloc(sizeof(struct ether));
-		uint i;
-
+		struct ether *ethptr;	
+		ushort i;
 		for (i = 0; i < NETHER; i++)
 		{
+			kprintf("\r\nOpening the ethernet device: %s\r\n", ethertab[i].dev->name);
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
-						ethertab[i].dev->name;
+				kprintf("WARNING: Failed to open %s\r\n",
+						ethertab[i].dev->name);
+			}
+			else //if(ETH_STATE_UP == ethptr->state)
+			{
+				kprintf("SUCCESS: Opened device %s\r\n", ethertab[i].dev->name);
 			}
 		}
-	}
-#endif /* NETHER */
+#endif  /* NETHER */
 
 	/* Set up the first TTY (CONSOLE)  */
 #if defined(CONSOLE) && defined(SERIAL0)

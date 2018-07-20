@@ -99,7 +99,25 @@ lan7800_bind_device(struct usb_device *udev)
 
 	ethptr->csr = udev;
 	udev->driver_private = ethptr;
+
+	kprintf("\r\nSIGNAL ATTACHED.\r\n");
 	signal(lan7800_attached[ethptr - ethertab]);
+
+	/* TODO: This is intended to be a temporary fix. Traditionally,
+	 * open() is called in main.c for all Xinu platforms.
+	 * Open the Ethernet device. Xinu only supports a single eth device, thus,
+	 * ethertab[0] is the correct static Xinu device which must open.
+	 * This code was originally within main.c, which would originally call open(),
+	 * through etherOpen(), on a device that was not attached. Calling
+	 * open() here ensures that the correct device is opened
+	 * once it is attached. */
+   	/*if (SYSERR == open(ethertab[0].dev->num))
+	{
+   		kprintf("WARNING: Failed to open ETHER device %s\r\n", ethertab[0].dev->name);
+	}*/
+	/*else if(ETH_STATE_UP == ethptr->state)
+		kprintf("Successfully opened ETHER device %s\r\n",  ethertab[0].dev->name);
+	*/
 
 	return USB_STATUS_SUCCESS;
 }
@@ -185,11 +203,14 @@ getEthAddr(void)
 	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 
 	 * However, seems like a timing issue that a delay can fix because if this for
 	 * loop iterates less than five times, the bug appears.
-	 * Behavior: if kprintf is not called here at least five times, then the global
+	 * I discovered this "fix" after noticing that the devAddress values were incorrect,
+	 * 2:0:0:0:0:0, after storing the addr into the devAddress,
+	 * as if the MAC address was never being loaded. So I printed them here to debug.
+	 * Go figure, the print statement seemed to fix it. I pinched myself, was not dreaming.
+	 * --Behavior--: if kprintf is not called here at least five times, then the global
 	 * array @param addr does not contain the MAC address, looks like: 2:0:0:0:0:0. 
-	 * When kprintf is called here, then the MAC address is set successfully.
-	 * I have tried globally initializing the addr array, same issue. */
-	int j = 0;
+	 * When kprintf is called here, then the MAC address is set successfully. */
+	int j;
 	for(j = 0; j < 6; j++)
 		kprintf("");
 }
@@ -211,6 +232,7 @@ getEthAddr(void)
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
 {
+	kprintf("\r\nWAIT FOR ATTACHMENT>>>....\r\n");
 	wait(lan7800_attached[minor]);
 	signal(lan7800_attached[minor]);
 	return USB_STATUS_SUCCESS;
@@ -259,7 +281,7 @@ devcall etherInit(device *devptr)
 	memcpy(ethptr->devAddress, addr, sizeof(addr));
 
 	kprintf("\r\n<<<PRINTING DEV ADDRESS>>>\r\n");
-	int k = 0;
+	int k;
 	for(k = 0; k < 6; k++){
 
 		if(k < 5)
@@ -267,6 +289,8 @@ devcall etherInit(device *devptr)
 		else
 			kprintf("%X", ethptr->devAddress[k]);
 	}
+
+	lan7800_attached[devptr->minor] = semcreate(0);
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);

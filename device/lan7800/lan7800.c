@@ -153,6 +153,7 @@ lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 usb_status_t
 lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 {
+	kprintf("\r\nSETTING MAC ADDRESS.\r\n");
 	usb_status_t status;
 	uint32_t addrl, addrh;
 
@@ -162,6 +163,7 @@ lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 	status = lan7800_write_reg(udev, LAN7800_ADDRL, addrl);
 	if (status != USB_STATUS_SUCCESS)
 	{
+		kprintf("\r\nFailed to write low registers of MAC.\r\n");
 		return status;
 	}
 

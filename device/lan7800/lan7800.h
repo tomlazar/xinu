@@ -57,9 +57,9 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define LAN7800_TX_OVERHEAD			8
 #define LAN7800_RX_OVERHEAD                     4
 
-#define LAN7800_MAX_RX_REQUESTS 		(DIV_ROUND_UP(60 * 1518, LAN7800_DEFAULT_HS_BURST_CAP_SIZE))
+#define LAN7800_MAX_RX_REQUESTS 		1
 
-#define LAN7800_MAX_TX_REQUESTS 		(DIV_ROUND_UP(60 * 1518, LAN7800_DEFAULT_HS_BURST_CAP_SIZE))
+#define LAN7800_MAX_TX_REQUESTS 		1
 
 /* According to U-Boot's LAN78xx driver. */
 #define LAN7800_HS_USB_PKT_SIZE			512
