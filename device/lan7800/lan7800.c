@@ -31,7 +31,6 @@
  * @return
  * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
  * 		code.
- *
  */
 usb_status_t
 lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
@@ -92,7 +91,6 @@ lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
  * @return
  * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
  * 		code.
- *
  */
 usb_status_t
 lan7800_modify_reg(struct usb_device *udev, uint32_t index,
@@ -153,7 +151,6 @@ lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 usb_status_t
 lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 {
-	kprintf("\r\nSETTING MAC ADDRESS.\r\n");
 	usb_status_t status;
 	uint32_t addrl, addrh;
 

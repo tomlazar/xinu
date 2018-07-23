@@ -29,21 +29,22 @@ thread main(void)
 	/* Print information about the operating system  */
 	print_os_info();
 
-	/* Open all ethernet devices */
+	        /* Open all ethernet devices */
 #if NETHER
-		struct ether *ethptr;	
+		struct ether *ethptr;
 		ushort i;
 		for (i = 0; i < NETHER; i++)
 		{
-			kprintf("\r\nOpening the ethernet device: %s\r\n", ethertab[i].dev->name);
+			ethptr = &ethertab[ethertab[i].dev->minor];
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
-				kprintf("WARNING: Failed to open %s\r\n",
+				kprintf("[WARNING]\tFailed to open device %s\r\n",
 						ethertab[i].dev->name);
 			}
-			else //if(ETH_STATE_UP == ethptr->state)
+			else if(ETH_STATE_UP == ethptr->state)
 			{
-				kprintf("SUCCESS: Opened device %s\r\n", ethertab[i].dev->name);
+				kprintf("[SUCCESS]\tOpened device %s\r\n",
+						ethertab[i].dev->name);
 			}
 		}
 #endif  /* NETHER */

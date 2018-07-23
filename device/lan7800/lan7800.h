@@ -52,13 +52,46 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
  * https://github.com/trini/u-boot/blob/890e79f2b1c26c5ba1a86d179706348aec7feef7/drivers/usb/eth/lan7x.h
  ***************************************************************************/
 
+/* Transmit packet overhead */
+#define LAN7800_TX_OVERHEAD		8
+
+/* TX command word A */
+#define TX_CMD_A_IGE_			(0x20000000)
+#define TX_CMD_A_ICE_			(0x10000000)
+
+/* ??? LSO = Last segment o... */
+#define TX_CMD_A_LSO			(0x08000000)
+
+#define TX_CMD_A_IPE_			(0x04000000)
+#define TX_CMD_A_TPE_			(0x02000000)
+#define TX_CMD_A_IVTG_			(0x01000000)
+#define TX_CMD_A_RVTG_			(0x00800000)
+
+/* ??? FCS = first command segment? */
+#define TX_CMD_A_FCS			(0x00400000)
+
+/* TX word A buffer size. */
+#define LAN7800_TX_CMD_A_BUF_SIZE		(0x000FFFFF)
+
+/* TX command word B */
+#define TX_CMD_B_MSS_SHIFT_		(16)
+#define TX_CMD_B_MSS_MASK_		(0x3FFF0000)
+#define TX_CMD_B_MSS_MIN_		((unsigned short)8)
+#define TX_CMD_B_VTAG_MASK_		(0x0000FFFF)
+#define TX_CMD_B_VTAG_PRI_MASK_		(0x0000E000)
+#define TX_CMD_B_VTAG_CFI_MASK_		(0x00001000)
+#define TX_CMD_B_VTAG_VID_MASK_		(0x00000FFF)
+
+
 /* TX/RX Overhead
  * Used in sum to allocate for Tx transfer buffer in etherOpen() */
 #define LAN7800_TX_OVERHEAD			8
 #define LAN7800_RX_OVERHEAD                     4
 
+/* Max Receive requests, allocated in etherOpen() */ 
 #define LAN7800_MAX_RX_REQUESTS 		1
 
+/* Max Transmit requests, allocated in etherOpen() */
 #define LAN7800_MAX_TX_REQUESTS 		1
 
 /* According to U-Boot's LAN78xx driver. */
@@ -67,6 +100,7 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 /* Calculation from SMSC driver. */
 #define LAN7800_DEFAULT_HS_BURST_CAP_SIZE	(16 * 1024 + 5 * LAN7800_HS_USB_PKT_SIZE)
 
+/* Read/write regsiters. */
 #define LAN7800_VENDOR_REQUEST_WRITE		0xA0
 #define LAN7800_VENDOR_REQUEST_READ		0xA1
 #define LAN7800_VENDER_REQUEST_GET_STATS	0xA2
@@ -137,11 +171,14 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 /* Mac-layer transmission. */
 #define LAN7800_MAC_TX			(0x108)
 
+/* Loopback mode. */
+#define MAC_CR_LOOPBACK			(0x00000400)
+
 /* Transmit enable at MAC layer ??? */
 #define LAN7800_MAC_TX_TXEN	 	(0x00000001)
 
 /* Transmit contrl status register (SCSR) */
-#define LAN7800_FCT_TX_CTL			(0x0C4)
+#define LAN7800_FCT_TX_CTL		(0x0C4)
 
 /* Transmit Enable System Control Status Register */
 #define LAN7800_FCT_TX_CTL_EN		(0x80000000)
