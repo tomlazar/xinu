@@ -15,7 +15,6 @@
 #include <ether.h>
 #include <string.h>
 #include <usb_core_driver.h>
-#include "../smsc9512/smsc9512.h"
 
 /**
  * @ingroup etherspecific
@@ -81,9 +80,10 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
              * Ethernet frame from the MAC destination address to end of the CRC
              * following the payload.  (This does not include the Rx status
              * word, which we instead account for in LAN7800_RX_OVERHEAD.) */
-            frame_length = (recv_status & RX_STS_FL) >> 16;
+            frame_length = (recv_status & LAN7800_RX_STS_FL) >> 16;
 
-            if ((recv_status & RX_STS_ES) ||
+	    /* Consult the Error Summary register to determine a Rx error. */
+            if ((recv_status & LAN7800_RX_CMD_A_RX_ERR) ||
                 (frame_length + LAN7800_RX_OVERHEAD > edata - data) ||
                 (frame_length > ETH_MAX_PKT_LEN + ETH_CRC_LEN) ||
                 (frame_length < ETH_HDR_LEN + ETH_CRC_LEN))

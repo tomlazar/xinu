@@ -149,6 +149,10 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define HW_CFG_SUSPEND_N_POL_		(0x00000020)
 #define HW_CFG_ETC_			(0x00000008)
 
+/* LED definitions. */
+#define LAN7800_HW_CFG_LED1_EN		1<<21 /* Muxed with EEDO */
+#define LAN7800_HW_CFG_LED0_EN		1<<20 /* Muxed with EECLK */
+
 /* Multiple Ethernet Frames. */
 #define LAN7800_HW_CFG_MEF		(0x00000010)
 
@@ -184,6 +188,12 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define LAN7800_FCT_TX_CTL_EN		(0x80000000)
 
 /* Receive control status register */
-#define LAN78XX_FCT_RX_CTL		(0x0C0)
+#define LAN7800_FCT_RX_CTL		(0x0C0)
+
+/* Received Ethernet Frame Length */
+#define LAN7800_RX_STS_FL		(0x00003FFF)
+
+/* ??? Not entirely sure, appears to be Received Ethernet Error Summary. */
+#define LAN7800_RX_CMD_A_RX_ERR		(0xC03F0000)
 
 #endif	/* _LAN7800_H_ */

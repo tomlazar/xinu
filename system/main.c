@@ -38,12 +38,12 @@ thread main(void)
 			ethptr = &ethertab[ethertab[i].dev->minor];
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
-				kprintf("[WARNING]\tFailed to open device %s\r\n",
+				kprintf("[\033[1;31mFAILED\033[0;39m]\tFailed to open device %s\r\n",
 						ethertab[i].dev->name);
 			}
 			else if(ETH_STATE_UP == ethptr->state)
 			{
-				kprintf("[SUCCESS]\tOpened device %s\r\n",
+				kprintf("[\033[1;32mOK\033[0;39m]\tOpened device %s\r\n",
 						ethertab[i].dev->name);
 			}
 		}
