@@ -101,12 +101,22 @@ struct etherGram
 			        }
 
         /* oversized packet (paylod 1502 bytes + 14 byte header) */
-    sprintf(str, "%s 1516 byte packet (write)", peth->dev->name);
+    sprintf(str, "%s 1516 OVERSIZED byte packet (write)", peth->dev->name);
         testPrint(verbose, str);
         len = write(dev, outpkt, 1516);
         failif((SYSERR != len), "");
 
-    
+    sprintf(str, "%s 1514 MAX byte packet (write)", peth->dev->name);
+        testPrint(verbose, str);
+        len = write(dev, outpkt, 1514);
+        failif((SYSERR < 1514), "");
+
+    sprintf(str, "%s 700 NORMAL byte packet (write)", peth->dev->name);
+        testPrint(verbose, str);
+        len = write(dev, outpkt, 700);
+        failif((SYSERR < 700), "");
+
+/*
     sprintf(str, "%s  700 byte packet (read)", peth->dev->name);
         testPrint(verbose, str);
         bzero(inpkt, memsize);
@@ -116,6 +126,8 @@ struct etherGram
         failif((0 != memcmp(outpkt, inpkt, 700)), "");
         printf("After fail statement...\r\n");
 	return 0;
+*/
+
 }
 
 void testPass(bool verbose, const char *msg)

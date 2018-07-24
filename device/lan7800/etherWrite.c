@@ -33,6 +33,9 @@ devcall etherWrite(device *devptr, const void *buf, uint len)
      * beginning that contain device-specific flags.  These two fields are
      * required, although we essentially just use them to tell the hardware we
      * are transmitting one (1) packet with no extra bells and whistles.  */
+
+/* TODO: Make sure these TX_CMD registeres are necessary, and accurate for this platform. */
+
     sendbuf = req->sendbuf;
     tx_cmd_a = len | TX_CMD_A_FCS | TX_CMD_A_LSO;
     sendbuf[0] = (tx_cmd_a >> 0)  & 0xff;

@@ -60,6 +60,8 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 {
     struct ether *ethptr = req->private;
 
+ //   kprintf("\r\n<<<<RX CALLBACK>>>>\r\n");
+
     ethptr->rxirq++;
     if (req->status == USB_STATUS_SUCCESS)
     {

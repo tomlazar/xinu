@@ -74,6 +74,7 @@ devcall etherOpen(device *devptr)
     struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
     for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
     {
+	kprintf("\r\nTX REQ SETUP.\r\n");
         struct usb_xfer_request *req;
         req = bufget(ethptr->outPool);
         usb_init_xfer_request(req);
@@ -94,6 +95,7 @@ devcall etherOpen(device *devptr)
      * */
     for (i = 0; i < LAN7800_MAX_RX_REQUESTS; i++)
     {
+	kprintf("\r\nRX REQ SETUP.\r\n");
         struct usb_xfer_request *req;
         req = usb_alloc_xfer_request(LAN7800_DEFAULT_HS_BURST_CAP_SIZE);
         if (req == NULL)
