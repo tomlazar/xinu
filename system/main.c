@@ -38,12 +38,12 @@ thread main(void)
 			ethptr = &ethertab[ethertab[i].dev->minor];
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
-				kprintf("[\033[1;31mFAILED\033[0;39m]\tFailed to open device %s\r\n",
+				kprintf("[\t\033[1;31mFAILED\033[0;39m\t]\tFailed to open device %s\r\n",
 						ethertab[i].dev->name);
 			}
 			else if(ETH_STATE_UP == ethptr->state)
 			{
-				kprintf("[\033[1;32mOK\033[0;39m]\tOpened device %s\r\n",
+				printf("[\t\033[1;32mOK\033[0;39m\t]\tOpened device %s\r\n",
 						ethertab[i].dev->name);
 			}
 		}
@@ -71,6 +71,7 @@ thread main(void)
 	/* Set up the second TTY (TTY1) if possible  */
 #if defined(TTY1)
 #if defined(KBDMON0)
+
 	/* Associate TTY1 with keyboard and use framebuffer output  */
 	if (OK == open(TTY1, KBDMON0))
 	{

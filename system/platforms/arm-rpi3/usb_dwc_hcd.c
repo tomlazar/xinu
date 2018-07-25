@@ -474,6 +474,7 @@ dwc_host_port_status_changed(void)
         *(uint8_t*)req->recvbuf = 0x2; /* 0x2 means Port 1 status changed (bit 0 is
                                      used for the hub itself) */
         req->actual_size = 1;
+	//kprintf("status changed on port.\r\n");
         req->status = USB_STATUS_SUCCESS;
         usb_complete_xfer(req);
     }
@@ -1498,9 +1499,11 @@ dwc_handle_channel_halted_interrupt(uint chan)
     switch (intr_status)
     {
         case XFER_COMPLETE:
+		//kprintf("XFER COMPLETE.\r\n");
             req->status = USB_STATUS_SUCCESS;
             break;
         case XFER_FAILED:
+	    //kprintf("HARDWARE ERROR.\r\n");
             req->status = USB_STATUS_HARDWARE_ERROR;
             break;
         case XFER_NEEDS_DEFERRAL:

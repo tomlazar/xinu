@@ -52,9 +52,6 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
  * https://github.com/trini/u-boot/blob/890e79f2b1c26c5ba1a86d179706348aec7feef7/drivers/usb/eth/lan7x.h
  ***************************************************************************/
 
-/* Transmit packet overhead */
-#define LAN7800_TX_OVERHEAD		8
-
 /* TX command word A */
 #define TX_CMD_A_IGE_			(0x20000000)
 #define TX_CMD_A_ICE_			(0x10000000)
@@ -71,7 +68,7 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define TX_CMD_A_FCS			(0x00400000)
 
 /* TX word A buffer size. */
-#define LAN7800_TX_CMD_A_BUF_SIZE		(0x000FFFFF)
+#define LAN7800_TX_CMD_A_BUF_SIZE	(0x000FFFFF)
 
 /* TX command word B */
 #define TX_CMD_B_MSS_SHIFT_		(16)

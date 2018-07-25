@@ -15,6 +15,7 @@
 #include <ether.h>
 #include <string.h>
 #include <usb_core_driver.h>
+#include <kernel.h>
 
 /**
  * @ingroup etherspecific
@@ -32,6 +33,7 @@
  */
 void lan7800_tx_complete(struct usb_xfer_request *req)
 {
+ //   kprintf("\r\n<<<<TX CALLBACK>>>>\r\n");
     struct ether *ethptr = req->private;
 
     ethptr->txirq++;
@@ -60,11 +62,12 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 {
     struct ether *ethptr = req->private;
 
- //   kprintf("\r\n<<<<RX CALLBACK>>>>\r\n");
+    //kprintf("\r\n<<<<RX CALLBACK>>>>\r\n");
 
     ethptr->rxirq++;
     if (req->status == USB_STATUS_SUCCESS)
     {
+//	    kprintf("REQ USB SUCCESS>>>\r\n");
         const uint8_t *data, *edata;
         uint32_t recv_status;
         uint32_t frame_length;

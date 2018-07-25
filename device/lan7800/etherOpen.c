@@ -100,11 +100,13 @@ devcall etherOpen(device *devptr)
         req = usb_alloc_xfer_request(LAN7800_DEFAULT_HS_BURST_CAP_SIZE);
         if (req == NULL)
         {
+		kprintf("\r\nNULL REQUEST... GO TO OUT FREE POOL.\r\n");
             goto out_free_in_pool;
         }
         req->dev = udev;
         /* Assign Rx endpoint, checked in lan7800_bind_device() */
         req->endpoint_desc = udev->endpoints[0][0];
+	kprintf("\r\nset callback func rx.\r\n");
         req->completion_cb_func = lan7800_rx_complete;
         req->private = ethptr;
         usb_submit_xfer_request(req);
