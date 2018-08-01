@@ -41,11 +41,13 @@ devcall etherControl(device *devptr, int req, long arg1, long arg2)
 
     /* Get MAC address from device. */
     case ETH_CTRL_GET_MAC:
+	kprintf("ETH CTRL GET MAC.\r\n");
         status = lan7800_get_mac_address(udev, (uchar*)arg1);
         break;
 
     /* Enable or disable loopback mode.  */
     case ETH_CTRL_SET_LOOPBK:
+	kprintf("ETH CRTL LOOPBACK.\r\n");
         status = lan7800_modify_reg(udev, LAN7800_MAC_CR, ~MAC_CR_LOOPBACK,
                                      ((bool)arg1 == TRUE) ? MAC_CR_LOOPBACK : 0);
         break;

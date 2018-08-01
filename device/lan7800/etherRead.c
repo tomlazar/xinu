@@ -31,7 +31,7 @@ devcall etherRead(device *devptr, void *buf, uint len)
         return SYSERR;
     }
 
-    kprintf("[READ] Wait for available packet...\r\n");
+    kprintf("\r\n[READ] Wait for available packet...\r\n");
     /* Wait for received packet to be available in the ethptr->in circular
      * queue.  */
     wait(ethptr->isema);

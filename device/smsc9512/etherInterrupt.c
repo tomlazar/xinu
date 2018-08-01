@@ -36,6 +36,7 @@
  */
 void smsc9512_tx_complete(struct usb_xfer_request *req)
 {
+    kprintf("<<<<TX COMPLETE>>>>\r\n");
     struct ether *ethptr = req->private;
 
     ethptr->txirq++;

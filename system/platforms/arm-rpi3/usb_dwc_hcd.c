@@ -474,7 +474,6 @@ dwc_host_port_status_changed(void)
         *(uint8_t*)req->recvbuf = 0x2; /* 0x2 means Port 1 status changed (bit 0 is
                                      used for the hub itself) */
         req->actual_size = 1;
-	//kprintf("status changed on port.\r\n");
         req->status = USB_STATUS_SUCCESS;
         usb_complete_xfer(req);
     }
@@ -989,8 +988,11 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     /* Set up DMA buffer.  */
     if (IS_WORD_ALIGNED(data))
     {
-        /* Can DMA directly from source or to destination if word-aligned.  */
-        chanptr->dma_address = (uint32_t)data | 0xC0000000;					/* convert ARM address to VC4 address */
+	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
+	 * convert the address from ARM to VC4. This is done both times which
+	 * the DMA address is stored.
+         * Can DMA directly from source or to destination if word-aligned.  */
+        chanptr->dma_address = (uint32_t)data | 0xC0000000;
     }
     else
     {
@@ -998,7 +1000,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;	/* convert ARM address to VC4 address */	
+        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
@@ -1252,6 +1254,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             /* Copy data from DMA buffer if needed */
             if (!IS_WORD_ALIGNED(req->cur_data_ptr))
             {
+	        usb_dev_debug(req->dev, "\r\n\n------------------------------\r\nCOPY FROM DMA BUFFER.\r\n\n----------------------------\r\n\n");
                 memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
@@ -1481,6 +1484,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
+	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1499,11 +1503,9 @@ dwc_handle_channel_halted_interrupt(uint chan)
     switch (intr_status)
     {
         case XFER_COMPLETE:
-		//kprintf("XFER COMPLETE.\r\n");
             req->status = USB_STATUS_SUCCESS;
             break;
         case XFER_FAILED:
-	    //kprintf("HARDWARE ERROR.\r\n");
             req->status = USB_STATUS_HARDWARE_ERROR;
             break;
         case XFER_NEEDS_DEFERRAL:
