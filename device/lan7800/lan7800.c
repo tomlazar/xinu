@@ -207,3 +207,66 @@ lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 	return USB_STATUS_SUCCESS;
 	
 }
+
+/**
+ * @ingroup etherspecific
+ *
+ * Waits for phy to not be busy
+ *
+ * @param udev
+ * 		USB device for the adapter
+ *
+ * @return
+ * 		returns 0 on success; only returns when it is successful,
+ * 		so it only returns a 0.
+ */
+static int lan7800_phy_wait_not_busy(struct usb_device *udev)
+{
+	return lan7800_mdio_wait_for_bit(udev, MII_ACC, MII_ACC_MII_BUSY, 0);
+}
+
+int lan7800_mdio_read(struct usb_device *udev, int phy_id, int idx)
+{
+	uint32_t val, addr;
+
+	/* confirm MII is not busy */
+	if (lan7800_phy_wait_not_busy(udev))
+	{
+		/* Should not reach this point... */
+		return -1;
+	}
+
+	addr = (phy_id << 11) | (idx << 6) | MII_ACC_MII_READ | MII_ACC_MII_BUSY;
+	lan7800_write_reg(udev, MII_ACC, addr);
+
+	if (lan7800_phy_wait_not_busy(udev))
+	{
+		/* Should not reach this point... */
+		return -1;
+	}
+
+	lan7800_read_reg(udev, MII_DATA, &val);
+
+	return val & 0xFFFF;
+}
+
+void lan7800_mdio_write(struct usb_device *udev, int phy_id, int idx, int regval)
+{
+	uint32_t addr;
+
+	/* confirm MII is not busy */
+	if (lan7800_phy_wait_not_busy(udev))
+	{
+		return;
+	}
+
+	lan7800_write_reg(udev, MII_DATA, regval);
+
+	/* set address, index, and direction (write to PHY) */
+	addr = (phy_id << 11) | (idx << 6) | MII_ACC_MII_WRITE | MII_ACC_MII_BUSY;
+	lan7800_write_reg(udev, MII_ACC, addr);
+
+	if (lan7800_phy_wait_not_busy(udev))
+		return;
+
+}

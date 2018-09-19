@@ -14,6 +14,7 @@
 #define _LAN7800_H_
 
 #include "usb_util.h"
+#include <clock.h>		/* for udelay() */
 
 #define LAN7800_VENDOR_ID	0x424
 #define LAN7800_PRODUCT_ID	0x7800
@@ -44,6 +45,32 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 }
 
 #define lan7800_dump_reg(udev, index) __lan7800_dump_reg(udev, index, #index)
+
+/* lan7800_mdio methods */
+int  lan7800_mdio_read (struct usb_device *udev, int phy_id, int idx);
+void lan7800_mdio_write(struct usb_device *udev, int phy_id, int idx, int regval);
+
+static inline int lan7800_mdio_wait_for_bit(struct usb_device *udev,
+					const uint32_t reg,
+					const uint32_t mask,
+					const bool set)
+{
+	uint32_t val;
+
+	while(1)
+	{
+		lan7800_read_reg(udev, reg, &val);
+
+		if (!set)
+			val = ~val;
+
+		if ((val & mask) == mask)
+			return 0;
+
+		udelay(1);
+	}
+}
+
 
 /***************************************************************************
  * According to Linux's open-source 78xx driver:
@@ -192,5 +219,13 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 
 /* ??? Not entirely sure, appears to be Received Ethernet Error Summary. */
 #define LAN7800_RX_CMD_A_RX_ERR		(0xC03F0000)
+
+/* MII_ACC */
+#define MII_ACC				(0x120)
+#define MII_ACC_MII_READ		(0x0)
+#define MII_ACC_MII_WRITE		(0x2)
+#define MII_ACC_MII_BUSY		(1 << 0)
+
+#define MII_DATA			(0x124)
 
 #endif	/* _LAN7800_H_ */
