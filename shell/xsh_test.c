@@ -101,11 +101,12 @@ static int ethtest()
 	/* place ether in loopback mode */
 	control(dev, ETH_CTRL_SET_LOOPBK, TRUE, 0);
 
-	/* flush any packets already received */
+	/* flush any packets already received
 	while (peth->icount > 0)
 	{
 		read(dev, inpkt, memsize);
 	}
+	*/
 
 	/* oversized packet (paylod 1502 bytes + 14 byte header)
 	 * should result in s SYSERR */

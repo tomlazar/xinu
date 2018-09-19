@@ -121,23 +121,10 @@ static inline int lan7800_mdio_wait_for_bit(struct usb_device *udev,
 /* According to U-Boot's LAN78xx driver. */
 #define LAN7800_HS_USB_PKT_SIZE			512
 
-/* Calculation from SMSC driver. */
-#define LAN7800_DEFAULT_HS_BURST_CAP_SIZE	(16 * 1024 + 5 * LAN7800_HS_USB_PKT_SIZE)
-
 /* Read/write regsiters. */
 #define LAN7800_VENDOR_REQUEST_WRITE		0xA0
 #define LAN7800_VENDOR_REQUEST_READ		0xA1
 #define LAN7800_VENDER_REQUEST_GET_STATS	0xA2
-
-/* MAC offset */
-#define LAN7800_MAC_CR				0x100
-#define LAN7800_MAC_CR_TXEN			0x00000001
-#define LAN7800_MAC_CR_RXEN			0x00000001
-
-/* ??? TODO: Need for ethOpen() completion.
-#define LAN7800_TX_CFG
-#define LAN8900_TX_CFG_ON
-*/
 
 /* MAC TX/RX */
 #define LAN7800_MAC_RX				0x104
@@ -190,35 +177,73 @@ static inline int lan7800_mdio_wait_for_bit(struct usb_device *udev,
 #define LAN7800_BURST_CAP		(0x090)
 #define BURST_CAP_SIZE_MASK		(0x000000FF)
 
-/* Bulk In ??? */
-#define LAN7800_CFG_BIR			(0x00000040)
-
-/* ??? */
-#define LAN7800_CFG_BCE			(0x00000020)
-
-/* Mac-layer transmission. */
-#define LAN7800_MAC_TX			(0x108)
-
 /* Loopback mode. */
 #define MAC_CR_LOOPBACK			(0x00000400)
-
-/* Transmit enable at MAC layer ??? */
-#define LAN7800_MAC_TX_TXEN	 	(0x00000001)
-
-/* Transmit contrl status register (SCSR) */
-#define LAN7800_FCT_TX_CTL		(0x0C4)
-
-/* Transmit Enable System Control Status Register */
-#define LAN7800_FCT_TX_CTL_EN		(0x80000000)
-
-/* Receive control status register */
-#define LAN7800_FCT_RX_CTL		(0x0C0)
 
 /* Received Ethernet Frame Length */
 #define LAN7800_RX_STS_FL		(0x00003FFF)
 
 /* ??? Not entirely sure, appears to be Received Ethernet Error Summary. */
 #define LAN7800_RX_CMD_A_RX_ERR		(0xC03F0000)
+
+/* The following register definitions were pulled from U-Boot's implementation:
+ * https://github.com/Screenly/u-boot/blob/master/drivers/usb/eth/lan78xx.c
+ */
+#define LAN7800_BULK_IN_DLY		0x094
+#define LAN7800_DEFAULT_BULK_IN_DLY	0x0800
+#define LAN7800_INT_STS			0x0C
+
+#define LAN7800_FCT_RX_FIFO_END		0x0C8
+#define LAN7800_MAX_RX_FIFO_SIZE	(12 * 1024)
+
+#define LAN7800_FCT_TX_FIFO_END         0x0CC
+#define LAN7800_MAX_TX_FIFO_SIZE        (12 * 1024)
+
+/* For initializing Tx. */
+#define LAN7800_TX_FLOW			0x0D0
+
+/* For initializing Rx. */
+#define LAN7800_RFE_CTL			0x0B0
+#define LAN7800_RFE_CTL_BCAST_EN	(1 << 10)
+#define LAN7800_RFE_CTL_DA_PERFECT	(1 << 1)
+
+/* MAC functions. */
+#define LAN7800_MAC_CR_AUTO_DUPLEX	(1 << 12)
+#define MAC_CR_AUTO_SPEED		(1 << 11)
+
+/* Adaptive & Dynamic Polling at MAC layer ??? */
+#define MAC_CR_ADP			(1 << 13)
+
+#define LAN7800_MAC_TX				0x108
+#define MAC_TX_TXEN			(1 << 0)
+
+#define LAN7800_FCT_TX_CTL		0x0C4
+#define LAN7800_FCT_TX_CTL_EN		(1 << 31)
+
+#define MAC_RX                          0x104
+#define MAC_RX_RXEN			(1 << 0)
+
+#define LAN7800_ETH_FRAME_LEN		1514
+#define LAN7X_MAC_RX_MAX_SIZE_DEFAULT \
+		LAN7X_MAC_RX_MAX_SIZE(LAN7800_ETH_FRAME_LEN + 4 /* VLAN */ + 4 /* CRC */)
+
+#define LAN7800_MAC_RX_FCS_STRIP	(1 << 4)
+
+#define LAN7800_FCT_RX_CTL              0x0C0
+#define LAN7800_FCT_TX_CTL_EN           (1 << 31)
+
+/* MAF is where U-Boot writes the hardware address. */
+#define LAN78XX_MAF_BASE		0x400
+#define LAN78XX_MAF_HIX			0x00
+#define LAN78XX_MAF_LOX			0x04
+#define LAN78XX_MAF_HI_BEGIN		(LAN78XX_MAF_BASE + LAN78XX_MAF_HIX)
+#define LAN78XX_MAF_LO_BEGIN		(LAN78XX_MAF_BASE + LAN78XX_MAF_LOX)
+#define LAN78XX_MAF_HI(index)		(LAN78XX_MAF_BASE + (8 * (index)) + \
+							LAN78XX_MAF_HIX)
+#define LAN78XX_MAF_LO(index)		(LAN78XX_MAF_BASE + (8 * (index)) + \
+							LAN78XX_MAF_LOX)
+#define LAN78XX_MAF_HI_VALID		BIT(31)
+
 
 /* MII_ACC */
 #define MII_ACC				(0x120)
