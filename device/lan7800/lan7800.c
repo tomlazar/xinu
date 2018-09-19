@@ -16,6 +16,22 @@
 #include <usb_core_driver.h>
 #include <stdio.h>
 
+/*
+#define ALLOC_CACHE_ALIGN_BUFFER(type, name, size)			\
+		ALLOC_ALIGN_BUFFER(type, name, size, ARCH_DMA_MINALIGN)
+
+#define ALLOC_ALIGN_BUFFER(type, name, size, align)		\
+		ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, 1)
+
+#define ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, pad)		\
+		char __##name[ROUND(PAD_SIZE((size) * sizeof(type), pad), align)  \
+				      + (align - 1)];
+
+#define PAD_COUNT(s, pad) (((s) - 1) / (pad) + 1)
+#define PAD_SIZE(s, pad) (PAD_COUNT(s, pad) * pad)
+*/
+
+
 /**
  * @ingroup etherspecific
  *

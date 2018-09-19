@@ -118,12 +118,20 @@ devcall etherOpen(device *devptr)
     udev->last_error = USB_STATUS_SUCCESS;
 
     /* MAC Layer */
-    lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN | LAN7800_MAC_CR_RXEN);
+    lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN); // | MAC_RX_EN ***
 
     /* Physical (PHY) layer
      * The following line uses the TX control registers that I believe are correct,
      * as used in torvalds/linux for its lan78xx device driver. */
     lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, LAN7800_FCT_TX_CTL_EN);
+
+    /* Enable Rx at MAC */
+    lan7800_write_reg(udev, LAN7800_MAC_RX, LAN7X_MAC_RX_MAX_SIZE_DEFAULT
+		    			    | MAC_RX_FCS_STRIP	
+					    | LAN7800_MAC_CR_RXEN);
+
+    /* Enable Rx at SCSRs */
+    lan7800_write_reg(udev, LAN7800_FCT_RX_CTL, LAN7800_FCT_RX_CTL_EN);
     
     if (udev->last_error != USB_STATUS_SUCCESS)
     {

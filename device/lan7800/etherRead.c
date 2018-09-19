@@ -12,6 +12,18 @@
 #include <interrupt.h>
 #include <string.h>
 
+#define ALLOC_CACHE_ALIGN_BUFFER(type, name, size)			\
+		ALLOC_ALIGN_BUFFER(type, name, size, ARCH_DMA_MINALIGN)
+
+#define ALLOC_ALIGN_BUFFER(type, name, size, align)		\
+		ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, 1)
+
+#define ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, pad)		\
+		char __##name[ROUND(PAD_SIZE((size) * sizeof(type), pad), align)  \
+				      + (align - 1)];
+
+#define PAD_SIZE(s, pad) (PAD_COUNT(s, pad) * pad)
+
 /* Implementation of etherRead() for the MicroChip LAN7800; see the documentation for
  * this function in ether.h.  */
 devcall etherRead(device *devptr, void *buf, uint len)
