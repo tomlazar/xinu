@@ -44,7 +44,7 @@ devcall etherOpen(device *devptr)
     /* Create buffer pool for Tx transfers.  */
     ethptr->outPool = bfpalloc(sizeof(struct usb_xfer_request) + ETH_MAX_PKT_LEN +
                                    LAN7800_TX_OVERHEAD,
-                                   LAN7800_MAX_TX_REQUESTS);
+                                   LAN7800_MAX_TX_FIFO_SIZE);
     if (ethptr->outPool == SYSERR)
     {
         goto out_restore;
@@ -69,10 +69,18 @@ devcall etherOpen(device *devptr)
     {
     	goto out_free_in_pool;
     }
+
+     /* set Tx FIFO sizes */
+    lan7800_write_reg(udev, LAN7800_FCT_TX_FIFO_END,
+		     (LAN7800_MAX_TX_FIFO_SIZE - 512) / 512);
     
+    /* set Rx FIFO sizes */
+    lan7800_write_reg(udev, LAN7800_FCT_RX_FIFO_END,
+		     (LAN7800_MAX_RX_FIFO_SIZE - 512) / 512);
+
     /* Initialize the Tx requests.  */
-    struct usb_xfer_request *reqs[LAN7800_MAX_TX_REQUESTS];
-    for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
+    struct usb_xfer_request *reqs[LAN7800_MAX_TX_FIFO_SIZE];
+    for (i = 0; i < LAN7800_MAX_TX_FIFO_SIZE; i++)
     {
 	kprintf("\r\nTX REQ SETUP.\r\n");
         struct usb_xfer_request *req;
@@ -86,18 +94,18 @@ devcall etherOpen(device *devptr)
         req->private = ethptr;
         reqs[i] = req;
     }
-    for (i = 0; i < LAN7800_MAX_TX_REQUESTS; i++)
+    for (i = 0; i < LAN7800_MAX_TX_FIFO_SIZE; i++)
     {
         buffree(reqs[i]);
     }
 
     /* Allocate and submit the Rx requests.  TODO: these aren't freed anywhere.
      * */
-    for (i = 0; i < LAN7800_MAX_RX_REQUESTS; i++)
+    for (i = 0; i < LAN7800_MAX_RX_FIFO_SIZE; i++)
     {
 	kprintf("\r\nRX REQ SETUP.\r\n");
         struct usb_xfer_request *req;
-        req = usb_alloc_xfer_request(LAN7800_DEFAULT_HS_BURST_CAP_SIZE);
+        req = usb_alloc_xfer_request(LAN7800_BURST_CAP_SIZE);
         if (req == NULL)
         {
 		kprintf("\r\nNULL REQUEST... GO TO OUT FREE POOL.\r\n");
@@ -112,27 +120,38 @@ devcall etherOpen(device *devptr)
         usb_submit_xfer_request(req);
     }
 
+    /* Init Tx */
+    lan7800_write_reg(udev, LAN7800_TX_FLOW, 0);
+
+    /* Init Rx */
+    lan7800_write_reg(udev, LAN7800_RFE_CTL, LAN7800_RFE_CTL_BCAST_EN
+		    			   | LAN7800_RFE_CTL_DA_PERFECT);
+
     /* Enable transmit and receive on MAC and the actual hardware (PHY).  After doing this and
      * restoring interrupts, the Rx transfers can complete at any time due to
      * incoming packets.  */
-    udev->last_error = USB_STATUS_SUCCESS;
+   
+    unsigned int write_buf;
 
-    /* MAC Layer */
-    lan7800_set_reg_bits(udev, LAN7800_MAC_CR, LAN7800_MAC_CR_TXEN); // | MAC_RX_EN ***
+    lan7800_read_reg(udev, LAN7800_MAC_CR, &write_buf);
+    write_buf |= LAN7800_MAC_CR_AUTO_DUPLEX | LAN7800_MAC_CR_AUTO_SPEED
+	      | LAN7800_MAC_CR_ADP;
+    lan7800_write_reg(udev, LAN7800_MAC_CR, write_buf);
 
-    /* Physical (PHY) layer
-     * The following line uses the TX control registers that I believe are correct,
-     * as used in torvalds/linux for its lan78xx device driver. */
+    /* Enable Tx at MAC */
+    lan7800_write_reg(udev, LAN7800_MAC_TX, LAN7800_MAC_TX_TXEN);
+
+    /* Enable Tx at SCSRs */
     lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, LAN7800_FCT_TX_CTL_EN);
 
     /* Enable Rx at MAC */
-    lan7800_write_reg(udev, LAN7800_MAC_RX, LAN7X_MAC_RX_MAX_SIZE_DEFAULT
-		    			    | MAC_RX_FCS_STRIP	
-					    | LAN7800_MAC_CR_RXEN);
+    lan7800_write_reg(udev, LAN7800_MAC_RX, LAN7800_MAC_RX_MAX_SIZE_DEFAULT
+		    | LAN7800_MAC_RX_FCS_STRIP
+		    | LAN7800_MAC_RX_RXEN);
 
     /* Enable Rx at SCSRs */
     lan7800_write_reg(udev, LAN7800_FCT_RX_CTL, LAN7800_FCT_RX_CTL_EN);
-    
+
     if (udev->last_error != USB_STATUS_SUCCESS)
     {
         goto out_free_in_pool;

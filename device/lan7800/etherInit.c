@@ -82,14 +82,14 @@ lan7800_bind_device(struct usb_device *udev)
 	/* Set MAC address.  */
 	lan7800_set_mac_address(udev, ethptr->devAddress);
 
-	/* Allow multiple Ethernet frames to be received in a single USB transfer.
-	 * Also set a couple flags of unknown function.  */
-	lan7800_set_reg_bits(udev, LAN7800_HW_CFG, LAN7800_HW_CFG_MEF | LAN7800_CFG_BIR | LAN7800_CFG_BCE);
+	/* Write burst cap */
+	lan7800_write_reg(udev, LAN7800_BURST_CAP, 0);
 
-	/* Set the maximum USB (not networking!) packets per USB Rx transfer.
-	 * Required when HW_CFG_MEF was set.  */
-	lan7800_write_reg(udev, LAN7800_BURST_CAP,
-			LAN7800_DEFAULT_HS_BURST_CAP_SIZE / LAN7800_HS_USB_PKT_SIZE);
+	/* Write BULK_IN_DLY */
+	lan7800_write_reg(udev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DLY);
+
+	/* Write INT_STS */
+	lan7800_write_reg(udev, LAN7800_INT_STS, 0xFFFFFFFF);
 
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
