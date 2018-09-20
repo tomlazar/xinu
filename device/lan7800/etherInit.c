@@ -58,6 +58,7 @@ lan7800_bind_device(struct usb_device *udev)
 	{
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
+
 	/* Make sure this driver isn't already bound to a LAN7800.
 	 *      * TODO: Support multiple devices of this type concurrently.  */
 	ethptr = &ethertab[0];
@@ -79,17 +80,8 @@ lan7800_bind_device(struct usb_device *udev)
 	 * occurred. */
 	udev->last_error = USB_STATUS_SUCCESS;
 
-	/* Set MAC address.  */
+	/* Set MAC address within ethernet struct */
 	lan7800_set_mac_address(udev, ethptr->devAddress);
-
-	/* Write burst cap */
-	lan7800_write_reg(udev, LAN7800_BURST_CAP, 0);
-
-	/* Write BULK_IN_DLY */
-	lan7800_write_reg(udev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DLY);
-
-	/* Write INT_STS */
-	lan7800_write_reg(udev, LAN7800_INT_STS, 0xFFFFFFFF);
 
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
@@ -248,6 +240,7 @@ devcall etherInit(device *devptr)
 		goto err;
 	}
 
+	/* Create semaphore for device attachment. */
 	lan7800_attached[devptr->minor] = semcreate(0);
 
 	if (isbadsem(lan7800_attached[devptr->minor]))
@@ -256,14 +249,11 @@ devcall etherInit(device *devptr)
 	}
 	
 	/* Get the MAC address and store it into a global array called addr.. */
-	getEthAddr();
+	//getEthAddr();
 
 	/* Copy the MAC address array into the devAddress member of the
 	 * Ether structure. */
-	memcpy(ethptr->devAddress, addr, sizeof(addr));
-
-	/* Create semaphore for device attachment. */
-	lan7800_attached[devptr->minor] = semcreate(0);
+	//memcpy(ethptr->devAddress, addr, sizeof(addr));
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);

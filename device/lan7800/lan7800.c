@@ -15,22 +15,7 @@
 #include "lan7800.h"
 #include <usb_core_driver.h>
 #include <stdio.h>
-
-/*
-#define ALLOC_CACHE_ALIGN_BUFFER(type, name, size)			\
-		ALLOC_ALIGN_BUFFER(type, name, size, ARCH_DMA_MINALIGN)
-
-#define ALLOC_ALIGN_BUFFER(type, name, size, align)		\
-		ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, 1)
-
-#define ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, pad)		\
-		char __##name[ROUND(PAD_SIZE((size) * sizeof(type), pad), align)  \
-				      + (align - 1)];
-
-#define PAD_COUNT(s, pad) (((s) - 1) / (pad) + 1)
-#define PAD_SIZE(s, pad) (PAD_COUNT(s, pad) * pad)
-*/
-
+#include <clock.h>
 
 /**
  * @ingroup etherspecific
@@ -48,15 +33,15 @@
  * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
  * 		code.
  */
-usb_status_t
+	usb_status_t
 lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
 {
 	return usb_control_msg(udev, NULL,
-				LAN7800_VENDOR_REQUEST_WRITE,
-				USB_BMREQUESTTYPE_DIR_OUT |
-				USB_BMREQUESTTYPE_TYPE_VENDOR |
-				USB_BMREQUESTTYPE_RECIPIENT_DEVICE,
-				0, index, &data, sizeof(uint32_t));
+			LAN7800_VENDOR_REQUEST_WRITE,
+			USB_BMREQUESTTYPE_DIR_OUT |
+			USB_BMREQUESTTYPE_TYPE_VENDOR |
+			USB_BMREQUESTTYPE_RECIPIENT_DEVICE,
+			0, index, &data, sizeof(uint32_t));
 }
 
 /**
@@ -76,15 +61,15 @@ lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
  * 		code.
  *
  */
-usb_status_t
+	usb_status_t
 lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
 {
 	return usb_control_msg(udev, NULL,
-				LAN7800_VENDOR_REQUEST_READ,
-				USB_BMREQUESTTYPE_DIR_IN |
-				USB_BMREQUESTTYPE_TYPE_VENDOR |
-				USB_BMREQUESTTYPE_RECIPIENT_DEVICE,
-				0, index, data, sizeof(uint32_t));
+			LAN7800_VENDOR_REQUEST_READ,
+			USB_BMREQUESTTYPE_DIR_IN |
+			USB_BMREQUESTTYPE_TYPE_VENDOR |
+			USB_BMREQUESTTYPE_RECIPIENT_DEVICE,
+			0, index, data, sizeof(uint32_t));
 }
 
 /**
@@ -108,9 +93,9 @@ lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
  * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
  * 		code.
  */
-usb_status_t
+	usb_status_t
 lan7800_modify_reg(struct usb_device *udev, uint32_t index,
-				   uint32_t mask, uint32_t set)
+		uint32_t mask, uint32_t set)
 {
 	usb_status_t status;
 	uint32_t val;
@@ -143,7 +128,7 @@ lan7800_modify_reg(struct usb_device *udev, uint32_t index,
  * 		code.
  *
  */
-usb_status_t
+	usb_status_t
 lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 {
 	return lan7800_modify_reg(udev, index, 0xFFFFFFFF, set);
@@ -164,7 +149,7 @@ lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
  *              code.  On failure the existing MAC address may have been partially
  *              modified.
  */     
-usb_status_t
+	usb_status_t
 lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 {
 	usb_status_t status;
@@ -196,7 +181,7 @@ lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
  *       	::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
  *       	code.
  */
-usb_status_t
+	usb_status_t
 lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 {
 	usb_status_t status;
@@ -221,7 +206,7 @@ lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 	macaddr[5] = (addrh >> 8)  & 0xff;
 
 	return USB_STATUS_SUCCESS;
-	
+
 }
 
 /**
@@ -241,6 +226,7 @@ static int lan7800_phy_wait_not_busy(struct usb_device *udev)
 	return lan7800_mdio_wait_for_bit(udev, MII_ACC, MII_ACC_MII_BUSY, 0);
 }
 
+/* Read over the MII (bus between PHY layer and MAC layer on LAN7800). */
 int lan7800_mdio_read(struct usb_device *udev, int phy_id, int idx)
 {
 	uint32_t val, addr;
@@ -266,6 +252,7 @@ int lan7800_mdio_read(struct usb_device *udev, int phy_id, int idx)
 	return val & 0xFFFF;
 }
 
+/* Write over the MII (bus between PHY layer and MAC layer on LAN7800). */
 void lan7800_mdio_write(struct usb_device *udev, int phy_id, int idx, int regval)
 {
 	uint32_t addr;
@@ -285,4 +272,178 @@ void lan7800_mdio_write(struct usb_device *udev, int phy_id, int idx, int regval
 	if (lan7800_phy_wait_not_busy(udev))
 		return;
 
+}
+
+/* lan7800_wait_for_bit
+ * Use the system clock to wait for a bit to be read over the LAN7800 chip.
+ */
+static int lan7800_wait_for_bit(struct usb_device *dev, const char *func,
+		const uint32_t reg, const uint32_t mask,
+		const bool set, const unsigned int timeout)
+{
+	u32 val;
+	unsigned long start = clkcount();
+
+	while (1) {
+		lan7800_read_reg(udev, reg, &val);
+
+		if (!set)
+			val = ~val;
+
+		if ((val & mask) == mask)
+			return 0;
+
+		/* Timeout if specified timeout is exceeded. */
+		if ((platform.clkfreq + start) > timeout_ms)
+			break;
+
+		udelay(1);
+	}
+
+	debug("%s: Timeout (reg=0x%x mask=%08x wait_set=%i)\n", prefix, reg,
+			mask, set);
+
+	return -ETIMEDOUT;
+}
+
+/* lan7800_read_raw_otp.
+ * LAN7800 infrastructure command to read from OTP (One-time programmable) registers
+ * on the chip. Used as a helper function within lan7800_read_otp.
+ *
+ * Taken from the U-Boot implementation developed by MicroChip and Andrew Thomas:
+ * https://github.com/u-boot/u-boot/blob/af15946aa081dbcd0bec7d507a2b2db4e6b6cda5/drivers/usb/eth/lan7800.c
+ */ 
+static int lan7800_read_raw_otp(struct usb_device *udev, u32 offset,
+		u32 length, u8 *data)
+{
+	int i;
+	uint32_t buf;
+
+	lan7800_read_reg(udev, LAN7800_OTP_PWR_DN, &buf);
+
+	if (buf & LAN7800_OTP_PWR_DN_PWRDN_N) {
+
+		/* clear it and wait to be cleared */
+		lan7800_write_reg(udev, LAN7800_OTP_PWR_DN, 0);
+
+		lan7800_wait_for_bit(udev, "LAN7800_OTP_PWR_DN_PWRDN_N",
+				LAN7800_OTP_PWR_DN,
+				LAN7800_OTP_PWR_DN_PWRDN_N,
+				false, 1000);
+	}
+
+	for (i = 0; i < length; i++) {
+		lan7800_write_reg(udev, LAN7800_OTP_ADDR1,
+				((offset + i) >> 8) &
+				LAN7800_OTP_ADDR1_15_11);
+		lan7800_write_reg(udev, LAN7800_OTP_ADDR2,
+				((offset + i) & LAN7800_OTP_ADDR2_10_3));
+
+		lan7800_write_reg(udev, LAN7800_OTP_FUNC_CMD, LAN7800_OTP_FUNC_CMD_READ);
+		lan7800_write_reg(udev, LAN7800_OTP_CMD_GO, LAN7800_OTP_CMD_GO_GO);
+
+		lan7800_wait_for_bit(udev, "LAN7800_OTP_STATUS_BUSY",
+				LAN7800_OTP_STATUS,
+				LAN7800_OTP_STATUS_BUSY,
+				false, 1000);
+		lan7800_read_reg(udev, LAN7800_OTP_RD_DATA, &buf);
+
+		data[i] = (u8)(buf & 0xFF);
+	}
+
+	return 0;
+}
+
+/* lan7800_read_otp
+ * Reads from OTP register set. If successful, MAC will be readable from OTP.
+ *
+ * Taken from the U-Boot implementation developed by MicroChip and Andrew Thomas:
+ * https://github.com/u-boot/u-boot/blob/af15946aa081dbcd0bec7d507a2b2db4e6b6cda5/drivers/usb/eth/lan7800.c
+ */
+static int lan7800_read_otp(struct usb_device *udev, u32 offset,
+		u32 length, u8 *data)
+{
+	u8 sig;
+	lan7800_read_raw_otp(udev, 0, 1, &sig);
+
+	if (sig == LAN7800_OTP_INDICATOR_1)
+		offset = offset;
+	else if (sig == LAN7800_OTP_INDICATOR_2)
+		offset += 0x100;
+	else
+		return -EINVAL;
+	lan7800_read_raw_otp(udev, offset, length, data);
+
+	usb_dev_debug(dev, "LAN7800: MAC address from OTP = %pM\n", data);
+
+	return ret;
+}
+
+/* lan7800_read_otp_mac
+ * Reads MAC values from EEPROM.
+ *
+ * Taken from the U-Boot implementation developed by MicroChip and Andrew Thomas:
+ * https://github.com/u-boot/u-boot/blob/af15946aa081dbcd0bec7d507a2b2db4e6b6cda5/drivers/usb/eth/lan7800.c
+ */ 
+static int lan7800_read_otp_mac(unsigned char *enetaddr,
+		struct usb_device *udev)
+{
+	int ret;
+
+	memset(enetaddr, 0, 6);
+
+	ret = lan7800_read_otp(udev,
+			EEPROM_MAC_OFFSET,
+			ETH_ALEN,
+			enetaddr);
+	if (!ret && is_valid_ethaddr(enetaddr)) {
+		/* eeprom values are valid so use them */
+		debug("MAC address read from OTP %pM\n", enetaddr);
+		return 0;
+	}
+	debug("MAC address read from OTP invalid %pM\n", enetaddr);
+
+	memset(enetaddr, 0, 6);
+	return -EINVAL;
+}
+
+static int lan7800_eeprom_confirm_not_busy(struct usb_device *udev)
+{
+	return lan7800_wait_for_bit(udev, __func__,
+			E2P_CMD, E2P_CMD_EPC_BUSY,
+			false, 100);
+}
+
+static int lan7800_wait_eeprom(struct usb_device *udev)
+{
+	return lan7800_wait_for_bit(udev, __func__,
+			E2P_CMD,
+			(E2P_CMD_EPC_BUSY | E2P_CMD_EPC_TIMEOUT),
+			false, 100);
+}
+
+static int lan7800_read_eeprom(struct usb_device *udev,
+		u32 offset, u32 length, u8 *data)
+{
+	u32 val;
+	int i, ret;
+
+	ret = lan7800_eeprom_confirm_not_busy(udev);
+	if (ret)
+		return ret;
+
+	for (i = 0; i < length; i++) {
+		val = E2P_CMD_EPC_BUSY | E2P_CMD_EPC_CMD_READ |
+			(offset & E2P_CMD_EPC_ADDR_MASK);
+		lan7800_write_reg(udev, E2P_CMD, val);
+
+		ret = lan7800_wait_eeprom(udev);
+		if (ret)
+			return ret;
+
+		lan7800_read_reg(udev, E2P_DATA, &val);
+		data[i] = val & 0xFF;
+		offset++;
+	}
+	return ret;
 }
