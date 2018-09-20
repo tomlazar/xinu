@@ -6,6 +6,10 @@
 
 #include <thread.h>
 
+#if MULTICORE
+#include <mutex.h>
+#endif
+
 /**
  * @ingroup semaphores
  *
@@ -36,6 +40,11 @@ syscall signaln(semaphore sem, int count)
         return SYSERR;
     }
     semptr = &semtab[sem];
+
+#if MULTICORE
+    mutex_acquire(&(semptr->mutex));
+#endif
+
     for (; count > 0; count--)
     {
         if ((semptr->count++) < 0)
@@ -43,6 +52,10 @@ syscall signaln(semaphore sem, int count)
             ready(dequeue(semptr->queue), RESCHED_NO);
         }
     }
+#if MULTICORE
+    mutex_release(&(semptr->mutex));
+#endif
+
     resched();
     restore(im);
     return OK;
