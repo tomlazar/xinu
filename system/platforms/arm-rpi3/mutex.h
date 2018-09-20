@@ -5,7 +5,7 @@
 #define UNLOCKED	0
 
 #ifndef __ASSEMBLER__
-typedef unsigned int mutex_t;
+typedef unsigned char mutex_t;
 extern void mutex_acquire(mutex_t *);
 extern void mutex_release(mutex_t *);
 #endif	/* __ASSEMBLER__ */

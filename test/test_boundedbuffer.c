@@ -21,7 +21,7 @@
 #define	BUFFER_SIZE	10
 
 void test_boundedbuffer(void);
-extern void unparkcore(unsigned int, void *);
+extern void unparkcore(unsigned int, void *, void *);
 extern void led_test(void);
 extern void udelay(unsigned long);
 extern void pld(unsigned int *);
@@ -43,9 +43,9 @@ void test_boundedbuffer()
 	kprintf("---------------------------------\r\n");
 	kprintf("\tBOUNDED BUFFER TEST\r\n");
 	kprintf("---------------------------------\r\n");
-	unparkcore(1, (void *) producer);
-	unparkcore(2, (void *) consumer);
-	unparkcore(3, (void *) print_bb_status);
+	unparkcore(1, (void *) producer, NULL);
+	unparkcore(2, (void *) consumer, NULL);
+	unparkcore(3, (void *) print_bb_status, NULL);
 	led_test();
 }
 
