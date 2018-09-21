@@ -17,6 +17,11 @@ extern void test_boundedbuffer(void);
 extern void unparkcore(uint, void *, void *);
 extern uint getcpuid(void);
 
+extern thread test_semaphore(bool);
+extern thread test_semaphore2(bool);
+extern thread test_semaphore3(bool);
+extern thread test_semaphore4(bool);
+
 static void print_test(void)
 {
 	uint cpuid = getcpuid();
@@ -39,11 +44,19 @@ static void print_test(void)
 shellcmd xsh_test(int nargs, char *args[])
 {
 //	test_boundedbuffer();
+/*
 	udelay(500);
 	kprintf("\r\n--- PRINT TEST ON MULTIPLE CORES ---\r\n");
 	unparkcore(1, (void *) print_test, NULL);
 	unparkcore(2, (void *) print_test, NULL);
 	unparkcore(3, (void *) print_test, NULL);
 	while (1) ;
+*/
+
+	ready(create((void *) test_semaphore , INITSTK, INITPRIO, "TEST0", 1, 1), RESCHED_NO);
+	ready(create((void *) test_semaphore2, INITSTK, INITPRIO, "TEST1", 1, 1), RESCHED_NO);
+	ready(create((void *) test_semaphore3, INITSTK, INITPRIO, "TEST2", 1, 1), RESCHED_NO);
+	ready(create((void *) test_semaphore4, INITSTK, INITPRIO, "TEST3", 1, 1), RESCHED_NO);
+
 	return 0;
 }
