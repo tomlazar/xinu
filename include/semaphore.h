@@ -29,7 +29,7 @@ struct sement                   /* semaphore table entry      */
     int count;                  /**< count for this semaphore */
     qid_typ queue;              /**< requires queue.h.        */
 #if MULTICORE
-    mutex_t mutex;		/**< requires mutex.h.	      */
+    mutex_t sem_mutex;		/**< requires mutex.h.	      */
 #endif
 };
 

@@ -42,7 +42,7 @@ syscall signaln(semaphore sem, int count)
     semptr = &semtab[sem];
 
 #if MULTICORE
-    mutex_acquire(&(semptr->mutex));
+    mutex_acquire(&(semptr->sem_mutex));
 #endif
 
     for (; count > 0; count--)
@@ -53,7 +53,7 @@ syscall signaln(semaphore sem, int count)
         }
     }
 #if MULTICORE
-    mutex_release(&(semptr->mutex));
+    mutex_release(&(semptr->sem_mutex));
 #endif
 
     resched();

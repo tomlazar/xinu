@@ -40,19 +40,19 @@ syscall signal(semaphore sem)
     semptr = &semtab[sem];
 
 #if MULTICORE
-    mutex_acquire(&(semptr->mutex));
+    mutex_acquire(&(semptr->sem_mutex));
 #endif
     
     if ((semptr->count++) < 0)
     {
         ready(dequeue(semptr->queue), RESCHED_NO);
 #if MULTICORE
-	mutex_release(&(semptr->mutex));
+	mutex_release(&(semptr->sem_mutex));
 #endif
 	resched();
     }
 #if MULTICORE
-    mutex_release(&(semptr->mutex));
+    mutex_release(&(semptr->sem_mutex));
 #endif
 
     restore(im);

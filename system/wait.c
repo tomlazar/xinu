@@ -43,7 +43,7 @@ syscall wait(semaphore sem)
     semptr = &semtab[sem];
 
 #if MULTICORE
-    mutex_acquire(&(semptr->mutex));
+    mutex_acquire(&(semptr->sem_mutex));
 #endif
 
     if (--(semptr->count) < 0)
@@ -53,14 +53,14 @@ syscall wait(semaphore sem)
         enqueue(thrcurrent, semptr->queue);
         
 #if MULTICORE
-	mutex_release(&(semptr->mutex));
+	mutex_release(&(semptr->sem_mutex));
 #endif
 	
 	resched();
     }
 
 #if MULTICORE
-    mutex_release(&(semptr->mutex));
+    mutex_release(&(semptr->sem_mutex));
 #endif
 
     restore(im);

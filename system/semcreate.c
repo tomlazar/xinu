@@ -49,7 +49,7 @@ semaphore semcreate(int count)
     if (SYSERR != sem)      /* If semaphore was allocated, set count.  */
     {
         semtab[sem].count = count;
-	semtab[sem].mutex = UNLOCKED;
+	semtab[sem].sem_mutex = UNLOCKED;
     }
     /* Restore interrupts and return either the semaphore or SYSERR.  */
     restore(im);
