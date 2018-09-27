@@ -83,6 +83,11 @@ lan7800_bind_device(struct usb_device *udev)
 	/* Set MAC address within ethernet struct */
 	lan7800_set_mac_address(udev, ethptr->devAddress);
 
+	kprintf("LAN7800 MAC: ");
+	for (int i = 0; i < 6; i++)
+		kprintf("%02X ", ethptr->devAddress[i]);
+	kprintf("\r\n");
+
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
 	{
@@ -139,7 +144,7 @@ static const struct usb_device_driver lan7800_driver = {
  * solved, thus, I am led to believe there is some sort of dependency on UART
  * communication here. */
 static void
-getEthAddr(void)
+getEthAddr(uint8_t *addr)
 {
 	/* Initialize and clear the mailbox buffer */
 	uint32_t mailbuffer[MBOX_BUFLEN];
@@ -249,7 +254,7 @@ devcall etherInit(device *devptr)
 	}
 	
 	/* Get the MAC address and store it into a global array called addr.. */
-	//getEthAddr();
+	getEthAddr(ethptr->devAddress);
 
 	/* Copy the MAC address array into the devAddress member of the
 	 * Ether structure. */
