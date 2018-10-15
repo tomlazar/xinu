@@ -1,3 +1,7 @@
+#backup files
+*.back
+*~
+
 # Object files
 *.o
 
