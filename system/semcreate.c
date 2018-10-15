@@ -6,6 +6,13 @@
 #include <semaphore.h>
 #include <interrupt.h>
 
+#if MULTICORE
+#include <mutex.h>
+
+static mutex_t semtab_mutex = UNLOCKED;
+
+#endif
+
 static semaphore semalloc(void);
 
 /**
@@ -33,14 +40,24 @@ semaphore semcreate(int count)
         return SYSERR;
     }
 
+#if MULTICORE
+    mutex_acquire(&semtab_mutex);
+#endif
+
     im = disable();         /* Disable interrupts.  */
     sem = semalloc();       /* Allocate semaphore.  */
     if (SYSERR != sem)      /* If semaphore was allocated, set count.  */
     {
         semtab[sem].count = count;
+	semtab[sem].sem_mutex = UNLOCKED;
     }
     /* Restore interrupts and return either the semaphore or SYSERR.  */
     restore(im);
+
+#if MULTICORE
+    mutex_release(&semtab_mutex);
+#endif
+    
     return sem;
 }
 

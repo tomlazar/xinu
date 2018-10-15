@@ -6,6 +6,10 @@
 
 #include <thread.h>
 
+#if MULTICORE
+#include <mutex.h>
+#endif
+
 /**
  * @ingroup semaphores
  *
@@ -37,13 +41,28 @@ syscall wait(semaphore sem)
     }
     thrptr = &thrtab[thrcurrent];
     semptr = &semtab[sem];
+
+#if MULTICORE
+    mutex_acquire(&(semptr->sem_mutex));
+#endif
+
     if (--(semptr->count) < 0)
     {
         thrptr->state = THRWAIT;
         thrptr->sem = sem;
         enqueue(thrcurrent, semptr->queue);
-        resched();
+        
+#if MULTICORE
+	mutex_release(&(semptr->sem_mutex));
+#endif
+	
+	resched();
     }
+
+#if MULTICORE
+    mutex_release(&(semptr->sem_mutex));
+#endif
+
     restore(im);
     return OK;
 }

@@ -4,6 +4,7 @@
 #define MMUTABLEBASE	0x00004000
 
 #ifndef __ASSEMBLER__
+extern void mmu_initialize(void);
 extern void start_mmu(unsigned int);
 extern void stop_mmu(void);
 extern void invalidate_tlbs(void);

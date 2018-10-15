@@ -9,6 +9,10 @@
 
 #include <queue.h>
 
+#if MULTICORE
+#include <mutex.h>
+#endif
+
 /* Semaphore state definitions */
 #define SFREE 0x01 /**< this semaphore is free */
 #define SUSED 0x02 /**< this semaphore is used */
@@ -24,6 +28,9 @@ struct sement                   /* semaphore table entry      */
     char state;                 /**< the state SFREE or SUSED */
     int count;                  /**< count for this semaphore */
     qid_typ queue;              /**< requires queue.h.        */
+#if MULTICORE
+    mutex_t sem_mutex;		/**< requires mutex.h.	      */
+#endif
 };
 
 extern struct sement semtab[];
