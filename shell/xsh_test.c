@@ -13,6 +13,7 @@
 #include <ctype.h>
 #include <clock.h>
 
+<<<<<<< HEAD
 extern void test_boundedbuffer(void);
 extern void unparkcore(uint, void *, void *);
 extern uint getcpuid(void);
@@ -30,6 +31,8 @@ static void print_test(void)
 		kprintf("THIS IS CORE %d SAYING HELLO\r\n", cpuid);
 }
 
+=======
+>>>>>>> parent of bfc8f7a... modified and tested mutex's
 /**
  * @ingroup shell
  *
@@ -43,6 +46,7 @@ static void print_test(void)
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
+<<<<<<< HEAD
 //	test_boundedbuffer();
 /*
 	udelay(500);
@@ -58,5 +62,10 @@ shellcmd xsh_test(int nargs, char *args[])
 	ready(create((void *) test_semaphore3, INITSTK, INITPRIO, "TEST2", 1, 1), RESCHED_NO);
 	ready(create((void *) test_semaphore4, INITSTK, INITPRIO, "TEST3", 1, 1), RESCHED_NO);
 
+=======
+	printf("arg: %d\n", atoi(args[1]));
+	sleep(atoi(args[1]));
+		
+>>>>>>> parent of bfc8f7a... modified and tested mutex's
 	return 0;
 }
