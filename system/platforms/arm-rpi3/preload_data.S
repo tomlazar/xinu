@@ -1,5 +1,5 @@
 .globl pld
 
 pld:
-	pld	[r0]
+	pldw	[r0]
 	bx	lr
