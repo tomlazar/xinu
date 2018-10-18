@@ -20,6 +20,7 @@ unsigned int core_init_sp[4];
 void *init_args[4];
 
 void unparkcore(int num, void *procaddr, void *args) {
+	udelay(5);
 	if (num > 0 && num < 4)
 	{
 		corestart[num] = (void *) procaddr;
