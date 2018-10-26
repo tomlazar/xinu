@@ -9,7 +9,7 @@
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #	include <mutex.h>
-	mutex_t serial_lock = UNLOCKED;
+	mutex_t serial_lock = MUTEX_UNLOCKED;
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /**

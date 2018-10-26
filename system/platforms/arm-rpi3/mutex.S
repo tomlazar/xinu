@@ -30,10 +30,10 @@ loop:
 continue:
 	ldrexb	r1, [r0]		/* Load the value of the lock from memory					*/
 
-	cmp		r1, #LOCKED		/* IF already locked ,										*/
+	cmp		r1, #MUTEX_LOCKED		/* IF already locked ,										*/
 	beq		loop			/* THEN try again...										*/
 
-	mov		r1, #LOCKED		/* ELSE unlocked, try to lock..								*/
+	mov		r1, #MUTEX_LOCKED		/* ELSE unlocked, try to lock..								*/
 	strexb	r2, r1, [r0]	
 	cmp		r2, #0x0		/* IF lock acquire failed this time around,					*/
 	bne		loop			/* THEN try again back up at the top						*/
@@ -47,7 +47,7 @@ continue:
 mutex_release:
 	.func	mutex_release
 
-	mov		r1, #UNLOCKED
+	mov		r1, #MUTEX_UNLOCKED
 	dmb						/* Required before accessing protected resource */
 	strb		r1, [r0]		/* Unlock mutex */
 	bx		lr

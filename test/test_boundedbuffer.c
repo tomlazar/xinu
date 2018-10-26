@@ -32,7 +32,7 @@ static void print_bb_status(void);
 
 /* these are static so that they are not visible to the outside xinu world 
  * and dont interfere with any other variable names, just in case */
-static mutex_t bb_mutex = UNLOCKED;
+static mutex_t bb_mutex = MUTEX_UNLOCKED;
 
 static unsigned int buffer[BUFFER_SIZE];
 static unsigned int in  = 0;
