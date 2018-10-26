@@ -81,6 +81,7 @@ _start:
 /* ARM exception vector table.  This is copied to VBAR register. */
 /* Vector table has to be 32-byte aligned. */
 .balign	0x20
+.globl _vectors
 _vectors:
 	ldr pc, reset_addr    /* Reset handler */
 	ldr pc, undef_addr	  /* Undefined instruction handler */

@@ -10,6 +10,10 @@ CoreSetup:
 	add		r0, pc, #4
 	msr		ELR_hyp, r0
 	eret
+
+	/* set vector addresses */
+	ldr		r1, =_vectors
+	mcr		p15, 0, r1, c12, c0, 0 /* Write to VBAR */
 	
 	/* get CPUID from MPIDR register and put value in r0 */
 	mrc		p15, 0, r0, c0, c0, 5		/* MPIDR */
