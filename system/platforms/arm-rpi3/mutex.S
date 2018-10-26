@@ -17,7 +17,7 @@ mutex_acquire:
 	push	{lr}
 
 loop:
-	pld		[r0]			/* Preload Data into cache to increase chance of success 	*/
+	pldw		[r0]			/* Preload Data into cache to increase chance of success 	*/
 
 //	mov		r1, #0
 	/* nop sled to wait for data the load into cache */
@@ -28,13 +28,13 @@ loop:
 
 
 continue:
-	ldrex	r1, [r0]		/* Load the value of the lock from memory					*/
+	ldrexb	r1, [r0]		/* Load the value of the lock from memory					*/
 
 	cmp		r1, #LOCKED		/* IF already locked ,										*/
 	beq		loop			/* THEN try again...										*/
 
 	mov		r1, #LOCKED		/* ELSE unlocked, try to lock..								*/
-	strex	r2, r1, [r0]	
+	strexb	r2, r1, [r0]	
 	cmp		r2, #0x0		/* IF lock acquire failed this time around,					*/
 	bne		loop			/* THEN try again back up at the top						*/
 	dmb						/* Data Memory Barrier opcode waits for memory accesses		*/
@@ -49,7 +49,7 @@ mutex_release:
 
 	mov		r1, #UNLOCKED
 	dmb						/* Required before accessing protected resource */
-	str		r1, [r0]		/* Unlock mutex */
+	strb		r1, [r0]		/* Unlock mutex */
 	bx		lr
 
 	.endfunc
