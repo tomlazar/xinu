@@ -80,7 +80,7 @@ const struct centry commandtab[] = {
     //XXX{"snoop", FALSE, xsh_snoop},
 #endif
 #if USE_TAR
-    {"tar", FALSE, xsh_tar},
+//    {"tar", FALSE, xsh_tar},
 #endif
 #if NETHER
     //XXX{"tcpstat", FALSE, xsh_tcpstat},

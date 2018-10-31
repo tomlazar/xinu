@@ -17,6 +17,7 @@
 #include "../device/lan7800/lan7800.h"
 #include <ether.h>
 #include <testsuite.h>
+#include <conf.h>
 
 #define MAX_PAYLOAD  1516
 #define ETH_TYPE_ARP 0x0806
@@ -77,7 +78,8 @@ static int ethtest()
 	char mymac[ETH_ADDR_LEN];
 	char str[80];
 	struct ether *peth = &ethertab[0];
-	int dev = peth->dev->num;
+//	int dev = peth->dev->num;
+	int dev = ETH0;
 
 	/* memget */
 	memsize = sizeof(struct etherGram) + MAX_PAYLOAD - 1;
@@ -85,16 +87,20 @@ static int ethtest()
 	outpkt = memget(memsize);
 	payload = &(outpkt->payload[0]);
 
+//	char rademac[6] = {0xBA, 0x27, 0xEB, 0x26, 0x81, 0x60};
+
+	char rademac[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 	control(dev, ETH_CTRL_GET_MAC, (long)mymac, 0);
-	memcpy(outpkt->dst, mymac, ETH_ADDR_LEN);
+	memcpy(outpkt->dst, rademac, ETH_ADDR_LEN);
 	memcpy(outpkt->src, mymac, ETH_ADDR_LEN);
 	outpkt->type_len = hs2net(ETH_TYPE_ARP);
 
 	/* generate payload content */
-	for (i = 0; i < MAX_PAYLOAD; i++)
+	for (i = 0; i < 32; i++)
 	{
 		/* Cycle through 0x20 to 0x7d (range of 0x5e) */
-		value = (i % 0x5e) + 0x20;
+		//value = (i % 0x5e) + 0x20;
+		value = i;
 		payload[i] = value;
 	}
 
@@ -110,7 +116,7 @@ static int ethtest()
 
 	/* oversized packet (paylod 1502 bytes + 14 byte header)
 	 * should result in s SYSERR */
-	sprintf(str, "%s 1516 OVERSIZED byte packet (write)", peth->dev->name);
+/*	sprintf(str, "%s 1516 OVERSIZED byte packet (write)", peth->dev->name);
 	testPrint(verbose, str);
 	len = write(dev, outpkt, 1516);
 	failif((SYSERR != len), "");
@@ -125,17 +131,29 @@ static int ethtest()
 	len = write(dev, outpkt, 700);
 	failif((len < 700), "");
 
-	/* Too small of a packet, should end in SYSERR. */
+	 Too small of a packet, should end in SYSERR.
 	sprintf(str, "%s 12 MICRO byte packet (write)", peth->dev->name);
 	testPrint(verbose, str);
 	len = write(dev, outpkt, 12);
 	failif((SYSERR != len), "");
+	*/
 
-	sprintf(str, "%s 512 random-sized packets (write)", peth->dev->name);
+        value = read(dev, inpkt, len);	
+	testPrint(verbose, str);
+        len = write(dev, outpkt, 32);
+        failif((len < 32), "");
+
+	sprintf(str, "%s  32 byte packet (read)", peth->dev->name);
+	testPrint(verbose, str);
+	bzero(inpkt, memsize);
+	len = read(dev, inpkt, 32);
+	failif((0 != memcmp(outpkt, inpkt, 32)), "");
+
+/*	sprintf(str, "%s 512 random-sized packets (write)", peth->dev->name);
 	testPrint(verbose, str);
 	subpass = TRUE;
 
-	for(i = 0; i < 512; i++)
+	for(i = 0; i < 16; i++)
 	{
 		len = 32 + (rand() % 1200);
 		value = write(dev, outpkt, len);
@@ -164,7 +182,7 @@ static int ethtest()
 	   return 0;
 	   */
 	/* ether out of loopback mode */
-	control(dev, ETH_CTRL_SET_LOOPBK, FALSE, 0);
+//	control(dev, ETH_CTRL_SET_LOOPBK, FALSE, 0);
 
 	memfree(outpkt, memsize);
 	memfree(inpkt, memsize);

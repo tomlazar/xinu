@@ -45,14 +45,14 @@ devcall etherOpen(device *devptr)
 	ethptr->outPool = bfpalloc(sizeof(struct usb_xfer_request)
 			+ ETH_MAX_PKT_LEN
 			+ LAN7800_TX_OVERHEAD,
-		          LAN7800_MAX_TX_REQUESTS);
+			LAN7800_MAX_TX_REQUESTS);
 	if (ethptr->outPool == SYSERR)
 	{
 		goto out_restore;
 	}
 
 	/* Create buffer pool for Rx packets (not the actual USB transfers, which
-	 * 	 * are allocated separately).  */
+	 * are allocated separately).  */
 	ethptr->inPool = bfpalloc(sizeof(struct ethPktBuffer) + ETH_MAX_PKT_LEN,
 			ETH_IBLEN);
 	if (ethptr->inPool == SYSERR)
@@ -61,32 +61,32 @@ devcall etherOpen(device *devptr)
 	}
 
 	/* We're abusing the csr field to store a pointer to the USB device
-	 *      * structure.  At least it's somewhat equivalent, since it's what we need to
-	 *           * actually communicate with the device hardware.  */
+	 * structure.  At least it's somewhat equivalent, since it's what we need to
+	 * actually communicate with the device hardware.  */
 	udev = ethptr->csr;
 
 
 	/* The rest of this function is responsible for making the LAN78xx
-	 * 	  * ready to use, but not actually enabling Rx and Tx (which is done in
-	 * 	  	  * etherOpen()).  This primarily involves writing to the registers on the
-	 * 	  	  	  * LAN78xx.  But these are not memory mapped registers, as this is a
-	 * 	  	  	  	  * USB Ethernet Adapter that is attached on the USB!  Instead, registers are
-	 * 	  	  	  	  	  * read and written using USB control transfers.  It's somewhat of a pain,
-	 * 	  	  	  	  	  	  * and also unlike memory accesses it is possible for USB control transfers
-	 * 	  	  	  	  	  	  	  * to fail.  However, here we perform lazy error checking where we just do
-	 * 	  	  	  	  	  	  	  	  * all the needed reads and writes, then check at the end if an error
-	 * 	  	  	  	  	  	  	  	  	  * occurred.  */
+	 * ready to use, but not actually enabling Rx and Tx (which is done in
+	 * etherOpen()).  This primarily involves writing to the registers on the
+	 * LAN78xx.  But these are not memory mapped registers, as this is a
+	 * USB Ethernet Adapter that is attached on the USB!  Instead, registers are
+	 * read and written using USB control transfers.  It's somewhat of a pain,
+	 * and also unlike memory accesses it is possible for USB control transfers
+	 * to fail.  However, here we perform lazy error checking where we just do
+	 * all the needed reads and writes, then check at the end if an error
+	 * occurred.  */
 
 
 	udev->last_error = USB_STATUS_SUCCESS;
 
 
 	/*ethptr->devAddress[0] = 0xB8;
-	 * 	ethptr->devAddress[1] = 0x27;
-	 * 		ethptr->devAddress[2] = 0xEB;
-	 * 			ethptr->devAddress[3] = 0x71;
-	 * 				ethptr->devAddress[4] = 0x5A;
-	 * 					ethptr->devAddress[5] = 0x97;*/
+	 *ethptr->devAddress[1] = 0x27;
+	 *ethptr->devAddress[2] = 0xEB;
+	 *ethptr->devAddress[3] = 0x71;
+	 *ethptr->devAddress[4] = 0x5A;
+	 *ethptr->devAddress[5] = 0x97;*/
 	retval = lan7800_reset(udev, &ethptr->devAddress[0]);
 	if (retval < 0) goto out_free_in_pool;
 
@@ -113,8 +113,7 @@ devcall etherOpen(device *devptr)
 		}
 	}
 
-	/* Allocate and submit the Rx requests.  TODO: these aren't freed anywhere.
-	 * 	 * */
+	/* Allocate and submit the Rx requests.  TODO: these aren't freed anywhere. */
 #define LAN7800_MAX_RX_REQUESTS 1
 	for (int i = 0; i < LAN7800_MAX_RX_REQUESTS; i++)
 	{
@@ -127,7 +126,7 @@ devcall etherOpen(device *devptr)
 		}
 		req->dev = udev;
 		/* Assign Rx endpoint, checked in lan78xx_bind_device() */
-		req->endpoint_desc = udev->endpoints[0][0];
+		req->endpoint_desc = udev->endpoints[0][2];
 		req->completion_cb_func = lan7800_rx_complete;
 		req->private = ethptr;
 		usb_submit_xfer_request(req);

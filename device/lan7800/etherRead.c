@@ -28,6 +28,7 @@
  * this function in ether.h.  */
 devcall etherRead(device *devptr, void *buf, uint len)
 {
+    kprintf("\r\n<<READ BEING CALLED>>\r\n");
     irqmask im;
     struct ether *ethptr;
     struct ethPktBuffer *pkt;

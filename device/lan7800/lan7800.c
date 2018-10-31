@@ -12,6 +12,32 @@
  * Embedded Xinu, Copyright (C) 2018. All rights reserved.
  */
 
+
+/* **********************************************************************
+ * **********************************************************************
+ * LAN7800 Device Driver Notes:
+ * 
+ * Seemingly relevant chapters:
+ * 5,6,7,8,9,10,11,12,14
+ * 
+ * Section 5.1:
+ * "The USB functionality consists of five major parts.
+ *  The USB PHY, UDC (USB Device Controller), URX (USB Bulk Out Receiver),
+ *  UTX (USB Bulk In Transmitter), and CTL (USB Control Block)."
+ *
+ * Section 6.1: (DOC p. 50)
+ * ------------
+ *  - 12 KB RX FIFO -> buffers frames received from the RFE
+ *  				[RFE = Receive Filtering Engine]
+ *  - UTX (USB Bulk-In transfer) extracts the frames from the
+ *  	FCT (FIFO Controller) to form USB Bulk In packets
+ *  - "Host software will reassemble the ethernet frames from USB packets."
+ *  - 
+ *
+ *
+ * **********************************************************************
+ * **********************************************************************/
+
 #include "lan7800.h"
 #include <usb_core_driver.h>
 #include <stdio.h>
@@ -581,26 +607,26 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 	lan7800_write_reg(dev, LAN7800_HW_CFG, buf);
 
 	lan7800_wait_for_bit(dev, LAN7800_HW_CFG, LAN7800_HW_CFG_LRST, 0);
-
+  
 	lan7800_set_mac_address(dev, macaddress);
 
 	/* Respond to the IN token with a NAK */
-	lan7800_read_reg(dev, LAN7800_USB_CFG0, &buf);
-	buf |= LAN7800_USB_CFG_BIR;
-	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
+  	lan7800_read_reg(dev, LAN7800_USB_CFG0, &buf);
+  	buf |= LAN7800_USB_CFG_BIR;
+  	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
 
 	/* Init LTM */
-	lan7800_init_ltm(dev);
-	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
-	lan7800_write_reg(dev, LAN7800_BURST_CAP, buf);
-	lan7800_write_reg(dev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
+  	lan7800_init_ltm(dev);
+  	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
+  	lan7800_write_reg(dev, LAN7800_BURST_CAP, buf);
+  	lan7800_write_reg(dev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
 
-	lan7800_read_reg(dev, LAN7800_HW_CFG, &buf);
+  	lan7800_read_reg(dev, LAN7800_HW_CFG, &buf);
 	buf |= LAN7800_HW_CFG_MEF;
 	buf |= LAN7800_HW_CFG_LED0_EN;
 	buf |= LAN7800_HW_CFG_LED1_EN;
 	lan7800_write_reg(dev, LAN7800_HW_CFG, buf);
-
+  
 	lan7800_read_reg(dev, LAN7800_USB_CFG0, &buf);
 	buf |= LAN7800_USB_CFG_BCE;
 	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
@@ -612,9 +638,9 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 	buf = (LAN7800_MAX_TX_FIFO_SIZE - 512) / 512;
 	lan7800_write_reg(dev, LAN7800_FCT_TX_FIFO_END, buf);
 
-	lan7800_write_reg(dev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
-	lan7800_write_reg(dev, LAN7800_FLOW, 0);
-	lan7800_write_reg(dev, LAN7800_FCT_FLOW, 0);
+  	lan7800_write_reg(dev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
+  	lan7800_write_reg(dev, LAN7800_FLOW, 0);
+  	lan7800_write_reg(dev, LAN7800_FCT_FLOW, 0);
 
 	/* Don't need rfe_ctl_lock during initialisation */
 	lan7800_read_reg(dev, LAN7800_RFE_CTL, &buf);
@@ -656,7 +682,7 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 	buf |= LAN7800_FCT_TX_CTL_EN;
 	lan7800_write_reg(dev, LAN7800_FCT_TX_CTL, buf);
 
-	lan7800_set_rx_max_frame_length(dev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
+  	lan7800_set_rx_max_frame_length(dev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
 
 	lan7800_read_reg(dev, LAN7800_MAC_RX, &buf);
 	buf |= LAN7800_MAC_RX_RXEN;
