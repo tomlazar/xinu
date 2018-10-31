@@ -187,7 +187,7 @@ static int sysinit(void)
 	nvramInit();
 #endif
 
-#if NNETIF
+#if NETHER
 	netInit();
 #endif
 

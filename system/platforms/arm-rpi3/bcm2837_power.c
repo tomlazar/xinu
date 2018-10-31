@@ -2,32 +2,14 @@
  * @file bcm2837_power.c
  *
  * This driver provides the ability to power on and power off hardware, such as
- * the USB Controller, on the BCM2835 SoC used on the Raspberry Pi.  This makes
- * use of the BCM2835's mailbox mechanism.
+ * the USB Controller, on the BCM2837B0 SoC used on the Raspberry Pi 3 B+.  This makes
+ * use of the BCM2837B0's mailbox mechanism.
  */
 #include "bcm2837.h"
-
-static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
-
-/* BCM2835 mailbox register indices  */
-#define MAILBOX_READ               0
-#define MAILBOX_STATUS             6
-#define MAILBOX_WRITE              8
-
-/* BCM2835 mailbox status flags  */
-#define MAILBOX_FULL               0x80000000
-#define MAILBOX_EMPTY              0x40000000
-
-/* BCM2835 mailbox channels  */
-#define MAILBOX_CHANNEL_POWER_MGMT 0
-
-/* The BCM2835 mailboxes are used for passing 28-bit messages.  The low 4 bits
- * of the 32-bit value are used to specify the channel over which the message is
- * being transferred  */
-#define MAILBOX_CHANNEL_MASK       0xf
+#include "bcm2837_mbox.h"
 
 /* Write to the specified channel of the mailbox.  */
-static void
+void
 bcm2837_mailbox_write(uint channel, uint value)
 {
     while (mailbox_regs[MAILBOX_STATUS] & MAILBOX_FULL)
@@ -37,7 +19,7 @@ bcm2837_mailbox_write(uint channel, uint value)
 }
 
 /* Read from the specified channel of the mailbox.  */
-static uint
+uint
 bcm2837_mailbox_read(uint channel)
 {
     uint value;
@@ -66,12 +48,12 @@ bcm2837_set_power_mask(uint mask)
     bcm2837_mailbox_write(MAILBOX_CHANNEL_POWER_MGMT, mask << 4);
 }
 
-/* Bitmask that gives the current on/off state of the BCM2835 hardware.
+/* Bitmask that gives the current on/off state of the BCM2837 hardware.
  * This is a cached value.  */
 static uint bcm2837_power_mask;
 
 /**
- * Powers on or powers off BCM2835 hardware.
+ * Powers on or powers off BCM2837 hardware.
  *
  * @param feature
  *      Device or hardware to power on or off.
@@ -103,7 +85,7 @@ int bcm2837_setpower(enum board_power_feature feature, bool on)
 }
 
 /**
- * Resets BCM2835 power to default state (all devices powered off).
+ * Resets BCM2837 power to default state (all devices powered off).
  */
 void bcm2837_power_init(void)
 {

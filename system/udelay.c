@@ -27,7 +27,7 @@
 void udelay(ulong us)
 {
     /* delay = Number of timer ticks to wait for  */
-    ulong delay = (platform.clkfreq / 1000000) * us;
+    ulong delay = (platform.clkfreq / 1000) * us;
 
     /* start = Starting tick count  */
     ulong start = clkcount();

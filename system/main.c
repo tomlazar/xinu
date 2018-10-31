@@ -35,7 +35,7 @@ thread main(void)
 
 		for (i = 0; i < NETHER; i++)
 		{
-			kprintf("calling open for ETHER %d\r\n", i);
+			ethptr = &ethertab[ethertab[i].dev->minor];
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
 				kprintf("WARNING: Failed to open %s\r\n",
