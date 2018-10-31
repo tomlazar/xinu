@@ -21,7 +21,10 @@ void mmu_init()
 
 	for (ra = 0; ; ra += 0x00100000)
 	{
-		mmu_section(ra, ra, 0x15C06);
+		// XXX Changed flags back to 0x8... it fixed the issue with USB.
+		// not sure if that is how it is supposed to be..?
+		//mmu_section(ra, ra, 0x15C06);
+		mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra >= 0x3F000000)
 			break;	/* stop before IO peripherals, dont want cache on those... */
 	}
