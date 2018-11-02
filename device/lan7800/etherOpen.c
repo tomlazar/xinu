@@ -126,7 +126,7 @@ devcall etherOpen(device *devptr)
 		}
 		req->dev = udev;
 		/* Assign Rx endpoint, checked in lan78xx_bind_device() */
-		req->endpoint_desc = udev->endpoints[0][2];
+		req->endpoint_desc = udev->endpoints[0][0];
 		req->completion_cb_func = lan7800_rx_complete;
 		req->private = ethptr;
 		usb_submit_xfer_request(req);

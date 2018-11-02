@@ -90,11 +90,40 @@ static int ethtest()
 //	char rademac[6] = {0xBA, 0x27, 0xEB, 0x26, 0x81, 0x60};
 
 	char rademac[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+	/*
+>>>>>>> Stashed changes
 	control(dev, ETH_CTRL_GET_MAC, (long)mymac, 0);
 	memcpy(outpkt->dst, rademac, ETH_ADDR_LEN);
 	memcpy(outpkt->src, mymac, ETH_ADDR_LEN);
 	outpkt->type_len = hs2net(ETH_TYPE_ARP);
+	*/
 
+	printf("Reading..\n");
+	int count = read(dev, inpkt, memsize);
+	printf("Received %d bytes\n", count);
+
+	printf("inpkt->src: ");
+	for (i = 0; i < 6; i++)
+		printf("%02X ", inpkt->src[i]);
+	printf("\n");
+
+	printf("inpkt->dst: ");
+	for (i = 0; i < 6; i++)
+		printf("%02X ", inpkt->dst[i]);
+	printf("\n");
+
+	printf("inpkt->payload:\n");
+	for (i = 0; i < count - 14; i++)
+	{
+		if (i % 16 == 0)
+			printf("\n");
+		else if (i % 8 == 0)
+			printf(" ");
+		printf("%02X ", inpkt->payload[i]);
+	}
+	printf("\n");
+
+#if 0
 	/* generate payload content */
 	for (i = 0; i < 32; i++)
 	{
@@ -107,12 +136,11 @@ static int ethtest()
 	/* place ether in loopback mode */
 	control(dev, ETH_CTRL_SET_LOOPBK, TRUE, 0);
 
-	/* flush any packets already received
+	/* flush any packets already received */
 	while (peth->icount > 0)
 	{
 		read(dev, inpkt, memsize);
 	}
-	*/
 
 	/* oversized packet (paylod 1502 bytes + 14 byte header)
 	 * should result in s SYSERR */
@@ -169,7 +197,6 @@ static int ethtest()
 			subpass = FALSE;
 	}
 	failif((TRUE != subpass), "");
-
 	/*
 	   sprintf(str, "%s  700 byte packet (read)", peth->dev->name);
 	   testPrint(verbose, str);
@@ -183,6 +210,7 @@ static int ethtest()
 	   */
 	/* ether out of loopback mode */
 //	control(dev, ETH_CTRL_SET_LOOPBK, FALSE, 0);
+#endif
 
 	memfree(outpkt, memsize);
 	memfree(inpkt, memsize);
