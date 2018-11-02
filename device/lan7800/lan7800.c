@@ -644,15 +644,14 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 
 	/* Don't need rfe_ctl_lock during initialisation */
 	lan7800_read_reg(dev, LAN7800_RFE_CTL, &buf);
-	buf |= (LAN7800_RFE_CTL_BCAST_EN | LAN7800_RFE_CTL_UCAST_EN);
+	buf |= (LAN7800_RFE_CTL_BCAST_EN | LAN7800_RFE_CTL_UCAST_EN | LAN7800_RFE_CTL_MCAST_EN);
 	lan7800_write_reg(dev, LAN7800_RFE_CTL, buf);
 
 	/* Enable or disable checksum offload engines */
-//	lan7800_set_features(dev, 0);
+	lan7800_set_features(dev, 0);
 
 	lan7800_read_reg(dev, LAN7800_RFE_CTL, &buf);
-	buf &= ~(LAN7800_RFE_CTL_BCAST_EN | LAN7800_RFE_CTL_MCAST_EN |
-			LAN7800_RFE_CTL_DA_PERFECT | LAN7800_RFE_CTL_MCAST_HASH);
+	buf &= ~(LAN7800_RFE_CTL_DA_PERFECT | LAN7800_RFE_CTL_MCAST_HASH);
 	lan7800_write_reg(dev, LAN7800_RFE_CTL, buf);
 
 	/* reset PHY */
