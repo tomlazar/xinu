@@ -48,9 +48,29 @@ devcall etherControl(device *devptr, int req, long arg1, long arg2)
     /* Enable or disable loopback mode.  */
     case ETH_CTRL_SET_LOOPBK:
 	kprintf("ETH CRTL LOOPBACK.\r\n");
-        status = lan7800_modify_reg(udev, LAN7800_MAC_CR, ~MAC_CR_LOOPBACK,
+	uint32_t buf;
+	
+	// disable tx and rx
+	lan7800_read_reg(udev, LAN7800_MAC_RX, &buf);
+	buf &= ~(LAN7800_MAC_RX_RXEN);
+	lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
+
+	lan7800_read_reg(udev, LAN7800_MAC_TX, &buf);
+	buf &= ~(LAN7800_MAC_TX_TXEN);
+	lan7800_write_reg(udev, LAN7800_MAC_TX, buf);
+
+	status = lan7800_modify_reg(udev, LAN7800_MAC_CR, ~MAC_CR_LOOPBACK,
                                      ((bool)arg1 == TRUE) ? MAC_CR_LOOPBACK : 0);
-        break;
+       	// enable tx and rx
+	lan7800_read_reg(udev, LAN7800_MAC_RX, &buf);
+	buf |= (LAN7800_MAC_RX_RXEN);
+	lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
+
+	lan7800_read_reg(udev, LAN7800_MAC_TX, &buf);
+	buf |= (LAN7800_MAC_TX_TXEN);
+	lan7800_write_reg(udev, LAN7800_MAC_TX, buf);
+ 
+	break;
 
     /* Get link header length. */
     case NET_GET_LINKHDRLEN:

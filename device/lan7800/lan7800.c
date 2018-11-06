@@ -616,7 +616,7 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
   	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
 
 	/* Init LTM */
-  	lan7800_init_ltm(dev);
+  	// lan7800_init_ltm(dev);
   	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
   	lan7800_write_reg(dev, LAN7800_BURST_CAP, buf);
   	lan7800_write_reg(dev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
@@ -664,6 +664,8 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 
 	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
 
+	kprintf("MAC_CR: 0x%08X\r\n", buf);
+
 	uint8_t sig;
 	lan7800_read_raw_eeprom(dev, 0, 1, &sig);
 	if (sig != LAN7800_EEPROM_INDICATOR) {
@@ -671,7 +673,16 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 		buf |= LAN7800_MAC_CR_AUTO_DUPLEX | LAN7800_MAC_CR_AUTO_SPEED;
 	}
 
+	buf &= ~(LAN7800_MAC_CR_AUTO_DUPLEX);
 	lan7800_write_reg(dev, LAN7800_MAC_CR, buf);
+
+	// set to FULL_DUPLEX mode
+	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
+	buf |= (1 << 3);
+	lan7800_write_reg(dev, LAN7800_MAC_CR, buf);
+
+	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
+	kprintf("MAC_CR: 0x%08X\r\n", buf);
 
 	lan7800_read_reg(dev, LAN7800_MAC_TX, &buf);
 	buf |= LAN7800_MAC_TX_TXEN;
