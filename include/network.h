@@ -17,7 +17,7 @@
  */
 
 /* Tracing macros */
-//#define TRACE_NET     TTY1
+#define TRACE_NET     CONSOLE
 #ifdef TRACE_NET
 #include <stdio.h>
 #define NET_TRACE(...)     { \
