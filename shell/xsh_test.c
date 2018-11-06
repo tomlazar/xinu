@@ -52,6 +52,7 @@ struct etherGram
 static int ethtest(void);
 shellcmd xsh_test(int nargs, char *args[])
 {
+#if 0
 	bool passed = TRUE;
 
 	passed &= ethtest();
@@ -61,6 +62,35 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	else
 		testFail(TRUE, "");
+#endif
+
+	uint memsize;
+	struct etherGram *outpkt;
+	char *payload;
+	char mymac[ETH_ADDR_LEN];
+	char str[80];
+	struct ether *peth = &ethertab[0];
+	//	int dev = peth->dev->num;
+	int dev = ETH0;
+
+	/* memget */
+	memsize = sizeof(struct etherGram) + MAX_PAYLOAD - 1;
+	outpkt = memget(memsize);
+	payload = &(outpkt->payload[0]);
+
+	//	char rademac[6] = {0xBA, 0x27, 0xEB, 0x26, 0x81, 0x60};
+
+	char rademac[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+	control(dev, ETH_CTRL_GET_MAC, (long)mymac, 0);
+	memcpy(outpkt->dst, rademac, ETH_ADDR_LEN);
+	memcpy(outpkt->src, mymac, ETH_ADDR_LEN);
+	outpkt->type_len = hs2net(ETH_TYPE_ARP);
+
+	for (int i = 0; i < 32; i++)
+		payload[i] = i;
+
+	write(dev, outpkt, 6 + 6 + 2 + 32);
 
 	return 0;
 }
@@ -78,7 +108,7 @@ static int ethtest()
 	char mymac[ETH_ADDR_LEN];
 	char str[80];
 	struct ether *peth = &ethertab[0];
-//	int dev = peth->dev->num;
+	//	int dev = peth->dev->num;
 	int dev = ETH0;
 
 	/* memget */
@@ -87,17 +117,16 @@ static int ethtest()
 	outpkt = memget(memsize);
 	payload = &(outpkt->payload[0]);
 
-//	char rademac[6] = {0xBA, 0x27, 0xEB, 0x26, 0x81, 0x60};
+	//	char rademac[6] = {0xBA, 0x27, 0xEB, 0x26, 0x81, 0x60};
 
 	char rademac[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-	/*
->>>>>>> Stashed changes
+
 	control(dev, ETH_CTRL_GET_MAC, (long)mymac, 0);
-	memcpy(outpkt->dst, rademac, ETH_ADDR_LEN);
+	memcpy(outpkt->dst, mymac, ETH_ADDR_LEN);
 	memcpy(outpkt->src, mymac, ETH_ADDR_LEN);
 	outpkt->type_len = hs2net(ETH_TYPE_ARP);
-	*/
 
+#if 0
 	printf("Reading..\n");
 	int count = read(dev, inpkt, memsize);
 	printf("Received %d bytes\n", count);
@@ -122,8 +151,8 @@ static int ethtest()
 		printf("%02X ", inpkt->payload[i]);
 	}
 	printf("\n");
+#endif
 
-#if 0
 	/* generate payload content */
 	for (i = 0; i < 32; i++)
 	{
@@ -144,7 +173,7 @@ static int ethtest()
 
 	/* oversized packet (paylod 1502 bytes + 14 byte header)
 	 * should result in s SYSERR */
-/*	sprintf(str, "%s 1516 OVERSIZED byte packet (write)", peth->dev->name);
+	sprintf(str, "%s 1516 OVERSIZED byte packet (write)", peth->dev->name);
 	testPrint(verbose, str);
 	len = write(dev, outpkt, 1516);
 	failif((SYSERR != len), "");
@@ -159,17 +188,16 @@ static int ethtest()
 	len = write(dev, outpkt, 700);
 	failif((len < 700), "");
 
-	 Too small of a packet, should end in SYSERR.
+	// Too small of a packet, should end in SYSERR.
 	sprintf(str, "%s 12 MICRO byte packet (write)", peth->dev->name);
 	testPrint(verbose, str);
 	len = write(dev, outpkt, 12);
 	failif((SYSERR != len), "");
-	*/
 
-        value = read(dev, inpkt, len);	
+	value = read(dev, inpkt, len);	
 	testPrint(verbose, str);
-        len = write(dev, outpkt, 32);
-        failif((len < 32), "");
+	len = write(dev, outpkt, 32);
+	failif((len < 32), "");
 
 	sprintf(str, "%s  32 byte packet (read)", peth->dev->name);
 	testPrint(verbose, str);
@@ -177,7 +205,7 @@ static int ethtest()
 	len = read(dev, inpkt, 32);
 	failif((0 != memcmp(outpkt, inpkt, 32)), "");
 
-/*	sprintf(str, "%s 512 random-sized packets (write)", peth->dev->name);
+	sprintf(str, "%s 512 random-sized packets (write)", peth->dev->name);
 	testPrint(verbose, str);
 	subpass = TRUE;
 
@@ -193,24 +221,29 @@ static int ethtest()
 
 		bzero(inpkt, memsize);
 		value = read(dev, inpkt, len);
+		kprintf("inpkt->dst: ");
+		for (i = 0; i < 6; i++)
+			printf("%02X ", inpkt->dst[i]);
+		kprintf("\n");
+
 		if (0 != memcmp(outpkt, inpkt, 30))
 			subpass = FALSE;
 	}
 	failif((TRUE != subpass), "");
-	/*
-	   sprintf(str, "%s  700 byte packet (read)", peth->dev->name);
-	   testPrint(verbose, str);
-	   bzero(inpkt, memsize);
-	   printf("\r\nbefore attempt to read...\r\n");
-	   len = read(dev, inpkt, 700);
-	   printf("Before fail check...\r\n");
-	   failif((0 != memcmp(outpkt, inpkt, 700)), "");
-	   printf("After fail statement...\r\n");
-	   return 0;
-	   */
+
+/*
+	sprintf(str, "%s  700 byte packet (read)", peth->dev->name);
+	testPrint(verbose, str);
+	bzero(inpkt, memsize);
+	printf("\r\nbefore attempt to read...\r\n");
+	len = read(dev, inpkt, 700);
+	printf("Before fail check...\r\n");
+	failif((0 != memcmp(outpkt, inpkt, 700)), "");
+	printf("After fail statement...\r\n");
+	//return 0;
+*/
 	/* ether out of loopback mode */
-//	control(dev, ETH_CTRL_SET_LOOPBK, FALSE, 0);
-#endif
+	control(dev, ETH_CTRL_SET_LOOPBK, FALSE, 0);
 
 	memfree(outpkt, memsize);
 	memfree(inpkt, memsize);
