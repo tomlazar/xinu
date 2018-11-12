@@ -28,7 +28,6 @@
  * this function in ether.h.  */
 devcall etherRead(device *devptr, void *buf, uint len)
 {
-    kprintf("\r\n<<READ BEING CALLED>>\r\n");
     irqmask im;
     struct ether *ethptr;
     struct ethPktBuffer *pkt;
@@ -40,16 +39,12 @@ devcall etherRead(device *devptr, void *buf, uint len)
     if (ethptr->state != ETH_STATE_UP)
     {
         restore(im);
-	kprintf("Interrupts restored...error... device not up.\r\n");
         return SYSERR;
     }
 
-    kprintf("\r\n[READ] Wait for available packet...\r\n");
     /* Wait for received packet to be available in the ethptr->in circular
      * queue.  */
     wait(ethptr->isema);
-
-    kprintf("Remove received packet from circular queue.\r\n");
 
     /* Remove the received packet from the circular queue.  */
     pkt = ethptr->in[ethptr->istart];
@@ -68,7 +63,6 @@ devcall etherRead(device *devptr, void *buf, uint len)
     {
         len = pkt->length;
     }
-    kprintf("Copy the data from the packet buffer.\r\n");
     memcpy(buf, pkt->buf, len);
 
     /* Return the packet buffer to the pool, then return the length of the

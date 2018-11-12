@@ -33,11 +33,11 @@
  */
 void lan7800_tx_complete(struct usb_xfer_request *req)
 {
-	//kprintf("\r\n<<<<TX CALLBACK>>>>\r\n");
 	struct ether *ethptr = req->private;
 
 	ethptr->txirq++;
 	usb_dev_debug(req->dev, "LAN7800: Tx complete\n");
+	kprintf("tx_complete(): calling buffree()\r\n");
 	buffree(req);
 }
 
@@ -60,7 +60,6 @@ void lan7800_tx_complete(struct usb_xfer_request *req)
  */
 void lan7800_rx_complete(struct usb_xfer_request *req)
 {
-	//kprintf("\r\n<<RX_COMPLETE CALLED>>\r\n");
 	struct ether *ethptr = req->private;
 
 	ethptr->rxirq++;

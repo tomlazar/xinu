@@ -10,6 +10,10 @@
 #include <string.h>
 #include <usb_core_driver.h>
 
+#include <mutex.h>
+
+static mutex_t ether_mutex = UNLOCKED;
+
 /* Implementation of etherWrite() for the MicroChip LAN7800; see the documentation
  * for this function in ether.h.  */
 devcall etherWrite(device *devptr, const void *buf, uint len)
@@ -18,6 +22,9 @@ devcall etherWrite(device *devptr, const void *buf, uint len)
 	struct usb_xfer_request *req;
 	uint8_t *sendbuf;
 	uint32_t tx_cmd_a, tx_cmd_b;
+
+
+	mutex_acquire(&ether_mutex);
 
 	ethptr = &ethertab[devptr->minor];
 	if (ethptr->state != ETH_STATE_UP ||
@@ -57,6 +64,8 @@ devcall etherWrite(device *devptr, const void *buf, uint len)
 	 *                * the data has been transferred over the USB, smsc9512_tx_complete() will
 	 *                     * be called by the USB subsystem.  */
 	usb_submit_xfer_request(req);
+
+	mutex_release(&ether_mutex);
 
 	/* Return the length of the packet written (not including the
 	 *      * device-specific fields that were added). */
