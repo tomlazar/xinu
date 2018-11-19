@@ -91,14 +91,12 @@ syscall dhcpSendRequest(int descrp, struct dhcpData *data)
     } while ((optsize = (opts - optarray)) & 3);
 
 
-    DHCP_TRACE("calling netGetBuf()");
     /* Get memory for packet */
     pkt = netGetbuf();
     if (SYSERR == (int)pkt)
     {
         return SYSERR;
     }
-    DHCP_TRACE("called netGetBuf()");
 
     /* Set up pointers to other packet headers */
     pktsize = ETH_HDR_LEN + IPv4_HDR_LEN + UDP_HDR_LEN + DHCP_HDR_LEN + optsize;
@@ -172,18 +170,14 @@ syscall dhcpSendRequest(int descrp, struct dhcpData *data)
     memcpy(ether->src, data->clientHwAddr, ETH_ADDR_LEN);
     ether->type = hs2net(ETHER_TYPE_IPv4);
     
-    DHCP_TRACE("Calling write()");
     if (pktsize == write(descrp, pkt->curr, pktsize))
     {
-	DHCP_TRACE("write() returned OK");
         retval = OK;
     }
     else
     {
-	DHCP_TRACE("write() returned SYSERR");
         retval = SYSERR;
     }
-    DHCP_TRACE("after write()");
     netFreebuf(pkt);
     return retval;
 }

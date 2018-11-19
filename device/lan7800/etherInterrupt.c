@@ -37,7 +37,6 @@ void lan7800_tx_complete(struct usb_xfer_request *req)
 
 	ethptr->txirq++;
 	usb_dev_debug(req->dev, "LAN7800: Tx complete\n");
-	kprintf("tx_complete(): calling buffree()\r\n");
 	buffree(req);
 }
 

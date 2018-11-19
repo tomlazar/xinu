@@ -52,7 +52,7 @@ extern struct bfpentry bfptab[];
 
 /* function prototypes */
 #define bufget(x) bufget_(x, __FILE__, __FUNCTION__)
-void *bufget_(int, char *, char *);
+void *bufget_(int, const char *, const char *);
 syscall buffree(void *);
 int bfpalloc(uint, uint);
 syscall bfpfree(int);

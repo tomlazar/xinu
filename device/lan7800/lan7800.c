@@ -664,8 +664,6 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 
 	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
 
-	kprintf("MAC_CR: 0x%08X\r\n", buf);
-
 	uint8_t sig;
 	lan7800_read_raw_eeprom(dev, 0, 1, &sig);
 	if (sig != LAN7800_EEPROM_INDICATOR) {
@@ -680,9 +678,6 @@ int lan7800_reset(struct usb_device *dev, uint8_t* macaddress)
 	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
 	buf |= (1 << 3);
 	lan7800_write_reg(dev, LAN7800_MAC_CR, buf);
-
-	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
-	kprintf("MAC_CR: 0x%08X\r\n", buf);
 
 	lan7800_read_reg(dev, LAN7800_MAC_TX, &buf);
 	buf |= LAN7800_MAC_TX_TXEN;

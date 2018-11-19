@@ -83,13 +83,6 @@ lan7800_bind_device(struct usb_device *udev)
 	/* Set MAC address within ethernet struct */
 	lan7800_set_mac_address(udev, ethptr->devAddress);
 
-	kprintf("LAN7800 MAC: ");
-	for (int i = 0; i < ETH_ADDR_LEN; i++)
-	{
-		kprintf("%02X ", ethptr->devAddress[i]);
-	}
-	kprintf("\r\n");
-
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
 	{

@@ -24,7 +24,7 @@
  *      If @p poolid does not specify a valid buffer pool, returns ::SYSERR;
  *      otherwise returns a pointer to the resulting buffer.
  */
-void *bufget_(int poolid, char *file, char *func)
+void *bufget_(int poolid, const char *file, const char *func)
 {
     struct bfpentry *bfpptr;
     struct poolbuf *bufptr;
@@ -39,7 +39,10 @@ void *bufget_(int poolid, char *file, char *func)
 
     im = disable();
     if (0 == strncmp("etherWrite", func, 10))
-	    kprintf("bfpptr->freebuf->count: %d\r\n", semcount(bfpptr->freebuf));
+    {
+	    //kprintf("bfpptr->freebuf: %d\r\n", bfpptr->freebuf);
+	    //kprintf("bfpptr->freebuf->count: %d\r\n", semcount(bfpptr->freebuf));
+    }
     wait(bfpptr->freebuf);
     bufptr = bfpptr->next;
     bfpptr->next = bufptr->next;
