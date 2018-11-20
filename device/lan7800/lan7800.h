@@ -3,7 +3,7 @@
  * 
  * @authors
  * 		Rade Latinovich
- * 		Patrick J. McGee
+ *		Patrick J. McGee
  *
  * This header file provides definitions of the registers of the LAN7800 USB
  * Ethernet Adapter. Many of these definitions were borrowed primarily from
@@ -21,13 +21,9 @@
 
 usb_status_t lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data);
 usb_status_t lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data);
-
-usb_status_t lan7800_modify_reg(struct usb_device *udev, uint32_t index,
-								uint32_t mask, uint32_t set);
+usb_status_t lan7800_modify_reg(struct usb_device *udev, uint32_t index, uint32_t mask, uint32_t set);
 usb_status_t lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set);
-
 usb_status_t lan7800_wait_device_attached(ushort minor);
-
 usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr);
 usb_status_t lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr);
 
@@ -47,61 +43,61 @@ __lan7800_dump_reg(struct usb_device *udev, uint32_t index, const char *name)
 #define lan7800_dump_reg(udev, index) __lan7800_dump_reg(udev, index, #index)
 
 /* lan7800_mdio methods */
-int  lan7800_mdio_read (struct usb_device *udev, int phy_id, int idx);
+usb_status_t  lan7800_mdio_read (struct usb_device *udev, int phy_id, int idx);
 void lan7800_mdio_write(struct usb_device *udev, int phy_id, int idx, int regval);
 
 /* LAN7800 function declarations (defined in lan7800.c) */
-int lan7800_read_raw_otp(struct usb_device *udev, uint32_t offset,
+usb_status_t lan7800_read_raw_otp(struct usb_device *udev, uint32_t offset,
 				uint32_t length, uint8_t *data);
 int lan7800_read_otp_mac(unsigned char *enetaddr,
 		struct usb_device *udev);
-int lan7800_eeprom_confirm_not_busy(struct usb_device *udev);
-int lan7800_wait_eeprom(struct usb_device *udev);
-int lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
+usb_status_t lan7800_eeprom_confirm_not_busy(struct usb_device *udev);
+usb_status_t lan7800_wait_eeprom(struct usb_device *udev);
+usb_status_t lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
 		uint32_t length, uint8_t *data);
-int lan7800_read_eeprom(struct usb_device *dev, uint32_t offset,
+usb_status_t lan7800_read_eeprom(struct usb_device *dev, uint32_t offset,
 		uint32_t length, uint8_t *data);
-void lan7800_init_ltm(struct usb_device *dev);
-int lan7800_set_rx_max_frame_length(struct usb_device *dev, int size);
-int lan7800_set_features(struct usb_device *dev, uint32_t features);
-int lan7800_reset(struct usb_device *dev, uint8_t* macaddress);
+usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *dev, int size);
+usb_status_t lan7800_set_features(struct usb_device *dev, uint32_t features);
+usb_status_t lan7800_init(struct usb_device *dev, uint8_t* macaddress);
 
-int lan7800_mdio_wait_for_bit(struct usb_device *udev,
+usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev,
 					const uint32_t reg,
 					const uint32_t mask,
 					const bool set);
 
 #define lan7800_wait_for_bit	lan7800_mdio_wait_for_bit
+
 /***************************************************************************
- * According to Linux's open-source 78xx driver:
+ * The following regsiter set is primarily based on that of Linux's open-source 78xx driver:
  * https://github.com/torvalds/linux/blob/8fa3b6f9392bf6d90cb7b908e07bd90166639f0a/drivers/net/usb/lan78xx.h
- * and also U-Boot:
+ * and U-Boot:
  * https://github.com/trini/u-boot/blob/890e79f2b1c26c5ba1a86d179706348aec7feef7/drivers/usb/eth/lan7x.h
  ***************************************************************************/
 
 /* TX command word A */
-#define TX_CMD_A_IGE_			(0x20000000)
-#define TX_CMD_A_ICE_			(0x10000000)
+#define TX_CMD_A_IGE_			0x20000000
+#define TX_CMD_A_ICE_			0x10000000
 
-/* ??? LSO = Last segment o... */
-#define TX_CMD_A_LSO			(0x08000000)
+/* ??? LSO = Last segment... */
+#define TX_CMD_A_LSO			0x08000000
 
-#define TX_CMD_A_IPE_			(0x04000000)
-#define TX_CMD_A_TPE_			(0x02000000)
-#define TX_CMD_A_IVTG_			(0x01000000)
-#define TX_CMD_A_RVTG_			(0x00800000)
+#define TX_CMD_A_IPE_			0x04000000
+#define TX_CMD_A_TPE_			0x02000000
+#define TX_CMD_A_IVTG_			0x01000000
+#define TX_CMD_A_RVTG_			0x00800000
 
 /* TX word A buffer size. */
-#define LAN7800_TX_CMD_A_BUF_SIZE	(0x000FFFFF)
+#define LAN7800_TX_CMD_A_BUF_SIZE	0x000FFFFF
 
 /* TX command word B */
-#define TX_CMD_B_MSS_SHIFT_		(16)
-#define TX_CMD_B_MSS_MASK_		(0x3FFF0000)
-#define TX_CMD_B_MSS_MIN_		((unsigned short)8)
-#define TX_CMD_B_VTAG_MASK_		(0x0000FFFF)
-#define TX_CMD_B_VTAG_PRI_MASK_		(0x0000E000)
-#define TX_CMD_B_VTAG_CFI_MASK_		(0x00001000)
-#define TX_CMD_B_VTAG_VID_MASK_		(0x00000FFF)
+#define TX_CMD_B_MSS_SHIFT_		16
+#define TX_CMD_B_MSS_MASK_		0x3FFF0000
+#define TX_CMD_B_MSS_MIN_		(unsigned short)8
+#define TX_CMD_B_VTAG_MASK_		0x0000FFFF
+#define TX_CMD_B_VTAG_PRI_MASK_		0x0000E000
+#define TX_CMD_B_VTAG_CFI_MASK_		0x00001000
+#define TX_CMD_B_VTAG_VID_MASK_		0x00000FFF
 
 
 /* TX/RX Overhead
@@ -126,23 +122,23 @@ int lan7800_mdio_wait_for_bit(struct usb_device *udev,
 #define LAN7800_ADDRL				0x11C
 
 /* Offset of Hardware Configuration Register. */
-#define LAN7800_HW_CFG				(0x010)
+#define LAN7800_HW_CFG			0x010
 
 /* ??? */
 #define LAN7800_HW_CFG_SRST		0x00000001
 #define LAN7800_HW_CFG_LRST		0x00000002
 
-#define LAN7800_BURST_CAP		(0x090)
-#define LAN7800_BURST_CAP_SIZE		(0x000000FF)
+#define LAN7800_BURST_CAP		0x090
+#define LAN7800_BURST_CAP_SIZE		0x000000FF
 
 /* Loopback mode. */
-#define MAC_CR_LOOPBACK			(0x00000400)
+#define MAC_CR_LOOPBACK			0x00000400
 
 /* Received Ethernet Frame Length */
-#define LAN7800_RX_STS_FL		(0x00003FFF)
+#define LAN7800_RX_STS_FL		0x00003FFF
 
 /* ??? Not entirely sure, appears to be Received Ethernet Error Summary. */
-#define LAN7800_RX_CMD_A_RX_ERR		(0xC03F0000)
+#define LAN7800_RX_CMD_A_RX_ERR		0xC03F0000
 
 /* The following register definitions were pulled from U-Boot's implementation:
  * https://github.com/Screenly/u-boot/blob/master/drivers/usb/eth/lan78xx.c
@@ -184,12 +180,12 @@ int lan7800_mdio_wait_for_bit(struct usb_device *udev,
 
 
 /* MII_ACC */
-#define MII_ACC				(0x120)
-#define MII_ACC_MII_READ		(0x0)
-#define MII_ACC_MII_WRITE		(0x2)
-#define MII_ACC_MII_BUSY		(1 << 0)
+#define MII_ACC				0x120
+#define MII_ACC_MII_READ		0x0
+#define MII_ACC_MII_WRITE		0x2
+#define MII_ACC_MII_BUSY		1 << 0
 
-#define MII_DATA			(0x124)
+#define MII_DATA			0x124
 
 #define TX_OVERHEAD			8
 #define RX_OVERHEAD			10

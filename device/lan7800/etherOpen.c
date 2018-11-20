@@ -23,7 +23,6 @@ devcall etherOpen(device *devptr)
 	struct ether *ethptr;
 	struct usb_device *udev;
 	irqmask im;
-	uint i;
 	int retval = SYSERR;
 
 	im = disable();
@@ -87,7 +86,7 @@ devcall etherOpen(device *devptr)
 	 *ethptr->devAddress[3] = 0x71;
 	 *ethptr->devAddress[4] = 0x5A;
 	 *ethptr->devAddress[5] = 0x97;*/
-	retval = lan7800_reset(udev, &ethptr->devAddress[0]);
+	retval = lan7800_init(udev, &ethptr->devAddress[0]);
 	if (retval < 0) goto out_free_in_pool;
 
 	/* Initialize the Tx requests.  */
