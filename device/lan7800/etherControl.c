@@ -5,7 +5,6 @@
  *
  * Authors: Patrick J. McGee
  * 	    Rade Latinovich
- *
  */
 /* Embedded Xinu, Copyright (C) 2008, 2013, 2018.  All rights reserved. */
 

@@ -58,6 +58,10 @@ usb_status_t lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
 usb_status_t lan7800_read_eeprom(struct usb_device *dev, uint32_t offset,
 		uint32_t length, uint8_t *data);
 usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *dev, int size);
+
+#define NETIF_F_RXCSUM			4
+#define NETIF_F_HW_VLAN_CTAG_RX		2
+#define NETIF_F_HW_VLAN_CTAG_FILTER	1
 usb_status_t lan7800_set_features(struct usb_device *dev, uint32_t features);
 usb_status_t lan7800_init(struct usb_device *dev, uint8_t* macaddress);
 

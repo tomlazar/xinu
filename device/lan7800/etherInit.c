@@ -170,7 +170,7 @@ getEthAddr(uint8_t *addr)
 		}
 	}
 
-	// Clear multicast bit and set locally assigned bit
+	/* Clear multicast bit and set locally assigned bit */
 	addr[0] &= 0xFE;
 	addr[0] |= 0x02;
 
@@ -192,17 +192,12 @@ getEthAddr(uint8_t *addr)
 
 /**
  * @ingroup etherspecific
- *
  * Wait until the specified Ethernet device has been attached.
- *
  * This is necessary because USB is a dynamic bus, but Xinu expects static devices.
- *
  * @param minor
  * 		Minor number of the Ethernet device to wait for.
- *
  * @return
  * 		Currently ::USB_STATUS_SUCCESS.
- *
  */
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
@@ -215,7 +210,6 @@ lan7800_wait_device_attached(ushort minor)
 /* Implementation of etherInit() for lan7800; documentation in ether.h */
 /**
  * @details
- *
  * LAN7800-specific notes: This function returns ::OK if the Ethernet
  * Driver was successfully registered with the USB core, otherwise ::SYSERR.
  * This is a work-around to use USB's dynamic device model at the same time as

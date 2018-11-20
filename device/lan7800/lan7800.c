@@ -227,12 +227,14 @@ usb_status_t lan7800_phy_wait_not_busy(struct usb_device *udev)
 	return lan7800_mdio_wait_for_bit(udev, MII_ACC, MII_ACC_MII_BUSY, USB_STATUS_SUCCESS);
 }
 
+/* Before waiting, confirm that EEPROM is not busy. (Helper function) */
 usb_status_t lan7800_eeprom_confirm_not_busy(struct usb_device *udev)
 {
 	return lan7800_wait_for_bit(udev, LAN7800_E2P_CMD, LAN7800_E2P_CMD_EPC_BUSY,
 			USB_STATUS_SUCCESS);
 }
 
+/* Wait for EEPROM. (Helper function) */
 usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
 {
 	return lan7800_wait_for_bit(udev, LAN7800_E2P_CMD, (LAN7800_E2P_CMD_EPC_BUSY
@@ -240,7 +242,14 @@ usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
 			USB_STATUS_SUCCESS);
 }
 
-usb_status_t lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
+/**
+ * Read raw EEPROM from the Microchip LAN7800 Ethernet device.
+ * @param udev
+ * 		USB device for the adapter
+ * @return
+ * 		returns ::USB_STATUS_SUCCESS on success.
+ */
+usb_status_t lan7800_read_raw_eeprom(struct usb_device *udev, uint32_t offset,
 		uint32_t length, uint8_t *data)
 {
 	uint32_t val;
@@ -248,33 +257,30 @@ usb_status_t lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
 	int i, ret = 0;
 	int retval;
 
-	/* depends on chip, some EEPROM pins are muxed with LED function.
-	 * 	 * disable & restore LED function to access EEPROM.
-	 * 	 	 */
-	lan7800_read_reg(dev, LAN7800_HW_CFG, &val);
+	lan7800_read_reg(udev, LAN7800_HW_CFG, &val);
 	saved = val;
 
 	val &= ~(LAN7800_HW_CFG_LED1_EN | LAN7800_HW_CFG_LED0_EN);
-	lan7800_write_reg(dev, LAN7800_HW_CFG, val);
+	lan7800_write_reg(udev, LAN7800_HW_CFG, val);
 
-	retval = lan7800_eeprom_confirm_not_busy(dev);
+	retval = lan7800_eeprom_confirm_not_busy(udev);
 	if (retval)
 		return retval;
 
 	for (i = 0; i < length; i++) {
 		val = LAN7800_E2P_CMD_EPC_BUSY | LAN7800_E2P_CMD_EPC_CMD_READ;
 		val |= (offset & LAN7800_E2P_CMD_EPC_ADDR_MASK);
-		lan7800_write_reg(dev, LAN7800_E2P_CMD, val);
+		lan7800_write_reg(udev, LAN7800_E2P_CMD, val);
 		if (ret < 0) {
 			retval = -EIO;
 			goto exit;
 		}
 
-		retval = lan7800_wait_eeprom(dev);
+		retval = lan7800_wait_eeprom(udev);
 		if (retval < 0)
 			goto exit;
 
-		lan7800_read_reg(dev, LAN7800_E2P_DATA, &val);
+		lan7800_read_reg(udev, LAN7800_E2P_DATA, &val);
 		if (ret < 0) {
 			retval = -EIO;
 			goto exit;
@@ -285,51 +291,63 @@ usb_status_t lan7800_read_raw_eeprom(struct usb_device *dev, uint32_t offset,
 	}
 	retval = USB_STATUS_SUCCESS;
 exit:
-	lan7800_write_reg(dev, LAN7800_HW_CFG, saved);
+	lan7800_write_reg(udev, LAN7800_HW_CFG, saved);
 
 	return retval;
 }
 
-usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *dev, int size)
+/**
+ * Set max RX frame length for the Microchip LAN7800 Ethernet device.
+ * @param udev
+ * 		USB device for the adapter
+ * @param size
+ * 		Size of max RX frame
+ * @return
+ * 		returns ::USB_STATUS_SUCCESS on success.
+ */
+usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *udev, int size)
 {
 	uint32_t buf;
 	bool rxenabled;
 
-	lan7800_read_reg(dev, LAN7800_MAC_RX, &buf);
+	lan7800_read_reg(udev, LAN7800_MAC_RX, &buf);
 
 	rxenabled = ((buf & LAN7800_MAC_RX_RXEN) != 0);
 
 	if (rxenabled) {
 		buf &= ~LAN7800_MAC_RX_RXEN;
-		lan7800_write_reg(dev, LAN7800_MAC_RX, buf);
+		lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
 	}
 
-	/* add 4 to size for FCS */
+	/* To fit FCS, add 4 */
 	buf &= ~LAN7800_MAC_RX_MAX_SIZE_MASK;
 	buf |= (((size + 4) << LAN7800_MAC_RX_MAX_SIZE_SHIFT) & LAN7800_MAC_RX_MAX_SIZE_MASK);
 
-	lan7800_write_reg(dev, LAN7800_MAC_RX, buf);
+	lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
 
 	if (rxenabled) {
 		buf |= LAN7800_MAC_RX_RXEN;
-		lan7800_write_reg(dev, LAN7800_MAC_RX, buf);
+		lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
 	}
 
 	return USB_STATUS_SUCCESS;
 }
 
-
-#define NETIF_F_RXCSUM			4
-#define NETIF_F_HW_VLAN_CTAG_RX		2
-#define NETIF_F_HW_VLAN_CTAG_FILTER	1
-
-/* Enable or disable Rx checksum offload engine */
-usb_status_t lan7800_set_features(struct usb_device *dev, uint32_t features)
+/**
+ * Enable or disable Rx checksum offload engine for the Microchip LAN7800 Ethernet device.
+ * @param udev
+ * 		USB device for the adapter
+ * @param set
+ * 		Bit (whether to enable or disable)
+ * @return
+ * 		returns ::USB_STATUS_SUCCESS on success.
+ */
+usb_status_t lan7800_set_features(struct usb_device *udev, uint32_t set)
 {
 	uint32_t rfe_ctl;
-	lan7800_read_reg(dev, LAN7800_RFE_CTL, &rfe_ctl);
+	lan7800_read_reg(udev, LAN7800_RFE_CTL, &rfe_ctl);
 
-	if (features & NETIF_F_RXCSUM) {
+	if (set & NETIF_F_RXCSUM) {
 		rfe_ctl |= RFE_CTL_TCPUDP_COE | RFE_CTL_IP_COE;
 		rfe_ctl |= RFE_CTL_ICMP_COE | RFE_CTL_IGMP_COE;
 	}
@@ -338,117 +356,117 @@ usb_status_t lan7800_set_features(struct usb_device *dev, uint32_t features)
 		rfe_ctl &= ~(RFE_CTL_ICMP_COE | RFE_CTL_IGMP_COE);
 	}
 
-	if (features & NETIF_F_HW_VLAN_CTAG_RX)
+	if (set & NETIF_F_HW_VLAN_CTAG_RX)
 		rfe_ctl |= RFE_CTL_VLAN_STRIP;
 	else
 		rfe_ctl &= ~RFE_CTL_VLAN_STRIP;
 
-	if (features & NETIF_F_HW_VLAN_CTAG_FILTER)
+	if (set & NETIF_F_HW_VLAN_CTAG_FILTER)
 		rfe_ctl |= RFE_CTL_VLAN_FILTER;
 	else
 		rfe_ctl &= ~RFE_CTL_VLAN_FILTER;
 
-	lan7800_write_reg(dev, LAN7800_RFE_CTL, rfe_ctl);
+	lan7800_write_reg(udev, LAN7800_RFE_CTL, rfe_ctl);
 
 	return USB_STATUS_SUCCESS;
 }
 
-usb_status_t lan7800_init(struct usb_device *dev, uint8_t* macaddress)
+/**
+ * Initialize various functions for the Microchip LAN7800 Ethernet device.
+ * @param udev
+ * 		USB device for the adapter
+ * @param macaddress
+ * 		MAC address to be set on the device (obtained from the BCM2837B0 mailbox)
+ * @return
+ * 		returns ::USB_STATUS_SUCCESS on success.
+ */
+usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 {
 	uint32_t buf;
 
-	lan7800_read_reg(dev, LAN7800_HW_CFG, &buf);
-	buf |= LAN7800_HW_CFG_LRST;
-	lan7800_write_reg(dev, LAN7800_HW_CFG, buf);
-
-	lan7800_wait_for_bit(dev, LAN7800_HW_CFG, LAN7800_HW_CFG_LRST, 0);
-  
-	lan7800_set_mac_address(dev, macaddress);
+	/* Set the MAC address on the device. */
+	lan7800_set_mac_address(udev, macaddress);
 
 	/* Respond to the IN token with a NAK */
-  	lan7800_read_reg(dev, LAN7800_USB_CFG0, &buf);
+  	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);
   	buf |= LAN7800_USB_CFG_BIR;
-  	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
+  	lan7800_write_reg(udev, LAN7800_USB_CFG0, buf);
 
+	/* Set burst cap. */
   	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
-  	lan7800_write_reg(dev, LAN7800_BURST_CAP, buf);
-  	lan7800_write_reg(dev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
+  	lan7800_write_reg(udev, LAN7800_BURST_CAP, buf);
+  	lan7800_write_reg(udev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
 
-  	lan7800_read_reg(dev, LAN7800_HW_CFG, &buf);
+	/* Enable LED over HW CFG. */
+  	lan7800_read_reg(udev, LAN7800_HW_CFG, &buf);
 	buf |= LAN7800_HW_CFG_MEF;
 	buf |= LAN7800_HW_CFG_LED0_EN;
 	buf |= LAN7800_HW_CFG_LED1_EN;
-	lan7800_write_reg(dev, LAN7800_HW_CFG, buf);
+	lan7800_write_reg(udev, LAN7800_HW_CFG, buf);
   
-	lan7800_read_reg(dev, LAN7800_USB_CFG0, &buf);
+	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);
 	buf |= LAN7800_USB_CFG_BCE;
-	lan7800_write_reg(dev, LAN7800_USB_CFG0, buf);
+	lan7800_write_reg(udev, LAN7800_USB_CFG0, buf);
 
-	/* set FIFO sizes */
+	/* Set FIFO sizes (similar to SMSC9512) */
 	buf = (LAN7800_MAX_RX_FIFO_SIZE - 512) / 512;
-	lan7800_write_reg(dev, LAN7800_FCT_RX_FIFO_END, buf);
+	lan7800_write_reg(udev, LAN7800_FCT_RX_FIFO_END, buf);
 
 	buf = (LAN7800_MAX_TX_FIFO_SIZE - 512) / 512;
-	lan7800_write_reg(dev, LAN7800_FCT_TX_FIFO_END, buf);
+	lan7800_write_reg(udev, LAN7800_FCT_TX_FIFO_END, buf);
 
-  	lan7800_write_reg(dev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
-  	lan7800_write_reg(dev, LAN7800_FLOW, 0);
-  	lan7800_write_reg(dev, LAN7800_FCT_FLOW, 0);
+  	lan7800_write_reg(udev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
+  	lan7800_write_reg(udev, LAN7800_FLOW, 0);
+  	lan7800_write_reg(udev, LAN7800_FCT_FLOW, 0);
 
-	/* Don't need rfe_ctl_lock during initialisation */
-	lan7800_read_reg(dev, LAN7800_RFE_CTL, &buf);
+	lan7800_read_reg(udev, LAN7800_RFE_CTL, &buf);
 	buf |= (LAN7800_RFE_CTL_BCAST_EN | LAN7800_RFE_CTL_UCAST_EN | LAN7800_RFE_CTL_MCAST_EN);
-	lan7800_write_reg(dev, LAN7800_RFE_CTL, buf);
+	lan7800_write_reg(udev, LAN7800_RFE_CTL, buf);
 
-	/* Enable or disable checksum offload engines */
-	lan7800_set_features(dev, 0);
+	/* Disable checksum offload engines */
+	lan7800_set_features(udev, 0);
 
-	lan7800_read_reg(dev, LAN7800_RFE_CTL, &buf);
+	/* Do not filter packets. This is done in the network functions stack. */
+	lan7800_read_reg(udev, LAN7800_RFE_CTL, &buf);
 	buf &= ~(LAN7800_RFE_CTL_DA_PERFECT | LAN7800_RFE_CTL_MCAST_HASH);
-	lan7800_write_reg(dev, LAN7800_RFE_CTL, buf);
+	lan7800_write_reg(udev, LAN7800_RFE_CTL, buf);
 
-	/* reset PHY */
-	lan7800_read_reg(dev, LAN7800_PMT_CTL, &buf);
-	buf |= LAN7800_PMT_CTL_PHY_RST;
-	lan7800_write_reg(dev, LAN7800_PMT_CTL, buf);
+	lan7800_read_reg(udev, LAN7800_MAC_CR, &buf);
 
-	/* ??? Could also wait for PMT_CTL_READY. */
-	lan7800_wait_for_bit(dev, LAN7800_PMT_CTL, LAN7800_PMT_CTL_PHY_RST, 0);
-
-	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
-
+	/* Set MAC speed */
 	uint8_t sig;
-	lan7800_read_raw_eeprom(dev, 0, 1, &sig);
+	lan7800_read_raw_eeprom(udev, 0, 1, &sig);
 	if (sig != LAN7800_EEPROM_INDICATOR) {
-		usb_dev_debug(dev, "No External EEPROM. Setting MAC Speed\n");
+		usb_dev_debug(udev, "No External EEPROM. Setting MAC Speed\n");
 		buf |= LAN7800_MAC_CR_AUTO_DUPLEX | LAN7800_MAC_CR_AUTO_SPEED;
 	}
 
 	buf &= ~(LAN7800_MAC_CR_AUTO_DUPLEX);
-	lan7800_write_reg(dev, LAN7800_MAC_CR, buf);
+	lan7800_write_reg(udev, LAN7800_MAC_CR, buf);
 
-	// set to FULL_DUPLEX mode
-	lan7800_read_reg(dev, LAN7800_MAC_CR, &buf);
+	/* Full duplex mode. */
+	lan7800_read_reg(udev, LAN7800_MAC_CR, &buf);
 	buf |= (1 << 3);
-	lan7800_write_reg(dev, LAN7800_MAC_CR, buf);
+	lan7800_write_reg(udev, LAN7800_MAC_CR, buf);
 
-	lan7800_read_reg(dev, LAN7800_MAC_TX, &buf);
+	/* Set TX, RX registers for MAC, FCT (similar to SMSC9512) */
+	lan7800_read_reg(udev, LAN7800_MAC_TX, &buf);
 	buf |= LAN7800_MAC_TX_TXEN;
-	lan7800_write_reg(dev, LAN7800_MAC_TX, buf);
+	lan7800_write_reg(udev, LAN7800_MAC_TX, buf);
 
-	lan7800_read_reg(dev, LAN7800_FCT_TX_CTL, &buf);
+	lan7800_read_reg(udev, LAN7800_FCT_TX_CTL, &buf);
 	buf |= LAN7800_FCT_TX_CTL_EN;
-	lan7800_write_reg(dev, LAN7800_FCT_TX_CTL, buf);
+	lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, buf);
 
-  	lan7800_set_rx_max_frame_length(dev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
+  	lan7800_set_rx_max_frame_length(udev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
 
-	lan7800_read_reg(dev, LAN7800_MAC_RX, &buf);
+	lan7800_read_reg(udev, LAN7800_MAC_RX, &buf);
 	buf |= LAN7800_MAC_RX_RXEN;
-	lan7800_write_reg(dev, LAN7800_MAC_RX, buf);
+	lan7800_write_reg(udev, LAN7800_MAC_RX, buf);
 
-	lan7800_read_reg(dev, LAN7800_FCT_RX_CTL, &buf);
+	lan7800_read_reg(udev, LAN7800_FCT_RX_CTL, &buf);
 	buf |= LAN7800_FCT_RX_CTL_EN;
-	lan7800_write_reg(dev, LAN7800_FCT_RX_CTL, buf);
+	lan7800_write_reg(udev, LAN7800_FCT_RX_CTL, buf);
 
 	return USB_STATUS_SUCCESS;
 }

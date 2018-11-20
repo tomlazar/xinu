@@ -75,17 +75,8 @@ devcall etherOpen(device *devptr)
 	 * to fail.  However, here we perform lazy error checking where we just do
 	 * all the needed reads and writes, then check at the end if an error
 	 * occurred.  */
-
-
 	udev->last_error = USB_STATUS_SUCCESS;
 
-
-	/*ethptr->devAddress[0] = 0xB8;
-	 *ethptr->devAddress[1] = 0x27;
-	 *ethptr->devAddress[2] = 0xEB;
-	 *ethptr->devAddress[3] = 0x71;
-	 *ethptr->devAddress[4] = 0x5A;
-	 *ethptr->devAddress[5] = 0x97;*/
 	retval = lan7800_init(udev, &ethptr->devAddress[0]);
 	if (retval < 0) goto out_free_in_pool;
 

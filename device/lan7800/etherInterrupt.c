@@ -75,14 +75,13 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 				data += RX_OVERHEAD + ((frame_length + 3) & ~3))
 		{
 			/* Get the RxA, RxB, RxC status word, which contains information about the next
-			 *              * Ethernet frame.  */
+			 * Ethernet frame.  */
 			rx_cmd_a = data[0] | data[1] << 8 | data[2] << 16 | data[3] << 24;
 
-			//kprintf("\r\nrx_cmd_a: %d\r\n", rx_cmd_a);
 			/* Extract frame_length, which specifies the length of the next
-			 *              * Ethernet frame from the MAC destination address to end of the CRC
-			 *                           * following the payload.  (This does not include the Rx status
-			 *                                        * words, which we instead account for in RX_OVERHEAD.) */
+			 * Ethernet frame from the MAC destination address to end of the CRC
+			 * following the payload.  (This does not include the Rx status
+			 * words, which we instead account for in RX_OVERHEAD.) */
 			frame_length = (rx_cmd_a & RX_CMD_A_LEN_MASK);
 
 			if ((rx_cmd_a & RX_CMD_A_RED) ||
@@ -90,9 +89,8 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 					(frame_length > ETH_MAX_PKT_LEN + ETH_CRC_LEN) ||
 					(frame_length < ETH_HDR_LEN + ETH_CRC_LEN))
 			{
-				//kprintf("\r\nEnter rx cmd A if statement\r\n");
 				/* The Ethernet adapter set the error flag to indicate a problem
-				 *                  * or the Ethernet frame size it provided was invalid. */
+				 * or the Ethernet frame size it provided was invalid. */
 				usb_dev_debug(req->dev, "LAN78XX: Tallying rx error "
 						"(recv_status=0x%08x, frame_length=%u)\n",
 						recv_status, frame_length);
@@ -100,7 +98,6 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 			}
 			else if (ethptr->icount == ETH_IBLEN)
 			{
-				//kprintf("\r\nIBLEN if statement\r\n");
 				/* No space to buffer another received packet.  */
 				usb_dev_debug(req->dev, "LAN78XX: Tallying overrun\n");
 				ethptr->ovrrun++;
@@ -108,7 +105,6 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 			else
 			{
 				/* Buffer the received packet.  */
-
 				struct ethPktBuffer *pkt;
 
 				pkt = bufget(ethptr->inPool);
@@ -122,7 +118,6 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 						"packet (length=%u, icount=%u)\n",
 						pkt->length, ethptr->icount);
 
-				//kprintf("\r\nSignaling read semaphore. Pkt= %d\r\n", pkt->buf);
 				/* This may wake up a thread in etherRead().  */
 				signal(ethptr->isema);
 			}

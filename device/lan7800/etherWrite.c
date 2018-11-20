@@ -30,9 +30,9 @@ devcall etherWrite(device *devptr, const void *buf, uint len)
 	req = bufget(ethptr->outPool);
 
 	/* Copy the packet's data into the buffer, but also include two words at the
-	 *      * beginning that contain device-specific flags.  These two fields are
-	 *           * required, although we essentially just use them to tell the hardware we
-	 *                * are transmitting one (1) packet with no extra bells and whistles.  */
+	 * beginning that contain device-specific flags.  These two fields are
+	 * required, although we essentially just use them to tell the hardware we
+	 * are transmitting one (1) packet with no extra bells and whistles.  */
 
 	sendbuf = req->sendbuf;
 	tx_cmd_a = (len & TX_CMD_A_LEN_MASK) | TX_CMD_A_FCS;
@@ -52,14 +52,14 @@ devcall etherWrite(device *devptr, const void *buf, uint len)
 	req->size = len + TX_OVERHEAD;
 
 	/* Submit the data as an asynchronous bulk USB transfer.  In other words,
-	 *      * this tells the USB subsystem to send begin sending the data over the USB
-	 *           * to the SMSC LAN9512 USB Ethernet Adapter.  At some later time when all
-	 *                * the data has been transferred over the USB, smsc9512_tx_complete() will
-	 *                     * be called by the USB subsystem.  */
+	 * this tells the USB subsystem to send begin sending the data over the USB
+	 * to the LAN7800 USB Ethernet Adapter.  At some later time when all
+	 * the data has been transferred over the USB, lan7800_tx_complete() will
+	 * be called by the USB subsystem.  */
 	usb_submit_xfer_request(req);
 
 	/* Return the length of the packet written (not including the
-	 *      * device-specific fields that were added). */
+	 * device-specific fields that were added). */
 	return len;
 
 }
