@@ -171,8 +171,8 @@ getEthAddr(uint8_t *addr)
 	}
 
 	/* Clear multicast bit and set locally assigned bit */
-	addr[0] &= 0xFE;
-	addr[0] |= 0x02;
+//	addr[0] &= 0xFE;
+//	addr[0] |= 0x02;
 
 	/* TODO: Figure out why this function fails if kprintf is not called here.
 	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 

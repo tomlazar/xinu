@@ -44,6 +44,24 @@
 
 	.func _start
 _start:
+#if 0
+	/* initialize LED */
+	ldr	r0, =0x3F200004
+	ldr	r1, [r0]
+	mov	r2, #7
+	lsl	r2, r2, #18
+	bic	r1, r2
+	mov	r2, #1
+	lsl	r2, r2, #18
+	orr	r1, r2
+	str	r1, [r0]
+	
+	/* Turn on LED */
+	ldr	r0, =0x3F20001C
+	mov	r1, #1
+	lsl	r1, r1, #16
+	str	r1, [r0]
+#endif
 	/* Save the pointer to the atags (ARM boot tags). The Pi 3 *does* pass atags,
 	 * and does so into address 0x100. We access it there, just like the Pi 1.
 	 * The standard protocol for Aarch32 (ARMv8-A) is to pass the atags pointer
@@ -54,6 +72,13 @@ _start:
 	moveq   r2, #0x100
 	str 	r2, [r3]
 
+	/* Check if processor is already in SYSTEM mode,
+	 * if it is, jump to reset handler. */
+	mrs	r0, cpsr
+	and	r0, r0, #0b11111
+	cmp	r0, #ARM_MODE_SYS
+	beq	reset_handler
+	
 
        /* Upon boot, the device loads into HYP (hypervisor) mode, which does not have permission to
 	* access the CPS opcode. Therefore, to enter the most privelaged mode,
@@ -62,7 +87,8 @@ _start:
 	* First clear bits of CPSR, then enter supervisor mode. Increment the program counter
         * by four to skip a 32-bit word. Upon exception return, the CPSR is changed, and
 	* we are in SUPERVISOR mode. This continues at reset handler, where SYSTEM mode is set. */
-
+	
+	
 	/* Go from monitor mode to hypervisor mode */
 	/* Required to use exception return method */
 	/* Continues execution at line "b reset_handler" */
@@ -73,8 +99,8 @@ _start:
 	add	r0, pc, #4
 	msr	ELR_hyp, r0
 	eret
-
-        /* Continue at reset handler. */
+        
+	/* Continue at reset handler. */
 	b reset_handler
 	.endfunc
 
@@ -117,8 +143,16 @@ reset_handler:
 	/* Copy the ARM exception table from .init section to address 0,
 	 * including the absolute address table.  Here we assume it is exactly
 	 * 16 words.  */
+	mov	r0, #0
 	ldr	r1, =_vectors
+	ldmia	r1!, {r2-r9}
+	stmia	r0!, {r2-r9}
+	ldmia	r1!, {r2-r9}
+	stmia	r0!, {r2-r9}
+
+	mov	r1, #0
 	mcr	p15, 0, r1, c12, c0, 0	/* Write to VBAR */
+					/* Vectors are at address 0x0 */
 
 	/* Enable the following features by modifying the ARM processor's
 	 * Control Register:
@@ -137,7 +171,7 @@ reset_handler:
 	ldr r0, =_bss
 	ldr r1, =_end
   	mov r2, #0
-    mov r3, #0
+    	mov r3, #0
 	mov r4, #0
 	mov r5, #0
   	b bssloopa
@@ -169,7 +203,7 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr r0, =memheap
-    str r2, [r0]		/* use r2 because this is the last stack allocated for core 3 */
+    	str r2, [r0]		/* use r2 because this is the last stack allocated for core 3 */
 
 
 	/* Move to ARM register r0 from coprocessor register p15, at op2 5, which is the MPIDR. */

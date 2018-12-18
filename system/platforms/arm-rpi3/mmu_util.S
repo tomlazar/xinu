@@ -30,6 +30,7 @@ start_mmu:
 
 
 .globl stop_mmu
+stop_mmu:
 	mrc	p15, 0, r2, c1, c0, 0
 	bic	r2, #0x1000
 	bic	r2, #0x0004

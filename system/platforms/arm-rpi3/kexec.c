@@ -39,9 +39,8 @@ static const ulong copy_kernel[] = {
     0xe4843004,
     0xe2511001,
     0x1afffffb,
-    0xe3a0f902,
+    0xe3a0f902
 };
-
 #define COPY_KERNEL_ADDR ((void*)(0x8000 - sizeof(copy_kernel)))
 
 /**
@@ -75,6 +74,12 @@ syscall kexec(const void *kernel, uint size)
     (( void (*)(const void *, ulong, void *))(COPY_KERNEL_ADDR))
                 (kernel, (size + 3) / 4, atags_ptr);
 
+    kprintf("Returned from copy_kernel...\r\n");
+
+    while (1)
+    {
+
+    }
     /* Control should never reach here.  */
     restore(im);
     return SYSERR;
