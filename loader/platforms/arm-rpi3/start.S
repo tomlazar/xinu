@@ -44,24 +44,6 @@
 
 	.func _start
 _start:
-#if 0
-	/* initialize LED */
-	ldr	r0, =0x3F200004
-	ldr	r1, [r0]
-	mov	r2, #7
-	lsl	r2, r2, #18
-	bic	r1, r2
-	mov	r2, #1
-	lsl	r2, r2, #18
-	orr	r1, r2
-	str	r1, [r0]
-	
-	/* Turn on LED */
-	ldr	r0, =0x3F20001C
-	mov	r1, #1
-	lsl	r1, r1, #16
-	str	r1, [r0]
-#endif
 	/* Save the pointer to the atags (ARM boot tags). The Pi 3 *does* pass atags,
 	 * and does so into address 0x100. We access it there, just like the Pi 1.
 	 * The standard protocol for Aarch32 (ARMv8-A) is to pass the atags pointer

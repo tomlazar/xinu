@@ -68,6 +68,11 @@ syscall kexec(const void *kernel, uint size)
     /* Copy the assembly stub into a safe location.  */
     memcpy(COPY_KERNEL_ADDR, copy_kernel, sizeof(copy_kernel));
 
+    extern void stop_mmu(void);
+    extern void invalidate_tlbs(void);
+    stop_mmu();
+    invalidate_tlbs();
+
     /* Enter the assembly stub to copy the new kernel into its final location,
      * then pass control to it.  */
     extern void *atags_ptr;
