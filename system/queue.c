@@ -27,6 +27,8 @@ tid_typ enqueue(tid_typ tid, qid_typ q)
         return SYSERR;
     }
 
+	quetab_acquire();
+
     tail = quetail(q);
     prev = quetab[tail].prev;
 
@@ -34,6 +36,9 @@ tid_typ enqueue(tid_typ tid, qid_typ q)
     quetab[tid].prev = prev;
     quetab[prev].next = tid;
     quetab[tail].prev = tid;
+
+	quetab_release();
+
     return tid;
 }
 
@@ -48,6 +53,7 @@ tid_typ dequeue(qid_typ q)
 {
     int tid;
 
+
     if (isbadqid(q))
     {
         return SYSERR;
@@ -58,10 +64,27 @@ tid_typ dequeue(qid_typ q)
     }
 
     tid = getfirst(q);
+
+	quetab_acquire();
     if (!isbadtid(tid))
     {
         quetab[tid].prev = EMPTY;
         quetab[tid].next = EMPTY;
     }
+	quetab_release();
     return tid;
+}
+
+void quetab_acquire()
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	mutex_acquire(&quetab_mutex);
+#endif
+}
+
+void quetab_release()
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	mutex_release(&quetab_mutex);
+#endif
 }

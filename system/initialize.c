@@ -28,6 +28,11 @@ qid_typ readylist;              /* List of READY threads          */
 struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
+/* Declarations of major mutexes */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+mutex_t quetab_mutex;
+#endif
+
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
 tid_typ thrcurrent;             /* Id of currently running thread      */
