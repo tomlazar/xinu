@@ -9,9 +9,6 @@
 #include <memory.h>
 #include <bufpool.h>
 
-#include <mutex.h>
-static mutex_t bfp_mutex = UNLOCKED;
-
 /**
  * @ingroup memory_mgmt
  *
@@ -41,8 +38,6 @@ int bfpalloc(uint bufsize, uint nbuf)
     {
         return SYSERR;
     }
-
-    mutex_acquire(&bfp_mutex);
 
     im = disable();
     for (id = 0; id < NPOOL; id++)
@@ -85,8 +80,6 @@ int bfpalloc(uint bufsize, uint nbuf)
         bufptr->next = (struct poolbuf *)((ulong)bufptr + bufsize);
         bufptr = bufptr->next;
     }
-
-    mutex_release(&bfp_mutex);
 
     signaln(bfpptr->freebuf, nbuf);
 
