@@ -16,6 +16,7 @@
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #include <mutex.h>
+extern unsigned int getcpuid(void);
 #endif
 
 #endif /* __ASSEMBLER__ */
@@ -92,7 +93,12 @@ struct thrent
 
 extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+extern tid_typ thrcurrent_[];
+#define thrcurrent (thrcurrent_[getcpuid()])
+#else
 extern tid_typ thrcurrent;      /**< currently executing thread         */
+#endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 extern mutex_t thrtab_mutex[];

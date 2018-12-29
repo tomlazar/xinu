@@ -24,20 +24,26 @@ static int sysinit(void);       /* intializes system structures        */
 struct thrent thrtab[NTHREAD];  /* Thread table                   */
 struct sement semtab[NSEM];     /* Semaphore table                */
 struct monent montab[NMON];     /* Monitor table                  */
+#ifndef _XINU_PLATFORM_ARM_RPI_3_
 qid_typ readylist;              /* List of READY threads          */
+#endif
 struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
-/* Declarations of major mutexes */
+/* Declarations of major multicore variables */
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
+tid_typ thrcurrent_[4];
+qid_typ readylist_[4];
 #endif
 
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
+#ifndef _XINU_PLATFORM_ARM_RPI_3_
 tid_typ thrcurrent;             /* Id of currently running thread      */
+#endif
 
 /* Params set by startup.S */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
@@ -137,7 +143,14 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	readylist_[0] = queinit();
+	readylist_[1] = queinit();
+	readylist_[2] = queinit();
+	readylist_[3] = queinit();
+#else
 	readylist = queinit();
+#endif
 
 #if SB_BUS
 	backplaneInit(NULL);
