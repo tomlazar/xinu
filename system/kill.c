@@ -60,7 +60,9 @@ syscall kill(tid_typ tid)
         resched();
 
     case THRWAIT:
+		semtab_acquire(thrptr->sem);
         semtab[thrptr->sem].count++;
+		semtab_release(thrptr->sem);
 
     case THRREADY:
         getitem(tid);           /* removes from queue */

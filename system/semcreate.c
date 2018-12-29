@@ -37,7 +37,9 @@ semaphore semcreate(int count)
     sem = semalloc();       /* Allocate semaphore.  */
     if (SYSERR != sem)      /* If semaphore was allocated, set count.  */
     {
+		semtab_acquire(sem);
         semtab[sem].count = count;
+		semtab_release(sem);
     }
     /* Restore interrupts and return either the semaphore or SYSERR.  */
     restore(im);
@@ -61,9 +63,25 @@ static semaphore semalloc(void)
         nextsem = (nextsem + 1) % NSEM;
         if (SFREE == semtab[nextsem].state)
         {
+			semtab_acquire(nextsem);
             semtab[nextsem].state = SUSED;
+			semtab_release(nextsem);
             return nextsem;
         }
     }
     return SYSERR;
+}
+
+void semtab_acquire(semaphore sem)
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	mutex_acquire(&(semtab_mutex[sem]));
+#endif
+}
+
+void semtab_release(semaphore sem)
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	mutex_release(&(semtab_mutex[sem]));
+#endif
 }

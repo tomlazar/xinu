@@ -32,7 +32,8 @@ syscall semfree(semaphore sem)
         restore(im);
         return SYSERR;
     }
-
+	
+	semtab_acquire(sem);
     semptr = &semtab[sem];
     while (nonempty(semptr->queue))
     {
@@ -42,6 +43,8 @@ syscall semfree(semaphore sem)
 
     semptr->count = 0;
     semptr->state = SFREE;
+	semtab_release(sem);
+
     restore(im);
     return OK;
 }
