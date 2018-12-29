@@ -19,14 +19,27 @@ message receive(void)
     message msg;
 
     im = disable();
+
+
     thrptr = &thrtab[thrcurrent];
     if (FALSE == thrptr->hasmsg)
     {                           /* if no message, wait for one */
-        thrptr->state = THRRECV;
+		thrtab_acquire(thrcurrent);
+        
+		thrptr->state = THRRECV;
+
+		thrtab_release(thrcurrent);
+
         resched();
     }
+
+	thrtab_acquire(thrcurrent);
+
     msg = thrptr->msg;          /* retrieve message                */
     thrptr->hasmsg = FALSE;     /* reset message flag              */
+
+	thrtab_release(thrcurrent);
+
     restore(im);
     return msg;
 }

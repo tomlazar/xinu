@@ -13,6 +13,11 @@
 #include <debug.h>
 #include <stddef.h>
 #include <memory.h>
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#include <mutex.h>
+#endif
+
 #endif /* __ASSEMBLER__ */
 
 /* unusual value marks the top of the thread stack                      */
@@ -88,6 +93,13 @@ struct thrent
 extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
 extern tid_typ thrcurrent;      /**< currently executing thread         */
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+extern mutex_t thrtab_mutex[];
+#endif
+
+void thrtab_acquire(tid_typ);
+void thrtab_release(tid_typ);
 
 /* Inter-Thread Communication prototypes */
 syscall send(tid_typ, message);

@@ -23,8 +23,13 @@ int ready(tid_typ tid, bool resch)
     {
         return SYSERR;
     }
+
+	thrtab_acquire(tid);
+
     thrptr = &thrtab[tid];
     thrptr->state = THRREADY;
+
+	thrtab_release(tid);
 
     insert(tid, readylist, thrptr->prio);
 

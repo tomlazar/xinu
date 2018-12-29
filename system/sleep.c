@@ -40,7 +40,9 @@ syscall sleep(uint ms)
             restore(im);
             return SYSERR;
         }
+		thrtab_acquire(thrcurrent);
         thrtab[thrcurrent].state = THRSLEEP;
+		thrtab_release(thrcurrent);
     }
 
     resched();

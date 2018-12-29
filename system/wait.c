@@ -39,8 +39,10 @@ syscall wait(semaphore sem)
     semptr = &semtab[sem];
     if (--(semptr->count) < 0)
     {
+		thrtab_acquire(thrcurrent);
         thrptr->state = THRWAIT;
         thrptr->sem = sem;
+		thrtab_release(thrcurrent);
         enqueue(thrcurrent, semptr->queue);
         resched();
     }

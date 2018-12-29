@@ -108,9 +108,9 @@ const struct centry commandtab[] = {
 #endif
 #if NETHER
     {"udpstat", FALSE, xsh_udpstat},
-    //{"vlanstat", FALSE, xsh_vlanstat},
-    {"voip", FALSE, xsh_voip},
-    {"xweb", FALSE, xsh_xweb},
+    //XXX{"vlanstat", FALSE, xsh_vlanstat},
+    //XXX{"voip", FALSE, xsh_voip},
+    //XXX{"xweb", FALSE, xsh_xweb},
 #endif
     {"?", FALSE, xsh_help}
 };
@@ -354,6 +354,8 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
             continue;
         }
 
+		thrtab_acquire(child);
+
         /* Set file descriptors for newly created thread */
         if (NULL == inname)
         {
@@ -372,6 +374,8 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
             thrtab[child].fdesc[1] = getdev(outname);
         }
         thrtab[child].fdesc[2] = stderr;
+
+		thrtab_release(child);
 
         if (background)
         {

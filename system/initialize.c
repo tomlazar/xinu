@@ -31,6 +31,8 @@ struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 /* Declarations of major mutexes */
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 mutex_t quetab_mutex;
+mutex_t thrtab_mutex[NTHREAD];
+mutex_t semtab_mutex[NSEM];
 #endif
 
 /* Active system status */

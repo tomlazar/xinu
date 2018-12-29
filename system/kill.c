@@ -49,10 +49,14 @@ syscall kill(tid_typ tid)
     {
     case THRSLEEP:
         unsleep(tid);
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;
+		thrtab_release(tid);
         break;
     case THRCURR:
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;        /* suicide */
+		thrtab_release(tid);
         resched();
 
     case THRWAIT:
@@ -62,7 +66,9 @@ syscall kill(tid_typ tid)
         getitem(tid);           /* removes from queue */
 
     default:
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;
+		thrtab_release(tid);
     }
 
     restore(im);
