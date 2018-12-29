@@ -13,6 +13,7 @@
 #include <ctype.h>
 #include <clock.h>
 #include <testsuite.h>
+#include <thread.h>
 
 extern void led_init(void);
 extern void led_off(void);
@@ -29,6 +30,8 @@ const ulong blink_kernel[] = {
 	0x3f20001c
 };
 
+static thread test_thread(void);
+
 /**
  * @ingroup shell
  *
@@ -42,12 +45,31 @@ const ulong blink_kernel[] = {
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
+#if 0
 	stop_mmu();
 	invalidate_tlbs();
 	led_init();
 	led_off();
 
 	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
-	
+#endif
+
+	tid_typ tid1 = create(test_thread, INITSTK, 100, "TEST01", 0);
+	tid_typ tid2 = create(test_thread, INITSTK, 100, "TEST02", 0);
+	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
+
+	ready_multi(tid1, 1);	
+	ready_multi(tid2, 2);
+	ready_multi(tid3, 3);
+
 	return 0;
+}
+
+static thread test_thread()
+{
+	disable();
+	uint cpuid = getcpuid();
+	udelay(250);
+	kprintf("test_thread on core %u\r\n", cpuid);
+	return OK;
 }

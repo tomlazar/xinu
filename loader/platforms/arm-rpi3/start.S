@@ -185,7 +185,7 @@ bssloopa:
 	 * region, which is used for dynamic memory allocation.  Set its
 	 * starting address.  */
 	ldr r0, =memheap
-    	str r2, [r0]		/* use r2 because this is the last stack allocated for core 3 */
+    str r2, [r0]		/* use r2 because this is the last stack allocated for core 3 */
 
 
 	/* Move to ARM register r0 from coprocessor register p15, at op2 5, which is the MPIDR. */

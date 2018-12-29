@@ -37,6 +37,9 @@ mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
 tid_typ thrcurrent_[4];
 qid_typ readylist_[4];
+
+static void core_nulluser(void);
+extern void unparkcore(unsigned int, void *, void *);
 #endif
 
 /* Active system status */
@@ -72,6 +75,12 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	unparkcore(1, (void *) core_nulluser, NULL);
+	unparkcore(2, (void *) core_nulluser, NULL);
+	unparkcore(3, (void *) core_nulluser, NULL);
+#endif
+
 	/* Enable interrupts  */
 	enable();	
 
@@ -96,6 +105,9 @@ static int sysinit(void)
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
 	thrcount = 1;
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	thrcount = 4;
+#endif
 
 	/* Initialize free memory list */
 	memheap = roundmb(memheap);
@@ -118,10 +130,54 @@ static int sysinit(void)
 	strlcpy(thrptr->name, "prnull", TNMLEN);
 	thrptr->stkbase = (void *)&_end;
 	thrptr->stklen = (ulong)memheap - (ulong)&_end;
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	thrptr->stklen /= 4; 	/* there are 4 stacks for pi 3 */
+#endif
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
 	thrcurrent = NULLTHREAD;
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if 1
+	ulong stkoffset = ((ulong)memheap - (ulong)&_end) / 4;
+	/* Core 1 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD1];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull01", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + stkoffset);
+	thrptr->stklen = stkoffset;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[1] = NULLTHREAD1;
+
+	/* Core 2 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD2];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull02", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + stkoffset + stkoffset);
+	thrptr->stklen = stkoffset;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[2] = NULLTHREAD2;
+
+	/* Core 3 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD3];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull03", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + stkoffset + stkoffset + stkoffset);
+	thrptr->stklen = stkoffset;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[3] = NULLTHREAD3;	
+#endif
+#endif
 
 	/* Initialize semaphores */
 	for (i = 0; i < NSEM; i++)
@@ -218,4 +274,14 @@ static int sysinit(void)
 #endif
 
 	return OK;
+}
+
+static void core_nulluser(void)
+{
+	disable();
+	while (TRUE) 
+	{
+		if (nonempty(readylist))
+			resched();
+	}
 }
