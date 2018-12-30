@@ -69,7 +69,7 @@ static thread test_thread()
 {
 	disable();
 	uint cpuid = getcpuid();
-	udelay(250);
-	kprintf("test_thread on core %u\r\n", cpuid);
+	udelay(500);
+	kprintf("\rtest_thread on core %u\r\n", cpuid);
 	return OK;
 }
