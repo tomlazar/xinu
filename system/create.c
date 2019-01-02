@@ -130,13 +130,23 @@ static int thrnew(void)
 void thrtab_acquire(tid_typ tid)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
+	for (int i = 0; i < NTHREAD; i++)
+	{
+		pldw(&thrtab[i]);
+	}
 	mutex_acquire(&(thrtab_mutex[tid]));
+	dmb();
 #endif
 }
 
 void thrtab_release(tid_typ tid)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
+	for (int i = 0; i < NTHREAD; i++)
+	{
+		pldw(&thrtab[i]);
+	}
 	mutex_release(&(thrtab_mutex[tid]));
+	dmb();
 #endif
 }

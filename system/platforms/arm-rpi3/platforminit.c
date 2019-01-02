@@ -122,7 +122,8 @@ int platforminit(void)
 	
 	/* Initialize the Memory Managament Unit */
 	mmu_init();
-	
+//	mmu_initialize();	
+
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
 

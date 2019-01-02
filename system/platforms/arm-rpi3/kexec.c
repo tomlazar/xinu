@@ -43,6 +43,9 @@ static const ulong copy_kernel[] = {
 };
 #define COPY_KERNEL_ADDR ((void*)(0x8000 - sizeof(copy_kernel)))
 
+extern void stop_mmu(void);
+extern void invalidate_tlbs(void);
+
 /**
  * Kernel execute - Transfer control to a new kernel.
  *
@@ -67,9 +70,7 @@ syscall kexec(const void *kernel, uint size)
 
     /* Copy the assembly stub into a safe location.  */
     memcpy(COPY_KERNEL_ADDR, copy_kernel, sizeof(copy_kernel));
-
-    extern void stop_mmu(void);
-    extern void invalidate_tlbs(void);
+    
     stop_mmu();
     invalidate_tlbs();
 

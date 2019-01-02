@@ -59,7 +59,9 @@ shellcmd xsh_test(int nargs, char *args[])
 	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
 
 	ready_multi(tid1, 1);	
+//	udelay(10);
 	ready_multi(tid2, 2);
+//	udelay(10);	
 	ready_multi(tid3, 3);
 
 	return 0;
@@ -69,7 +71,7 @@ static thread test_thread()
 {
 	disable();
 	uint cpuid = getcpuid();
-	udelay(500);
+//	udelay(500);
 	kprintf("\rtest_thread on core %u\r\n", cpuid);
 	return OK;
 }

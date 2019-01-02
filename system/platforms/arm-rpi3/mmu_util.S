@@ -1,3 +1,29 @@
+.equ	MMU_TABLE_BASE,	0x00004000
+
+.globl mmu_initialize
+mmu_initialize:
+	// Code adapted from Bare-metal Boot Code for ARMv8-A Processors v1.0
+	ldr	r0, =MMU_TABLE_BASE
+        ldr	r4, =0x00100000	// Increment value
+	ldr	r2, =0x00015C06	// Memory is shareable (p. 4861 of ARM ARM v8)
+	ldr	r3, =0x3F000000 // Peripherials start here
+
+memLoop:
+	str	r2, [r0], #4
+	add	r2, r4
+	cmp	r3, r2
+	bhi	memLoop
+
+	ldr	r2, =0x3F000C02	// Peripherials are non-cacheable device memory
+	ldr	r3, =0xFFF00000 // Stop here
+perLoop:
+	str	r2, [r0], #4
+	add	r2, r4
+	cmp	r3, r2
+	bhi	perLoop
+
+	ldr r0, =MMU_TABLE_BASE	// Re-load table base to start MMU
+
 .globl start_mmu
 start_mmu:
 	mov	r2, #0
@@ -11,6 +37,8 @@ start_mmu:
 
 	mvn	r2, #0
 	mcr	p15, 0, r2, c3, c0, 0	;@ domain
+
+	orr	r0, #0x6A
 	
 	mcr	p15, 0, r0, c2, c0, 0	;@ tlb base
 	mcr	p15, 0, r0, c2, c0, 1	;@ tlb base

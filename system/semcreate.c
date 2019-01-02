@@ -75,13 +75,23 @@ static semaphore semalloc(void)
 void semtab_acquire(semaphore sem)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
+	for (int i = 0; i < NSEM; i++)
+	{
+		pldw(&semtab[i]);
+	}
 	mutex_acquire(&(semtab_mutex[sem]));
+	dmb();
 #endif
 }
 
 void semtab_release(semaphore sem)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
+	for (int i = 0; i < NSEM; i++)
+	{
+		pldw(&semtab[i]);
+	}
 	mutex_release(&(semtab_mutex[sem]));
+	dmb();
 #endif
 }
