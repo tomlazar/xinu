@@ -82,7 +82,7 @@ void quetab_acquire()
 	{
 		pldw(&quetab[i]);
 	}
-	mutex_acquire(&quetab_mutex);
+	mutex_acquire(quetab_mutex);
 	dmb();
 #endif
 }
@@ -94,7 +94,7 @@ void quetab_release()
 	{
 		pldw(&quetab[i]);
 	}
-	mutex_release(&quetab_mutex);
+	mutex_release(quetab_mutex);
 	dmb();
 #endif
 }

@@ -128,13 +128,13 @@ int platforminit(void)
 	random_init();
 
 	/* Initialize the mutexes for global tables */
-	quetab_mutex = MUTEX_UNLOCKED;
+	quetab_mutex = mutex_create();
 
 	for (int i = 0; i < NTHREAD; i++)
-		thrtab_mutex[i] = MUTEX_UNLOCKED;
+		thrtab_mutex[i] = mutex_create();
 
 	for (int i = 0; i < NSEM; i++)
-		semtab_mutex[i] = MUTEX_UNLOCKED;
+		semtab_mutex[i] = mutex_create();
 
 	return OK;
 }

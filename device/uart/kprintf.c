@@ -9,7 +9,7 @@
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #	include <mutex.h>
-	mutex_t serial_lock = MUTEX_UNLOCKED;
+	mutex_t serial_lock;
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 
 /**
@@ -37,9 +37,9 @@ syscall kprintf(const char *format, ...)
     va_start(ap, format);
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-	mutex_acquire(&serial_lock);
+	mutex_acquire(serial_lock);
 	retval = kvprintf(format, ap);
-	mutex_release(&serial_lock);
+	mutex_release(serial_lock);
 #else
 	retval = kvprintf(format, ap);
 #endif	

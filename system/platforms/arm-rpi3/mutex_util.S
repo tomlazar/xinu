@@ -8,11 +8,11 @@
 
 #include "mutex.h"
 
-.globl mutex_acquire
-.globl mutex_release
+.globl _mutex_acquire
+.globl _mutex_release
 
-mutex_acquire:
-	.func	mutex_acquire
+_mutex_acquire:
+	.func	_mutex_acquire
 
 	push	{lr}
 
@@ -47,8 +47,8 @@ wait:
 
 	.endfunc
 
-mutex_release:
-	.func	mutex_release
+_mutex_release:
+	.func	_mutex_release
 
 	mov		r1, #MUTEX_UNLOCKED
 	dmb							/* Required before accessing protected resource */

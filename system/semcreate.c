@@ -79,7 +79,7 @@ void semtab_acquire(semaphore sem)
 	{
 		pldw(&semtab[i]);
 	}
-	mutex_acquire(&(semtab_mutex[sem]));
+	mutex_acquire(semtab_mutex[sem]);
 	dmb();
 #endif
 }
@@ -91,7 +91,7 @@ void semtab_release(semaphore sem)
 	{
 		pldw(&semtab[i]);
 	}
-	mutex_release(&(semtab_mutex[sem]));
+	mutex_release(semtab_mutex[sem]);
 	dmb();
 #endif
 }

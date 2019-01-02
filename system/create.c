@@ -134,7 +134,7 @@ void thrtab_acquire(tid_typ tid)
 	{
 		pldw(&thrtab[i]);
 	}
-	mutex_acquire(&(thrtab_mutex[tid]));
+	mutex_acquire(thrtab_mutex[tid]);
 	dmb();
 #endif
 }
@@ -146,7 +146,7 @@ void thrtab_release(tid_typ tid)
 	{
 		pldw(&thrtab[i]);
 	}
-	mutex_release(&(thrtab_mutex[tid]));
+	mutex_release(thrtab_mutex[tid]);
 	dmb();
 #endif
 }
