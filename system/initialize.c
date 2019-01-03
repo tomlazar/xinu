@@ -131,7 +131,7 @@ static int sysinit(void)
 	thrptr->stkbase = (void *)&_end;
 	thrptr->stklen = (ulong)memheap - (ulong)&_end;
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-	thrptr->stklen /= 4; 	/* there are 4 stacks for pi 3 */
+	thrptr->stklen = 8192; 	/* NULLSTK */
 #endif
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
@@ -140,14 +140,13 @@ static int sysinit(void)
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #if 1
-	ulong stkoffset = ((ulong)memheap - (ulong)&_end) / 4;
 	/* Core 1 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD1];
 	thrptr->state = THRCURR;
 	thrptr->prio = 0;
 	strlcpy(thrptr->name, "prnull01", TNMLEN);
-	thrptr->stkbase = (void *)(&_end + stkoffset);
-	thrptr->stklen = stkoffset;
+	thrptr->stkbase = (void *)(&_end + 8192);
+	thrptr->stklen = 8192;
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
@@ -158,8 +157,8 @@ static int sysinit(void)
 	thrptr->state = THRCURR;
 	thrptr->prio = 0;
 	strlcpy(thrptr->name, "prnull02", TNMLEN);
-	thrptr->stkbase = (void *)(&_end + stkoffset + stkoffset);
-	thrptr->stklen = stkoffset;
+	thrptr->stkbase = (void *)(&_end + 16384);
+	thrptr->stklen = 8192;
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
@@ -170,8 +169,8 @@ static int sysinit(void)
 	thrptr->state = THRCURR;
 	thrptr->prio = 0;
 	strlcpy(thrptr->name, "prnull03", TNMLEN);
-	thrptr->stkbase = (void *)(&_end + stkoffset + stkoffset + stkoffset);
-	thrptr->stklen = stkoffset;
+	thrptr->stkbase = (void *)(&_end + 24576);
+	thrptr->stklen = 8192;
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;

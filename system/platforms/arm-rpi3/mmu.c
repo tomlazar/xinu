@@ -1,4 +1,5 @@
 #include <mmu.h>
+#include <mutex.h>
 
 /* code from Github user dwelch67 */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)

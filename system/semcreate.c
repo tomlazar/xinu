@@ -75,14 +75,6 @@ static semaphore semalloc(void)
 void semtab_acquire(semaphore sem)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-#if 0
-	for (int i = 0; i < NSEM; i++)
-	{
-		pldw(&semtab[i]);
-	}
-	mutex_acquire(semtab_mutex[sem]);
-	dmb();
-#endif
 
 	pldw(&semtab[sem]);
 	mutex_acquire(semtab_mutex[sem]);
@@ -93,14 +85,6 @@ void semtab_acquire(semaphore sem)
 void semtab_release(semaphore sem)
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-#if 0
-	for (int i = 0; i < NSEM; i++)
-	{
-		pldw(&semtab[i]);
-	}
-	mutex_release(semtab_mutex[sem]);
-	dmb();
-#endif
 
 	dmb();
 	mutex_release(semtab_mutex[sem]);

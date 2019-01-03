@@ -125,7 +125,7 @@ struct dhcpPkt
 };
 
 
-#define ENABLE_DHCP_TRACE
+//#define ENABLE_DHCP_TRACE
 
 #ifdef ENABLE_DHCP_TRACE
 #  include <stdio.h>
