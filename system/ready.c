@@ -52,7 +52,7 @@ int ready_multi(tid_typ tid, unsigned int core)
 	
 //	kprintf("\r[ready_multi] readying tid %d on core %d\r\n", tid, core);
 
-	udelay(10);
+	udelay(15);
 
 	if (isbadtid(tid))
 	{

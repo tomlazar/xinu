@@ -56,8 +56,8 @@ shellcmd xsh_test(int nargs, char *args[])
 	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
 #endif
 #if 1
-	tid_typ tid1 = create(test_thread1, INITSTK, 100, "TEST01", 0);
-	tid_typ tid2 = create(test_thread2, INITSTK, 100, "TEST02", 1, tid1);
+	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
+	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
 //	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
 
 	ready_multi(tid1, 1);	
@@ -78,7 +78,7 @@ static thread test_thread()
 static thread test_thread1()
 {
 	disable();
-	message msg = recvtime(5000);
+	message msg = recvtime(1000);
 	if (TIMEOUT == msg)
 	{
 		kprintf("msg timed out\r\n");

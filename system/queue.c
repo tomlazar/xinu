@@ -83,18 +83,18 @@ void quetab_acquire()
 		pldw(&quetab[i]);
 	}
 	mutex_acquire(quetab_mutex);
-	dmb();
+//	dmb();
 #endif
 }
 
 void quetab_release()
 {
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-	for (int i = 0; i < NQENT; i++)
-	{
-		pldw(&quetab[i]);
-	}
-	mutex_release(quetab_mutex);
+//	for (int i = 0; i < NQENT; i++)
+//	{
+//		pldw(&quetab[i]);
+//	}
 	dmb();
+	mutex_release(quetab_mutex);
 #endif
 }
