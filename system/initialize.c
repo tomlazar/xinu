@@ -71,15 +71,15 @@ void nulluser(void)
 	/* General initialization  */
 	sysinit();
 
-	kprintf("\r\n***********************************************************\r\n");
-	kprintf("******************** Hello Xinu World! ********************\r\n");
-	kprintf("***********************************************************\r\n");
-
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 	unparkcore(1, (void *) core_nulluser, NULL);
 	unparkcore(2, (void *) core_nulluser, NULL);
 	unparkcore(3, (void *) core_nulluser, NULL);
 #endif
+
+	kprintf("\r\n***********************************************************\r\n");
+	kprintf("******************** Hello Xinu World! ********************\r\n");
+	kprintf("***********************************************************\r\n");
 
 	/* Enable interrupts  */
 	enable();	

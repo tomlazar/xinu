@@ -7,7 +7,8 @@
 extern void start_mmu(unsigned int);
 extern void stop_mmu(void);
 extern void invalidate_tlbs(void);
-extern int mmu_section(unsigned int, unsigned int, unsigned int);
+extern unsigned int mmu_section(unsigned int, unsigned int, unsigned int);
+extern unsigned int mmu_small(unsigned int, unsigned int, unsigned int, unsigned int);
 extern void mmu_init(void);
 
 extern void PUT32(unsigned int, unsigned int);

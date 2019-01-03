@@ -31,6 +31,8 @@ const ulong blink_kernel[] = {
 };
 
 static thread test_thread(void);
+static thread test_thread1(void);
+static thread test_thread2(tid_typ);
 
 /**
  * @ingroup shell
@@ -53,17 +55,14 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
 #endif
-
-	tid_typ tid1 = create(test_thread, INITSTK, 100, "TEST01", 0);
-	tid_typ tid2 = create(test_thread, INITSTK, 100, "TEST02", 0);
-	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
+#if 1
+	tid_typ tid1 = create(test_thread1, INITSTK, 100, "TEST01", 0);
+	tid_typ tid2 = create(test_thread2, INITSTK, 100, "TEST02", 1, tid1);
+//	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
 
 	ready_multi(tid1, 1);	
-//	udelay(10);
 	ready_multi(tid2, 2);
-//	udelay(10);	
-	ready_multi(tid3, 3);
-
+#endif
 	return 0;
 }
 
@@ -73,5 +72,25 @@ static thread test_thread()
 	uint cpuid = getcpuid();
 //	udelay(500);
 	kprintf("\rtest_thread on core %u\r\n", cpuid);
+	return OK;
+}
+
+static thread test_thread1()
+{
+	disable();
+	message msg = recvtime(5000);
+	if (TIMEOUT == msg)
+	{
+		kprintf("msg timed out\r\n");
+		return OK;
+	}
+	kprintf("received: %d\r\n", msg);
+	return OK;
+}
+
+static thread test_thread2(tid_typ tid)
+{
+	disable();
+	send(tid, 69);
 	return OK;
 }
