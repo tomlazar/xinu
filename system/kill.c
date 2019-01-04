@@ -45,6 +45,10 @@ syscall kill(tid_typ tid)
 
     stkfree(thrptr->stkbase, thrptr->stklen);
 
+	thrtab_acquire(tid);
+	core_affinity[tid] = -1;
+	thrtab_release(tid);
+
     switch (thrptr->state)
     {
     case THRSLEEP:

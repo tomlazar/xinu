@@ -131,7 +131,10 @@ int platforminit(void)
 	quetab_mutex = mutex_create();
 
 	for (int i = 0; i < NTHREAD; i++)
+	{
 		thrtab_mutex[i] = mutex_create();
+		core_affinity[i] = -1;
+	}
 
 	for (int i = 0; i < NSEM; i++)
 		semtab_mutex[i] = mutex_create();

@@ -132,6 +132,7 @@ void thrtab_acquire(tid_typ tid)
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 
 	pldw(&thrtab[tid]);
+	pldw(&core_affinity[tid]);
 	mutex_acquire(thrtab_mutex[tid]);
 
 #endif

@@ -35,6 +35,7 @@ struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
+unsigned int core_affinity[NTHREAD];
 tid_typ thrcurrent_[4];
 qid_typ readylist_[4];
 
@@ -280,6 +281,7 @@ static void core_nulluser(void)
 	disable();
 	while (TRUE) 
 	{
+		pld(&quetab[readylist].next);
 		if (nonempty(readylist))
 			resched();
 	}

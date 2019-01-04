@@ -101,6 +101,7 @@ extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 extern tid_typ thrcurrent_[];
+extern unsigned int core_affinity[];
 #define thrcurrent (thrcurrent_[getcpuid()])
 #else
 extern tid_typ thrcurrent;      /**< currently executing thread         */
