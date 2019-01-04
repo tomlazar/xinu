@@ -41,7 +41,7 @@ shellcmd xsh_exit(int nargs, char *args[])
     }
 
     printf(SHELL_EXIT);
-    sleep(10);
+    sleep(1);
     kill(gettid());
 
     return 0;

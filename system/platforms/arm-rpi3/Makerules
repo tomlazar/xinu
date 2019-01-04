@@ -14,7 +14,7 @@ S_FILES = ctxsw.S          \
 		  getcpuid.S	   \
 		  setupCores.S	   \
 		  setmode.S		   \
-		  mutex.S		   \
+		  mutex_util.S		   \
 		  mmu_util.S	   \
 		  preload_data.S    \
 
@@ -29,9 +29,10 @@ C_FILES = setupStack.c       \
 		  unparkcore.c		 \
 		  mmu.c				 \
 		  random.c			 \
-		  des.c			\
-		  bcm2837_mbox.c
+		  bcm2837_mbox.c		 \
+		  des.c				 \
+		  mutex.c
 
 # Add the files to the compile source path
-					DIR = ${TOPDIR}/${COMP}
-					COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}

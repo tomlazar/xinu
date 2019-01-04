@@ -15,7 +15,7 @@ APPCOMPS := apps        \
             mailbox     \
             network     \
             shell       \
-            test
+#            test
 
 # Embedded Xinu device drivers to build into the kernel image
 DEVICES := bcm4713      \

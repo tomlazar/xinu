@@ -36,13 +36,21 @@ message recvtime(int maxwait)
             restore(im);
             return SYSERR;
         }
+
+		thrtab_acquire(thrcurrent);
+
         thrtab[thrcurrent].state = THRTMOUT;
+
+		thrtab_release(thrcurrent);
+
         resched();
 #else
         restore(im);
         return SYSERR;
 #endif
     }
+
+	thrtab_acquire(thrcurrent);
 
     if (thrptr->hasmsg)
     {
@@ -53,6 +61,9 @@ message recvtime(int maxwait)
     {
         msg = TIMEOUT;
     }
+
+	thrtab_release(thrcurrent);
+
     restore(im);
     return msg;
 }

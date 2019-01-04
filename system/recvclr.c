@@ -19,6 +19,9 @@ message recvclr(void)
     message msg;
 
     im = disable();
+
+	thrtab_acquire(thrcurrent);
+
     thrptr = &thrtab[thrcurrent];
     if (thrptr->hasmsg)
     {
@@ -29,6 +32,9 @@ message recvclr(void)
         msg = NOMSG;
     }
     thrptr->hasmsg = FALSE;     /* reset message flag   */
+
+	thrtab_release(thrcurrent);
+
     restore(im);
     return msg;
 }

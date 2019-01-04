@@ -54,6 +54,13 @@ _start:
 	moveq   r2, #0x100
 	str 	r2, [r3]
 
+	/* Check if processor is already in SYSTEM mode,
+	 * if it is, jump to reset handler. */
+	mrs	r0, cpsr
+	and	r0, r0, #0b11111
+	cmp	r0, #ARM_MODE_SYS
+	beq	reset_handler
+	
 
        /* Upon boot, the device loads into HYP (hypervisor) mode, which does not have permission to
 	* access the CPS opcode. Therefore, to enter the most privelaged mode,
@@ -62,7 +69,8 @@ _start:
 	* First clear bits of CPSR, then enter supervisor mode. Increment the program counter
         * by four to skip a 32-bit word. Upon exception return, the CPSR is changed, and
 	* we are in SUPERVISOR mode. This continues at reset handler, where SYSTEM mode is set. */
-
+	
+	
 	/* Go from monitor mode to hypervisor mode */
 	/* Required to use exception return method */
 	/* Continues execution at line "b reset_handler" */
@@ -73,8 +81,8 @@ _start:
 	add	r0, pc, #4
 	msr	ELR_hyp, r0
 	eret
-
-        /* Continue at reset handler. */
+        
+	/* Continue at reset handler. */
 	b reset_handler
 	.endfunc
 
@@ -118,8 +126,16 @@ reset_handler:
 	/* Copy the ARM exception table from .init section to address 0,
 	 * including the absolute address table.  Here we assume it is exactly
 	 * 16 words.  */
+	mov	r0, #0
 	ldr	r1, =_vectors
+	ldmia	r1!, {r2-r9}
+	stmia	r0!, {r2-r9}
+	ldmia	r1!, {r2-r9}
+	stmia	r0!, {r2-r9}
+
+	mov	r1, #0
 	mcr	p15, 0, r1, c12, c0, 0	/* Write to VBAR */
+					/* Vectors are at address 0x0 */
 
 	/* Enable the following features by modifying the ARM processor's
 	 * Control Register:
@@ -138,7 +154,7 @@ reset_handler:
 	ldr r0, =_bss
 	ldr r1, =_end
   	mov r2, #0
-    mov r3, #0
+    	mov r3, #0
 	mov r4, #0
 	mov r5, #0
   	b bssloopa

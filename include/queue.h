@@ -26,10 +26,20 @@
 
 #include <kernel.h>
 
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#include <mutex.h>
+extern unsigned int getcpuid(void);
+#endif
+
 #ifndef NQENT
 
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 /** NQENT = 1 per thread, 2 per list, 2 per sem */
-#define NQENT   (NTHREAD + 4 + NSEM + NSEM)
+#define NQENT   (NTHREAD + 4 + 6 + NSEM + NSEM)
+#else
+#define NQENT	(NTHREAD + 4 + NSEM + NSEM)
+#endif
+
 #endif
 
 #define EMPTY (-2)              /**< null pointer for queues            */
@@ -49,7 +59,18 @@ struct queent
 };
 
 extern struct queent quetab[];
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+extern qid_typ readylist_[];
+#define readylist (readylist_[getcpuid()])
+#else
 extern qid_typ readylist;
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+extern mutex_t quetab_mutex;
+#endif
+void quetab_acquire(void);
+void quetab_release(void);
 
 #define quehead(q) (q)
 #define quetail(q) ((q) + 1)

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <thread.h>
 #include <version.h>
+#include <stdlib.h>
 
 void print_os_info(void);
 
@@ -28,24 +29,25 @@ thread main(void)
 	/* Print information about the operating system  */
 	print_os_info();
 
-	/* Open all ethernet devices */
+	        /* Open all ethernet devices */
 #if NETHER
-	{
-		uint i;
-
+		struct ether *ethptr;
+		ushort i;
 		for (i = 0; i < NETHER; i++)
 		{
 			ethptr = &ethertab[ethertab[i].dev->minor];
 			if (SYSERR == open(ethertab[i].dev->num))
 			{
-				kprintf("WARNING: Failed to open %s\r\n",
+				kprintf("[\t\033[1;31mFAILED\033[0;39m\t]\tFailed to open device %s\r\n",
 						ethertab[i].dev->name);
 			}
-			else
-				kprintf("opened ETHER %d\r\n", i);
+			else if(ETH_STATE_UP == ethptr->state)
+			{
+				printf("[\t\033[1;32mOK\033[0;39m\t]\tOpened device %s\r\n",
+						ethertab[i].dev->name);
+			}
 		}
-	}
-#endif /* NETHER */
+#endif  /* NETHER */
 
 	/* Set up the first TTY (CONSOLE)  */
 #if defined(CONSOLE) && defined(SERIAL0)
@@ -69,6 +71,7 @@ thread main(void)
 	/* Set up the second TTY (TTY1) if possible  */
 #if defined(TTY1)
 #if defined(KBDMON0)
+
 	/* Associate TTY1 with keyboard and use framebuffer output  */
 	if (OK == open(TTY1, KBDMON0))
 	{

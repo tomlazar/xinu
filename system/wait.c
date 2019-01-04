@@ -27,6 +27,7 @@ syscall wait(semaphore sem)
 {
     register struct sement *semptr;
     register struct thrent *thrptr;
+	int c;
     irqmask im;
 
     im = disable();
@@ -36,15 +37,21 @@ syscall wait(semaphore sem)
         return SYSERR;
     }
     thrptr = &thrtab[thrcurrent];
-    semptr = &semtab[sem];
 
-    if (--(semptr->count) < 0)
+	semtab_acquire(sem);
+    semptr = &semtab[sem];
+	c = --(semptr->count);
+	semtab_release(sem);
+
+    if (c < 0)
     {
+		thrtab_acquire(thrcurrent);
         thrptr->state = THRWAIT;
         thrptr->sem = sem;
+		thrtab_release(thrcurrent);
         enqueue(thrcurrent, semptr->queue);
         
-	resched();
+		resched();
     }
 
     restore(im);

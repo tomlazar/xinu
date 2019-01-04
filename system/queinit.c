@@ -23,6 +23,9 @@ qid_typ queinit(void)
     {
         return SYSERR;
     }
+
+	quetab_acquire();
+
     q = nextqid;
     nextqid += 2;
     quetab[quehead(q)].next = quetail(q);
@@ -31,5 +34,8 @@ qid_typ queinit(void)
     quetab[quetail(q)].next = EMPTY;
     quetab[quetail(q)].prev = quehead(q);
     quetab[quetail(q)].key = MINKEY;
+
+	quetab_release();
+
     return q;
 }

@@ -196,7 +196,7 @@ shellcmd xsh_netup(int nargs, char *args[])
         printf("Trying DHCP on %s...\n", devname);
 
         /* Wait at most 10 seconds before timing out.  */
-        result = dhcpClient(descrp, 10, &data);
+	result = dhcpClient(descrp, 10, &data);
 
         if (TIMEOUT == result)
         {

@@ -25,6 +25,7 @@
 syscall signal(semaphore sem)
 {
     register struct sement *semptr;
+	int count;
     irqmask im;
 
     im = disable();
@@ -33,12 +34,16 @@ syscall signal(semaphore sem)
         restore(im);
         return SYSERR;
     }
-    semptr = &semtab[sem];
 
-    if ((semptr->count++) < 0)
+	semtab_acquire(sem);
+    semptr = &semtab[sem];
+	count = semptr->count++;
+	semtab_release(sem);
+
+    if (count < 0)
     {
         ready(dequeue(semptr->queue), RESCHED_NO);
-	resched();
+		resched();
     }
 
     restore(im);

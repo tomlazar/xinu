@@ -58,8 +58,12 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     /* Allocate new thread ID.  */
     tid = thrnew();
 
+	thrtab_acquire(tid);
+
     if (SYSERR == (int)tid)
     {
+		thrtab_release(tid);
+
         stkfree(saddr, ssize);
         restore(im);
         return SYSERR;
@@ -91,6 +95,8 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     thrptr->stkptr = setupStack(saddr, procaddr, INITRET, nargs, ap);
     va_end(ap);
 
+	thrtab_release(tid);
+
     /* Restore interrupts and return new thread TID.  */
     restore(im);
  
@@ -119,4 +125,25 @@ static int thrnew(void)
     }
 
     return SYSERR;
+}
+
+void thrtab_acquire(tid_typ tid)
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+
+	pldw(&thrtab[tid]);
+	pldw(&core_affinity[tid]);
+	mutex_acquire(thrtab_mutex[tid]);
+
+#endif
+}
+
+void thrtab_release(tid_typ tid)
+{
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+
+	dmb();
+	mutex_release(thrtab_mutex[tid]);
+
+#endif
 }

@@ -11,6 +11,11 @@
 #include <mmu.h>
 #include <random.h>
 
+#include <mutex.h>
+#include <queue.h>
+#include <thread.h>
+#include <semaphore.h>
+
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
 
@@ -111,8 +116,28 @@ int platforminit(void)
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
+
+	/* Initialize bcm2837 power */	
 	bcm2837_power_init(); 
+	
+	/* Initialize the Memory Managament Unit */
 	mmu_init();
+//	mmu_initialize();	
+
+	/* Initialze the Hardware Random Number Generator */
 	random_init();
+
+	/* Initialize the mutexes for global tables */
+	quetab_mutex = mutex_create();
+
+	for (int i = 0; i < NTHREAD; i++)
+	{
+		thrtab_mutex[i] = mutex_create();
+		core_affinity[i] = -1;
+	}
+
+	for (int i = 0; i < NSEM; i++)
+		semtab_mutex[i] = mutex_create();
+
 	return OK;
 }

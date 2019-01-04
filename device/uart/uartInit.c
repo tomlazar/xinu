@@ -30,6 +30,11 @@ devcall uartInit(device *devptr)
 
     struct uart *uartptr = &uarttab[devptr->minor];
 
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	extern mutex_t serial_lock;
+	serial_lock = mutex_create();
+#endif
+
     /* Initialize statistical counts. */
     uartptr->cout = 0;
     uartptr->cin = 0;

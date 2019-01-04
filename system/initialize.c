@@ -11,7 +11,9 @@
 #include <stdint.h>
 
 #ifdef WITH_USB
-	#include <usb_subsystem.h>
+#include <usb_subsystem.h>
+#include <usb_core_driver.h>
+#include "../device/lan7800/lan7800.h"
 #endif
 
 /* Function prototypes */
@@ -22,18 +24,34 @@ static int sysinit(void);       /* intializes system structures        */
 struct thrent thrtab[NTHREAD];  /* Thread table                   */
 struct sement semtab[NSEM];     /* Semaphore table                */
 struct monent montab[NMON];     /* Monitor table                  */
+#ifndef _XINU_PLATFORM_ARM_RPI_3_
 qid_typ readylist;              /* List of READY threads          */
+#endif
 struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
+/* Declarations of major multicore variables */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+mutex_t quetab_mutex;
+mutex_t thrtab_mutex[NTHREAD];
+mutex_t semtab_mutex[NSEM];
+unsigned int core_affinity[NTHREAD];
+tid_typ thrcurrent_[4];
+qid_typ readylist_[4];
+
+static void core_nulluser(void);
+extern void unparkcore(unsigned int, void *, void *);
+#endif
+
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
+#ifndef _XINU_PLATFORM_ARM_RPI_3_
 tid_typ thrcurrent;             /* Id of currently running thread      */
+#endif
 
 /* Params set by startup.S */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
 ulong cpuid;                    /* Processor id                        */
-
 struct platform platform;       /* Platform specific configuration     */
 
 /*
@@ -54,17 +72,22 @@ void nulluser(void)
 	/* General initialization  */
 	sysinit();
 
-    kprintf("\r\n***********************************************************\r\n");
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	unparkcore(1, (void *) core_nulluser, NULL);
+	unparkcore(2, (void *) core_nulluser, NULL);
+	unparkcore(3, (void *) core_nulluser, NULL);
+#endif
+
+	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
-
 	/* Enable interrupts  */
 	enable();	
-	
+
 	/* Spawn the main thread  */
 	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
-		
+
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
 
@@ -83,6 +106,9 @@ static int sysinit(void)
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
 	thrcount = 1;
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	thrcount = 4;
+#endif
 
 	/* Initialize free memory list */
 	memheap = roundmb(memheap);
@@ -105,10 +131,53 @@ static int sysinit(void)
 	strlcpy(thrptr->name, "prnull", TNMLEN);
 	thrptr->stkbase = (void *)&_end;
 	thrptr->stklen = (ulong)memheap - (ulong)&_end;
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	thrptr->stklen = 8192; 	/* NULLSTK */
+#endif
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
 	thrcurrent = NULLTHREAD;
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if 1
+	/* Core 1 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD1];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull01", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + 8192);
+	thrptr->stklen = 8192;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[1] = NULLTHREAD1;
+
+	/* Core 2 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD2];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull02", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + 16384);
+	thrptr->stklen = 8192;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[2] = NULLTHREAD2;
+
+	/* Core 3 NULLTHREAD */
+	thrptr = &thrtab[NULLTHREAD3];
+	thrptr->state = THRCURR;
+	thrptr->prio = 0;
+	strlcpy(thrptr->name, "prnull03", TNMLEN);
+	thrptr->stkbase = (void *)(&_end + 24576);
+	thrptr->stklen = 8192;
+	thrptr->stkptr = 0;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
+	thrcurrent_[3] = NULLTHREAD3;	
+#endif
+#endif
 
 	/* Initialize semaphores */
 	for (i = 0; i < NSEM; i++)
@@ -130,7 +199,14 @@ static int sysinit(void)
 	}
 
 	/* initialize thread ready list */
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	readylist_[0] = queinit();
+	readylist_[1] = queinit();
+	readylist_[2] = queinit();
+	readylist_[3] = queinit();
+#else
 	readylist = queinit();
+#endif
 
 #if SB_BUS
 	backplaneInit(NULL);
@@ -179,9 +255,11 @@ static int sysinit(void)
 	}
 #endif
 
+
 #ifdef WITH_USB
-  	usbinit();
+	usbinit();
 #endif
+
 
 #if NVRAM
 	nvramInit();
@@ -196,4 +274,15 @@ static int sysinit(void)
 #endif
 
 	return OK;
+}
+
+static void core_nulluser(void)
+{
+	disable();
+	while (TRUE) 
+	{
+		pld(&quetab[readylist].next);
+		if (nonempty(readylist))
+			resched();
+	}
 }

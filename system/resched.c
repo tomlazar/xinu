@@ -33,6 +33,8 @@ int resched(void)
         return (OK);
     }
 
+	thrtab_acquire(thrcurrent);
+
     throld = &thrtab[thrcurrent];
 
     throld->intmask = disable();
@@ -41,6 +43,7 @@ int resched(void)
     {
         if (nonempty(readylist) && (throld->prio > firstkey(readylist)))
         {
+			thrtab_release(thrcurrent);
             restore(throld->intmask);
             return OK;
         }
@@ -48,10 +51,14 @@ int resched(void)
         insert(thrcurrent, readylist, throld->prio);
     }
 
+	thrtab_release(thrcurrent);
+
     /* get highest priority thread from ready list */
     thrcurrent = dequeue(readylist);
+	thrtab_acquire(thrcurrent);
     thrnew = &thrtab[thrcurrent];
     thrnew->state = THRCURR;
+	thrtab_release(thrcurrent);
 
     /* change address space identifier to thread id */
     asid = thrcurrent & 0xff;

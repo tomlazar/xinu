@@ -39,10 +39,12 @@ static const ulong copy_kernel[] = {
     0xe4843004,
     0xe2511001,
     0x1afffffb,
-    0xe3a0f902,
+    0xe3a0f902
 };
-
 #define COPY_KERNEL_ADDR ((void*)(0x8000 - sizeof(copy_kernel)))
+
+extern void stop_mmu(void);
+extern void invalidate_tlbs(void);
 
 /**
  * Kernel execute - Transfer control to a new kernel.
@@ -68,6 +70,9 @@ syscall kexec(const void *kernel, uint size)
 
     /* Copy the assembly stub into a safe location.  */
     memcpy(COPY_KERNEL_ADDR, copy_kernel, sizeof(copy_kernel));
+    
+    stop_mmu();
+    invalidate_tlbs();
 
     /* Enter the assembly stub to copy the new kernel into its final location,
      * then pass control to it.  */
@@ -75,6 +80,12 @@ syscall kexec(const void *kernel, uint size)
     (( void (*)(const void *, ulong, void *))(COPY_KERNEL_ADDR))
                 (kernel, (size + 3) / 4, atags_ptr);
 
+    kprintf("Returned from copy_kernel...\r\n");
+
+    while (1)
+    {
+
+    }
     /* Control should never reach here.  */
     restore(im);
     return SYSERR;

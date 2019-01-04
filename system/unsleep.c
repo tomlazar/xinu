@@ -39,11 +39,15 @@ syscall unsleep(tid_typ tid)
         return SYSERR;
     }
 
+	quetab_acquire();
+
     next = quetab[tid].next;
     if (next < NTHREAD)
     {
         quetab[next].key += quetab[tid].key;
     }
+
+	quetab_release();
 
     getitem(tid);
     restore(im);

@@ -45,24 +45,36 @@ syscall kill(tid_typ tid)
 
     stkfree(thrptr->stkbase, thrptr->stklen);
 
+	thrtab_acquire(tid);
+	core_affinity[tid] = -1;
+	thrtab_release(tid);
+
     switch (thrptr->state)
     {
     case THRSLEEP:
         unsleep(tid);
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;
+		thrtab_release(tid);
         break;
     case THRCURR:
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;        /* suicide */
+		thrtab_release(tid);
         resched();
 
     case THRWAIT:
+		semtab_acquire(thrptr->sem);
         semtab[thrptr->sem].count++;
+		semtab_release(thrptr->sem);
 
     case THRREADY:
         getitem(tid);           /* removes from queue */
 
     default:
+		thrtab_acquire(tid);
         thrptr->state = THRFREE;
+		thrtab_release(tid);
     }
 
     restore(im);

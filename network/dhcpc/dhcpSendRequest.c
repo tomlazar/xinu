@@ -90,6 +90,7 @@ syscall dhcpSendRequest(int descrp, struct dhcpData *data)
         *opts++ = DHCP_OPT_END;
     } while ((optsize = (opts - optarray)) & 3);
 
+
     /* Get memory for packet */
     pkt = netGetbuf();
     if (SYSERR == (int)pkt)
@@ -168,6 +169,7 @@ syscall dhcpSendRequest(int descrp, struct dhcpData *data)
     memset(ether->dst, 0xff, ETH_ADDR_LEN);
     memcpy(ether->src, data->clientHwAddr, ETH_ADDR_LEN);
     ether->type = hs2net(ETHER_TYPE_IPv4);
+    
     if (pktsize == write(descrp, pkt->curr, pktsize))
     {
         retval = OK;
