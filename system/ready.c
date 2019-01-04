@@ -32,6 +32,8 @@ int ready(tid_typ tid, bool resch)
     thrptr = &thrtab[tid];
     thrptr->state = THRREADY;
 
+	/* if core affinity is not set,
+	 * set affinity to core currently running this code (most likely 0) */
 	if (-1 == core_affinity[tid])
 	{
 		core_affinity[tid] = cpuid;
@@ -83,7 +85,7 @@ int ready_multi(tid_typ tid, unsigned int core)
 
 	thrtab_release(tid);
 
-	insert(tid, readylist[core], thrptr->prio);
+	insert(tid, readylist[core_affinity[tid]], thrptr->prio);
 
 	return OK;
 }

@@ -22,13 +22,30 @@ syscall kill(tid_typ tid)
 {
     register struct thrent *thrptr;     /* thread control block */
     irqmask im;
+	unsigned int cpuid;
+
+	cpuid = getcpuid();
 
     im = disable();
-    if (isbadtid(tid) || (NULLTHREAD == tid))
+    if (isbadtid(tid) || (NULLTHREAD == tid) || (NULLTHREAD1 == tid) ||
+		(NULLTHREAD2 == tid) || (NULLTHREAD3 == tid))
     {
         restore(im);
         return SYSERR;
     }
+
+	thrtab_acquire(tid);
+
+	/* cannot kill process that is running on a different core */
+	if (core_affinity[tid] != cpuid)
+	{
+		thrtab_release(tid);
+		restore(im);
+		return SYSERR;
+	}
+
+	thrtab_release(tid);
+
     thrptr = &thrtab[tid];
 
     if (--thrcount <= 1)

@@ -42,12 +42,15 @@ int resched(void)
 
     if (THRCURR == throld->state)
     {
+		quetab_acquire();
         if (nonempty(readylist[cpuid]) && (throld->prio > firstkey(readylist[cpuid])))
         {
+			quetab_release();
 			thrtab_release(thrcurrent[cpuid]);
             restore(throld->intmask);
             return OK;
         }
+		quetab_release();
         throld->state = THRREADY;
         insert(thrcurrent[cpuid], readylist[cpuid], throld->prio);
     }
