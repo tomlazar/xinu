@@ -24,20 +24,16 @@ static int sysinit(void);       /* intializes system structures        */
 struct thrent thrtab[NTHREAD];  /* Thread table                   */
 struct sement semtab[NSEM];     /* Semaphore table                */
 struct monent montab[NMON];     /* Monitor table                  */
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
-qid_typ readylist;              /* List of READY threads          */
-#endif
+qid_typ readylist[NCORES];      /* List of READY threads          */
 struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
 /* Declarations of major multicore variables */
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
 unsigned int core_affinity[NTHREAD];
-tid_typ thrcurrent_[4];
-qid_typ readylist_[4];
 
 static void core_nulluser(void);
 extern void unparkcore(unsigned int, void *, void *);
@@ -45,9 +41,7 @@ extern void unparkcore(unsigned int, void *, void *);
 
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
-tid_typ thrcurrent;             /* Id of currently running thread      */
-#endif
+tid_typ thrcurrent[NCORES];     /* Id of currently running thread      */
 
 /* Params set by startup.S */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
@@ -72,7 +66,7 @@ void nulluser(void)
 	/* General initialization  */
 	sysinit();
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
 	unparkcore(1, (void *) core_nulluser, NULL);
 	unparkcore(2, (void *) core_nulluser, NULL);
 	unparkcore(3, (void *) core_nulluser, NULL);
@@ -105,10 +99,7 @@ static int sysinit(void)
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
-	thrcount = 1;
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-	thrcount = 4;
-#endif
+	thrcount = NCORES;		/* 1 nullthread per core */
 
 	/* Initialize free memory list */
 	memheap = roundmb(memheap);
@@ -137,7 +128,7 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent = NULLTHREAD;
+	thrcurrent[0] = NULLTHREAD;
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
 #if 1
@@ -151,7 +142,7 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent_[1] = NULLTHREAD1;
+	thrcurrent[1] = NULLTHREAD1;
 
 	/* Core 2 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD2];
@@ -163,7 +154,7 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent_[2] = NULLTHREAD2;
+	thrcurrent[2] = NULLTHREAD2;
 
 	/* Core 3 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD3];
@@ -175,7 +166,7 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent_[3] = NULLTHREAD3;	
+	thrcurrent[3] = NULLTHREAD3;	
 #endif
 #endif
 
@@ -198,16 +189,12 @@ static int sysinit(void)
 		bfptab[i].state = BFPFREE;
 	}
 
-	/* initialize thread ready list */
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-	readylist_[0] = queinit();
-	readylist_[1] = queinit();
-	readylist_[2] = queinit();
-	readylist_[3] = queinit();
-#else
-	readylist = queinit();
-#endif
-
+	/* initialize thread ready lists */
+	for (i = 0; i < NCORES; i++)
+	{
+		readylist[i] = queinit();
+	}
+	
 #if SB_BUS
 	backplaneInit(NULL);
 #endif                          /* SB_BUS */
@@ -278,11 +265,14 @@ static int sysinit(void)
 
 static void core_nulluser(void)
 {
+	unsigned int cpuid;
+	cpuid = getcpuid();
+
 	disable();
 	while (TRUE) 
 	{
-		pld(&quetab[readylist].next);
-		if (nonempty(readylist))
+		pldw(&quetab[readylist[cpuid]].next);
+		if (nonempty(readylist[cpuid]))
 			resched();
 	}
 }

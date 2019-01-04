@@ -22,7 +22,7 @@ C_FILES += udelay.c
 C_FILES += signal.c signaln.c wait.c semcreate.c semfree.c semcount.c
  
 # Files for monitors
-C_FILES += moncreate.c monfree.c moncount.c lock.c unlock.c
+#C_FILES += moncreate.c monfree.c moncount.c lock.c unlock.c
 
 # Files for memory management
 C_FILES += memget.c memfree.c stkget.c bfpalloc.c bfpfree.c bufget.c buffree.c

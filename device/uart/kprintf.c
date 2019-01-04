@@ -7,7 +7,7 @@
 #include <kernel.h>
 #include <stdarg.h>
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if	MULTICORE
 #	include <mutex.h>
 	mutex_t serial_lock;
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
@@ -36,7 +36,7 @@ syscall kprintf(const char *format, ...)
 
     va_start(ap, format);
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
 	mutex_acquire(serial_lock);
 	retval = kvprintf(format, ap);
 	mutex_release(serial_lock);

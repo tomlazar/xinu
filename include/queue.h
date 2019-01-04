@@ -26,10 +26,10 @@
 
 #include <kernel.h>
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#ifdef MULTICORE
 #include <mutex.h>
-extern unsigned int getcpuid(void);
 #endif
+extern unsigned int getcpuid(void);
 
 #ifndef NQENT
 
@@ -59,14 +59,9 @@ struct queent
 };
 
 extern struct queent quetab[];
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-extern qid_typ readylist_[];
-#define readylist (readylist_[getcpuid()])
-#else
-extern qid_typ readylist;
-#endif
+extern qid_typ readylist[];
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
 extern mutex_t quetab_mutex;
 #endif
 void quetab_acquire(void);

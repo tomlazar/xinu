@@ -99,15 +99,11 @@ struct thrent
 
 extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-extern tid_typ thrcurrent_[];
-extern unsigned int core_affinity[];
-#define thrcurrent (thrcurrent_[getcpuid()])
-#else
-extern tid_typ thrcurrent;      /**< currently executing thread         */
-#endif
+extern tid_typ thrcurrent[];    /**< currently executing thread         */
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
+extern unsigned int getcpuid(void);
+extern unsigned int core_affinity[];
 extern mutex_t thrtab_mutex[];
 #endif
 
@@ -132,7 +128,7 @@ int resched(void);
 syscall sleep(uint);
 syscall unsleep(tid_typ);
 syscall yield(void);
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
+#if MULTICORE
 int ready_multi(tid_typ, unsigned int);
 #endif
 

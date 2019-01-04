@@ -14,5 +14,5 @@
  */
 tid_typ gettid(void)
 {
-    return thrcurrent;
+    return thrcurrent[getcpuid()];
 }

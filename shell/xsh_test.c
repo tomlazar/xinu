@@ -84,17 +84,28 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
 #endif
-#if 0
+#if 1
+	int i;
+	int threads = 10;
+	tid_typ tid[threads];
+
 	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
 	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
 	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
 
+	for (i = 0; i < threads; i++)
+		tid[i] = create(test_thread, INITSTK, INITPRIO, "test", 0);
+
 	ready_multi(tid1, 1);	
 	ready_multi(tid2, 2);
 	ready_multi(tid3, 2);
+
+	for (i = 0; i < threads; i++)
+		ready_multi(tid[i], 3);
+
 #endif
 
-#if 1
+#if 0
 
 	bufsem = semcreate(1);
 
@@ -105,6 +116,8 @@ shellcmd xsh_test(int nargs, char *args[])
 	in = 0;
 	out = 0;
 
+	dmb();
+
 	tid_typ con = create(consumer, INITSTK, INITPRIO, "producer", 0);
 	tid_typ pro = create(producer, INITSTK, INITPRIO, "consumer", 0);
 	tid_typ pri = create(print_thread, INITSTK, 100, "bufprint", 0);
@@ -113,8 +126,8 @@ shellcmd xsh_test(int nargs, char *args[])
 	ready_multi(pro, 2);
 	ready_multi(pri, 3);
 
-	kprintf("\r\n%d %d %d\r\n", core_affinity[con], core_affinity[pro],
-							core_affinity[pri]);
+//	kprintf("\r\n%d %d %d\r\n", core_affinity[con], core_affinity[pro],
+//							core_affinity[pri]);
 
 #endif
 	return 0;
@@ -157,7 +170,6 @@ static thread consumer(void)
 
 	while (TRUE)
 	{
-		udelay(rand() % 500);
 		/* wait while buffer is empty */
 		while (in == out)
 		{
@@ -185,7 +197,6 @@ static thread producer(void)
 	disable();
 	while (TRUE)
 	{
-		udelay(rand() % 500);
 	
 		while (((in + 1) % BUFLEN) == out)
 		{

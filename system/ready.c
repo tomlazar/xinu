@@ -18,6 +18,9 @@
 int ready(tid_typ tid, bool resch)
 {
     register struct thrent *thrptr;
+	unsigned int cpuid;
+
+	cpuid = getcpuid();
 
     if (isbadtid(tid))
     {
@@ -31,16 +34,20 @@ int ready(tid_typ tid, bool resch)
 
 	if (-1 == core_affinity[tid])
 	{
-		core_affinity[tid] = 0;
+		core_affinity[tid] = cpuid;
 	}
 
+#if 0
+	/* do not put in ready list if calling ready from a different cpu */
+	if (cpuid != core_affinity[tid])
+	{
+		thrtab_release(tid);
+		return SYSERR;
+	}
+#endif
 	thrtab_release(tid);
 
-#ifndef _XINU_PLATFORM_ARM_RPI_3_
-    insert(tid, readylist, thrptr->prio);
-#else
-	insert(tid, readylist_[core_affinity[tid]], thrptr->prio);
-#endif
+    insert(tid, readylist[core_affinity[tid]], thrptr->prio);
 
     if (resch == RESCHED_YES)
     {
@@ -54,7 +61,7 @@ int ready(tid_typ tid, bool resch)
 int ready_multi(tid_typ tid, unsigned int core)
 {
 	register struct thrent *thrptr;
-	
+
 //	kprintf("\r[ready_multi] readying tid %d on core %d\r\n", tid, core);
 
 	udelay(25);
@@ -76,7 +83,7 @@ int ready_multi(tid_typ tid, unsigned int core)
 
 	thrtab_release(tid);
 
-	insert(tid, readylist_[core], thrptr->prio);
+	insert(tid, readylist[core], thrptr->prio);
 
 	return OK;
 }

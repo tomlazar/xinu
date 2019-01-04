@@ -26,6 +26,7 @@ int resched(void)
     uchar asid;                 /* address space identifier */
     struct thrent *throld;      /* old thread entry */
     struct thrent *thrnew;      /* new thread entry */
+	unsigned int cpuid;
 
     if (resdefer > 0)
     {                           /* if deferred, increase count & return */
@@ -33,35 +34,35 @@ int resched(void)
         return (OK);
     }
 
-	thrtab_acquire(thrcurrent);
+	cpuid = getcpuid();
 
-    throld = &thrtab[thrcurrent];
-
+	thrtab_acquire(thrcurrent[cpuid]);
+    throld = &thrtab[thrcurrent[cpuid]];
     throld->intmask = disable();
 
     if (THRCURR == throld->state)
     {
-        if (nonempty(readylist) && (throld->prio > firstkey(readylist)))
+        if (nonempty(readylist[cpuid]) && (throld->prio > firstkey(readylist[cpuid])))
         {
-			thrtab_release(thrcurrent);
+			thrtab_release(thrcurrent[cpuid]);
             restore(throld->intmask);
             return OK;
         }
         throld->state = THRREADY;
-        insert(thrcurrent, readylist, throld->prio);
+        insert(thrcurrent[cpuid], readylist[cpuid], throld->prio);
     }
 
-	thrtab_release(thrcurrent);
+	thrtab_release(thrcurrent[cpuid]);
 
     /* get highest priority thread from ready list */
-    thrcurrent = dequeue(readylist);
-	thrtab_acquire(thrcurrent);
-    thrnew = &thrtab[thrcurrent];
+    thrcurrent[cpuid] = dequeue(readylist[cpuid]);
+	thrtab_acquire(thrcurrent[cpuid]);
+    thrnew = &thrtab[thrcurrent[cpuid]];
     thrnew->state = THRCURR;
-	thrtab_release(thrcurrent);
+	thrtab_release(thrcurrent[cpuid]);
 
     /* change address space identifier to thread id */
-    asid = thrcurrent & 0xff;
+    asid = thrcurrent[cpuid] & 0xff;
     ctxsw(&throld->stkptr, &thrnew->stkptr, asid);
 
     /* old thread returns here when resumed */
