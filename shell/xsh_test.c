@@ -32,7 +32,7 @@ const ulong blink_kernel[] = {
 	0x3f20001c
 };
 
-static thread test_thread(void);
+static thread test_thread(int);
 static thread test_thread1(void);
 static thread test_thread2(tid_typ);
 
@@ -89,20 +89,22 @@ shellcmd xsh_test(int nargs, char *args[])
 	int threads = 10;
 	tid_typ tid[threads];
 
-	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
-	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
-	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 0);
+//	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
+//	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
+//	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 1, 10);
+
 
 	for (i = 0; i < threads; i++)
-		tid[i] = create(test_thread, INITSTK, INITPRIO, "test", 0);
+		tid[i] = create(test_thread, INITSTK, INITPRIO, "test", 1, 5);
 
-	ready_multi(tid1, 1);	
-	ready_multi(tid2, 2);
-	ready_multi(tid3, 2);
+
+//	ready_multi(tid1, 1);	
+//	ready_multi(tid2, 2);
+//	ready_multi(tid3, 2);
 
 	for (i = 0; i < threads; i++)
-		ready_multi(tid[i], 3);
-
+//		ready_multi(tid[i], (i % 3) + 1);
+		ready_multi(tid[i], 1);
 #endif
 
 #if 0
@@ -133,12 +135,17 @@ shellcmd xsh_test(int nargs, char *args[])
 	return 0;
 }
 
-static thread test_thread()
+static thread test_thread(int count)
 {
 	disable();
+	udelay(100);
 	uint cpuid = getcpuid();
-//	udelay(500);
-	kprintf("\rtest_thread on core %u\r\n", cpuid);
+	int i;
+	for (i = 0; i < count; i++)
+	{
+		kprintf("\rtest_thread: %d\r\n", i);
+		resched();
+	}
 	return OK;
 }
 
@@ -158,7 +165,7 @@ static thread test_thread1()
 static thread test_thread2(tid_typ tid)
 {
 	disable();
-	send(tid, 69);
+	send(tid, 1234);
 	return OK;
 }
 
