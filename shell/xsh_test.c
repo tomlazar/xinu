@@ -13,54 +13,30 @@
 #include <ctype.h>
 #include <clock.h>
 #include <testsuite.h>
-#include <thread.h>
+#include <device.h>
+#include <uart.h>
 
-#include <semaphore.h>
+// Len: 1486 (excluding null terminator)
+char goodtext[] = "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate -- we can not consecrate -- we can not hallow -- this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here.\r\nIt is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us -- that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion -- that we here highly resolve that these dead shall not have died in vain -- that this nation, under God, shall have a new birth of freedom -- and that government of the people, by the people, for the people, shall not perish from the earth.";
 
-extern void led_init(void);
-extern void led_off(void);
-extern void stop_mmu(void);
-extern void invalidate_tlbs(void);
-extern syscall kexec(const void *, uint);
+char gettext[];
+int error = 0;
 
-const ulong blink_kernel[] = {
-	0xe59f000c,	/* ldr	r0, [pc. #12]	*/
-	0xe3a01001,	/* mov	r1, #1		*/
-	0xe1a01801,	/* lsl	r1, r1, #16	*/
-	0xe5801000,	/* str	r1, [r0]	*/
-	0xeafffffe,	/* b	10		*/
-	0x3f20001c
-};
+static void print_test(void){
 
-static thread test_thread(int);
-static thread test_thread1(void);
-static thread test_thread2(tid_typ);
+	int i;
+	kprintf("\r\nSize of text: %d\r\n", sizeof(goodtext));
 
-static thread producer(void);
-static thread consumer(void);
-static thread print_thread(void);
+	device *uart;
+	uart = (device*)&devtab[SERIAL0];
 
-#define BUFLEN	10
-
-static unsigned int buffer[BUFLEN];
-static unsigned int in, out;
-static semaphore bufsem;
-
-extern void test_boundedbuffer(void);
-extern void unparkcore(uint, void *, void *);
-extern uint getcpuid(void);
-
-extern thread test_semaphore(bool);
-extern thread test_semaphore2(bool);
-extern thread test_semaphore3(bool);
-extern thread test_semaphore4(bool);
-
-static void print_test(void)
-{
-	uint cpuid = getcpuid();
-
-	while(1)
-		kprintf("THIS IS CORE %d SAYING HELLO\r\n", cpuid);
+	for(i = 0; i < sizeof(goodtext); i++){
+		char get = kgetc(uart);
+		kputc(goodtext[i], uart);
+		if(get != goodtext[i])
+			error++;
+	}
+	kprintf("/r/nErrors: %d\r\n", error);
 }
 
 /**
@@ -76,184 +52,6 @@ static void print_test(void)
  */
 shellcmd xsh_test(int nargs, char *args[])
 {
-#if 0
-	stop_mmu();
-	invalidate_tlbs();
-	led_init();
-	led_off();
-
-	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
-#endif
-#if 1
-	int i;
-	int threads = 10;
-	tid_typ tid[threads];
-
-//	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
-//	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
-//	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 1, 10);
-
-
-	for (i = 0; i < threads; i++)
-		tid[i] = create(test_thread, INITSTK, INITPRIO, "test", 1, 5);
-
-
-//	ready_multi(tid1, 1);	
-//	ready_multi(tid2, 2);
-//	ready_multi(tid3, 2);
-
-	for (i = 0; i < threads; i++)
-//		ready_multi(tid[i], (i % 3) + 1);
-		ready_multi(tid[i], 1);
-#endif
-
-#if 0
-
-	bufsem = semcreate(1);
-
-	for (int i = 0; i < BUFLEN; i++)
-	{
-		buffer[i] = 0;
-	}
-	in = 0;
-	out = 0;
-
-	dmb();
-
-	tid_typ con = create(consumer, INITSTK, INITPRIO, "producer", 0);
-	tid_typ pro = create(producer, INITSTK, INITPRIO, "consumer", 0);
-	tid_typ pri = create(print_thread, INITSTK, 100, "bufprint", 0);
-
-	ready_multi(con, 1);
-	ready_multi(pro, 2);
-	ready_multi(pri, 3);
-
-//	kprintf("\r\n%d %d %d\r\n", core_affinity[con], core_affinity[pro],
-//							core_affinity[pri]);
-
-#endif
-	return 0;
+	ready(create((void *)print_test, INITSTK, INITPRIO, "PRINTER-A", 0), 0);
 }
 
-static thread test_thread(int count)
-{
-	disable();
-	udelay(100);
-	uint cpuid = getcpuid();
-	int i;
-	for (i = 0; i < count; i++)
-	{
-		kprintf("\rtest_thread: %d\r\n", i);
-		resched();
-	}
-	return OK;
-}
-
-static thread test_thread1()
-{
-	disable();
-	message msg = recvtime(1000);
-	if (TIMEOUT == msg)
-	{
-		kprintf("msg timed out\r\n");
-		return OK;
-	}
-	kprintf("received: %d\r\n", msg);
-	return OK;
-}
-
-static thread test_thread2(tid_typ tid)
-{
-	disable();
-	send(tid, 1234);
-	return OK;
-}
-
-static thread consumer(void)
-{
-	disable();
-
-	unsigned int item;
-
-	while (TRUE)
-	{
-		/* wait while buffer is empty */
-		while (in == out)
-		{
-			udelay(rand() % 500);
-			pld(&in);
-			pld(&out);
-		}
-		
-		wait(bufsem);
-
-		pldw(&out);
-		pld(&buffer[out]);
-
-		item = buffer[out];		// consume
-		out = (out + 1) % BUFLEN;
-	
-		dmb();
-
-		signal(bufsem);	
-	}	
-}
-
-static thread producer(void)
-{
-	disable();
-	while (TRUE)
-	{
-	
-		while (((in + 1) % BUFLEN) == out)
-		{
-			udelay(rand() % 500);
-			pld(&in);
-			pld(&out);
-		}
-	
-		wait(bufsem);
-
-		pldw(&in);
-		pldw(&buffer[in]);
-
-		/* produce */
-		buffer[in] = rand() % 1000;
-		in = (in + 1) % BUFLEN;
-
-		dmb();
-
-		signal(bufsem);
-	}
-}
-
-static thread print_thread(void)
-{
-	disable();
-
-	int i;
-
-	while (TRUE)
-	{
-		udelay(2000);
-		wait(bufsem);
-
-		for (i = 0; i < BUFLEN; i++)
-		{
-			pld(&buffer[i]);
-		}
-		pld(&in);
-		pld(&out);
-
-		kprintf("\r\nbuffer: ");
-		for (i = 0; i < BUFLEN; i++)
-		{
-			kprintf("%d ", buffer[i]);
-		}
-		kprintf("\r\n");
-		kprintf("in: %d; out: %d\r\n", in, out);
-
-		signal(bufsem);
-
-	}
-}
