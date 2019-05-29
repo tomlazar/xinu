@@ -6,6 +6,7 @@
 
 #include <thread.h>
 #include <queue.h>
+#include <clock.h>
 
 /**
  * @ingroup threads
@@ -32,22 +33,14 @@ int ready(tid_typ tid, bool resch)
     thrptr = &thrtab[tid];
     thrptr->state = THRREADY;
 
-	/* if core affinity is not set,
-	 * set affinity to core currently running this code (most likely 0) */
-	if (-1 == core_affinity[tid])
-	{
-		core_affinity[tid] = cpuid;
-	}
+    /* if core affinity is not set,
+     * set affinity to core currently running this code (most likely 0) */
+    if (-1 == core_affinity[tid])
+    {
+	core_affinity[tid] = cpuid;
+    }
 
-#if 0
-	/* do not put in ready list if calling ready from a different cpu */
-	if (cpuid != core_affinity[tid])
-	{
-		thrtab_release(tid);
-		return SYSERR;
-	}
-#endif
-	thrtab_release(tid);
+    thrtab_release(tid);
 
     insert(tid, readylist[core_affinity[tid]], thrptr->prio);
 
@@ -59,12 +52,9 @@ int ready(tid_typ tid, bool resch)
     return OK;
 }
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 int ready_multi(tid_typ tid, unsigned int core)
 {
 	register struct thrent *thrptr;
-
-//	kprintf("\r[ready_multi] readying tid %d on core %d\r\n", tid, core);
 
 	udelay(25);
 
@@ -89,4 +79,3 @@ int ready_multi(tid_typ tid, unsigned int core)
 
 	return OK;
 }
-#endif

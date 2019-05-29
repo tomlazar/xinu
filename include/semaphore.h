@@ -8,10 +8,7 @@
 #define _SEMAPHORE_H_
 
 #include <queue.h>
-
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 #include <mutex.h>
-#endif
 
 /* Semaphore state definitions */
 #define SFREE 0x01 /**< this semaphore is free */
@@ -31,11 +28,7 @@ struct sement                   /* semaphore table entry      */
 };
 
 extern struct sement semtab[];
-
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 extern mutex_t semtab_mutex[];
-#endif
-
 void semtab_acquire(semaphore);
 void semtab_release(semaphore);
 

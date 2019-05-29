@@ -14,6 +14,7 @@ extern void mmu_init(void);
 
 extern void PUT32(unsigned int, unsigned int);
 extern unsigned int GET32(unsigned int);
+
 #endif	/* __ASSEMBLER__ */
 
 #endif	/* _MMU_H_ */

@@ -13,13 +13,9 @@
 #include <debug.h>
 #include <stddef.h>
 #include <memory.h>
-
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 #include <mutex.h>
-extern unsigned int getcpuid(void);
-#endif
 
-#endif /* __ASSEMBLER__ */
+extern unsigned int getcpuid(void);
 
 /* unusual value marks the top of the thread stack                      */
 #define STACKMAGIC  0x0A0AAAA9
@@ -40,11 +36,9 @@ extern unsigned int getcpuid(void);
 #define NULLTHREAD  0           /**< id of the null thread              */
 #define BADTID      (-1)        /**< used when invalid tid needed       */
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#define NULLTHREAD1 1			/**< id of secondary null threads 		*/
+#define NULLTHREAD1 1		/**< id of secondary null threads 	*/
 #define NULLTHREAD2 2
 #define NULLTHREAD3 3
-#endif
 
 /* thread initialization constants */
 #define INITSTK     65536       /**< initial thread stack size          */
@@ -75,8 +69,6 @@ extern unsigned int getcpuid(void);
 #define THRENTSIZE 148
 #define STKDIVOFFSET 104
 
-#ifndef __ASSEMBLER__
-
 /**
  * Defines what an entry in the thread table looks like.
  */
@@ -101,11 +93,9 @@ extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
 extern tid_typ thrcurrent[];    /**< currently executing thread         */
 
-#if MULTICORE
 extern unsigned int getcpuid(void);
 extern unsigned int core_affinity[];
 extern mutex_t thrtab_mutex[];
-#endif
 
 void thrtab_acquire(tid_typ);
 void thrtab_release(tid_typ);
@@ -128,9 +118,7 @@ int resched(void);
 syscall sleep(uint);
 syscall unsleep(tid_typ);
 syscall yield(void);
-#if MULTICORE
 int ready_multi(tid_typ, unsigned int);
-#endif
 
 /**
  * @ingroup threads
@@ -144,4 +132,4 @@ void userret(void);
 
 #endif /* __ASSEMBLER__ */
 
-#endif                          /* _THREAD_H_ */
+#endif /* _THREAD_H_ */

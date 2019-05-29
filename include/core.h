@@ -14,5 +14,7 @@ extern unsigned int getmode(void);
 extern unsigned int getcpuid(void);
 extern unsigned int core_init_sp[];
 extern void unparkcore(int, void *, void *);
+extern void pld(void *);
+extern void pldw(void *);
 #endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
 #endif	/* _CORE_H_ */

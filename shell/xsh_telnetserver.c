@@ -34,7 +34,7 @@ static int argErr(char *command, char *arg)
  */
 shellcmd xsh_telnetserver(int nargs, char *args[])
 {
-    int descrp, port, i, spawntelnet;
+    int descrp, port, i;
     struct thrent *thrptr;
     char thrname[TNMLEN];
 

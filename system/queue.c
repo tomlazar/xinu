@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <thread.h>
 #include <queue.h>
+#include <core.h>
 
 struct queent quetab[NQENT];    /**< global thread queue table       */
 
@@ -77,19 +78,15 @@ tid_typ dequeue(qid_typ q)
 
 void quetab_acquire()
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-	for (int i = 0; i < NQENT; i++)
-	{
-		pldw(&quetab[i]);
-	}
-	mutex_acquire(quetab_mutex);
-#endif
+    for (int i = 0; i < NQENT; i++)
+    {
+	pldw(&quetab[i]);
+    }
+    mutex_acquire(quetab_mutex);
 }
 
 void quetab_release()
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-	dmb();
-	mutex_release(quetab_mutex);
-#endif
+    dmb();
+    mutex_release(quetab_mutex);
 }

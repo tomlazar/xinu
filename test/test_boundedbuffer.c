@@ -12,8 +12,6 @@
  * and print_bb_status() runs on a third core,
  * effectively each acting as their own separate "process" */
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
 #include <mutex.h>
 #include <mmu.h>
 #include <clock.h>
@@ -128,5 +126,3 @@ static void print_bb_status()
 		mutex_release(&bb_mutex);
 	}
 }
-
-#endif

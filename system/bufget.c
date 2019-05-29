@@ -8,6 +8,7 @@
 #include <semaphore.h>
 #include <interrupt.h>
 #include <bufpool.h>
+#include <string.h>
 
 /**
  * @ingroup memory_mgmt

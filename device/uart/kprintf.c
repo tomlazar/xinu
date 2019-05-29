@@ -6,16 +6,14 @@
 
 #include <kernel.h>
 #include <stdarg.h>
+#include <mutex.h>
 
-#if	MULTICORE
-#	include <mutex.h>
-	mutex_t serial_lock;
-#endif	/* _XINU_PLATFORM_ARM_RPI_3_ */
+mutex_t serial_lock;
 
 /**
  * @ingroup uartgeneric
  *
- * kernel printf: formatted, synchronous output to SERIAL0.
+ * kernel printf: Multicore-safe (by mutex locks), formatted, synchronous output to SERIAL0.
  *
  * @param format
  *      The format string.  Not all standard format specifiers are supported by
@@ -27,8 +25,6 @@
  * @return
  *      The number of characters written.
  */
-
-
 syscall kprintf(const char *format, ...)
 {
     int retval;
@@ -36,16 +32,11 @@ syscall kprintf(const char *format, ...)
 
     va_start(ap, format);
 
-#if MULTICORE
-	mutex_acquire(serial_lock);
-	retval = kvprintf(format, ap);
-	mutex_release(serial_lock);
-#else
-	retval = kvprintf(format, ap);
-#endif	
+    mutex_acquire(serial_lock);
+    retval = kvprintf(format, ap);
+    mutex_release(serial_lock);
 
-	va_end(ap);
-    
-	return retval;
+    va_end(ap);
 
+    return retval;
 }

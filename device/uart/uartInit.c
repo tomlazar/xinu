@@ -30,10 +30,8 @@ devcall uartInit(device *devptr)
 
     struct uart *uartptr = &uarttab[devptr->minor];
 
-#if MULTICORE
-	extern mutex_t serial_lock;
-	serial_lock = mutex_create();
-#endif
+    extern mutex_t serial_lock;
+    serial_lock = mutex_create();
 
     /* Initialize statistical counts. */
     uartptr->cout = 0;

@@ -5,6 +5,7 @@
 
 #include <semaphore.h>
 #include <interrupt.h>
+#include <core.h>
 
 static semaphore semalloc(void);
 
@@ -76,20 +77,12 @@ static semaphore semalloc(void)
 
 void semtab_acquire(semaphore sem)
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
-	pldw(&semtab[sem]);
-	mutex_acquire(semtab_mutex[sem]);
-
-#endif
+    pldw(&semtab[sem]);
+    mutex_acquire(semtab_mutex[sem]);
 }
 
 void semtab_release(semaphore sem)
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
-	dmb();
-	mutex_release(semtab_mutex[sem]);
-
-#endif
+    dmb();
+    mutex_release(semtab_mutex[sem]);
 }

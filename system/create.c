@@ -6,6 +6,7 @@
 #include <platform.h>
 #include <string.h>
 #include <thread.h>
+#include <core.h>
 
 static int thrnew(void);
 
@@ -129,21 +130,13 @@ static int thrnew(void)
 
 void thrtab_acquire(tid_typ tid)
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
-	pldw(&thrtab[tid]);
-	pldw(&core_affinity[tid]);
-	mutex_acquire(thrtab_mutex[tid]);
-
-#endif
+    pldw(&thrtab[tid]);
+    pldw(&core_affinity[tid]);
+    mutex_acquire(thrtab_mutex[tid]);
 }
 
 void thrtab_release(tid_typ tid)
 {
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-
-	dmb();
-	mutex_release(thrtab_mutex[tid]);
-
-#endif
+    dmb();
+    mutex_release(thrtab_mutex[tid]);
 }

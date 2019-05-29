@@ -29,15 +29,12 @@ struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
 /* Declarations of major multicore variables */
-#if MULTICORE
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
 unsigned int core_affinity[NTHREAD];
 
 static void core_nulluser(void);
-extern void unparkcore(unsigned int, void *, void *);
-#endif
 
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
@@ -66,11 +63,9 @@ void nulluser(void)
 	/* General initialization  */
 	sysinit();
 
-#if MULTICORE
 	unparkcore(1, (void *) core_nulluser, NULL);
 	unparkcore(2, (void *) core_nulluser, NULL);
 	unparkcore(3, (void *) core_nulluser, NULL);
-#endif
 
 	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
@@ -122,16 +117,12 @@ static int sysinit(void)
 	strlcpy(thrptr->name, "prnull", TNMLEN);
 	thrptr->stkbase = (void *)&_end;
 	thrptr->stklen = (ulong)memheap - (ulong)&_end;
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	thrptr->stklen = 8192; 	/* NULLSTK */
-#endif
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
 	thrcurrent[0] = NULLTHREAD;
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#if 1
 	/* Core 1 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD1];
 	thrptr->state = THRCURR;
@@ -167,8 +158,6 @@ static int sysinit(void)
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
 	thrcurrent[3] = NULLTHREAD3;	
-#endif
-#endif
 
 	/* Initialize semaphores */
 	for (i = 0; i < NSEM; i++)
