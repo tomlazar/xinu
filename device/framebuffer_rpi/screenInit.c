@@ -10,12 +10,7 @@
 #include <stdlib.h>
 #include <shell.h> /* for banner */
 #include <kernel.h>
-
-#if defined(_XINU_PLATFORM_ARM_RPI_3_)
 #include <bcm2837.h>
-#elif defined (_XINU_PLATFORM_ARM_RPI_)
-#include <bcm2835.h>
-#endif
 
 int rows;
 int cols;
@@ -32,6 +27,10 @@ bool screen_initialized;
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
 	int i = 0;
+	int ret = 0;
+	ret = framebufferInit();
+	if(ret == 666)
+		return;
     while (framebufferInit() == SYSERR) {
         if ( (i++) == MAXRETRIES) {
             screen_initialized = FALSE;
@@ -63,6 +62,7 @@ int framebufferInit() {
     mailboxWrite((ulong)&frame);
 
 	ulong result = mailboxRead();
+    return 666;
 
 	/* Error checking */
 	if (result) { //if anything but zero

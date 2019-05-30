@@ -215,9 +215,11 @@ bssloopa:
 	vmsr FPEXC, r1
 	isb
 
+	/* Initialize the Raspberry Pi graphics subsystem */
+	bl screenInit
+
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */
-//	beq	nulluser
 	b	nulluser
 	.endfunc
 

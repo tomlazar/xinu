@@ -13,12 +13,12 @@
 /* Framebuffer specific constants and definitions. */
 #define MAILBOX_FULL 0x80000000 // set bit in status register if no space in mailbox
 #define MAILBOX_EMPTY 0x40000000 // set bit in status register if nothing to read from mailbox
-#define MMIO_BASE 0x20000000 // base address for peripherals
+#define MMIO_BASE 0x3F000000 // base address for peripherals
 #define MAILBOX_CHANNEL 1 // framebuffer uses channel 1; no reason to mess around with anything else
 #define MAILBOX_BASE 0xB880 // base address for mailbox registers
-#define MAILBOX_READ 0x00 // the register we read from
-#define MAILBOX_WRITE 0x20 //the register we write to
-#define MAILBOX_STATUS 0x18 //the status register
+#define MAILBOX_READ   0  // the register we read from
+#define MAILBOX_WRITE  8  // the register we write to
+#define MAILBOX_STATUS 6  // the status register
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 12
 extern unsigned char FONT[];

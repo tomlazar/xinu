@@ -44,11 +44,10 @@ DEVICES  := uart-pl011      \
 	    tcp		    \
 	    udp		    \
             framebuffer_rpi \
+            usbkbd          \
 #           smsc9512        \
 #      	    ethloop         \
 #            raw             \
 #            loopback        \
 #            telnet          \
-#            framebuffer_rpi \
-#            usbkbd          \
 

@@ -7,13 +7,7 @@
 
 #include <stddef.h>
 #include <framebuffer.h>
-
-#if defined(_XINU_PLATFORM_ARM_RPI_3_)
 #include <bcm2837.h>
-#elif defined (_XINU_PLATFORM_ARM_RPI_)
-#include <bcm2835.h>
-#endif
-
 
 /* Read from mailbox one on channel one (GPU mailbox) */
 /* Note: Data: first 28 bits. Channel: last 4 bits.   */
