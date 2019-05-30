@@ -1,10 +1,10 @@
 #
-# Platform-specific Makefile definitions for the Raspberry Pi port of Embedded
-# Xinu.
+# Platform-specific Makefile definitions for the Raspberry Pi 3 B+ port of Embedded
+# Xinu (BCM2837B0)
 #
 
-# Include default ARM definitions
-include arch/aarch64/platformVars
+# Include default ARMv8A definitions
+include arch/armv8/platformVars
 
 PLATFORM_NAME := Raspberry Pi 3
 
