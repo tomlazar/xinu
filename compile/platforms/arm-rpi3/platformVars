@@ -17,6 +17,15 @@ ASFLAGS  += -mcpu=cortex-a53
 # This is used as an alternative to doing this in the assembly code in start.S
 CFLAGS	 += -mno-unaligned-access
 
+# Extra compiler flag for using FPU (see start.S for enable)
+CFLAGS 	 += -mfpu=vfp
+ASFLAGS	 += -mfpu=vfp
+
+# Extra compiler flag for selecting ARM ABI
+CFLAGS	 += -mfloat-abi=softfp
+ASFLAGS  += -mfloat-abi=softfp
+
+
 # Add a define so we can test for Raspberry Pi in C code if absolutely needed
 DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
 
@@ -35,6 +44,7 @@ DEVICES  := uart-pl011      \
 	    raw		    \
 	    tcp		    \
 	    udp		    \
+            framebuffer_rpi \
 #           smsc9512        \
 #      	    ethloop         \
 #            raw             \

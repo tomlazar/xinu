@@ -145,7 +145,18 @@ reset_handler:
 	 * Note: Xinu shouldn't do any unaligned memory accesses on purpose, but
 	 * we found that gcc can still generate unaligned memory accesses for
 	 * tasks such as copying character strings.  (An alternative would be to
-	 * pass -mno-unaligned-access to gcc to prevent it from doing so.)  */
+	 * pass -mno-unaligned-access to gcc to prevent it from doing so.) 
+	 */
+
+	/* Enable FPU */
+/*	mrc	p15, 0, r0, c1, c0, 2
+    	orr 	r0,r0,#0xC00000 ;@ double precision
+    	mcr 	p15, 0, r0, c1, c0, 2
+    	mov 	r0,#0x40000000
+    	fmxr 	fpexc,r0
+
+*/
+
 	mrc p15, 0, r0, c1, c0, 0
 	orr r0, #1 << 22
 	mcr p15, 0, r0, c1, c0, 0
@@ -180,7 +191,6 @@ bssloopa:
 
 	add	r2, r1, #NULLSTK	/* Core 3 stack pointer */
 	str	r2, [r3, #12]
-
 
 	/* The remaining memory available to the ARM will be Xinu's "memheap"
 	 * region, which is used for dynamic memory allocation.  Set its

@@ -24,7 +24,7 @@ TOPDIR  := ..
 
 # Set the C compilation flags common to all Embedded Xinu platforms.
 # platformVars can add more flags if desired.
-CFLAGS  :=
+CFLAGS  := 
 
 # Do not perform linking until the end.
 CFLAGS  += -c
@@ -186,7 +186,7 @@ endif
 # startup stub.
 ifneq ($(filter -lgcc,$(LDLIBS)),)
   KERNEL_LD      := $(CC)
-  LDFLAGS_PREFIX := -Wl,
+  LDFLAGS_PREFIX := -Wl
   LDFLAGS        := $(addprefix $(LDFLAGS_PREFIX), $(LDFLAGS))
   LDFLAGS        += -nostdlib
 else
