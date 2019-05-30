@@ -18,8 +18,8 @@ ASFLAGS  += -mcpu=cortex-a53
 CFLAGS	 += -mno-unaligned-access
 
 # Extra compiler flag for using FPU (see start.S for enable)
-CFLAGS 	 += -mfpu=vfp
-ASFLAGS	 += -mfpu=vfp
+CFLAGS 	 += -mfpu=vfpv4
+ASFLAGS	 += -mfpu=vfpv4
 
 # Extra compiler flag for selecting ARM ABI
 CFLAGS	 += -mfloat-abi=softfp

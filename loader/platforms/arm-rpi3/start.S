@@ -207,11 +207,10 @@ bssloopa:
     	fmxr 	fpexc,r0
 */
 
-	/* Enable FPU in a different way... */
+        /* Enable FPU */
 	mov r0, #0xf00000		// make cp10 en 11 fully accesible - pi3 - see page 4272 of ARMv8 trm
 	mcr p15, 0, r0, c1, c0, 2	// Write r0 to CPACR
 	isb
-
 	mov r1, #0x40000000		// Set FPEXC_EN bit to enable the FPU
 	vmsr FPEXC, r1
 	isb

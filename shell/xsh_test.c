@@ -60,10 +60,10 @@ shellcmd xsh_test(int nargs, char *args[])
 	//ready(create((void *)print_test, INITSTK, INITPRIO, "PRINTER-A", 0), 0);
 	
 	/* Test FPU (double precision): */
-	double a = 3;
+	double a = 3.0;
 	double b = 1.5;
 	double result = a / b;
-	kprintf("%d / %d = %d\r\n", a, b, result);
+	printf("%f / %f = %f\r\n", a, b, result);
 
 	return OK;
 }
