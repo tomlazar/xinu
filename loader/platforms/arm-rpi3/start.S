@@ -148,15 +148,6 @@ reset_handler:
 	 * pass -mno-unaligned-access to gcc to prevent it from doing so.) 
 	 */
 
-	/* Enable FPU */
-/*	mrc	p15, 0, r0, c1, c0, 2
-    	orr 	r0,r0,#0xC00000 ;@ double precision
-    	mcr 	p15, 0, r0, c1, c0, 2
-    	mov 	r0,#0x40000000
-    	fmxr 	fpexc,r0
-
-*/
-
 	mrc p15, 0, r0, c1, c0, 0
 	orr r0, #1 << 22
 	mcr p15, 0, r0, c1, c0, 0
@@ -186,7 +177,7 @@ bssloopa:
 	add	r0, sp, #NULLSTK	/* Core 1 stack pointer */
 	str	r0, [r3, #4]
 
-	add	r1, r0, #NULLSTK	/* Core 2 stack pointer */
+	add	r1, r0, #NULLSTK	/* Core e stack pointer */
 	str	r1, [r3, #8]
 
 	add	r2, r1, #NULLSTK	/* Core 3 stack pointer */
@@ -208,6 +199,23 @@ bssloopa:
 //	and	r1, r0, r1
 //	cmp	r1, #0
 	
+	/* Enable FPU */
+/*	mrc	p15, 0, r0, c1, c0, 2
+    	orr 	r0,r0,#0xC00000 ;@ double precision
+    	mcr 	p15, 0, r0, c1, c0, 2
+    	mov 	r0,#0x40000000
+    	fmxr 	fpexc,r0
+*/
+
+	/* Enable FPU in a different way... */
+	mov r0, #0xf00000		// make cp10 en 11 fully accesible - pi3 - see page 4272 of ARMv8 trm
+	mcr p15, 0, r0, c1, c0, 2	// Write r0 to CPACR
+	isb
+
+	mov r1, #0x40000000		// Set FPEXC_EN bit to enable the FPU
+	vmsr FPEXC, r1
+	isb
+
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */
 //	beq	nulluser

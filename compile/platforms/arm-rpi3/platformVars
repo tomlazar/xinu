@@ -25,7 +25,6 @@ ASFLAGS	 += -mfpu=vfp
 CFLAGS	 += -mfloat-abi=softfp
 ASFLAGS  += -mfloat-abi=softfp
 
-
 # Add a define so we can test for Raspberry Pi in C code if absolutely needed
 DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
 
