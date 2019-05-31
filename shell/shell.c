@@ -65,7 +65,7 @@ const struct centry commandtab[] = {
 #endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-	{"random", TRUE, xsh_random},
+//XXX	{"random", TRUE, xsh_random},
 #endif
 
 #if NETHER
@@ -87,7 +87,7 @@ const struct centry commandtab[] = {
     //XXX{"telnet", FALSE, xsh_telnet},
     //XXX{"telnetserver", FALSE, xsh_telnetserver},
 #endif
-    {"test", FALSE, xsh_test},
+//XXX    {"test", FALSE, xsh_test},
 #if HAVE_TESTSUITE
     {"testsuite", TRUE, xsh_testsuite},
 #endif
@@ -95,7 +95,7 @@ const struct centry commandtab[] = {
     //XXX{"timeserver", FALSE, xsh_timeserver},
 #endif
 #if FRAMEBUF
-    {"turtle", FALSE, xsh_turtle},
+//XXX    {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
     {"uartstat", FALSE, xsh_uartstat},
@@ -116,7 +116,7 @@ const struct centry commandtab[] = {
 };
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
-extern ulong foreground;
+//XXXextern ulong foreground;
 
 /**
  * @ingroup shell
@@ -177,11 +177,11 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 #if defined(FRAMEBUF)
     if (indescrp == FRAMEBUF)
     {
-        foreground = RASPBERRY;
+        //XXXforeground = RASPBERRY;
         printf(SHELL_BANNER_NONVT100);
-        foreground = LEAFGREEN;
+        //XXXforeground = LEAFGREEN;
         printf(SHELL_START);
-        foreground = GREEN;
+        //XXXforeground = GREEN;
     }
     else
 #endif

@@ -5,7 +5,8 @@ COMP = device/framebuffer_rpi
 
 # Source files for this component
 S_FILES =
-C_FILES = screenInit.c mailbox.c drawChar.c drawShapes.c fbPutc.c fbWrite.c fbprintf.c trig.c font.c
+C_FILES = drawChar.c drawShapes.c fbPutc.c fbWrite.c fbprintf.c trig.c font.c screenInit.c
+#XXX mailbox.c
 
 # Add the files to the compile source path
 DIR = ${TOPDIR}/${COMP}

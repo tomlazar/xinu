@@ -34,6 +34,7 @@ static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
 
 /* BCM2837 mailbox channels  */
 #define MAILBOX_CHANNEL_POWER_MGMT 0
+#define MAILBOX_CHANNEL_1	   1
 
 /* The BCM2837 mailboxes are used for passing 28-bit messages.  The low 4 bits
  *  * of the 32-bit value are used to specify the channel over which the message is

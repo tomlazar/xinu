@@ -10,17 +10,37 @@
 #include <device.h>
 #include <stddef.h>
 
+extern volatile unsigned int mbox[36];
+int mbox_call(unsigned char);
+
+#define MMIO_BASE       0x3F000000
+#define VIDEOCORE_MBOX  (MMIO_BASE+0x0000B880)
+#define MBOX_READ       ((volatile unsigned int*)(VIDEOCORE_MBOX+0x0))
+#define MBOX_POLL       ((volatile unsigned int*)(VIDEOCORE_MBOX+0x10))
+#define MBOX_SENDER     ((volatile unsigned int*)(VIDEOCORE_MBOX+0x14))
+#define MBOX_STATUS     ((volatile unsigned int*)(VIDEOCORE_MBOX+0x18))
+#define MBOX_CONFIG     ((volatile unsigned int*)(VIDEOCORE_MBOX+0x1C))
+#define MBOX_WRITE      ((volatile unsigned int*)(VIDEOCORE_MBOX+0x20))
+#define MBOX_RESPONSE   0x80000000
+#define MBOX_FULL       0x80000000
+#define MBOX_EMPTY      0x40000000
+#define MBOX_TAG_LAST           0
+
 /* Framebuffer specific constants and definitions. */
 #define MAILBOX_FULL 0x80000000 // set bit in status register if no space in mailbox
 #define MAILBOX_EMPTY 0x40000000 // set bit in status register if nothing to read from mailbox
 #define MMIO_BASE 0x3F000000 // base address for peripherals
-#define MAILBOX_CHANNEL 1 // framebuffer uses channel 1; no reason to mess around with anything else
+
+#define MAILBOX_CHANNEL_MASK 0xF // framebuffer uses channel 1; no reason to mess around with anything else
+#define MAILBOX_CH_PROPERTY 8
 #define MAILBOX_BASE 0xB880 // base address for mailbox registers
-#define MAILBOX_READ   0  // the register we read from
-#define MAILBOX_WRITE  8  // the register we write to
-#define MAILBOX_STATUS 6  // the status register
+#define MBOX_REQUEST 0
+//#define MAILBOX_READ   0x0  // the register we read from
+//#define MAILBOX_WRITE  0x8  // the register we write to
+//#define MAILBOX_STATUS 0x6  // the status register
 #define CHAR_WIDTH 8
 #define CHAR_HEIGHT 12
+
 extern unsigned char FONT[];
 
 #define DEFAULT_HEIGHT 768
@@ -54,13 +74,13 @@ extern unsigned char FONT[];
 #define ERRORCOLOR 0x00000000
 
 struct defaultcolor {
-    char *colorname;
-    ulong colornum;
+	char *colorname;
+	ulong colornum;
 };
 
 /* flip the bytes to get the blue, green, red order and tack on a 255 transparency. */
 #define colorconvert(x) ((((((x)& 0xff)<<24) | (((x)>>24) & 0xff) | \
-                                   (((x) & 0xff0000)>>8) | (((x) & 0xff00)<<8)) >> 8) | 0xff000000)
+				(((x) & 0xff0000)>>8) | (((x) & 0xff00)<<8)) >> 8) | 0xff000000)
 /* Turtle constants */
 #define TURTLE_BODY 0xFF347C2C 
 #define TURTLE_HEAD 0xFF438D80 
@@ -108,13 +128,13 @@ extern ulong linemap[];
 #define MAXNEWCOMMANDS 10       /* cannot add more than 10 new commands at a time */
 
 struct defaultcommand {
-    char commandname[COMMANDNAMELENGTH];
-    void (*command) (char*);
+	char commandname[COMMANDNAMELENGTH];
+	void (*command) (char*);
 }; 
 
 struct newcommand {
-    char name[COMMANDNAMELENGTH];
-    char text[COMMANDLENGTH];
+	char name[COMMANDNAMELENGTH];
+	char text[COMMANDLENGTH];
 };
 extern struct newcommand newcommandtab[];
 

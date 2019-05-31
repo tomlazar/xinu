@@ -7,7 +7,7 @@
 
 #include <stddef.h>
 #include <framebuffer.h>
-#include <bcm2837.h>
+#include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 
 /* Read from mailbox one on channel one (GPU mailbox) */
 /* Note: Data: first 28 bits. Channel: last 4 bits.   */
@@ -27,19 +27,17 @@ void mailboxWrite(ulong data) {
 	while (readMMIO(MAILBOX_BASE, MAILBOX_STATUS) & MAILBOX_FULL)
 		; //wait for space
 	writeMMIO(MAILBOX_BASE, MAILBOX_WRITE, toWrite);
-
 }
 
 /* To omit illegible lines of code, a helper function that reads from
  * memory mapped IO registers. */
 ulong readMMIO(ulong base, ulong reg)
 {
-    ulong n;
-
+	ulong n;
 	pre_peripheral_read_mb();
 	n = *(volatile ulong *)(MMIO_BASE + base + reg);
-    post_peripheral_read_mb();
-    return n;
+	post_peripheral_read_mb();
+	return n;
 }
 
 /* The opposite of above. Write to MMIO. */
@@ -47,9 +45,8 @@ void writeMMIO(ulong base, ulong reg, ulong val)
 {
 	pre_peripheral_write_mb();
 	*(volatile ulong *)(MMIO_BASE + base + reg) = val;
-	post_peripheral_write_mb();
+	//post_peripheral_write_mb();
 }
-
 
 /* Converts ARM physical addresses to ARM bus addresses.
  * Separate function for legibility's sake.
