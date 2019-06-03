@@ -95,7 +95,7 @@ const struct centry commandtab[] = {
     //XXX{"timeserver", FALSE, xsh_timeserver},
 #endif
 #if FRAMEBUF
-//XXX    {"turtle", FALSE, xsh_turtle},
+    {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
     {"uartstat", FALSE, xsh_uartstat},

@@ -148,8 +148,8 @@ int framebufferInit() {
 	//pitch = frame.pitch;
 	cursor_row = 0;
 	cursor_col = 0;
-	background = RED;
-	foreground = CYAN;
+	background = BLACK;
+	foreground = WHITE;
 	minishell = FALSE;
 	return OK;
 }
