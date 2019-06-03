@@ -43,13 +43,15 @@ int mbox_call(unsigned char);
 
 extern unsigned char FONT[];
 
-#define DEFAULT_HEIGHT 768
-#define DEFAULT_WIDTH 1024
+#define DEFAULT_HEIGHT 768	
+#define DEFAULT_WIDTH 1024	
 #define BIT_DEPTH 32
 
 #define MAXRETRIES 3 //if screen fails to initialize after three tries, halt
 
 /* Some basic colors. 8 bits transparency, 8 bits blue, 8 bits green, 8 bits red.*/
+
+/*
 #define WHITE 0xFFFFFFFF
 #define RED 0xFF0000FF
 #define GREEN 0xFF00FF00
@@ -70,8 +72,32 @@ extern unsigned char FONT[];
 #define PURPLE 0xFF82004B
 #define BLUEIVY 0xFFC79030
 #define PINK 0xFF9000FF
+*/
 
-#define ERRORCOLOR 0x00000000
+/* Reformatted colors. 8 bits transparency, 8 bits red, 8 bits green, 8 bits blue. */
+
+#define WHITE		0xFFFFFFFF
+#define RED		0xFFFF0000
+#define GREEN		0xFF00FF00
+#define BLUE		0xFF0000FF
+#define BLACK		0xFF000000
+#define GRAY		0xFF808080
+#define SILVER		0xFFC0C0C0
+#define YELLOW		0xFFFFFF00
+#define CYAN		0xFF00FFFF
+#define MAGENTA		0xFFFF00FF
+#define INDIGO		0xFF2E0854
+#define	DARKBLUE	0xFF0000A0
+#define	ORANGE		0xFFFFA500
+#define BROWN		0xFF6F4E37
+#define	RASPBERRY	0xFFE30B5C
+#define	LEAFGREEN	0xFF009900
+#define	DARKGREEN	0xFF254117
+#define	PURPLE		0xFF4B0082
+#define	BLUEIVY		0xFF3090C7
+#define	PINK		0xFFFF0090
+
+#define ERRORCOLOR 	0x00000000
 
 struct defaultcolor {
 	char *colorname;
