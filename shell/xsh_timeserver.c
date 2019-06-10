@@ -16,6 +16,7 @@
 #include <network.h>
 #include <ether.h>
 #include <udp.h>
+#include <core.h>
 
 #if NETHER
 static int argErr(char *command, char *arg)
@@ -104,7 +105,7 @@ shellcmd xsh_timeserver(int nargs, char *args[])
     }
 
     ready(create((void *)timeServer, INITSTK, INITPRIO, "TimeServer",
-                 2, descrp, port), RESCHED_YES);
+                 2, descrp, port), RESCHED_YES, CORE_ZERO);
 
     return SHELL_OK;
 }

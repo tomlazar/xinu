@@ -9,6 +9,7 @@
 #include <mailbox.h>
 #include <stdlib.h>
 #include <thread.h>
+#include <core.h>
 
 struct arpEntry arptab[ARP_NENTRY];
 mailbox arpqueue;
@@ -40,7 +41,7 @@ syscall arpInit(void)
     /* Spawn arpDaemon thread */
     ready(create
           ((void *)arpDaemon, ARP_THR_STK, ARP_THR_PRIO, "arpDaemon", 0),
-          RESCHED_NO);
+          RESCHED_NO, CORE_ZERO);
 
     return OK;
 }

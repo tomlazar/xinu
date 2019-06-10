@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread.h>
+#include <core.h>
 
 static int netAlloc(void);
 
@@ -157,7 +158,7 @@ syscall netUp(int descrp, const struct netaddr *ip, const struct netaddr *mask,
             goto out_kill_recv_threads;
         }
         netptr->recvthr[i] = tid;
-        ready(tid, RESCHED_NO);
+        ready(tid, RESCHED_NO, CORE_ZERO);
     }
 
     retval = OK;
