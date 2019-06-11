@@ -224,7 +224,7 @@ usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev,
 #define LAN7800_E2P_CMD			0x040
 #define LAN7800_E2P_CMD_EPC_BUSY	0x80000000
 #define LAN7800_EEPROM_MAC_OFFSET	0x01
-#define LAN7800_E2P_CMD_EPC_TIMEOUT		0x00000400
+#define LAN7800_E2P_CMD_EPC_TIMEOUT	0x00000400
 #define LAN7800_HW_CFG_LED3_EN		0x00800000
 #define LAN7800_HW_CFG_LED2_EN		0x00400000
 #define LAN7800_HW_CFG_LED1_EN		0x00200000
@@ -235,7 +235,6 @@ usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev,
 #define LAN7800_USB_CFG1		0x084
 #define LAN7800_USB_CFG1_LTM_ENABLE	0x00000100
 
-/* LTM = LED function mux? */
 #define LAN7800_LTM_BELT_IDLE0		0x0E0
 #define LAN7800_LTM_BELT_IDLE1		0x0E4
 #define LAN7800_LTM_BELT_ACT0		0x0E8
