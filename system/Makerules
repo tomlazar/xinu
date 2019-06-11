@@ -5,11 +5,14 @@ COMP = system
 
 # Source files for this component
 
+# File for core-level mutex functions
+S_FILES = mutex_util.S
+
 # Important system components
 C_FILES = initialize.c queue.c main.c
 
-# C file for spinlock functions
-C_FILES += spinlock.c
+# File for mutex functions
+C_FILES += mutex.c
 
 # Files for process control
 C_FILES += create.c kill.c ready.c resched.c resume.c suspend.c queue.c getitem.c queinit.c insert.c gettid.c xdone.c yield.c userret.c

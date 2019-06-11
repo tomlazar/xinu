@@ -14,10 +14,9 @@ S_FILES = ctxsw.S               \
 	  getcpuid.S	        \
 	  setupCores.S	        \
 	  setmode.S		\
-	  mutex_util.S		\
 	  mmu_util.S	        \
 	  preload_data.S        \
-	  spinlock_util.S
+	  mutex_util.S
 
 C_FILES = setupStack.c          \
 	   bcm2837_power.c      \
@@ -31,8 +30,7 @@ C_FILES = setupStack.c          \
 	   mmu.c		\
 	   random.c		\
 	   bcm2837_mbox.c	\
-	   des.c		\
-	   mutex.c
+	   des.c		
 
 # Add the files to the compile source path
 DIR = ${TOPDIR}/${COMP}

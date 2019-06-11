@@ -12,6 +12,7 @@
 #include <clock.h>
 #include <ether.h>
 #include <device.h>
+#include <core.h>
 
 #include <ethernet.h>
 #include <ipv4.h>
@@ -172,7 +173,7 @@ shellcmd xsh_pktgen(int nargs, char *args[])
 
     /* spawn proper pktgen thread */
     tid = create(pktgen, INITSTK, INITPRIO, "pktgen", 1, &info);
-    ready(tid, RESCHED_NO);
+    ready(tid, RESCHED_NO, CORE_ZERO);
 
     /* listen for keypress to force stop */
     printf("Press enter/return to stop.\n");
