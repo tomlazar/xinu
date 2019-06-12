@@ -82,7 +82,6 @@ void nulluser(void)
 	/* null thread has nothing else to do but cannot exit  */
 //XXX Scheduling test: while(TRUE){ if(nonempty(readylist[cpuid])){ resched();}}
 	while (TRUE){}
-
 }
 
 /**
@@ -95,9 +94,16 @@ static int sysinit(void)
 	struct thrent *thrptr;      /* thread control block pointer  */
 	struct memblock *pmblock;   /* memory block pointer          */
 
+	/* Mutex initialization test (all should be free) */
+	kprintf("\nNMUTEX: %d\r\n", NMUTEX);
+	for(int p = 0; p < NMUTEX; p++){
+		kprintf("%d. %0X\r\n", p, muxtab[p].state);
+	}
+
 	/* Initialize serial lock */
 	serial_lock = mutex_create();
-	
+	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
+
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
 	thrcount = NCORES;		/* 1 nullthread per core */
