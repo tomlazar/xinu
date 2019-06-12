@@ -32,7 +32,14 @@
 *.bin
 
 # Temporary swap files (from open Vim windows)
-*.swp
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
 
 # Xinu build files
 compile/config/config
