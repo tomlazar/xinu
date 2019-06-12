@@ -8,8 +8,6 @@
 #include <stdarg.h>
 #include <mutex.h>
 
-mutex_t serial_lock;
-
 /**
  * @ingroup uartgeneric
  *

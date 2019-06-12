@@ -30,7 +30,7 @@ C_FILES += xsh_arp.c xsh_nc.c xsh_netdown.c xsh_netemu.c xsh_netstat.c xsh_netup
 #C_FILES += xsh_ethstat.c xsh_pktgen.c xsh_vlanstat.c
 
 # TAR commands
-#C_FILES += xsh_tar.c
+C_FILES += xsh_tar.c
 
 # Turtle Graphics commands
 C_FILES += xsh_turtle.c
@@ -45,10 +45,9 @@ C_FILES += xsh_nvram.c
 C_FILES += xsh_kexec.c
 
 # XXX Used for raspberry pi 3 development to test random number generator
-#C_FILES += xsh_random.c
+C_FILES += xsh_random.c
 
-# USB commands (could be made conditional on USB support if the build system
-# were to support it...)
+# USB commands (could be made conditional on USB support if the build system were to support it...)
 C_FILES += xsh_usbinfo.c
 
 # Test commands

@@ -201,7 +201,7 @@ usb_status_t lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
  *       	::USB_STATUS_SUCCESS after value is applied
  */
 usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev, const uint32_t reg,
-			      const uint32_t mask, const bool set)
+		const uint32_t mask, const bool set)
 {
 	uint32_t val = 0;
 	while(1){
@@ -238,7 +238,7 @@ usb_status_t lan7800_eeprom_confirm_not_busy(struct usb_device *udev)
 usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
 {
 	return lan7800_wait_for_bit(udev, LAN7800_E2P_CMD, (LAN7800_E2P_CMD_EPC_BUSY
-							  | LAN7800_E2P_CMD_EPC_TIMEOUT),
+				| LAN7800_E2P_CMD_EPC_TIMEOUT),
 			USB_STATUS_SUCCESS);
 }
 
@@ -260,6 +260,8 @@ usb_status_t lan7800_read_raw_eeprom(struct usb_device *udev, uint32_t offset,
 	lan7800_read_reg(udev, LAN7800_HW_CFG, &val);
 	saved = val;
 
+	/* Disable and restore LED function to access EEPROM.
+	 * EEPROM is muxed with LED function on the LAN7800. */
 	val &= ~(LAN7800_HW_CFG_LED1_EN | LAN7800_HW_CFG_LED0_EN);
 	lan7800_write_reg(udev, LAN7800_HW_CFG, val);
 
@@ -388,22 +390,21 @@ usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 	lan7800_set_mac_address(udev, macaddress);
 
 	/* Respond to the IN token with a NAK */
-  	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);
-  	buf |= LAN7800_USB_CFG_BIR;
-  	lan7800_write_reg(udev, LAN7800_USB_CFG0, buf);
+	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);
+	buf |= LAN7800_USB_CFG_BIR;
+	lan7800_write_reg(udev, LAN7800_USB_CFG0, buf);
 
 	/* Set burst cap. */
-  	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
-  	lan7800_write_reg(udev, LAN7800_BURST_CAP, buf);
-  	lan7800_write_reg(udev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
+	buf = LAN7800_DEFAULT_BURST_CAP_SIZE / LAN7800_FS_USB_PKT_SIZE;
+	lan7800_write_reg(udev, LAN7800_BURST_CAP, buf);
+	lan7800_write_reg(udev, LAN7800_BULK_IN_DLY, LAN7800_DEFAULT_BULK_IN_DELAY);
 
 	/* Enable LED over HW CFG. */
-  	lan7800_read_reg(udev, LAN7800_HW_CFG, &buf);
-	buf |= LAN7800_HW_CFG_MEF;
+	lan7800_read_reg(udev, LAN7800_HW_CFG, &buf);
+	buf |= LAN7800_HW_CFG_MEF; /* Multiple ethernet frames */
 	buf |= LAN7800_HW_CFG_LED0_EN;
-	buf |= LAN7800_HW_CFG_LED1_EN;
 	lan7800_write_reg(udev, LAN7800_HW_CFG, buf);
-  
+
 	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);
 	buf |= LAN7800_USB_CFG_BCE;
 	lan7800_write_reg(udev, LAN7800_USB_CFG0, buf);
@@ -415,9 +416,9 @@ usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 	buf = (LAN7800_MAX_TX_FIFO_SIZE - 512) / 512;
 	lan7800_write_reg(udev, LAN7800_FCT_TX_FIFO_END, buf);
 
-  	lan7800_write_reg(udev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
-  	lan7800_write_reg(udev, LAN7800_FLOW, 0);
-  	lan7800_write_reg(udev, LAN7800_FCT_FLOW, 0);
+	lan7800_write_reg(udev, LAN7800_INT_STS, LAN7800_INT_STS_CLEAR_ALL);
+	lan7800_write_reg(udev, LAN7800_FLOW, 0);
+	lan7800_write_reg(udev, LAN7800_FCT_FLOW, 0);
 
 	lan7800_read_reg(udev, LAN7800_RFE_CTL, &buf);
 	buf |= (LAN7800_RFE_CTL_BCAST_EN | LAN7800_RFE_CTL_UCAST_EN | LAN7800_RFE_CTL_MCAST_EN);
@@ -458,7 +459,7 @@ usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 	buf |= LAN7800_FCT_TX_CTL_EN;
 	lan7800_write_reg(udev, LAN7800_FCT_TX_CTL, buf);
 
-  	lan7800_set_rx_max_frame_length(udev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
+	lan7800_set_rx_max_frame_length(udev, LAN7800_ETH_MTU + LAN7800_ETH_VLAN_LEN);
 
 	lan7800_read_reg(udev, LAN7800_MAC_RX, &buf);
 	buf |= LAN7800_MAC_RX_RXEN;

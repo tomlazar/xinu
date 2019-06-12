@@ -12,6 +12,7 @@
 
 extern volatile unsigned int mbox[36];
 int mbox_call(unsigned char);
+extern bool screen_initialized;
 
 #define MMIO_BASE       0x3F000000
 #define VIDEOCORE_MBOX  (MMIO_BASE+0x0000B880)

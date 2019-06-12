@@ -19,6 +19,7 @@
 #include <dsp.h>
 #include <uart.h>
 #include <rtp.h>
+#include <core.h>
 
 #if NETHER
 #define UDP_PORT 22020
@@ -207,7 +208,7 @@ shellcmd xsh_voip(int nargs, char *args[])
     case MODE_SERIAL:
         ready(create
               ((void *)serial_loop, INITSTK, 20, "voip-serial", 1, uart),
-              RESCHED_YES);
+              RESCHED_YES, CORE_ZERO);
         return OK;
 #ifdef ELOOP
     case MODE_LOCAL:
@@ -299,10 +300,10 @@ shellcmd xsh_voip(int nargs, char *args[])
     case CHECK_BASIC:
         ready(create
               ((void *)basic_send, INITSTK, 20, T_NAME_SEND, 2, uart,
-               udpTx), RESCHED_YES);
+               udpTx), RESCHED_YES, CORE_ZERO);
         ready(create
               ((void *)basic_receive, INITSTK, 20, T_NAME_RECV, 2,
-               uart, udpRx), RESCHED_YES);
+               uart, udpRx), RESCHED_YES, CORE_ZERO);
         break;
     case CHECK_SEQ:
 #ifdef NUDP
@@ -311,10 +312,10 @@ shellcmd xsh_voip(int nargs, char *args[])
 #endif                          /* NUDP */
         ready(create
               ((void *)seq_send, INITSTK, 20, T_NAME_SEND, 2, uart,
-               udpTx), RESCHED_YES);
+               udpTx), RESCHED_YES, CORE_ZERO);
         ready(create
               ((void *)seq_receive, INITSTK, 20, T_NAME_RECV, 2, uart,
-               udpRx), RESCHED_YES);
+               udpRx), RESCHED_YES, CORE_ZERO);
         break;
     }
     return OK;

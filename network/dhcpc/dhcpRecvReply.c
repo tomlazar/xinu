@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <udp.h>
 #include <thread.h>
+#include <core.h>
 
 #define DHCP_RECV_STKSIZE NET_THR_STK
 #define DHCP_RECV_PRIO    NET_THR_PRIO
@@ -66,7 +67,7 @@ syscall dhcpRecvReply(int descrp, struct dhcpData *data, uint timeout)
         return SYSERR;
     }
 
-    ready(tid, RESCHED_YES);
+    ready(tid, RESCHED_YES, CORE_ZERO);
 
     /* Wait at most @timeout milliseconds for the thread to terminate before
      * returning TIMEOUT.  */

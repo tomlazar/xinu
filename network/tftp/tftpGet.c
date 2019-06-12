@@ -11,6 +11,7 @@
 #include <tftp.h>
 #include <thread.h>
 #include <udp.h>
+#include <core.h>
 
 /* Stress testing--- randomly ignore this percent of valid received data
  * packets.  */
@@ -173,7 +174,7 @@ syscall tftpGet(const char *filename, const struct netaddr *local_ip,
         retval = SYSERR;
         goto out_close_udpdev2;
     }
-    ready(recv_tid, RESCHED_NO);
+    ready(recv_tid, RESCHED_NO, CORE_ZERO);
 
     /* Begin the download by requesting the file.  */
     retval = tftpSendRRQ(send_udpdev, filename);
