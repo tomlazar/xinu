@@ -60,17 +60,14 @@ syscall mutex_release(mutex_t mux)
 static mutex_t mutex_alloc(void)
 {
 	int i;
-	static unsigned int nextmux = 0;
 	
 	for (i = 0; i < NMUTEX; i++)
 	{
-		nextmux = (nextmux + 1) % NMUTEX;
-		//kprintf("\r\ni = %d ... Checking state of nextmux... %d", i, muxtab[nextmux].state);
-		if (0 == _atomic_mutex_check((unsigned int *)&(muxtab[nextmux].state)))
+		if (0 == _atomic_mutex_check((unsigned int *)&(muxtab[i].state)))
 		{
-			muxtab[nextmux].state = MUTEX_USED;
-			return nextmux;
+			muxtab[i].state = MUTEX_USED;
+			return i;
 		}
 	}
 	return SYSERR;
-};
+}

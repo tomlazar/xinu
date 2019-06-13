@@ -58,9 +58,10 @@ _mutex_release:
 
 	mov	r1, #MUTEX_UNLOCKED
 	dmb				/* Required before accessing protected resource */
-	str	r1, [r0]		/* Unlock mutex */
 	
+	str	r1, [r0]		/* Unlock mutex */
 	dsb
+	
 	sev
 	bx	lr
 

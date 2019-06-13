@@ -19,12 +19,8 @@
 int ready(tid_typ tid, bool resch, uint core)
 {
 	register struct thrent *thrptr;
-	unsigned int cpuid;
 
-	cpuid = getcpuid();
-
-	if (isbadtid(tid))
-	{
+	if (isbadtid(tid)){
 		return SYSERR;
 	}
 
@@ -36,6 +32,8 @@ int ready(tid_typ tid, bool resch, uint core)
 
 	/* if core affinity is not set,
 	 * set affinity to core currently running this code (most likely 0) */
+	unsigned int cpuid;
+	cpuid = getcpuid();
 	if (-1 == thrptr->core_affinity)
 	{
 		thrptr->core_affinity = cpuid;
@@ -43,10 +41,11 @@ int ready(tid_typ tid, bool resch, uint core)
 
 	thrtab_release(tid);
 
-	insert(tid, readylist[thrptr->core_affinity], thrptr->prio);
+	if (SYSERR == insert(tid, readylist[thrptr->core_affinity], thrptr->prio)){
+		return SYSERR;
+	}
 
-	if (resch == RESCHED_YES)
-	{
+	if ((resch == RESCHED_YES) && (thrptr->core_affinity == cpuid)){
 		resched();
 	}
 

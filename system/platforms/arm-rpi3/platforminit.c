@@ -136,13 +136,16 @@ int platforminit(void)
 
 	register struct thrent *thrptr;
 	for (int i = 0; i < NTHREAD; i++){
+		//kprintf("Thread mux\r\n");
 		thrtab_mutex[i] = mutex_create();
 		thrptr = &thrtab[i];
 		thrptr->core_affinity = -1;
 	}
 
-	for (int i = 0; i < NSEM; i++)
+	for (int i = 0; i < NSEM; i++){
+		//kprintf("Sem mux\r\n");
 		semtab_mutex[i] = mutex_create();
+	}
 
 	return OK;
 }

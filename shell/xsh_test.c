@@ -34,11 +34,10 @@ int testmain(int argc, char **argv)
 	uint cpuid = getcpuid();
 	int i = 0;
 	kprintf("\r\n********=======********\r\n");
-	kprintf("Hello XINU World, from core %d!\r\n", cpuid);
 
 	for (i = 0; i < 10; i++)
 	{
-		kprintf("This is thread TID: %d\r\n", thrcurrent[cpuid]);
+		kprintf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
 		//resched();
@@ -125,6 +124,7 @@ shellcmd xsh_test(int nargs, char *args[])
 			// Create 3 processes and ready them on cores 1, 2, 3
 			ready(create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL), RESCHED_NO, 1);
 			ready(create((void *)testmain, INITSTK, "MAIN2", 2, 0, NULL), RESCHED_NO, 2);
+			//break;
 			ready(create((void *)testmain, INITSTK, "MAIN3", 2, 0, NULL), RESCHED_NO, 3);
 			break;
 		default:
