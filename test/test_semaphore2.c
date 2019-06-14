@@ -3,6 +3,7 @@
 #include <semaphore.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
 
 #if NSEM
 
@@ -42,10 +43,10 @@ thread test_semaphore2(bool verbose)
 
     ready(atid =
           create((void *)test_semWaiter, INITSTK, 32,
-                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_NO);
+                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_NO, CORE_ZERO);
     ready(btid =
           create((void *)test_semWaiter, INITSTK, 31,
-                 "SEMAPHORE-B", 3, s, 1, &testResult), RESCHED_NO);
+                 "SEMAPHORE-B", 3, s, 1, &testResult), RESCHED_NO, CORE_ZERO);
 
     /* Both processes should run and immediately wait.  A should wait first
      * because it has higher priority.  */

@@ -15,6 +15,7 @@
 #include <ipv4.h>
 #include <network.h>
 #include <ether.h>
+#include <core.h>
 
 #if NETHER
 static int argErr(char *command, char *arg)
@@ -34,7 +35,7 @@ static int argErr(char *command, char *arg)
  */
 shellcmd xsh_telnetserver(int nargs, char *args[])
 {
-    int descrp, port, i;
+    int descrp, port, i, spawntelnet;
     struct thrent *thrptr;
     char thrname[TNMLEN];
 
@@ -140,7 +141,7 @@ shellcmd xsh_telnetserver(int nargs, char *args[])
         TELNET_TRACE("Spawning %s on %d", thrname, spawntelnet - TELNET0);
         ready(create((void *)telnetServer, INITSTK, INITPRIO, thrname,
                      4, descrp, port, spawntelnet, "SHELL2"),
-              RESCHED_YES);
+              RESCHED_YES, CORE_ZERO);
     }
 #endif
 

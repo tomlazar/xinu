@@ -2,6 +2,7 @@
 #include <thread.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
 
 #define TIMES 5
 
@@ -42,13 +43,13 @@ thread test_recursion(bool verbose)
     disable();
 
     ready(atid = create((void *)t5, INITSTK, 31, "RECURSION-A",
-                        3, TIMES, testArray, &index), 0);
+                        3, TIMES, testArray, &index), 0, CORE_ZERO);
     ready(btid = create((void *)t5, INITSTK, 32, "RECURSION-B",
-                        3, TIMES, testArray, &index), 0);
+                        3, TIMES, testArray, &index), 0, CORE_ZERO);
     ready(ctid = create((void *)t5, INITSTK, 34, "RECURSION-C",
-                        3, TIMES, testArray, &index), 0);
+                        3, TIMES, testArray, &index), 0, CORE_ZERO);
     ready(dtid = create((void *)t5, INITSTK, 32, "RECURSION-D",
-                        3, TIMES, testArray, &index), 0);
+                        3, TIMES, testArray, &index), 0, CORE_ZERO);
 
     /* Run the tests by yielding the processor */
     yield();

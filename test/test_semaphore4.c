@@ -3,6 +3,7 @@
 #include <semaphore.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
 
 #if NSEM
 extern bool test_checkSemCount(semaphore s, short c);
@@ -40,7 +41,7 @@ thread test_semaphore4(bool verbose)
 
     ready(atid =
           create((void *)test_semWaiter, INITSTK, 31,
-                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_YES);
+                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_YES, CORE_ZERO);
 
     testPrint(verbose, "Wait on semaphore: ");
     if (test_checkProcState(atid, THRWAIT)
