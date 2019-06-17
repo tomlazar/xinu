@@ -743,6 +743,7 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
         root_hub_status_change_request = req;
         if (host_port_status.wPortChange != 0)
         {
+            usb_debug("Port status changed...\r\n");
             dwc_host_port_status_changed();
         }
     }

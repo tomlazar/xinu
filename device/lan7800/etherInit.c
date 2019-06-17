@@ -92,7 +92,8 @@ lan7800_bind_device(struct usb_device *udev)
 	ethptr->csr = udev;
 	udev->driver_private = ethptr;
 
-	signal(lan7800_attached[ethptr - ethertab]);
+	//signal(lan7800_attached[ethptr - ethertab]);
+	kprintf("\r\nReturning from bind device...\r\n");
 	
 	return USB_STATUS_SUCCESS;
 }
@@ -202,8 +203,9 @@ getEthAddr(uint8_t *addr)
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
 {
+	kprintf("Waiting for LAN7800 to attach...\r\n");
 	wait(lan7800_attached[minor]);
-	signal(lan7800_attached[minor]);
+	//signal(lan7800_attached[minor]);
 	return USB_STATUS_SUCCESS;
 }
 
@@ -242,7 +244,7 @@ devcall etherInit(device *devptr)
 		goto err_free_isema;
 	}
 	
-	/* Get the MAC address and store it into a global array called addr.. */
+	/* Get the MAC address and store it */
 	getEthAddr(ethptr->devAddress);
 
 	/* Copy the MAC address array into the devAddress member of the
@@ -256,6 +258,8 @@ devcall etherInit(device *devptr)
 		goto err_free_attached_sema;
 	}
 
+	signal(lan7800_attached[ethptr - ethertab]);
+	kprintf("Ether device initialized\r\n");
 	return OK;
 
 err_free_attached_sema:

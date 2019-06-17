@@ -91,9 +91,9 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 			{
 				/* The Ethernet adapter set the error flag to indicate a problem
 				 * or the Ethernet frame size it provided was invalid. */
-				usb_dev_debug(req->dev, "LAN78XX: Tallying rx error "
-						"(recv_status=0x%08x, frame_length=%u)\n",
-						recv_status, frame_length);
+				//usb_dev_debug(req->dev, "LAN78XX: Tallying rx error "
+						//"(recv_status=0x%08x, frame_length=%u)\n",
+						//recv_status, frame_length);
 				ethptr->errors++;
 			}
 			else if (ethptr->icount == ETH_IBLEN)

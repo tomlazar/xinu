@@ -30,6 +30,7 @@ thread main(void)
 	/* Print information about the operating system  */
 	print_os_info();
 
+//#define NETHER 0
 	        /* Open all ethernet devices */
 #if NETHER
 		struct ether *ethptr;
@@ -49,6 +50,8 @@ thread main(void)
 			}
 		}
 #endif  /* NETHER */
+
+kprintf("\r\n\n\nAfter etherOpen...\r\n\n");
 
 	/* Set up the first TTY (CONSOLE)  */
 #if defined(CONSOLE) && defined(SERIAL0)
