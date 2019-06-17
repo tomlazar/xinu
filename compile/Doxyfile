@@ -573,7 +573,6 @@ CITE_BIB_FILES         =
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
 #---------------------------------------------------------------------------
-
 # The QUIET tag can be used to turn on/off the messages that are generated
 # by doxygen. Possible values are YES and NO. If left blank NO is used.
 
