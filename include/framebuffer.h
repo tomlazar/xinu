@@ -32,7 +32,6 @@ extern bool screen_initialized;
 #define MAILBOX_EMPTY 0x40000000 // set bit in status register if nothing to read from mailbox
 #define MMIO_BASE 0x3F000000 // base address for peripherals
 
-#define MAILBOX_CHANNEL_MASK 0xF // framebuffer uses channel 1; no reason to mess around with anything else
 #define MAILBOX_CH_PROPERTY 8
 #define MAILBOX_BASE 0xB880 // base address for mailbox registers
 #define MBOX_REQUEST 0

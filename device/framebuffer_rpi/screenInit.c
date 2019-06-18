@@ -63,20 +63,6 @@ void screenInit() {
 
 /* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
 int framebufferInit() {
-	//GPU expects this struct to be 16 byte aligned
-
-	struct framebuffer frame __attribute__((aligned (16)));
-
-	frame.width_p = DEFAULT_WIDTH; //must be less than 4096
-	frame.height_p = DEFAULT_HEIGHT; //must be less than 4096
-	frame.width_v = DEFAULT_WIDTH; //must be less than 4096
-	frame.height_v = DEFAULT_HEIGHT; //must be less than 4096
-	frame.pitch = 0; //no space between rows
-	frame.depth = BIT_DEPTH; //must be equal to or less than 32
-	frame.x = 0; //no x offset
-	frame.y = 0; //no y offset
-	frame.address = 0; //always initializes to 0x48006000
-	frame.size = 0;
 
 	/* Build the mailbox buffer for the frame buffer */
 	/* Design is expanded for readability */
@@ -126,9 +112,9 @@ int framebufferInit() {
 		cols=mbox[5] / CHAR_WIDTH;
 		rows=mbox[6] / CHAR_HEIGHT;
 		pitch=mbox[33];
-		framebufferAddress=(void*)((unsigned long)mbox[28]);
+		framebufferAddress=(ulong)((unsigned long)mbox[28]);
 	} else {	// If mailbox call ends in error, return
-		return;
+		return SYSERR;
 	}
 
 	/* Initialize global variables */

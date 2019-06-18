@@ -8,6 +8,7 @@
 #include <queue.h>
 #include <memory.h>
 #include <safemem.h>
+#include <core.h>
 
 extern void xdone(void);
 
@@ -39,7 +40,6 @@ syscall kill(tid_typ tid)
 	thrptr = &thrtab[tid];
 
 	/* cannot kill process that is running on a different core */
-	//if (core_affinity[tid] != cpuid)
 	if (thrptr->core_affinity != cpuid)
 	{
 		thrtab_release(tid);
@@ -64,8 +64,7 @@ syscall kill(tid_typ tid)
 	stkfree(thrptr->stkbase, thrptr->stklen);
 
 	thrtab_acquire(tid);
-	//core_affinity[tid] = -1;
-	thrtab->core_affinity = -1;
+	thrtab->core_affinity = cpuid;
 	thrtab_release(tid);
 
 	switch (thrptr->state)
