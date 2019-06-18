@@ -1,0 +1,22 @@
+# This Makefile contains rules to build this directory 
+
+# Name of this component (the directory this file is stored in)
+COMP = device/usbfs
+
+# Source files for this component
+C_FILES = usbFsBindDevice.c \
+          usbFsControl.c    \
+	  usbFsPutc.c       \
+	  usbFsWrite.c      \
+	  usbFsFlush.c      \
+	  usbFsGetc.c       \
+	  usbFsInit.c       \
+	  usbFsRead.c       \
+	  usbFsWrite.c       \
+	  usbFsUnbindDevice.c
+
+S_FILES =
+
+# Add the files to the compile source path
+DIR = ${TOPDIR}/${COMP}
+COMP_SRC += ${S_FILES:%=${DIR}/%} ${C_FILES:%=${DIR}/%}
