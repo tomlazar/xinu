@@ -45,6 +45,7 @@ DEVICES  := uart-pl011      \
 	    udp		    \
             framebuffer_rpi \
             usbkbd          \
+	    usbfs           \
 #           smsc9512        \
 #      	    ethloop         \
 #            raw             \
