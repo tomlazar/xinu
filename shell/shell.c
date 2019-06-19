@@ -16,7 +16,6 @@
 #include <nvram.h>
 #include <conf.h>
 #include <framebuffer.h>
-#include <clock.h>
 
 const struct centry commandtab[] = {
 #if NETHER
@@ -178,37 +177,28 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 #if defined(FRAMEBUF)
     if (indescrp == FRAMEBUF)
     {
-        foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
-        foreground = LEAFGREEN;
+        //XXXforeground = RASPBERRY;
+        printf(SHELL_BANNER_NONVT100);
+        //XXXforeground = LEAFGREEN;
         printf(SHELL_START);
+        //XXXforeground = GREEN;
     }
     else
 #endif
     {
-        foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
-	udelay(250);
-        foreground = LEAFGREEN;
+        printf(SHELL_BANNER);
         printf(SHELL_START);
     }
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	#if defined(FRAMEBUF)
-	    /* Print shell with colors over the frame buffer */
-	    foreground = RASPBERRY;
-            printf(SHELL_PROMPT_FB);
-	    foreground = WHITE;
-        #else
-	    /* Display prompt using standard ANSI terminal coloring */
-            printf(SHELL_PROMPT);
-	#endif
+        /* Display prompt */
+        printf(SHELL_PROMPT);
 
         if (NULL != hostptr)
         {
-#ifndef FRAMEBUF
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	    printf("@%s$ \033[0;39m", hostptr);
 #else
 	    printf("@%s$ ", hostptr);
@@ -216,7 +206,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 	}
         else
         {
-#ifndef FRAMEBUF
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	    printf("$ \033[0;39m");
 #else
             printf("$ ");
