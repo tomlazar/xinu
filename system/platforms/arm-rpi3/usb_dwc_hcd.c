@@ -78,7 +78,6 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
-#include <core.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -1193,7 +1192,7 @@ defer_xfer(struct usb_xfer_request *req)
                                          DEFER_XFER_THREAD_PRIORITY,
                                          DEFER_XFER_THREAD_NAME,
                                          1, req);
-        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO, CORE_ZERO))
+        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO))
         {
             req->deferer_thread_tid = BADTID;
             usb_dev_error(req->dev,
@@ -1810,7 +1809,7 @@ dwc_start_xfer_scheduler(void)
                                     XFER_SCHEDULER_THREAD_STACK_SIZE,
                                     XFER_SCHEDULER_THREAD_PRIORITY,
                                     XFER_SCHEDULER_THREAD_NAME, 0);
-    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO, CORE_ZERO))
+    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO))
     {
         semfree(chfree_sema);
         mailboxFree(hcd_xfer_mailbox);

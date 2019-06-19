@@ -57,14 +57,14 @@ shellcmd xsh_ps(int nargs, char *args[])
             "--- ------------ ----- ---- ---- ---------- ---------- ----------\n");
 */
 
-    printf("%3s %-16s %5s %4s %4s %10s %-10s %10s %5s\n",
+    printf("%3s %-16s %5s %4s %4s %10s %-10s %10s\n",
            "TID", "NAME", "STATE", "PRIO", "PPID", "STACK BASE",
-           "STACK PTR", "STACK LEN", "CPUID");
+           "STACK PTR", "STACK LEN");
 
 
-    printf("%3s %-16s %5s %4s %4s %10s %-10s %10s %5s\n",
+    printf("%3s %-16s %5s %4s %4s %10s %-10s %10s\n",
            "---", "----------------", "-----", "----", "----",
-           "----------", "----------", " ---------", "-----");
+           "----------", "----------", " ---------");
 
     /* Output information for each thread */
     for (i = 0; i < NTHREAD; i++)
@@ -75,14 +75,13 @@ shellcmd xsh_ps(int nargs, char *args[])
             continue;
         }
 
-        printf("%3d %-16s %s %4d %4d 0x%08lX 0x%08lX %10lu %5d\n",
+        printf("%3d %-16s %s %4d %4d 0x%08lX 0x%08lX %10lu\n",
                i, thrptr->name,
                pstnams[(int)thrptr->state - 1],
                thrptr->prio, thrptr->parent,
                (ulong)thrptr->stkbase,
                (ulong)thrptr->stkptr,
-               thrptr->stklen,
-	       thrptr->core_affinity);
+               thrptr->stklen);
     }
 
     return 0;

@@ -131,8 +131,7 @@ static int thrnew(void)
 void thrtab_acquire(tid_typ tid)
 {
     pldw(&thrtab[tid]);
-    //pldw(&core_affinity[tid]);
-    pldw(&thrtab[tid].core_affinity);
+    pldw(&core_affinity[tid]);
     mutex_acquire(thrtab_mutex[tid]);
 }
 

@@ -19,7 +19,6 @@ syscall resume(tid_typ tid)
     register struct thrent *thrptr;     /* thread control block  */
     irqmask im;
     int prio;
-    uint cpuid;
 
     im = disable();
     thrptr = &thrtab[tid];
@@ -29,9 +28,8 @@ syscall resume(tid_typ tid)
         return SYSERR;
     }
 
-    cpuid = getcpuid();
     prio = thrptr->prio;
-    ready(tid, RESCHED_YES, cpuid);
+    ready(tid, RESCHED_YES);
     restore(im);
     return prio;
 }

@@ -22,31 +22,29 @@
  */
 syscall semfree(semaphore sem)
 {
-	register struct sement *semptr;
-	irqmask im;
-	tid_typ tid;
-	uint cpuid;
-	cpuid = getcpuid();
+    register struct sement *semptr;
+    irqmask im;
+    tid_typ tid;
 
-	im = disable();
-	if (isbadsem(sem))
-	{
-		restore(im);
-		return SYSERR;
-	}
-
+    im = disable();
+    if (isbadsem(sem))
+    {
+        restore(im);
+        return SYSERR;
+    }
+	
 	semtab_acquire(sem);
-	semptr = &semtab[sem];
-	while (nonempty(semptr->queue))
-	{
-		tid = dequeue(semptr->queue);   /* free waiting threads */
-		ready(tid, RESCHED_NO, cpuid);
-	}
+    semptr = &semtab[sem];
+    while (nonempty(semptr->queue))
+    {
+        tid = dequeue(semptr->queue);   /* free waiting threads */
+        ready(tid, RESCHED_NO);
+    }
 
-	semptr->count = 0;
-	semptr->state = SFREE;
+    semptr->count = 0;
+    semptr->state = SFREE;
 	semtab_release(sem);
 
-	restore(im);
-	return OK;
+    restore(im);
+    return OK;
 }

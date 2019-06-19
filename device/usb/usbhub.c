@@ -59,7 +59,6 @@
 #include <usb_hub_defs.h>
 #include <usb_hub_driver.h>
 #include <usb_std_defs.h>
-#include <core.h>
 
 /** Maximum number of ports per hub supported by this driver.  (USB 2.0
  * theoretically allows up to 255 ports per hub.)  */
@@ -646,7 +645,7 @@ hub_onetime_init(void)
     /* Create hub thread.  */
     hub_thread_tid = create(hub_thread, HUB_THREAD_STACK_SIZE, HUB_THREAD_PRIORITY,
                             HUB_THREAD_NAME, 0);
-    if (SYSERR == ready(hub_thread_tid, RESCHED_NO, CORE_ZERO))
+    if (SYSERR == ready(hub_thread_tid, RESCHED_NO))
     {
         kill(hub_thread_tid);
         hub_thread_tid = BADTID;

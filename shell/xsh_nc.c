@@ -16,7 +16,6 @@
 #include <tcp.h>
 #include <thread.h>
 #include <udp.h>
-#include <core.h>
 
 #if NETHER
 static void usage(char *command);
@@ -194,8 +193,8 @@ shellcmd xsh_nc(int nargs, char *args[])
 
     /* Start both threads */
     while (recvclr() != NOMSG);
-    ready(recvthr, RESCHED_YES, CORE_ZERO);
-    ready(sendthr, RESCHED_NO, CORE_ZERO);
+    ready(recvthr, RESCHED_YES);
+    ready(sendthr, RESCHED_NO);
 
     /* Wait for one thread to die */
     while ((msg != recvthr) && (msg != sendthr))

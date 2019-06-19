@@ -15,6 +15,8 @@
 #include <memory.h>
 #include <mutex.h>
 
+extern unsigned int getcpuid(void);
+
 /* unusual value marks the top of the thread stack                      */
 #define STACKMAGIC  0x0A0AAAA9
 
@@ -85,7 +87,6 @@ struct thrent
     bool hasmsg;                /**< nonzero iff msg is valid           */
     struct memblock memlist;    /**< free memory list of thread         */
     int fdesc[NDESC];           /**< device descriptors for thread      */
-    uint core_affinity;         /**< Core affinity of the thread        */
 };
 
 extern struct thrent thrtab[];
@@ -93,7 +94,7 @@ extern int thrcount;            /**< currently active threads           */
 extern tid_typ thrcurrent[];    /**< currently executing thread         */
 
 extern unsigned int getcpuid(void);
-//extern unsigned int core_affinity[];
+extern unsigned int core_affinity[];
 extern mutex_t thrtab_mutex[];
 
 void thrtab_acquire(tid_typ);
@@ -112,12 +113,12 @@ tid_typ create(void *procaddr, uint ssize, int priority,
 tid_typ gettid(void);
 syscall getprio(tid_typ);
 syscall kill(int);
-int ready(tid_typ, bool, uint);
+int ready(tid_typ, bool);
 int resched(void);
 syscall sleep(uint);
 syscall unsleep(tid_typ);
 syscall yield(void);
-//int ready_multi(tid_typ, unsigned int);
+int ready_multi(tid_typ, unsigned int);
 
 /**
  * @ingroup threads

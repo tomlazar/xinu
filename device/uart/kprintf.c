@@ -6,7 +6,9 @@
 
 #include <kernel.h>
 #include <stdarg.h>
-#include <spinlock.h>
+#include <mutex.h>
+
+mutex_t serial_lock;
 
 /**
  * @ingroup uartgeneric

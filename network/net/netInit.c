@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <tcp.h>
-#include <core.h>
 
 #ifndef NNETIF
 #define NNETIF 0
@@ -73,7 +72,7 @@ syscall netInit()
     }
     else
     {
-        ready(i, RESCHED_NO, CORE_ZERO);
+        ready(i, RESCHED_NO);
     }
 #endif                          /* NTCP */
 

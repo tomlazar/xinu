@@ -9,7 +9,6 @@
 #include <xinu.h>
 #include <platform.h>
 #include <stdint.h>
-#include <spinlock.h>
 
 #ifdef WITH_USB
 #include <usb_subsystem.h>
@@ -33,9 +32,7 @@ struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
-//unsigned int core_affinity[NTHREAD];
-
-spinlock_t serial_lock;
+unsigned int core_affinity[NTHREAD];
 
 static void core_nulluser(void);
 
@@ -78,10 +75,9 @@ void nulluser(void)
 	enable();	
 
 	/* Spawn the main thread  */
-	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES, CORE_ZERO);
+	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
 
 	/* null thread has nothing else to do but cannot exit  */
-//XXX Scheduling test: while(TRUE){ if(nonempty(readylist[cpuid])){ resched();}}
 	while (TRUE){}
 
 }
@@ -96,9 +92,6 @@ static int sysinit(void)
 	struct thrent *thrptr;      /* thread control block pointer  */
 	struct memblock *pmblock;   /* memory block pointer          */
 
-	/* Initialize serial lock */
-	serial_lock = lock_create();
-	
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
 	thrcount = NCORES;		/* 1 nullthread per core */

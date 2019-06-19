@@ -11,7 +11,6 @@
 #include <thread.h>
 #include <version.h>
 #include <stdlib.h>
-#include <core.h>
 
 void print_os_info(void);
 
@@ -119,15 +118,13 @@ thread main(void)
 
 		for (i = 0; i < nshells; i++)
 		{
-			/* Create and ready thread on core zero */
 			sprintf(name, "SHELL%u", i);
 			if (SYSERR == ready(create
 						(shell, INITSTK, INITPRIO, name, 3,
 						 shelldevs[i][0],
 						 shelldevs[i][1],
 						 shelldevs[i][2]),
-						RESCHED_NO,
-						CORE_ZERO))
+						RESCHED_NO))
 			{
 				kprintf("WARNING: Failed to create %s", name);
 			}

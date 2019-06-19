@@ -18,8 +18,6 @@ syscall send(tid_typ tid, message msg)
 {
     register struct thrent *thrptr;
     irqmask im;
-    uint cpuid;
-    cpuid = getcpuid();
 
     im = disable();
     if (isbadtid(tid))
@@ -44,12 +42,12 @@ syscall send(tid_typ tid, message msg)
     /* if receiver waits, start it */
     if (THRRECV == thrptr->state)
     {
-        ready(tid, RESCHED_YES, cpuid);
+        ready(tid, RESCHED_YES);
     }
     else if (THRTMOUT == thrptr->state)
     {
         unsleep(tid);
-        ready(tid, RESCHED_YES, cpuid);
+        ready(tid, RESCHED_YES);
     }
     restore(im);
     return OK;

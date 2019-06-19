@@ -10,7 +10,6 @@
 #include <route.h>
 #include <stdlib.h>
 #include <thread.h>
-#include <core.h>
 
 struct rtEntry rttab[RT_NENTRY];
 mailbox rtqueue;
@@ -42,7 +41,7 @@ syscall rtInit(void)
     /* Spawn rtDameon thread */
     ready(create
           ((void *)rtDaemon, RT_THR_STK, RT_THR_PRIO, "rtDaemon", 0),
-          RESCHED_NO, CORE_ZERO);
+          RESCHED_NO);
 
     return OK;
 }

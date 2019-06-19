@@ -133,7 +133,7 @@ int platforminit(void)
 	for (int i = 0; i < NTHREAD; i++)
 	{
 		thrtab_mutex[i] = mutex_create();
-		//core_affinity[i] = -1;
+		core_affinity[i] = -1;
 	}
 
 	for (int i = 0; i < NSEM; i++)
