@@ -1,5 +1,6 @@
-.equ	MMU_TABLE_BASE,	0x00004000
+//.equ	MMU_TABLE_BASE,	0x00004000
 
+/*
 .globl mmu_initialize
 mmu_initialize:
 	// Code adapted from Bare-metal Boot Code for ARMv8-A Processors v1.0
@@ -23,24 +24,18 @@ perLoop:
 	bhi	perLoop
 
 	ldr r0, =MMU_TABLE_BASE	// Re-load table base to start MMU
+*/
 
-.globl _clean_cache
-_clean_cache:
-	mov	r2, #0
-	mcr	p15, 0, r2, c7, c1, 0	;@ Invalidate all i caches inner shareable to PoU
-	mcr	p15, 0, r2, c7, c5, 0	;@ Invalidate all i caches to PoU
-	mcr	p15, 0, r2, c7, c6, 1	;@ Invalidate d cache line by VA to PoC
-	mcr	p15, 0, r2, c7, c6, 2	;@ Invalidate d cache line by set/way
-	mcr	p15, 0, r2, c8, c7, 0	;@ Invalidate unified tlb
-
-	mcr	p15, 0, r2, c7, c10, 1	;@ Clean Data or Unified cache line by MVA to PoC
-	mcr	p15, 0, r2, c7, c10, 2	;@ Clean Data or Unified cache line by Set/Way
-	mcr	p15, 0, r2, c7, c5, 4	;@ Flush prefetch buffer
-	//mcr	p15, 0, r2, c11, c6, 1	;@ Clean Data or Unified cache line by MVA to PoU
-	//mcr	p15, 0, r2, c14, c6, 1	;@ Clean and Invalidate Data or Unified cache line by MVA to PoC
-	//mcr	p15, 0, r2, c14, c6, 2	;@ Clean and Invalidate Data or Unified cache line by Set/Way
+.globl _flush_cache
+_flush_cache:
+	mov	r2, #0			;@ Flush entire cache by transferring a zero
+	//mcr	p15, 0, r2, c8, c7, 0	;@ Invalidate unified tlb
+	//mcr	p15, 0, r2, c7, c1, 0	;@ Invalidate all i caches inner shareable to PoU
+	
+	//mcr	p15, 0, r2, c7, c5, 0	;@ Flush instruction cache
+	mcr	p15, 0, r2, c7, c6, 0	;@ Flush data cache
 	dsb
-
+	
 	bx	lr
 
 .globl start_mmu

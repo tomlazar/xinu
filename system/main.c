@@ -12,6 +12,7 @@
 #include <version.h>
 #include <stdlib.h>
 #include <core.h>
+#include "platforms/arm-rpi3/mmu.h"
 
 void print_os_info(void);
 
@@ -22,6 +23,7 @@ void print_os_info(void);
  */
 thread main(void)
 {
+
 #if HAVE_SHELL
 	int shelldevs[4][3];
 	uint nshells = 0;

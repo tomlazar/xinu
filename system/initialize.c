@@ -76,6 +76,8 @@ void nulluser(void)
 	/* Enable interrupts  */
 	enable();	
 
+	kprintf("\r\n[initialize.c] spawn main thread...\r\n");
+
 	/* Spawn the main thread  */
 	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES, CORE_ZERO);
 
