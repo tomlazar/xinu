@@ -9,7 +9,7 @@
 #include <xinu.h>
 #include <platform.h>
 #include <stdint.h>
-#include <mutex.h>
+#include <spinlock.h>
 
 #ifdef WITH_USB
 #include <usb_subsystem.h>
@@ -33,8 +33,9 @@ struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
+//unsigned int core_affinity[NTHREAD];
 
-mutex_t serial_lock;
+spinlock_t serial_lock;
 
 static void core_nulluser(void);
 
@@ -96,7 +97,7 @@ static int sysinit(void)
 	struct memblock *pmblock;   /* memory block pointer          */
 
 	/* Initialize serial lock */
-	serial_lock = mutex_create();
+	serial_lock = lock_create();
 	
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */

@@ -28,9 +28,9 @@ const struct centry commandtab[] = {
 #if USE_TLB
     {"dumptlb", FALSE, xsh_dumptlb},
 #endif
-/*#if NETHER
-    {"ethstat", FALSE, xsh_ethstat},
-#endif*/
+#if NETHER
+    //{"ethstat", FALSE, xsh_ethstat},
+#endif
     {"exit", TRUE, xsh_exit},
 #if NFLASH
     {"flashstat", FALSE, xsh_flashstat},
@@ -63,15 +63,15 @@ const struct centry commandtab[] = {
     {"ps", FALSE, xsh_ps},
 #if NETHER
     {"ping", FALSE, xsh_ping},
-/*    {"pktgen", FALSE, xsh_pktgen},*/
+    //{"pktgen", FALSE, xsh_pktgen},
 #endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
-    {"random", TRUE, xsh_random},
+//XXX	{"random", TRUE, xsh_random},
 #endif
 
 #if NETHER
-    {"rdate", FALSE, xsh_rdate},
+	{"rdate", FALSE, xsh_rdate},
 #endif
     {"reset", FALSE, xsh_reset},
 #if NETHER
@@ -82,21 +82,21 @@ const struct centry commandtab[] = {
     {"snoop", FALSE, xsh_snoop},
 #endif
 #if USE_TAR
-    {"tar", FALSE, xsh_tar},
+//    {"tar", FALSE, xsh_tar},
 #endif
 #if NETHER
     {"tcpstat", FALSE, xsh_tcpstat},
-    {"telnet", FALSE, xsh_telnet},
-    {"telnetserver", FALSE, xsh_telnetserver},
+    //XXX{"telnet", FALSE, xsh_telnet},
+    //XXX{"telnetserver", FALSE, xsh_telnetserver},
 #endif
-    {"test", FALSE, xsh_test},
+//XXX    {"test", FALSE, xsh_test},
 #if HAVE_TESTSUITE
     {"testsuite", TRUE, xsh_testsuite},
 #endif
 #if NETHER
-    {"timeserver", FALSE, xsh_timeserver},
+    //XXX{"timeserver", FALSE, xsh_timeserver},
 #endif
-#if (screen_initialized)
+#if FRAMEBUF
     {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
@@ -110,14 +110,15 @@ const struct centry commandtab[] = {
 #endif
 #if NETHER
     {"udpstat", FALSE, xsh_udpstat},
-/*    {"vlanstat", FALSE, xsh_vlanstat},*/
-    {"voip", FALSE, xsh_voip},
-    {"xweb", FALSE, xsh_xweb},
+    //XXX{"vlanstat", FALSE, xsh_vlanstat},
+    //XXX{"voip", FALSE, xsh_voip},
+    //XXX{"xweb", FALSE, xsh_xweb},
 #endif
     {"?", FALSE, xsh_help}
 };
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
+//XXXextern ulong foreground;
 
 /**
  * @ingroup shell

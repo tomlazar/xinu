@@ -249,6 +249,16 @@ devcall etherControl(device *devptr, int req, long arg1, long arg2);
  */
 void etherStat(ushort minor);
 
+/**
+ * \ingroup ether
+ *
+ * Print throughput data about an Ethernet device.
+ *
+ * @param minor
+ *      Minor number of the Ethernet device to print throughput data about.
+ */
+void etherThroughput(ushort minor);
+
 interrupt etherInterrupt(void);
 
 /**
