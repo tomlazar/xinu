@@ -78,6 +78,7 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
+#include "mmu.h"
 #include <core.h>
 
 /** Round a number up to the next multiple of the word size.  */
@@ -767,6 +768,7 @@ dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
     uint next_frame;
     irqmask im;
 
+    _clean_cache();
     im = disable();
 
     /* Clear pending interrupts.  */
@@ -988,6 +990,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
 
     /* Set up DMA buffer.  */
+   _clean_cache();
+
     if (IS_WORD_ALIGNED(data))
     {
 	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
@@ -1020,6 +1024,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
      * alternate buffer was selected above).  */
+    _clean_cache();
     req->cur_data_ptr = data;
 
     /* Calculate the number of packets being set up for this transfer.  */
@@ -1256,8 +1261,9 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             /* Copy data from DMA buffer if needed */
             if (!IS_WORD_ALIGNED(req->cur_data_ptr))
             {
-	        usb_dev_debug(req->dev, "\r\n\n------------------------------\r\nCOPY FROM DMA BUFFER.\r\n\n----------------------------\r\n\n");
-                memcpy(req->cur_data_ptr,
+	        usb_dev_debug(req->dev, "\r\nCOPY FROM DMA BUFFER.");
+                _clean_cache(); 
+		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);
@@ -1265,6 +1271,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         }
         else
         {
+            _clean_cache(); 
             /* Ignore transfer.size field for OUT transfers because it's not
              * updated sanely.  */
             if (packets_transferred > 1)
@@ -1280,6 +1287,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                 (req->attempted_size % max_packet_size != 0 ||
                  req->attempted_size == 0))
             {
+                _clean_cache(); 
                 bytes_transferred += req->attempted_size % max_packet_size;
             }
             else
