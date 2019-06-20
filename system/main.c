@@ -160,6 +160,8 @@ void print_os_info(void)
 	kprintf("           [0x%08X to 0x%08X]\r\n",
 			(ulong)platform.minaddr, (ulong)(platform.maxaddr - 1));
 
+	/* Output available data cache */
+	kprintf("%10d kilobytes L1 data cache.\r\n", platform.dcache_size);
 
 	kprintf("%10d bytes reserved system area.\r\n",
 			(ulong)_start - (ulong)platform.minaddr);

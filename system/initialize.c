@@ -17,6 +17,8 @@
 #include "../device/lan7800/lan7800.h"
 #endif
 
+#include "platforms/arm-rpi3/mmu.h"
+
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
@@ -73,10 +75,25 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
+	/* XXX Test for determining cache structure */
+	uint encoding = _getcacheinfo();
+	kprintf("\r\nCCSIDR: %032b\r\n", encoding);
+	// CCSIDR: 01110000000011111110000000011010
+	// According to Cortex A53 doc:
+	// [31] Write through		0
+	// [30] Write back		1
+	// [29] Read allocation		1
+	// [28] Write allocation	1
+	// [27:13] NumSets		127 == 0x7F
+	// [12:3] Associativity		3 (3-way assoc. cache?) (see sec 2.1.6 of a53 doc)
+	// 				Meaning, each set contains 3 cache lines.
+	// [2:0] Words per line         (log2 (0b010) - 2) = 16 words per cache line
+	// 				16 words * 32 bits each = 512 bits per cache line
+	// 				Cache representation: From 0 to 126 sets,
+	// 				Each set contains 3 * 512 bits of data cache = 1536 bits
+
 	/* Enable interrupts  */
 	enable();	
-
-	kprintf("\r\n[initialize.c] spawn main thread...\r\n");
 
 	/* Spawn the main thread  */
 	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES, CORE_ZERO);

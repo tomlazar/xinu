@@ -1,30 +1,13 @@
-//.equ	MMU_TABLE_BASE,	0x00004000
-
-/*
-.globl mmu_initialize
-mmu_initialize:
-	// Code adapted from Bare-metal Boot Code for ARMv8-A Processors v1.0
-	ldr	r0, =MMU_TABLE_BASE
-    ldr	r4, =0x00100000	// Increment value
-	ldr	r2, =0x00015C06	// Memory is shareable (p. 4861 of ARM ARM v8)
-	ldr	r3, =0x3F000000 // Peripherials start here
-
-memLoop:
-	str	r2, [r0], #4
-	add	r2, r4
-	cmp	r3, r2
-	bhi	memLoop
-
-	ldr	r2, =0x3F000C02	// Peripherials are non-cacheable device memory
-	ldr	r3, =0xFFF00000 // Stop here
-perLoop:
-	str	r2, [r0], #4
-	add	r2, r4
-	cmp	r3, r2
-	bhi	perLoop
-
-	ldr r0, =MMU_TABLE_BASE	// Re-load table base to start MMU
-*/
+/* mmu_util.S
+ * Contains assembly routines for cache maintenance on the ARM Cortex A53.
+ * Authors: Rade Latinovich and Patrick J. McGee
+ * Embedded Xinu, Copyright 2019
+ */
+.globl _getcacheinfo
+_getcacheinfo:
+	mrc	p15, 1, r0, c0, c0, 0	;@ Read CCSIDR 
+	//ldr     r0, [r0]
+	bx	lr
 
 .globl _flush_cache
 _flush_cache:
@@ -32,9 +15,8 @@ _flush_cache:
 	//mcr	p15, 0, r2, c8, c7, 0	;@ Invalidate unified tlb
 	//mcr	p15, 0, r2, c7, c1, 0	;@ Invalidate all i caches inner shareable to PoU
 	
-	//mcr	p15, 0, r2, c7, c5, 0	;@ Flush instruction cache
-	mcr	p15, 0, r2, c7, c6, 0	;@ Flush data cache
-	dsb
+	mcr	p15, 0, r2, c7, c10, 1	;@ Flush data cache by VA to PoC
+	mcr	p15, 0, r2, c7, c10, 2	;@ Flush data cache set/way
 	
 	bx	lr
 

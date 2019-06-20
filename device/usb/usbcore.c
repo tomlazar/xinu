@@ -66,6 +66,7 @@
 #include <usb_hub_driver.h>
 #include <usb_std_defs.h>
 #include <usb_subsystem.h>
+#include "../system/platforms/arm-rpi3/mmu.h"
 
 /** Maximum number of simultaneous USB devices supported.  */
 #define MAX_NUSBDEV 32
@@ -399,6 +400,7 @@ usb_control_msg(struct usb_device *dev,
                 uint8_t bRequest, uint8_t bmRequestType,
                 uint16_t wValue, uint16_t wIndex, void *data, uint16_t wLength)
 {
+    _flush_cache();
     usb_status_t status;
     struct usb_xfer_request *req;
     semaphore sem;
@@ -479,6 +481,8 @@ usb_get_descriptor(struct usb_device *dev, uint8_t bRequest, uint8_t bmRequestTy
 {
     usb_status_t status;
     uint16_t len;
+
+    _flush_cache();
 
     if (buflen > sizeof(struct usb_descriptor_header))
     {
