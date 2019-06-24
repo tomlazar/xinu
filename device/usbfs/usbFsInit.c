@@ -47,8 +47,14 @@ devcall usbFsInit(device *devptr)
     }
 
     /* Allocate USB transfer request for keyboard data.  */
-    fs->intr = usb_alloc_xfer_request(8);
+    fs->intr = usb_alloc_xfer_request(512);
     if (NULL == fs->intr)
+    {
+        goto err_semfree;
+    }
+
+    fs->outr = usb_alloc_xfer_request(512);
+    if (NULL == fs->outr) 
     {
         goto err_semfree;
     }

@@ -35,7 +35,7 @@ devcall usbFsGetc(device *devptr);
 devcall usbFsInit(device *devptr);
 devcall usbFsPutc(device *devptr, char ch);
 devcall usbFsWrite(device *devptr, void *buf, uint len);
-//void    usbFsInterrupt(struct usb_xfer_request *req);
+void    usbFsInterrupt(struct usb_xfer_request *req);
 devcall usbFsRead(device *devptr, void *buf, uint len);
 
 usb_status_t usbFsBindDevice(struct usb_device *dev);
@@ -56,6 +56,7 @@ struct usbfs {
     uchar in[USBFS_IBLEN];
     uchar out[USBFS_OBLEN];
     struct usb_xfer_request *intr;
+    struct usb_xfer_request *outr;
 
     uchar recent_usage_ids[6];
 };

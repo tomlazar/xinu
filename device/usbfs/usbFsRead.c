@@ -32,8 +32,7 @@ devcall usbFsRead(device *devptr, void *buf, uint len)
     im = disable();
     fs = &usbfstab[devptr->minor];
 
-
-    /* Make sure usbKbdInit() has run.  */
+    /* Make sure usbFsInit() has run.  */
     if (!fs->initialized)
     {
         restore(im);
@@ -44,20 +43,23 @@ devcall usbFsRead(device *devptr, void *buf, uint len)
     USBFS_TRACE("Attempting to read %u bytes from filesystem", len);
     for (count = 0; count < len; count++)
     {
-        /* If the keyboard is in non-blocking mode, ensure there is a byte
+        /* If the filesystem is in non-blocking mode, ensure there is a byte
          * available in the input buffer from the interrupt handler.  If not,
          * return early with a short count.  */
         if ((fs->iflags & USBFS_IFLAG_NOBLOCK) && fs->icount == 0)
         {
+	    USBFS_TRACE("No bytes available in the input buffer from interrupt handler");
             break;
         }
 
         /* Wait for there to be at least one byte in the input buffer from the
          * interrupt handler, then remove it.  */
+	USBFS_TRACE("Waiting for at least one bytes in the input buffer");
         wait(fs->isema);
         ((uchar*)buf)[count] = fs->in[fs->istart];
         fs->icount--;
         fs->istart = (fs->istart + 1) % USBFS_IBLEN;
+	USBFS_TRACE("Received a byte");
     }
 
     /* Restore interrupts and return the number of bytes read.  */
