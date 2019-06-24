@@ -768,8 +768,6 @@ dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
     uint next_frame;
     irqmask im;
 
-    _flush_cache();
-
     im = disable();
 
     /* Clear pending interrupts.  */
@@ -832,8 +830,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     union dwc_host_channel_transfer transfer;
     void *data;
 
-    _flush_cache();
-
     chanptr = &regs->host_channels[chan];
     characteristics.val = 0;
     split_control.val = 0;
@@ -887,8 +883,9 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
             case 1: /* DATA phase of control transfer */
                 usb_dev_debug(req->dev, "Starting DATA transactions\r\n");
+		//dump_cache_tags();
 		_flush_cache();
-                characteristics.endpoint_direction =
+		characteristics.endpoint_direction =
                                         req->setup_data.bmRequestType >> 7;
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
@@ -994,7 +991,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
 
     /* Set up DMA buffer.  */
-   _flush_cache();
 
     if (IS_WORD_ALIGNED(data))
     {
@@ -1028,7 +1024,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
      * alternate buffer was selected above).  */
-    _flush_cache();
     req->cur_data_ptr = data;
 
     /* Calculate the number of packets being set up for this transfer.  */
@@ -1236,7 +1231,6 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
     /* The hardware seems to update transfer.packet_count as expected, so we can
      * look at it before deciding whether to use transfer.size (which is not
      * always updated as expected).  */
-    _flush_cache(); 
     
     uint packets_remaining   = chanptr->transfer.packet_count;
     uint packets_transferred = req->attempted_packets_remaining -

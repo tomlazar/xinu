@@ -5,27 +5,99 @@
  */
 .globl _getcacheinfo
 _getcacheinfo:
-	mrc	p15, 1, r0, c0, c0, 0	;@ Read CCSIDR 
-	//ldr     r0, [r0]
+	mrc	p15, 1, r0, c0, c0, 0	;@ Read CCSIDR into r0
+	bx	lr
+
+.globl _getcachemaint
+_getcachemaint:
+	mrc	p15, 0, r0, c0, c1, 7	;@ Read ID_MMFR3 (32 bit) into r0
 	bx	lr
 
 .globl _flush_cache
 _flush_cache:
-	mov	r2, #0			;@ Flush entire cache by transferring a zero
-	//mcr	p15, 0, r2, c8, c7, 0	;@ Invalidate unified tlb
-	//mcr	p15, 0, r2, c7, c1, 0	;@ Invalidate all i caches inner shareable to PoU
+
+	/* ARM cortex A53 uses PIPT (physically indexed, physically tagged) caches.
+	 * Therefore, these have to be looked up by physical address.
+	 * Since we don't really care about efficiency here, cache misses are OK.
+         * This function goes through the entire cached memory and cleans (flushes) it. */
+
+	mov	r0, #0			      ;@ Start at zero
+cloop:	
+	MCR     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way (cache line memory location held by r0)
+	//MCR     p15, 0, r0, c8, c7, 0         ;@ Clean and flush the line (TLB)
+	ADD	r0, r0, #0x10                 ;@ Increment by 64 bytes (segment is 16 words, 16*4=64 bytes
+	CMP	r0, #0x3F000000
+	BNE     cloop                         ;@ If not branch back to cloop
+					      ;@ End of routine	
+	bx	lr
+
+
+.globl _dump_dr0
+_dump_dr0:
+	mcr	p15, 3, r0, c15, c2, 0
+	mrc	p15, 3, r0, c15, c0, 0
+	bx	lr
+
+.globl _dump_dr1
+_dump_dr1:
+	mcr	p15, 3, r0, c15, c2, 0
+	mrc	p15, 3, r0, c15, c0, 1
+	bx	lr
+
+
+.globl _flush_cache_old
+_flush_cache_old:
 	
-	mcr	p15, 0, r2, c7, c10, 1	;@ Flush data cache by VA to PoC
-	mcr	p15, 0, r2, c7, c10, 2	;@ Flush data cache set/way
+	MOV     r1, #0                        ;@ Initialize segment counter outer_loop
+outer_loop:
+	MOV     r0, #0                        ;@ Initialize line counter inner_loop
+inner_loop:	
+	//ORR     r2, r1, r0                    ;@ Generate segment and line address
+	MCR     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way (line location held by r0)
+	MCR     p15, 0, r0, c8, c7, 0        ;@ Clean and flush the line (TLB)
+	ADD     r0, r0, #0x200                ;@ Increment to next line
+	CMP     r0, #0x800                    ;@ Complete all entries in one segment?
+	BNE     inner_loop                    ;@ If not branch back to inner_loop
+	ADD     r1, r1, #1                    ;@ Increment segment
+	CMP     r1, #127                      ;@ Complete all segments? (127 total)
+	//add	r1, 0x200000000
+	//cmp	r1, 0x0
+	BNE     outer_loop                    ;@ If not branch back to outer_loop
+					     ;@ End of routine	
+	bx	lr
+
+.globl _clean_cache
+_clean_cache:
 	
+	mov r4, #0
+	mov r6, #0
+	mov r8, #1
+	lsl r0, r4, #5		;@ Way iterator (r0)
+way_loop:
+	lsl r1, r6, #30		;@ Line iterator (r1)
+line_loop:
+	orr r2, r1, r0
+	mcr p15, 0, r2, c7, c10, 2	
+
+	lsl r9, r8, #30
+	add r1, r1, r9		;@ Add (1<<30) to r1 (line iteration)
+	cmp r1, #0		;@ If not zero, iterate again
+	bne line_loop
+
+	lsl r10, r8, #5
+	add r0, r0, r10		;@ Else, increment way (r0)
+	lsl r11, r8, #13
+	cmp r0, r11		;@ If way complete, go to next way
+	bne way_loop
+
 	bx	lr
 
 .globl start_mmu
 start_mmu:
 	mov	r2, #0
-	mcr	p15, 0, r2, c7, c1, 0	;@ invalidate all i caches inner shareable to PoU
-	mcr	p15, 0, r2, c7, c5, 0	;@ invalidate all i caches to PoU
-	mcr	p15, 0, r2, c7, c6, 1	;@ invalidate d cache line by VA to PoC
+	mcr	p15, 0, r2, c7, c1, 0	;@ invalidate all instruction caches inner shareable to PoU (point of unification)
+	mcr	p15, 0, r2, c7, c5, 0	;@ invalidate all instruction caches to PoU
+	mcr	p15, 0, r2, c7, c6, 1	;@ invalidate d cache line by VA (virtually addressed cache) to PoC (point of coherence
 	mcr	p15, 0, r2, c7, c6, 2	;@ invalidate d cache line by set/way
 	mcr	p15, 0, r2, c8, c7, 0	;@ invalidate tlb	/* invalidate unified TLB	*/
 	dsb
