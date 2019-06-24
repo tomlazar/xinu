@@ -32,7 +32,8 @@ thread main(void)
 	/* Print information about the operating system  */
 	print_os_info();
 
-//#define NETHER 0
+//XXX Temporarily disable LAN device until USB transfers are solved.
+#define NETHER 0
 	        /* Open all ethernet devices */
 #if NETHER
 		struct ether *ethptr;

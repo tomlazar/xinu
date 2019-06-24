@@ -1,32 +1,17 @@
 /**
- * @file     xsh_test.c
+ * @file testcases.c
+ * @provides testcases
+ *
+ *
+ * Modified by:	
+ *
+ * TA-BOT:MAILTO 
  *
  */
-/* Embedded Xinu, Copyright (C) 2009.  All rights reserved. */
+/* Embedded XINU, Copyright (C) 2007.  All rights reserved. */
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <shell.h>
-#include <string.h>
-#include <ctype.h>
-#include <clock.h>
-#include <testsuite.h>
-#include <device.h>
-#include <uart.h>
+#include <xinu.h>
 
-/**
- * @ingroup shell
- *
- * Shell command (test) provides a mechanism for testing Xinu features.  The
- * action and output varies depending on the feature currently being tested.
- * This is not meant to serve as a permanent shell command for a particular
- * action.
- * @param nargs number of arguments
- * @param args  array of arguments
- * @return non-zero value on error
- */
 /**
  * Prints the contents of the specified queue
  */
@@ -131,7 +116,10 @@ testprocG(pid_typ pid)
 }
 
 
-shellcmd xsh_test(int nargs, char *args[])
+/**
+ * testcases - called after initialization completes to test things.
+ */
+void testcases(void)
 {
 	uchar c;
 	pid_typ pid, pid2;

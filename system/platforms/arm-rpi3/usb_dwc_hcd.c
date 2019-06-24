@@ -884,7 +884,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
             case 1: /* DATA phase of control transfer */
                 usb_dev_debug(req->dev, "Starting DATA transactions\r\n");
 		//dump_cache_tags();
-		_flush_cache();
+		//_flush_cache();
 		characteristics.endpoint_direction =
                                         req->setup_data.bmRequestType >> 7;
                 /* We need to carefully take into account that we might be
