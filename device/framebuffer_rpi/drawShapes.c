@@ -16,7 +16,14 @@
 #endif
 
 
-/* Draws a colored pixel at given (x, y) coordinates. */
+/** 
+ * @ingroup framebuffer
+ *
+ * Draws a colored pixel at given (x, y) coordinates. 
+ * @param x	x-coordinate of pixel
+ * @param y	y-coordinate of pixel
+ * @param color	color of pixel
+ */
 
 void drawPixel(int x, int y, ulong color)
 {
@@ -36,8 +43,17 @@ void drawPixel(int x, int y, ulong color)
     }
 }
 
-/* Line drawing based on Bresenham's Algorithm so that we don't need
- * to mess with division or decimals. */
+/**
+ * @ingroup framebuffer
+ *
+ * Line drawing based on Bresenham's Algorithm. So that we don't need
+ * to mess with division or decimals. 
+ * @param x1	starting x-coordinate of line
+ * @param y1	starting y-coordinate of line
+ * @param x2	ending x-coordinate of line
+ * @param y2	ending y-coordinate of line
+ * @param color	color of line
+ */
 void drawLine(int x1, int y1, int x2, int y2, ulong color)
 {
 	int deltax, stepx, deltay, stepy, error;
@@ -69,7 +85,16 @@ void drawLine(int x1, int y1, int x2, int y2, ulong color)
 	}
 }
 
-/* Modified drawLine specifically for turtle graphics */
+/** 
+ * @ingroup framebuffer
+ *
+ * Modified drawLine specifically for turtle graphics 
+ * @param x1	starting x-coordinate
+ * @param y1	starting y-coordinate
+ * @param x2	ending x-coordinate
+ * @param y2	ending y-coordinate
+ * @param color	color of line
+ */
 void drawSegment(int x1, int y1, int x2, int y2, ulong color)
 {
     int deltax, stepx, deltay, stepy, error, i;
@@ -107,6 +132,16 @@ void drawSegment(int x1, int y1, int x2, int y2, ulong color)
 	}
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Draws a rectangle outline TODODC better description
+ * @param x1	upper left hand corner x-coordinate
+ * @param y1	upper left hand corner y-coordinate
+ * @param x2	lower right hand corner x-coordinate
+ * @param y2	lower right hand corner y-coordinate
+ * @param color	color of rectangle
+ */
 void drawRect(int x1, int y1, int x2, int y2, ulong color) {
 	drawLine(x1, y1, x2, y1, color);
 	drawLine(x1, y2, x2, y2, color);
@@ -114,6 +149,17 @@ void drawRect(int x1, int y1, int x2, int y2, ulong color) {
 	drawLine(x1, y1, x1, y2, color);
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Draws a filled in ractangle TODODOC better description
+ * @param x1		upper left hand corner x-coordinate
+ * @param y1		upper left hand corner y-coordinate
+ * @param x2		lower right hand corner x-coordinate
+ * @param y2		lower right hand corner y-coordinate
+ * @param color		color of rectangle
+ * @param gradient	true if rectangle has a gradient; false if not
+ */
 void fillRect(int x1, int y1, int x2, int y2, ulong color, bool gradient) {
 	int iterations;
 	if ( (x2 - x1) > (y2 - y1) )
@@ -128,9 +174,16 @@ void fillRect(int x1, int y1, int x2, int y2, ulong color, bool gradient) {
 	drawRect(x1, y1, x2, y2, color);
 }
 
-/* Midpoint Circle Algorithm calculation of a circle.
- * Based on "x^2 + y^2 = r^2" */
-
+/**
+ * @ingroup framebuffer
+ *
+ * Midpoint Circle Algorithm calculation of a circle.
+ * Based on "x^2 + y^2 = r^2" 
+ * @param x0		x-coordinate of circle center
+ * @param y0		y-coordinate of circle center
+ * @param radius	radius of circle
+ * @param color		color of circle
+ */
 void drawCircle (int x0, int y0, int radius, ulong color)
 {
     int x = radius, y = 0;
@@ -157,6 +210,16 @@ void drawCircle (int x0, int y0, int radius, ulong color)
   	}
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Draws a filled in circle TODODC better description
+ * @param x0		x-coordinate of circle center
+ * @param y0		y-coordinate of circle center
+ * @param radius	radius of circle
+ * @param color		color of circle
+ * @param gradient	true if circle has a gradient; false if not
+ */
 void fillCircle (int x0, int y0, int radius, ulong color, bool gradient) {
 	int rad = radius;
 	while (rad != 0) {
@@ -166,7 +229,15 @@ void fillCircle (int x0, int y0, int radius, ulong color, bool gradient) {
 	}
 }
 
-/* Turtle graphics specific circle functions */
+/** 
+ * @ingroup framebuffer
+ *
+ * Turtle graphics specific circle functions 
+ * @param x0		x-coordinate of circle center
+ * @param y0		y-coordinate of circle center
+ * @param radius	radius of circle
+ * @param color		color of circle
+ */
 void drawBody (int x0, int y0, int radius, ulong color)
 {
     int x = radius, y = 0;
@@ -214,6 +285,16 @@ void drawBody (int x0, int y0, int radius, ulong color)
   	}
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Draws filled in circle
+ * @param x0		x-coordinate of circle center
+ * @param y0		y-coordinate of circle center
+ * @param radius	radius of circle
+ * @param color		color of circle
+ * @param gradient	true if circle has a gradient; false if not
+ */
 void fillBody (int x0, int y0, int radius, ulong color, bool gradient) {
 	int rad = radius;
 	while (rad != 0) {

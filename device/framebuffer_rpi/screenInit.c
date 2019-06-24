@@ -25,7 +25,12 @@ int pitch;
 bool screen_initialized;
 volatile unsigned int  __attribute__((aligned(16))) mbox[36];
 
-/* Make a mailbox call. Returns SYSERR on failure, non-zero on success */
+/**
+ * @ingroup framebuffer
+ *
+ * Make a mailbox call. Returns SYSERR on failure, non-zero on success 
+ * @param ch	TODODOC
+ */
 int mbox_call(unsigned char ch)
 {
 	unsigned int r = (((unsigned int)((unsigned long)&mbox)&~0xF) | (ch&0xF));
@@ -45,7 +50,11 @@ int mbox_call(unsigned char ch)
 	return SYSERR;
 }
 
-/* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
+/**
+ * @ingroup framebuffer
+ *
+ * Calls framebufferInit() several times to ensure we successfully initialize, just in case. 
+ */
 void screenInit() {
 	int i = 0;
 	while (framebufferInit() == SYSERR) {
@@ -61,7 +70,12 @@ void screenInit() {
 	screen_initialized = TRUE;
 }
 
-/* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
+/**
+ * @ingroup framebuffer
+ *
+ * Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. 
+ * @return TODODOC what returns when
+ */
 int framebufferInit() {
 	//GPU expects this struct to be 16 byte aligned
 
@@ -140,7 +154,12 @@ int framebufferInit() {
 	return OK;
 }
 
-/* Very heavy handed clearing of the screen to a single color. */
+/** 
+ * @ingroup framebuffer
+ *
+ * Very heavy handed clearing of the screen to a single color. 
+ * @param color	TODODOC
+ */
 void screenClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress);
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
@@ -150,7 +169,12 @@ void screenClear(ulong color) {
 	}
 }
 
-/* Clear the minishell window */
+/** 
+ * @ingroup framebuffer
+ *
+ * Clear the minishell window
+ * @param color	TODODOC
+ */
 void minishellClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress + (pitch * (DEFAULT_HEIGHT - (MINISHELLMINROW * CHAR_HEIGHT))) +  (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
@@ -160,7 +184,11 @@ void minishellClear(ulong color) {
 	}
 }
 
-/* Clear the "linemapping" array used to keep track of pixels we need to remember */
+/** 
+ * @ingroup framebuffer
+ *
+ * Clear the "linemapping" array used to keep track of pixels we need to remember 
+ */
 void initlinemap() {
 	int i = MAPSIZE;
 	while (i != 0) {
