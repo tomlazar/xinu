@@ -1,7 +1,22 @@
+/**
+ * @file mmu.c
+ *
+ * TODODOC description and authors (optional)
+ */
+/* Embedded Xinu, Copyright (C) 2009. All rights reserved */
+
 #include <mmu.h>
 #include <mutex.h>
 
-/* code from Github user dwelch67 */
+/**
+ * @ingroup bcm2837
+ *
+ * code from Github user dwelch67 
+ * @param vadd	TODODOC
+ * @param padd	
+ * @param flags	
+ * @return TODODOC
+ */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
 {
 	unsigned int ra, rb, rc;
@@ -14,8 +29,12 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 	return 0;	
 }
 
-/* mmu_init() configures virtual address == physical address */
-/* also configures memory to be cacheable, except for peripheral portion */
+/**
+ * @ingroup bcm2837
+ *
+ * mmu_init() configures virtual address == physical address
+ * also configures memory to be cacheable, except for peripheral portion 
+ */
 void mmu_init()
 {
 	unsigned int ra;
