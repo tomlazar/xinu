@@ -13,8 +13,17 @@
 #include <string.h>
 #include "lan7800.h"
 
-/* Implementation of etherControl() for the LAN7800 device; see the documentation for
- * this function in ether.h.  */
+/* 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherControl() for the LAN7800 device; see the documentation for
+ * this function in ether.h.  
+ * @param devptr	TODODOC desc. all params!
+ * @param req		
+ * @param arg1
+ * @param arg2
+ * @return TODODOC when does it return what
+ */
 devcall etherControl(device *devptr, int req, long arg1, long arg2)
 {
     struct usb_device *udev;
