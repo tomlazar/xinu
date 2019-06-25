@@ -504,6 +504,7 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
     {
         case USB_DEVICE_REQUEST_GET_STATUS:
             len = min(setup->wLength, sizeof(root_hub_device_status));
+	     _flush_cache();
             memcpy(req->recvbuf, &root_hub_device_status, len);
             req->actual_size = len;
             return USB_STATUS_SUCCESS;
@@ -516,12 +517,14 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
             {
                 case USB_DESCRIPTOR_TYPE_DEVICE:
                     len = min(setup->wLength, root_hub_device_descriptor.bLength);
+		    _flush_cache();
                     memcpy(req->recvbuf, &root_hub_device_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
                 case USB_DESCRIPTOR_TYPE_CONFIGURATION:
                     len = min(setup->wLength,
                               root_hub_configuration.configuration.wTotalLength);
+		    _flush_cache();
                     memcpy(req->recvbuf, &root_hub_configuration, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
@@ -532,6 +535,7 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
                         const struct usb_string_descriptor *desc =
                                 root_hub_strings[setup->wValue & 0xff];
                         len = min(setup->wLength, desc->bLength);
+			_flush_cache();
                         memcpy(req->recvbuf, desc, len);
                         req->actual_size = len;
                         return USB_STATUS_SUCCESS;
@@ -543,6 +547,7 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
         case USB_DEVICE_REQUEST_GET_CONFIGURATION:
             if (setup->wLength >= 1)
             {
+		_flush_cache();
                 *(uint8_t*)req->recvbuf = req->dev->configuration;
                 req->actual_size = 1;
             }
@@ -645,6 +650,7 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                 case USB_DESCRIPTOR_TYPE_HUB:
                     /* GetHubDescriptor (11.24.2) */
                     len = min(setup->wLength, root_hub_hub_descriptor.bDescLength);
+		    _flush_cache();
                     memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
@@ -667,6 +673,7 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                     /* GetPortStatus (11.24.2) */
                     if (setup->wLength >= sizeof(struct usb_port_status))
                     {
+			_flush_cache();
                         memcpy(req->recvbuf, &host_port_status,
                                sizeof(struct usb_port_status));
                         req->actual_size = sizeof(struct usb_port_status);
@@ -761,6 +768,7 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
 static void
 dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
 {
+    _flush_cache();
     volatile struct dwc_host_channel *chanptr = &regs->host_channels[chan];
     union dwc_host_channel_split_control split_control;
     union dwc_host_channel_characteristics characteristics;
@@ -871,10 +879,12 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
      * transfer must be taken into account.  */
     if (characteristics.endpoint_type == USB_TRANSFER_TYPE_CONTROL)
     {
+	_flush_cache();
         switch (req->control_phase)
         {
             case 0: /* SETUP phase of control transfer */
                 usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
+		_flush_cache();
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
                 data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
@@ -883,7 +893,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
             case 1: /* DATA phase of control transfer */
                 usb_dev_debug(req->dev, "Starting DATA transactions\r\n");
-		//dump_cache_tags();
 		_flush_cache();
 		characteristics.endpoint_direction =
                                         req->setup_data.bmRequestType >> 7;
@@ -935,6 +944,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* As is the case for the DATA phase of control transfers, we need to
          * carefully take into account that we might be restarting a partially
          * complete transfer.  */
+	_flush_cache();
         data = req->recvbuf + req->actual_size;
         transfer.size = req->size - req->actual_size;
         /* This hardware does not accept interrupt transfers started with more
@@ -991,6 +1001,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
 
     /* Set up DMA buffer.  */
+    _flush_cache();
 
     if (IS_WORD_ALIGNED(data))
     {
@@ -1006,6 +1017,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
+	_flush_cache();
         chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
@@ -1017,15 +1029,18 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
+    	    _flush_cache();
             memcpy(aligned_bufs[chan], data, transfer.size);
         }
     }
 
+    _flush_cache();
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
      * alternate buffer was selected above).  */
     req->cur_data_ptr = data;
 
+    _flush_cache();
     /* Calculate the number of packets being set up for this transfer.  */
     transfer.packet_count = DIV_ROUND_UP(transfer.size,
                                          characteristics.max_packet_size);
@@ -1038,6 +1053,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
     /* Remember the actual size and number of packets we are attempting to
      * transfer.  */
+    _flush_cache();
     req->attempted_size = transfer.size;
     req->attempted_bytes_remaining = transfer.size;
     req->attempted_packets_remaining = transfer.packet_count;
@@ -1074,6 +1090,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
      * the next code executed to process this transfer will be in
      * dwc_handle_channel_halted_interrupt() after the Host Controller has
      * issued an interrupt regarding this channel.  */
+    _flush_cache();
     dwc_channel_start_transaction(chan, req);
 }
 
@@ -1091,6 +1108,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 static thread
 defer_xfer_thread(struct usb_xfer_request *req)
 {
+    _flush_cache();
     uint interval_ms;
     uint chan;
 
@@ -1228,6 +1246,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 {
     volatile struct dwc_host_channel *chanptr = &regs->host_channels[chan];
 
+    _flush_cache();
     /* The hardware seems to update transfer.packet_count as expected, so we can
      * look at it before deciding whether to use transfer.size (which is not
      * always updated as expected).  */
@@ -1250,6 +1269,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 
         /* Calculate number of bytes transferred and copy data from DMA
          * buffer if needed.  */
+	_flush_cache();
 
         if (dir == USB_DIRECTION_IN)
         {
@@ -1262,6 +1282,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             if (!IS_WORD_ALIGNED(req->cur_data_ptr))
             {
 	        usb_dev_debug(req->dev, "\r\nCOPY FROM DMA BUFFER.");
+		_flush_cache();
 		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
@@ -1270,6 +1291,8 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         }
         else
         {
+	    	
+	    _flush_cache();
             /* Ignore transfer.size field for OUT transfers because it's not
              * updated sanely.  */
             if (packets_transferred > 1)
@@ -1296,6 +1319,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         usb_dev_debug(req->dev, "Calculated %u bytes transferred\r\n",
                       bytes_transferred);
 
+	_flush_cache();
         /* Account for packets and bytes transferred  */
         req->attempted_packets_remaining -= packets_transferred;
         req->attempted_bytes_remaining -= bytes_transferred;
@@ -1339,6 +1363,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                 req->next_data_pid = chanptr->transfer.packet_id;
                 if (!usb_is_control_request(req) || req->control_phase == 1)
                 {
+		    _flush_cache();
                     req->actual_size = req->cur_data_ptr - req->recvbuf;
                 }
                 return XFER_NEEDS_RESTART;
@@ -1357,6 +1382,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                  * data phase.  */
                 if (req->control_phase == 1)
                 {
+		    _flush_cache();
                     req->actual_size = req->cur_data_ptr - req->recvbuf;
                 }
 
@@ -1450,6 +1476,19 @@ dwc_handle_channel_halted_interrupt(uint chan)
     {
         /* An error occurred.  Complete the transfer immediately with an error
          * status.  */
+	usb_dev_debug(req->dev, "\r\n[DUMP ERROR INFO]\tinterrupts.stall_response_received: %u"
+			"\tinterrupts.ahb_error: %u"
+			"\tinterrupts.transaction_error: %u"
+			"\r\n\tinterrupts.babble_error: %u\t"
+			"interrupts.excess_transaction_error: %u"
+			"\tinterrupts.frame_list_rollover: %u\r\n"
+			"\t(interrupts.nyet_response_received && !req->complete_split): %u"
+			"\t(interrupts.data_toggle_error && chanptr->characteristics.endpoint_direction == USB_DIRECTION_OUT): %u\r\n", interrupts.stall_response_received, interrupts.ahb_error,
+						interrupts.transaction_error,  interrupts.babble_error, interrupts.excess_transaction_error, interrupts.frame_list_rollover,
+						(interrupts.nyet_response_received && !req->complete_split),
+						(interrupts.data_toggle_error &&
+						chanptr->characteristics.endpoint_direction == USB_DIRECTION_OUT));
+
         usb_dev_error(req->dev, "Transfer error on channel %u "
                       "(interrupts pending: 0x%08x, packet_count=%u)\r\n",
                       chan, interrupts.val, chanptr->transfer.packet_count);
@@ -1491,7 +1530,6 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
-	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1543,6 +1581,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
      * and aren't on the DATA phase.  */
     if (!usb_is_control_request(req) || req->control_phase == 1)
     {
+	_flush_cache();
         req->actual_size = req->cur_data_ptr - req->recvbuf;
     }
 
@@ -1628,6 +1667,8 @@ dwc_interrupt_handler(void)
         uint32_t chintr;
         uint chan;
 
+	_flush_cache();
+
         /* A bit in the "Host All Channels Interrupt Register" is set if an
          * interrupt has occurred on the corresponding host channel.  Process
          * all set bits.  */
@@ -1643,6 +1684,7 @@ dwc_interrupt_handler(void)
     {
         /* Status of the host port changed.  Update host_port_status.  */
 
+	_flush_cache();
         union dwc_host_port_ctrlstatus hw_status = regs->host_port_ctrlstatus;
 
         usb_debug("Port interrupt detected: host_port_ctrlstatus=0x%08x\r\n",

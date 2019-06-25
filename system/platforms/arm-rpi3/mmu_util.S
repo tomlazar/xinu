@@ -16,21 +16,60 @@ _getcachemaint:
 .globl _flush_cache
 _flush_cache:
 
-	/* ARM cortex A53 uses PIPT (physically indexed, physically tagged) caches.
-	 * Therefore, these have to be looked up by physical address.
-	 * Since we don't really care about efficiency here, cache misses are OK.
-         * This function goes through the entire cached memory and cleans (flushes) it. */
+	/* From Cortex A53 page 330:
+		The ARMv8-A architecture does not support an operation to invalidate the
+entire data cache. If this function is required in software, it must be
+constructed by iterating over the cache geometry and executing a series of
+individual invalidate by set/way instructions.
+The Cortex-A53 processor automatically invalidates caches on reset
+unless suppressed with the DBGL1RSTDISABLE or L2RSTDISABLE
+pins. It is therefore not necessary for software to invalidate the caches on
+startup.
+	*/
 
-	mov	r0, #0			      ;@ Start at zero
-cloop:	
-	MCR     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way (cache line memory location held by r0)
-	//MCR     p15, 0, r0, c8, c7, 0         ;@ Clean and flush the line (TLB)
-	ADD	r0, r0, #0x10                 ;@ Increment by 64 bytes (segment is 16 words, 16*4=64 bytes
-	CMP	r0, #0x3F000000
-	BNE     cloop                         ;@ If not branch back to cloop
-					      ;@ End of routine	
+	mcr     p15, 0, r0, c8, c6, 0         ;@ Invalidate entire data TLB
+	mov	r0, #0x0		      ;@ Start at zero for first cache section (way)
+sec1:	
+	mcr     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way (cache line index held by r0)
+	mcr     p15, 0, r0, c7, c6, 2         ;@ Invalidate the line by set/way
+	add	r0, r0, #0x10                 ;@ Increment by 64 bytes (segment is 16 words, 16*4=64 bytes)
+	cmp	r0, #0x1FC0		      ;@ Reached end of set (bits [12:6])
+	bne     sec1                          ;@ If not branch back to set1
+
+	movt	r0, #0x4000		      ;@ Use movw and movt to load the full 32-bit constant
+	movw	r0, #0x0000		      ;@ Start at 0x40000000 for second cache section (way)
+sec2:
+	mcr     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way
+	mcr     p15, 0, r0, c7, c6, 2         ;@ Invalidate the line by set/way
+	add	r0, r0, #0x10                 ;@ Increment to next line
+
+	and	r1, r0, #0xBFFFFFFF	      ;@ Clear top way bit because we're checking the lower 16 set bits, for 1FC0
+	cmp	r1, #0x1FC0		      ;@ Reached end of set (bits [12:6])
+	bne     sec2                          ;@ If not branch back to sec2
+
+	movt	r0, #0x8000
+	movw	r0, #0x0000		      ;@ Start at 0x80000000 for third way
+sec3:
+	mcr     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way
+	mcr     p15, 0, r0, c7, c6, 2         ;@ Invalidate the line by set/way
+	add	r0, r0, #0x10                 ;@ Increment to next line
+	
+	and	r1, r0, #0x1FFFFFFF
+	cmp	r1, #0x1FC0		      ;@ Reached end of set (bits [12:6])
+	bne     sec3                          ;@ If not branch back to sec3
+
+	movt	r0, #0xC000
+	movw	r0, #0x0000		      ;@ Start at 0xC0000000 for fourth way
+sec4:
+	mcr     p15, 0, r0, c7, c10, 2        ;@ Clean and flush the line by set/way
+	mcr     p15, 0, r0, c7, c6, 2         ;@ Invalidate the line by set/way
+	add	r0, r0, #0x10                 ;@ Increment to next line
+	
+	and	r1, r0, #0x3FFFFFFF
+	cmp	r1, #0x1FC0		      ;@ Reached end of set (bits [12:6])
+	bne     sec4                          ;@ If not branch back to sec4
+
 	bx	lr
-
 
 .globl _dump_dr0
 _dump_dr0:
