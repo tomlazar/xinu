@@ -27,369 +27,151 @@
  * @param args  array of arguments
  * @return non-zero value on error
  */
-/**
- * Prints the contents of the specified queue
- */
-void
-ostest_printQueue(qid_typ q)
+
+struct thrent *ppcb = NULL;
+int testmain(int argc, char **argv)
 {
-	short head, tail, next, extent;
-	kprintf("Queue(0x%08X) =\r\n", q);
+	uint cpuid = getcpuid();
+	int i = 0;
+	kprintf("\r\n********=======********\r\n");
 
-	head = queuehead(q);
-	tail = queuetail(q);
-	next = head;
+	struct thrent *thr = &thrtab[thrcurrent[cpuid]];
 
-	extent = NQENT;
-
-	while ((next < NQENT) && (next != tail) && (extent))
+	for (i = 0; i < 10; i++)
 	{
-		kprintf("   [%3d|%3d:%3d]\r\n", next, queuetab[next].prev, queuetab[next].next);
-		next = queuetab[next].next;
-		extent--;
-	}
-	if (!extent)
-	{
-		kprintf("   ...Loop detected in Queue!\r\n");
-	}
-	else
-	{
-		kprintf("   [%3d|%3d:%3d]\r\n", tail, queuetab[tail].prev, queuetab[tail].next);
-	}
-}
+		kprintf("NAME: %s\tTID: %d\tCore: %d\r\n", thr->name, thrcurrent[cpuid], cpuid);
 
-/**
- * A test process for priority testing
- */
-int
-testprocE(void)
-{
-	/* print nothing, do nothing */
+		/* Uncomment the resched() line for cooperative scheduling. */
+		//resched();
+	}
 	return 0;
 }
 
-/**
- * Print the pid of a process
- * @param times the number of repititions
- */
-int
-printTestPid(int times)
+void printpcb(int pid)
 {
-	int i = 0;
-	uint cpuid = getcpuid();
+	struct thrent *ppcb = NULL;
 
-	for (i = 0; i < times; i++)
+	/* Using the process ID, access it in the PCB table. */
+	ppcb = &thrtab[pid];
+
+	/* Printing PCB */
+	kprintf("Process name		  : %s \r\n", ppcb->name);
+
+	switch (ppcb->state)
 	{
-		kprintf("This is process %d \r\n", currpid[cpuid]);
-
-		resched();
+		case THRFREE:
+			kprintf("State of the process	  : FREE \r\n");
+			break;
+		case THRCURR:
+			kprintf("State of the process 	  : CURRENT \r\n");
+			break;
+		case THRSUSP:
+			kprintf("State of the process	  : SUSPENDED \r\n");
+			break;
+		case THRREADY:
+			kprintf("State of the process	  : READY \r\n");
+			break;
+		default:
+			kprintf("ERROR: Process state not correctly set!\r\n");
+			break;
 	}
+
+	/* Print PCB contents and registers */
+	kprintf("Base of run time stack    : 0x%08X \r\n", ppcb->stkbase);
+	kprintf("Stack length of process   : %8u \r\n", ppcb->stklen);
 }
-
-/**
- * Create two simple processes and run them.
- * If process B gets to run, it was not starved,
- * and aging has been implemented successfully.
- */
-void
-testStarvation(void)
-{
-	ready(create((void *) printTestPid, INITSTK, PRIORITY_MED , "PROCESS-A", 1, 10), 0, 0);
-	ready(create((void *) printTestPid, INITSTK, PRIORITY_LOW , "PROCESS-B", 1,  5), 0, 0);
-}
-
-/**
- * testprocF and G are used for testing preemption
- */
-void
-testprocF(void)
-{
-	uint cpuid = getcpuid();
-
-	enable();
-	kprintf("Process %d never yields.\r\n", currpid[cpuid]);
-	while (TRUE)
-		;
-}
-
-void
-testprocG(pid_typ pid)
-{
-	uint cpuid = getcpuid();
-
-	enable();
-	irqmask ps;
-
-	ps = disable();
-	kprintf("Process %d preempted process %d.\r\n", currpid[cpuid], pid);
-
-	/* Kill all processes before system hangs up */
-	kill(pid);
-	kill(currpid[cpuid]);
-
-	restore(ps);
-}
-
 
 shellcmd xsh_test(int nargs, char *args[])
 {
-	uchar c;
-	pid_typ pid, pid2;
-	irqmask im;
+	int c, pid;
 
-	im = disable();
+	kprintf("0) Test creation of one process\r\n");
+	kprintf("1) Test passing of many args\r\n");
+	kprintf("2) Create three processes and run them\r\n");
+	kprintf("3) Create three processes and run them on other cores\r\n");
+	kprintf("4) Create three processes with different priorities and run them (RESCHED_YES)\r\n");
+	kprintf("5) Create three processes with different priorities and run them (RESCHED_NO)\r\n");
 
 	kprintf("===TEST BEGIN===\r\n");
 
-	proctab[10].state = PRSUSP;
-	proctab[11].state = PRSUSP;
-	proctab[12].state = PRSUSP;
-
 	// TODO: Test your operating system!
 
-	c = kgetc();
+	device *devptr;
+	devptr = (device *)&devtab[SERIAL0];
+	c = kgetc(devptr);
 	switch (c)
 	{
-		/* Testing prioritize in isolation. */
-		case 'a':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
+		case '0':
+			// Process creation testcase
+			pid = create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL);
+			printpcb(pid);
+			break;
+
+		case '1':
+			// Many arguments testcase
+			//pid = create((void *)testbigargs, INITSTK, "MAIN1", 8,
+			//             0x11111111, 0x22222222, 0x33333333, 0x44444444,
+			//             0x55555555, 0x66666666, 0x77777777, 0x88888888);
+			printpcb(pid);
+			// TODO: print out stack with extra args
+			// TODO: ready(pid, RESCHED_YES, 0);
+			break;
+
+		case '2':
+			// Create three copies of a process, and let them play.
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_YES, 0);
+			break;
+
+		case '3':
+			// Create 3 processes and ready them on cores 1, 2, 3
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO, 2);
+			//break;
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
+			break;
+		case '4':
+			//create 3 processes on the same core with different priorities
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
 			
-			kprintf("Add [10:PRIORITY_LOW] to queue\r\n");
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 1);
 			
-			proctab[10].priority = PRIORITY_LOW;
-			ready(10, 0, 0);
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 2);
 			
-			/* Print queue */
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-
-			remove(10);
-			break;
-		
-		case 'b':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-
-			kprintf("Add [10:PRIORITY_LOW] to queue\r\n");
-			proctab[10].priority = PRIORITY_LOW;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_MED] to queue\r\n");
-			proctab[11].priority = PRIORITY_MED;
-			ready(11, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-
-
-			remove(10);
-			remove(11);	
-
-			break;
-
-		case 'c':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-
-			kprintf("Add [10:PRIORITY_MED] to queue\r\n");
-			proctab[10].priority = PRIORITY_MED;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_LOW] to queue\r\n");
-			proctab[11].priority = PRIORITY_LOW;
-			ready(11, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-
-
-			remove(10);
-			remove(11);	
-
-		case 'd':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			kprintf("Add [10:PRIORITY_LOW] to queue\r\n");
-			proctab[10].priority = PRIORITY_LOW;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_MED] to queue\r\n");
-			proctab[11].priority = PRIORITY_MED;
-			ready(11, 0, 0);
-
-			kprintf("Add [12:PRIORITY_HIGH] to queue\r\n");
-			proctab[12].priority = PRIORITY_HIGH;
-			ready(12, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			remove(10);
-			remove(11);	
-			remove(12);
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 3);
 			
-			break;
-
-		case 'e':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			kprintf("Add [10:PRIORITY_HIGH] to queue\r\n");
-			proctab[10].priority = PRIORITY_HIGH;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_MED] to queue\r\n");
-			proctab[11].priority = PRIORITY_MED;
-			ready(11, 0, 0);
-
-			kprintf("Add [12:PRIORITY_MED] to queue\r\n");
-			proctab[12].priority = PRIORITY_MED;
-			ready(12, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			remove(10);
-			remove(11);	
-			remove(12);
+			break;		
+		case '5':
+			//create 3 processes on the same core with different priorities
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 0);
 			
-			break;
-
-		case 'f':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			kprintf("Add [10:PRIORITY_LOW] to queue\r\n");
-			proctab[10].priority = PRIORITY_LOW;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_LOW] to queue\r\n");
-			proctab[11].priority = PRIORITY_LOW;
-			ready(11, 0, 0);
-
-			kprintf("Add [12:PRIORITY_LOW] to queue\r\n");
-			proctab[12].priority = PRIORITY_LOW;
-			ready(12, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			remove(10);
-			remove(11);	
-			remove(12);
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 1);
 			
-			break;
-
-		case 'g':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			kprintf("Add [10:PRIORITY_MED] to queue\r\n");
-			proctab[10].priority = PRIORITY_MED;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_MED] to queue\r\n");
-			proctab[11].priority = PRIORITY_MED;
-			ready(11, 0, 0);
-
-			kprintf("Add [12:PRIORITY_MED] to queue\r\n");
-			proctab[12].priority = PRIORITY_MED;
-			ready(12, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			remove(10);
-			remove(11);	
-			remove(12);
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 2);
 			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 3);
 			break;
-
-		case 'h':
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			kprintf("Add [10:PRIORITY_HIGH] to queue\r\n");
-			proctab[10].priority = PRIORITY_HIGH;
-			ready(10, 0, 0);
-
-			kprintf("Add [11:PRIORITY_HIGH] to queue\r\n");
-			proctab[11].priority = PRIORITY_HIGH;
-			ready(11, 0, 0);
-
-			kprintf("Add [12:PRIORITY_HIGH] to queue\r\n");
-			proctab[12].priority = PRIORITY_HIGH;
-			ready(12, 0, 0);
-
-			ostest_printQueue(readylist[0][PRIORITY_LOW]);
-			ostest_printQueue(readylist[0][PRIORITY_MED]);
-			ostest_printQueue(readylist[0][PRIORITY_HIGH]);
-
-			remove(10);
-			remove(11);	
-			remove(12);
-			
-			break;
-
-		case 'i':
-			break;
-
-		/* Starvation */
-		case 'j':
-#if AGING
-			kprintf("Testing starvation with AGING = TRUE\r\n");
-#else
-			kprintf("Testing starvation with AGING = FALSE\r\n");
-#endif
-			testStarvation();
-			break;
-
-		/* Preemption */
-		case 'k':
-			enable();
-
-			/* This process normally would never yield */
-			pid = 
-				create((void *) testprocF, INITSTK, PRIORITY_HIGH, "Evil Proc", 0);
-
-			/* This process should run if preemption works */
-			pid2 = 
-				create((void *) testprocG, INITSTK, PRIORITY_HIGH, "Pwning Proc",
-					1, pid);
-
-			ready(pid, RESCHED_NO, 0);
-			ready(pid2, RESCHED_YES, 0);
-
-			break;
-
 		default:
-			kprintf("Unknown test %c.\r\n", c);
 			break;
-	}
-
-	while (numproc > 4)
-	{
-		resched();
 	}
 
 	kprintf("\r\n===TEST END===\r\n");
-
-	proctab[10].state = PRFREE;
-	proctab[11].state = PRFREE;
-	proctab[12].state = PRFREE;
-
-	kprintf("\r\n\r\nAll user processes have completed.\r\n\r\n");
-	while (1)
-		;
-
 	return;
 }
