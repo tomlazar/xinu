@@ -404,8 +404,6 @@ usb_control_msg(struct usb_device *dev,
     struct usb_xfer_request *req;
     semaphore sem;
 
-    _flush_cache();
-
     sem = semcreate(0);
     if (isbadsem(sem))
     {

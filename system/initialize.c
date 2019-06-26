@@ -92,13 +92,6 @@ void nulluser(void)
 	// 				Cache representation: From 0 to 126 sets,
 	// 				Each set contains 4 * 512 bits of data cache = 2048 bits
 
-	encoding = _getcachemaint();
-	kprintf("\r\nCache maintenance register:\t%032b\r\n\n", encoding);
-	//00000010000100000010001000010001
-	// [27:24] Cached memory size		0010 == 0x2
-	// [7:4] Cache maintenance by set/way: 	0001
-	// [0:3] Cache maintenance by MVA:	0001
-
 	/* Enable interrupts  */
 	enable();	
 
@@ -299,24 +292,4 @@ static void core_nulluser(void)
 		if (nonempty(readylist[cpuid]))
 			resched();
 	}
-}
-
-void dump_cache_tags(void){
-
-	uint start = 0x40;
-	uint end = 0x400;	// inc by 40 to 400
-	uint tag0 = 0;
-	uint tag1 = 0;
-
-	for(uint i=start; i<=end; i+= 0x40){
-
-		tag0 = _dump_dr0(i);
-		tag1 = _dump_dr1(i);
-	
-		if(i == 0x40)
-			kprintf("DR0\t\t\t\tDR1\t\t\t\t\r\n---\t\t\t\t---\t\t\t\t\r\n");
-		
-		kprintf("%d. %032b\t\t\t\t%032b\r\n\n", tag0, tag1);
-	}
-
 }
