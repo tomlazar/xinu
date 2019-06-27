@@ -999,17 +999,21 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 	 * the DMA address is stored.
          * Can DMA directly from source or to destination if word-aligned.  */
 	kprintf("\r\n\n\ndata location: 0x%X\tdma_addr location: 0x%X\r\n\n\n", &data, &chanptr->dma_address);
-        _flush_area(&data); // Flush source
-	_inval_area(&chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
+        _flush_area(data); // Flush source
+	kprintf("\r\nAfter flush...\r\n");
+	_inval_area(chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
+	kprintf("\r\nAfter invalidate...\r\n");
 	chanptr->dma_address = (uint32_t)data | 0xC0000000; // Copy source to destination
-    	//_flush_cache();
     }
     else
     {
+	    kprintf("\r\n\n======================================UNALIGNED======================================\r\n");
         /* Need to use alternate buffer for DMA, since the actual source or
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
+        _flush_area((uint32_t)aligned_bufs[chan]); // Flush source
+	_inval_area(chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
         chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
@@ -1021,8 +1025,10 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
+	    _flush_area((uint32_t)aligned_bufs[chan]); // Flush source
+	    _inval_area(chanptr->dma_address); 
             memcpy(aligned_bufs[chan], data, transfer.size);
-    	    _flush_cache();
+            //_flush_area(&aligned_bufs[chan]); // Flush buffer
         }
     }
 
