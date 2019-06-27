@@ -499,12 +499,14 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
 {
     uint16_t len;
     const struct usb_control_setup_data *setup = &req->setup_data;
-
+    kprintf("\r\nStandard request---->\r\n");
     switch (setup->bRequest)
     {
         case USB_DEVICE_REQUEST_GET_STATUS:
             len = min(setup->wLength, sizeof(root_hub_device_status));
-            memcpy(req->recvbuf, &root_hub_device_status, len);
+	    //_flush_area((uint32_t)&root_hub_device_status); // Flush (clean source)
+	    //_inval_area((uint32_t)req->recvbuf); // Inval dst
+	    memcpy(req->recvbuf, &root_hub_device_status, len);
             req->actual_size = len;
             return USB_STATUS_SUCCESS;
 
@@ -516,14 +518,15 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
             {
                 case USB_DESCRIPTOR_TYPE_DEVICE:
                     len = min(setup->wLength, root_hub_device_descriptor.bLength);
-		    //_inval_cache();
+	    	    //_flush_area((uint32_t)&root_hub_device_descriptor); // Flush (clean source)
                     memcpy(req->recvbuf, &root_hub_device_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
                 case USB_DESCRIPTOR_TYPE_CONFIGURATION:
                     len = min(setup->wLength,
                               root_hub_configuration.configuration.wTotalLength);
-		    //_inval_cache();
+	    	    //_flush_area((uint32_t)&root_hub_configuration); // Flush (clean source)
+		    //_inval_area((uint32_t)&root_hub_configuration); // Inval dst
                     memcpy(req->recvbuf, &root_hub_configuration, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
@@ -534,6 +537,8 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
                         const struct usb_string_descriptor *desc =
                                 root_hub_strings[setup->wValue & 0xff];
                         len = min(setup->wLength, desc->bLength);
+	    	    	_flush_area((uint32_t)desc); // Flush (clean source)
+            	        _inval_area((uint32_t)req->recvbuf); // Inval dst
                         memcpy(req->recvbuf, desc, len);
                         req->actual_size = len;
                         return USB_STATUS_SUCCESS;
@@ -647,7 +652,9 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                 case USB_DESCRIPTOR_TYPE_HUB:
                     /* GetHubDescriptor (11.24.2) */
                     len = min(setup->wLength, root_hub_hub_descriptor.bDescLength);
-                    memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
+                    //_flush_area((uint32_t)&root_hub_hub_descriptor); // Flush (clean source)
+	    	    //_inval_area((uint32_t)req->recvbuf); // Inval dst
+		    memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
             }
@@ -669,6 +676,8 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                     /* GetPortStatus (11.24.2) */
                     if (setup->wLength >= sizeof(struct usb_port_status))
                     {
+			//_flush_area((uint32_t)&host_port_status); // Flush (clean source)
+	    	   	//_inval_area((uint32_t)req->recvbuf); // Inval dst
                         memcpy(req->recvbuf, &host_port_status,
                                sizeof(struct usb_port_status));
                         req->actual_size = sizeof(struct usb_port_status);
@@ -878,7 +887,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
             case 0: /* SETUP phase of control transfer */
                 usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
-                data = &req->setup_data;
+                _flush_area((uint32_t)&req->setup_data);		/* THIS LINE makes progress happen... */
+		data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
                 transfer.packet_id = DWC_USB_PID_SETUP;
                 break;
@@ -890,6 +900,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
                 data = req->recvbuf + req->actual_size;
+                _flush_area((uint32_t)(req->recvbuf + req->actual_size));
+                _inval_area((uint32_t)data);				/* THIS LINE resolves a transfer mismatch issue */
                 transfer.size = req->size - req->actual_size;
                 if (req->actual_size == 0)
                 {
@@ -998,11 +1010,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 	 * convert the address from ARM to VC4. This is done both times which
 	 * the DMA address is stored.
          * Can DMA directly from source or to destination if word-aligned.  */
-	kprintf("\r\n\n\ndata location: 0x%X\tdma_addr location: 0x%X\r\n\n\n", &data, &chanptr->dma_address);
-        _flush_area(data); // Flush source
-	kprintf("\r\nAfter flush...\r\n");
-	_inval_area(chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
-	kprintf("\r\nAfter invalidate...\r\n");
+        //_flush_area((uint32_t)data); // Flush source
+	//inval_area((uint32_t)chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
 	chanptr->dma_address = (uint32_t)data | 0xC0000000; // Copy source to destination
     }
     else
@@ -1012,8 +1021,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        _flush_area((uint32_t)aligned_bufs[chan]); // Flush source
-	_inval_area(chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
+        //_flush_area((uint32_t)aligned_bufs[chan]); // Flush source
+	//_inval_area(chanptr->dma_address); // Invalidate data from cache to prevent old data from being written post-transfer
         chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
@@ -1025,10 +1034,9 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-	    _flush_area((uint32_t)aligned_bufs[chan]); // Flush source
-	    _inval_area(chanptr->dma_address); 
+	    //_flush_area((uint32_t)data); // Flush source
+	    //_inval_area((uint32_t)aligned_bufs[chan]); 
             memcpy(aligned_bufs[chan], data, transfer.size);
-            //_flush_area(&aligned_bufs[chan]); // Flush buffer
         }
     }
 
@@ -1057,7 +1065,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
      * can find it.  */
     channel_pending_xfers[chan] = req;
 
-    usb_dev_debug(req->dev, "Setting up transactions on channel %u:\r\n"
+    usb_dev_debug(req->dev, "\r\n======================****=======================\r\n\nSetting up transactions on channel %u:\r\n"
                   "\t\tmax_packet_size=%u, "
                   "endpoint_number=%u, endpoint_direction=%s,\r\n"
                   "\t\tlow_speed=%u, endpoint_type=%s, device_address=%u,\r\n\t\t"
@@ -1273,7 +1281,8 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             if (!IS_WORD_ALIGNED(req->cur_data_ptr))
             {
 	        usb_dev_debug(req->dev, "\r\n\nNOT word aligned. COPY FROM DMA BUFFER.\r\n");
-		//_inval_cache();
+		
+	    	_inval_area((uint32_t)req->cur_data_ptr); // Inval dst
 		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
