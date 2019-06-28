@@ -126,10 +126,17 @@ usb_status_t usbFsBindDevice(struct usb_device *dev) {
 
     fs->intr->dev = dev;
     fs->intr->endpoint_desc = in_bulk_endpoint;
-    fs->intr->private = dev;
+    fs->intr->completion_cb_func = usbFsInterrupt;
+    fs->intr->private = fs;
+
+    fs->outr->dev = dev;
+    fs->outr->endpoint_desc = out_bulk_endpoint;
+    fs->outr->completion_cb_func = usbFsInterrupt;
+    fs->outr->private = fs;
 
     USBFS_TRACE("Asking filesystem for data");
-    //status = usb_submit_xfer_request(fs->intr);
+    
+    status = usb_submit_xfer_request(fs->intr);    
     if (USB_STATUS_SUCCESS != status) {
         return status;
     }

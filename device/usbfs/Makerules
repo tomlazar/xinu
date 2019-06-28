@@ -13,6 +13,7 @@ C_FILES = usbFsBindDevice.c \
 	  usbFsInit.c       \
 	  usbFsRead.c       \
 	  usbFsWrite.c       \
+	  usbFsInterrupt.c   \
 	  usbFsUnbindDevice.c
 
 S_FILES =
