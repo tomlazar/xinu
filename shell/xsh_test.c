@@ -47,6 +47,19 @@ int testmain(int argc, char **argv)
 	return 0;
 }
 
+void printQueue(qid_typ q)
+{
+	int next, tail;
+
+	next = quetab[quehead(q)].next;
+	tail = quetail(q);
+	while (next != tail)
+	{
+		kprintf("[%d : %d,%d : %d]\r\n", quetab[next].prev, next, quetab[next].key, quetab[next].next);
+		next = quetab[next].next;
+	}
+}
+
 void printpcb(int pid)
 {
 	struct thrent *ppcb = NULL;
@@ -168,6 +181,15 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 3);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 3);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 3);
+		
+#if 0
+			for (int i = 0; i < 4; i++)
+			{	
+				kprintf("readylist[%d] dump:\r\n", i);
+				printQueue(readylist[i]);
+				kprintf("\r\n");
+			}
+#endif
 			break;
 		default:
 			break;
