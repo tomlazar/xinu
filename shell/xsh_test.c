@@ -34,7 +34,7 @@ int testmain(int argc, char **argv)
 	uint cpuid = getcpuid();
 	int i = 0;
 	kprintf("\r\n********=======********\r\n");
-
+	
 	struct thrent *thr = &thrtab[thrcurrent[cpuid]];
 
 	for (i = 0; i < 10; i++)
@@ -84,6 +84,7 @@ void printpcb(int pid)
 shellcmd xsh_test(int nargs, char *args[])
 {
 	int c, pid;
+	int pids[12];
 
 	kprintf("0) Test creation of one process\r\n");
 	kprintf("1) Test passing of many args\r\n");
@@ -103,13 +104,13 @@ shellcmd xsh_test(int nargs, char *args[])
 	{
 		case '0':
 			// Process creation testcase
-			pid = create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL);
+			pid = create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL);
 			printpcb(pid);
 			break;
 
 		case '1':
 			// Many arguments testcase
-			//pid = create((void *)testbigargs, INITSTK, "MAIN1", 8,
+			//pid = create((void *)testbigargs, INITSTK, 2, "MAIN1", 8,
 			//             0x11111111, 0x22222222, 0x33333333, 0x44444444,
 			//             0x55555555, 0x66666666, 0x77777777, 0x88888888);
 			printpcb(pid);
@@ -132,15 +133,15 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
 			break;
 		case '4':
-			//create 3 processes on the same core with different priorities
+			//create 3 processes on the same core with different priorities; resched on
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
-			
+
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 1);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 1);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 1);
-			
+
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 2);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 2);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 2);
@@ -151,7 +152,7 @@ shellcmd xsh_test(int nargs, char *args[])
 			
 			break;		
 		case '5':
-			//create 3 processes on the same core with different priorities
+			//create 3 processes on the same core with different priorities, resched off
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 0);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 0);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 0);
