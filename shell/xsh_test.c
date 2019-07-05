@@ -35,14 +35,17 @@ int testmain(int argc, char **argv)
 	int i = 0;
 	kprintf("\r\n********=======********\r\n");
 	
+//	resched();
+
 	struct thrent *thr = &thrtab[thrcurrent[cpuid]];
 
 	for (i = 0; i < 10; i++)
 	{
+//		resched();
 		kprintf("NAME: %s\tTID: %d\tCore: %d\r\n", thr->name, thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
-		//resched();
+//		resched();
 	}
 	return 0;
 }
@@ -150,7 +153,7 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
-
+	
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 1);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 1);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 1);
