@@ -35,7 +35,7 @@ int testmain(int argc, char **argv)
 	int i = 0;
 	kprintf("\r\n********=======********\r\n");
 	
-//	resched();
+	resched();
 
 	struct thrent *thr = &thrtab[thrcurrent[cpuid]];
 
@@ -106,8 +106,9 @@ shellcmd xsh_test(int nargs, char *args[])
 	kprintf("1) Test passing of many args\r\n");
 	kprintf("2) Create three processes and run them\r\n");
 	kprintf("3) Create three processes and run them on other cores\r\n");
-	kprintf("4) Create three processes with different priorities and run them (RESCHED_YES)\r\n");
-	kprintf("5) Create three processes with different priorities and run them (RESCHED_NO)\r\n");
+	kprintf("4) Single-core Priority Scheduling\r\n");
+	kprintf("5) Multicore Priority Scheduling (RESCHED_YES)\r\n");
+	kprintf("6) Multicore Priority Scheduling (RESCHED_NO)\r\n");
 
 	kprintf("===TEST BEGIN===\r\n");
 
@@ -149,7 +150,14 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
 			break;
 		case '4':
-			//create 3 processes on the same core with different priorities; resched on
+			//priority scheduling on the same core; expected output: A, then B or D, end with C
+			ready(create((void *)testmain, INITSTK, 1, "MAIN A", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN B", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 0);
+			break;
+		case '5':
+			//create 3 processes on each core with different priorities; resched on
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
@@ -167,8 +175,8 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 3);
 			
 			break;		
-		case '5':
-			//create 3 processes on the same core with different priorities, resched off
+		case '6':
+			//create 3 processes on each core with different priorities, resched off
 			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 0);
 			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 0);
 			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 0);
