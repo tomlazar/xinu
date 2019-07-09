@@ -876,7 +876,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
             case 0: /* SETUP phase of control transfer */
                 usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
-		_flush_area((uint32_t)&req->setup_data);
+//		_flush_area((uint32_t)&req->setup_data);
 		data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
                 transfer.packet_id = DWC_USB_PID_SETUP;
@@ -889,8 +889,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
                 data = req->recvbuf + req->actual_size;
-		_flush_area((uint32_t)(req->recvbuf + req->actual_size));
-		_inval_area((uint32_t)data);				/* THIS LINE resolves a transfer mismatch issue */
+		//_flush_area((uint32_t)(req->recvbuf + req->actual_size));
+//		_inval_area((uint32_t)data);				/* THIS LINE resolves a transfer mismatch issue */
                 transfer.size = req->size - req->actual_size;
                 if (req->actual_size == 0)
                 {
@@ -953,6 +953,12 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         transfer.packet_id = req->next_data_pid;
     }
 
+    if (data != NULL)
+    {
+//        _flush_area(data);
+//	_inval_area(data);
+    }
+
     /* Set device address.  */
     characteristics.device_address = req->dev->address;
 
@@ -993,7 +999,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
     /* Set up DMA buffer.  */
 
-    if (IS_WORD_ALIGNED(data))
+//    if (IS_WORD_ALIGNED(data))
+    if (0)
     {
 	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
 	 * convert the address from ARM to VC4. This is done both times which
@@ -1001,7 +1008,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * Can DMA directly from source or to destination if word-aligned.  */
         uint data_vc4 = (uint32_t)data | 0xC0000000;
 	chanptr->dma_address = data_vc4; // Write data to memory that will be xferred by DMA to USB
-    	_flush_area(data_vc4);
+//    	_flush_area(data);
     }
     else
     {
@@ -1021,9 +1028,18 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
+	    _flush_area(data);
             memcpy(aligned_bufs[chan], data, transfer.size);
+	    _inval_area(aligned_bufs[chan]);
         }
+	else
+	{
+            _flush_area(aligned_bufs[chan]);
+	    _inval_area(aligned_bufs[chan]);
+	}
     }
+
+//    _flush_area(chanptr->dma_address);
 
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
@@ -1263,14 +1279,19 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             bytes_transferred = req->attempted_bytes_remaining -
                                 chanptr->transfer.size;
             /* Copy data from DMA buffer if needed */
-            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
-            {
+//            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
+            if (1)
+	    {
 	        usb_dev_debug(req->dev, "\r\n\nNOT word aligned. COPY FROM DMA BUFFER.\r\n");
-		
+	
+//	        _flush_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
+		_flush_area(aligned_bufs[chan]);
 		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);
+		
+		_inval_area(req->cur_data_ptr);	
             }
         }
         else
@@ -1496,6 +1517,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
+	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1565,6 +1587,7 @@ dwc_handle_channel_halted_interrupt(uint chan)
         }
     }
 
+    
     /* If we got here because the transfer successfully completed or an error
      * occurred, call the device-driver-provided completion callback.  */
     usb_complete_xfer(req);

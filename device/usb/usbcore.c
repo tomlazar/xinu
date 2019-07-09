@@ -415,10 +415,13 @@ usb_control_msg(struct usb_device *dev,
         semfree(sem);
         return USB_STATUS_OUT_OF_MEMORY;
     }
+
     req->dev = dev;
     req->endpoint_desc = endpoint_desc;
     req->recvbuf = data;
+    _inval_area((uint32_t)wLength);
     req->size = wLength;
+    _flush_area((uint32_t)wLength);
     req->setup_data.bmRequestType = bmRequestType;
     req->setup_data.bRequest = bRequest;
     req->setup_data.wValue = wValue;
@@ -606,6 +609,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
     {
         hdr = (struct usb_descriptor_header*)((uint8_t*)dev->config_descriptor + i);
 
+	kprintf("\r\n\nhdr->bLength = %d, sizeof usb_descriptor_header = %d, desc.wTotalLength = %d\r\n", hdr->bLength, sizeof(struct usb_descriptor_header), desc.wTotalLength);
         if (hdr->bLength < sizeof(struct usb_descriptor_header))
         {
 	    kprintf("\r\n\nInval case A. hdr->bLength = %d ....... sizeof usb_descriptor_header = %d\r\n", hdr->bLength, sizeof(struct usb_descriptor_header));
