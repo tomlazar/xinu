@@ -21,6 +21,9 @@ typedef unsigned int mutex_t;
 /* Lock for kprintf to protect multi-core printing. */
 extern mutex_t serial_lock;
 
+/* Lock for DMA over USB */
+extern mutex_t dma_lock;
+
 struct muxent
 {
 	unsigned char state;

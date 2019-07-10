@@ -80,6 +80,7 @@
 #include "bcm2837.h"
 #include "mmu.h"
 #include <core.h>
+#include <mutex.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -154,6 +155,8 @@ static uint sofwait;
 
 /** Semaphore that tracks the number of free channels in chfree bitmask.  */
 static semaphore chfree_sema;
+
+mutex_t dma_lock;
 
 /**
  * Array that holds pointers to the USB transfer request (if any) currently
@@ -1002,15 +1005,24 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
     else
     {
-	kprintf("\r\n\n/======================================UNALIGNED======================================/\r\n");
-        /* Need to use alternate buffer for DMA, since the actual source or
+	//kprintf("\r\n\n/======================================UNALIGNED======================================/\r\n");
+	    /* Need to use alternate buffer for DMA, since the actual source or
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-	kprintf("\r\nb4 dma assigment");
+        kprintf("\r\nB4 dma assignment");
+	
+	
+	/*mutex_acquire(dma_lock);
+	irqmask im;
+	im = disable();
+	udelay(10);
+	restore(im);
+	mutex_release(dma_lock);*/
 	chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
-	kprintf("\r\nafter dma assignment");
-        if (transfer.size > sizeof(aligned_bufs[chan]))
+	//mutex_release(dma_lock);
+	
+	if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
                             (sizeof(aligned_bufs[chan]) %
@@ -1020,10 +1032,10 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-	    kprintf("\r\nflush");
+	    //kprintf("\r\nflush");
 	    //_flush_area(data);
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    kprintf("\r\ninval");
+	    //kprintf("\r\ninval");
 	    _inval_area(aligned_bufs[chan]);	/* This invalidation brings initialization to device 2 */
         }
 	/*else

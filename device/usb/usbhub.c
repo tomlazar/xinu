@@ -557,6 +557,8 @@ hub_thread(void)
 
                 usb_dev_debug(req->dev, "Processing hub status change\r\n");
 
+		kprintf("\r\n\nHub status changed...\r\n\n");
+
                 /* The format of the message is a bitmap that indicates which ports have
                  * had status changes.  We ignore bit 0, which indicates status change
                  * of the hub device itself.  */
