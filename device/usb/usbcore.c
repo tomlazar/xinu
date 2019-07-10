@@ -977,6 +977,7 @@ usb_attach_device(struct usb_device *dev)
 
     /* Try to bind a driver to the newly configured device. */
     status = usb_try_to_bind_device_driver(dev);
+    kprintf("\r\nBound...\r\n");
 
     if (status == USB_STATUS_DEVICE_UNSUPPORTED)
     {

@@ -729,6 +729,7 @@ hub_bind_device(struct usb_device *dev)
     struct usb_hub *hub;
     int hub_id;
 
+    kprintf("\r\n\n\nhub attach1\r\n\n");
     /* Check whether the new device a hub or not.  */
     if (dev->descriptor.bDeviceClass != USB_CLASS_CODE_HUB ||
         dev->config_descriptor->bNumInterfaces != 1 ||
@@ -797,6 +798,7 @@ hub_bind_device(struct usb_device *dev)
         hub_free(hub_id);
         return status;
     }
+    kprintf("\r\n\n\nhub attach2\r\n\n");
     return USB_STATUS_SUCCESS;
 }
 

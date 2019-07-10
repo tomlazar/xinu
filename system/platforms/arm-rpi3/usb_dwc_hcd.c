@@ -876,7 +876,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
             case 0: /* SETUP phase of control transfer */
                 usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
-//		_flush_area((uint32_t)&req->setup_data);
 		data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
                 transfer.packet_id = DWC_USB_PID_SETUP;
@@ -889,8 +888,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
                 data = req->recvbuf + req->actual_size;
-		//_flush_area((uint32_t)(req->recvbuf + req->actual_size));
-//		_inval_area((uint32_t)data);				/* THIS LINE resolves a transfer mismatch issue */
                 transfer.size = req->size - req->actual_size;
                 if (req->actual_size == 0)
                 {
@@ -953,12 +950,6 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         transfer.packet_id = req->next_data_pid;
     }
 
-    if (data != NULL)
-    {
-//        _flush_area(data);
-//	_inval_area(data);
-    }
-
     /* Set device address.  */
     characteristics.device_address = req->dev->address;
 
@@ -1008,16 +999,17 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * Can DMA directly from source or to destination if word-aligned.  */
         uint data_vc4 = (uint32_t)data | 0xC0000000;
 	chanptr->dma_address = data_vc4; // Write data to memory that will be xferred by DMA to USB
-//    	_flush_area(data);
     }
     else
     {
-	    kprintf("\r\n\n======================================UNALIGNED======================================\r\n");
+	kprintf("\r\n\n/======================================UNALIGNED======================================/\r\n");
         /* Need to use alternate buffer for DMA, since the actual source or
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
+	kprintf("\r\nb4 dma assigment");
+	chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
+	kprintf("\r\nafter dma assignment");
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
@@ -1028,18 +1020,20 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-	    _flush_area(data);
+	    kprintf("\r\nflush");
+	    //_flush_area(data);
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    _inval_area(aligned_bufs[chan]);
+	    kprintf("\r\ninval");
+	    _inval_area(aligned_bufs[chan]);	/* This invalidation brings initialization to device 2 */
         }
-	else
+	/*else
 	{
-            _flush_area(aligned_bufs[chan]);
-	    _inval_area(aligned_bufs[chan]);
-	}
+	    //kprintf("\r\nflush2");
+            //_flush_area(aligned_bufs[chan]);
+	    kprintf("\r\ninval2");
+	    //_inval_area(aligned_bufs[chan]);
+	}*/
     }
-
-//    _flush_area(chanptr->dma_address);
 
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
@@ -1284,14 +1278,15 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 	    {
 	        usb_dev_debug(req->dev, "\r\n\nNOT word aligned. COPY FROM DMA BUFFER.\r\n");
 	
-//	        _flush_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
-		_flush_area(aligned_bufs[chan]);
+		//_flush_area(aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
+		//_inval_area(req->cur_data_ptr);	
 		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);
-		
-		_inval_area(req->cur_data_ptr);	
+	
+		//kprintf("\r\ninval3");	
+		//_inval_area(req->cur_data_ptr);	
             }
         }
         else
