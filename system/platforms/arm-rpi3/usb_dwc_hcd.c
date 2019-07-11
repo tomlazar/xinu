@@ -81,6 +81,9 @@
 #include "mmu.h"
 #include <core.h>
 #include <mutex.h>
+#include <uart.h>
+#include "../../../device/uart-pl011/pl011.h"
+#include <clock.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -155,8 +158,6 @@ static uint sofwait;
 
 /** Semaphore that tracks the number of free channels in chfree bitmask.  */
 static semaphore chfree_sema;
-
-mutex_t dma_lock;
 
 /**
  * Array that holds pointers to the USB transfer request (if any) currently
@@ -891,7 +892,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
                 data = req->recvbuf + req->actual_size;
-                transfer.size = req->size - req->actual_size;
+		transfer.size = req->size - req->actual_size;
                 if (req->actual_size == 0)
                 {
                     /* First transaction in the DATA phase: use a DATA1 packet
@@ -922,7 +923,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 }
                 /* The STATUS transaction has no data buffer, yet must use a
                  * DATA1 packet ID.  */
-                data = NULL;
+		data = NULL;
                 transfer.size = 0;
                 transfer.packet_id = DWC_USB_PID_DATA1;
                 break;
@@ -1005,23 +1006,18 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
     else
     {
-	//kprintf("\r\n\n/======================================UNALIGNED======================================/\r\n");
-	    /* Need to use alternate buffer for DMA, since the actual source or
+	/* Need to use alternate buffer for DMA, since the actual source or
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        kprintf("\r\nB4 dma assignment");
-	
-	
-	/*mutex_acquire(dma_lock);
-	irqmask im;
-	im = disable();
-	udelay(10);
-	restore(im);
-	mutex_release(dma_lock);*/
+	/* XXX TODO: Figure out why this delay is necessary for execution to proceed... */
+	udelay(24);
+
+	/* From the BCM2835 Peripherals document:
+	Software accessing RAM using the DMA engines must use bus addresses (based at
+	0xC0000000) */
 	chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
-	//mutex_release(dma_lock);
-	
+
 	if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
@@ -1032,26 +1028,16 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-	    //kprintf("\r\nflush");
-	    //_flush_area(data);
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    //kprintf("\r\ninval");
-	    _inval_area(aligned_bufs[chan]);	/* This invalidation brings initialization to device 2 */
-        }
-	/*else
-	{
-	    //kprintf("\r\nflush2");
-            //_flush_area(aligned_bufs[chan]);
-	    kprintf("\r\ninval2");
-	    //_inval_area(aligned_bufs[chan]);
-	}*/
+	    _inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. */
+	}
     }
 
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
      * alternate buffer was selected above).  */
     req->cur_data_ptr = data;
-
+    
     /* Calculate the number of packets being set up for this transfer.  */
     transfer.packet_count = DIV_ROUND_UP(transfer.size,
                                          characteristics.max_packet_size);
@@ -1257,7 +1243,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
     /* The hardware seems to update transfer.packet_count as expected, so we can
      * look at it before deciding whether to use transfer.size (which is not
      * always updated as expected).  */
-    
+   
     uint packets_remaining   = chanptr->transfer.packet_count;
     uint packets_transferred = req->attempted_packets_remaining -
                                packets_remaining;
@@ -1289,20 +1275,16 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
             if (1)
 	    {
 	        usb_dev_debug(req->dev, "\r\n\nNOT word aligned. COPY FROM DMA BUFFER.\r\n");
-	
-		//_flush_area(aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
-		//_inval_area(req->cur_data_ptr);	
+
 		memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);
-	
-		//kprintf("\r\ninval3");	
-		//_inval_area(req->cur_data_ptr);	
             }
         }
         else
         {
+
             /* Ignore transfer.size field for OUT transfers because it's not
              * updated sanely.  */
             if (packets_transferred > 1)

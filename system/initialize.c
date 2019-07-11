@@ -116,9 +116,6 @@ static int sysinit(void)
 	serial_lock = mutex_create();
 	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
 
-	/* Intialize DMA lock */
-	dma_lock = mutex_create();
-
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
 	thrcount = NCORES;		/* 1 nullthread per core */

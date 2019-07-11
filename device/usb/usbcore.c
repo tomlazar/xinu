@@ -67,6 +67,7 @@
 #include <usb_std_defs.h>
 #include <usb_subsystem.h>
 #include "../system/platforms/arm-rpi3/mmu.h"
+#include <clock.h>
 
 /** Maximum number of simultaneous USB devices supported.  */
 #define MAX_NUSBDEV 32
@@ -629,6 +630,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
                             dev->interfaces[interface_idx]->bNumEndpoints)
                 {
                     usb_dev_debug(dev, "Number of endpoints incorrect\r\n");
+
                     goto out_invalid;
                 }
                 if (((struct usb_interface_descriptor*)hdr)->bAlternateSetting != 0)
@@ -956,7 +958,7 @@ usb_attach_device(struct usb_device *dev)
     {
         usb_dev_error(dev, "Failed to read configuration descriptor: %s\r\n",
                       usb_status_string(status));
-        return status;
+	return status;
     }
 
     /* Configure the device with its first reported configuration.  */
@@ -977,7 +979,9 @@ usb_attach_device(struct usb_device *dev)
 
     /* Try to bind a driver to the newly configured device. */
     status = usb_try_to_bind_device_driver(dev);
-    kprintf("\r\nBound...\r\n");
+
+    // XXX TODO delay moves along execution for some reason...
+    udelay(12);
 
     if (status == USB_STATUS_DEVICE_UNSUPPORTED)
     {
