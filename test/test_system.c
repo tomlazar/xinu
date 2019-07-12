@@ -15,7 +15,7 @@ thread test_system(bool verbose)
     bool passed = TRUE;
 
     testPrint(verbose, "Checking gettid()");
-    failif((thrcurrent != gettid()),
+    failif((thrcurrent[getcpuid()] != gettid()),
            "gettid() does not return thrcurrent");
 
     testPrint(verbose, "Checking getprio()");

@@ -127,7 +127,7 @@ thread test_schedule(bool verbose)
      * executing in any order.  */
     btid_remaining = TIMES;
     dtid_remaining = TIMES;
-    udelay(9);
+    kprintf("\r\nbtid: %d, remaining: %d; dtid: %d, remaining: %d", btid, btid_remaining, dtid, dtid_remaining);
     for (i = TIMES; i < 3 * TIMES; i++)
     {
         if (testArray[i] == btid && btid_remaining > 0) {
@@ -143,6 +143,10 @@ thread test_schedule(bool verbose)
     {
         expectedResults[i] = atid;
     }
+
+  //  for(i = 0; i < 4 * TIMES; i++) {
+//	kprintf("\r\nExpectedResults[%d]: %d; TestArray[%d]: %d; Core: %d", i, expectedResults[i], i, testArray[i], 1);
+//    }
 
     for (i = 0; i < 4 * TIMES; i++)
     {

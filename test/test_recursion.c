@@ -13,9 +13,10 @@ static void t5(int times, uchar *testArray, int *index)
 {
     /* Disable interrupts to prevent race conditions with the index update. */
     disable();
+    int cpuid = getcpuid();
     if (times > 0)
     {
-        testArray[*index] = thrcurrent;
+        testArray[*index] = thrcurrent[cpuid];
         *index = *index + 1;
         testArray[*index] = times;
         *index = *index + 1;
