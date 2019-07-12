@@ -420,9 +420,7 @@ usb_control_msg(struct usb_device *dev,
     req->dev = dev;
     req->endpoint_desc = endpoint_desc;
     req->recvbuf = data;
-    _inval_area((uint32_t)wLength);
     req->size = wLength;
-    _flush_area((uint32_t)wLength);
     req->setup_data.bmRequestType = bmRequestType;
     req->setup_data.bRequest = bRequest;
     req->setup_data.wValue = wValue;
@@ -594,6 +592,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
     status = usb_get_configuration_descriptor(dev, configuration,
                                               dev->config_descriptor,
                                               desc.wTotalLength);
+    
     if (status != USB_STATUS_SUCCESS)
     {
         return status;

@@ -61,6 +61,7 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 {
 	struct ether *ethptr = req->private;
 
+	usb_dev_debug(req->dev, "LAN7800: Rx complete\n");
 	ethptr->rxirq++;
 	if (req->status == USB_STATUS_SUCCESS)
 	{

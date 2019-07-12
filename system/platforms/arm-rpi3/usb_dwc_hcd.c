@@ -1029,7 +1029,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    _inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. */
+	    _inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. Without this line, hardware error occurs over xfer */
 	}
     }
 

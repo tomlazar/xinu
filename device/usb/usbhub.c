@@ -559,7 +559,7 @@ hub_thread(void)
                 usb_dev_debug(req->dev, "Processing hub status change\r\n");
 
 		// XXX TODO delay moves along execution for some reason...
-		udelay(24);
+		udelay(25);
 
                 /* The format of the message is a bitmap that indicates which ports have
                  * had status changes.  We ignore bit 0, which indicates status change
