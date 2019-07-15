@@ -32,6 +32,7 @@ devcall etherOpen(device *devptr)
 		goto out_restore;
 	}
 
+	kprintf("Done waiting for attach...\r\n");
 	/* Fail if device is not down.  */
 	ethptr = &ethertab[devptr->minor];
 	if (ethptr->state != ETH_STATE_DOWN)

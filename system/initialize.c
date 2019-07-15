@@ -75,23 +75,6 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
-	/* XXX Test for determining cache structure */
-	uint encoding = _getcacheinfo();
-	kprintf("\r\nCCSIDR:\t\t\t\t%032b\r\n", encoding);
-	// CCSIDR: 01110000000011111110000000011010
-	// According to Cortex A53 doc:
-	// [31] Write through		0
-	// [30] Write back		1
-	// [29] Read allocation		1
-	// [28] Write allocation	1
-	// [27:13] NumSets		127 == 0x7F
-	// [12:3] Associativity		3 (4-way set assoc. cache) (see sec 2.1.6 of a53 doc)
-	// 				Meaning, each set contains 4 cache lines.
-	// [2:0] Words per line         16 words per cache line (according to arm cortex a53)
-	// 				16 words * 32 bits each = 512 bits per cache line
-	// 				Cache representation: From 0 to 126 sets,
-	// 				Each set contains 4 * 512 bits of data cache = 2048 bits
-
 	/* Enable interrupts  */
 	enable();	
 

@@ -143,6 +143,7 @@ usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *mac
 
 	status = lan7800_write_reg(udev, LAN7800_ADDRL, addrl);
 	kprintf("\r\nLower MAC: %u\r\n", addrl);
+	kprintf("\r\nUpper MAC: %u\r\n", addrh);
 	
 	if (status != USB_STATUS_SUCCESS)
 	{

@@ -20,6 +20,7 @@ extern uint32_t _getcacheinfo(void);
 extern void stop_mmu(void);
 extern void invalidate_tlbs(void);
 extern unsigned int mmu_section(unsigned int, unsigned int, unsigned int);
+unsigned int mmu_small (unsigned int, unsigned int, unsigned int, unsigned int);
 extern void mmu_init(void);
 
 extern void PUT32(unsigned int, unsigned int);

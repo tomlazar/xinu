@@ -1,7 +1,8 @@
 #include <mmu.h>
 #include <mutex.h>
 
-/* code from Github user dwelch67 */
+/* code from Github user dwelch67
+ * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
 {
 	unsigned int ra, rb, rc;
@@ -14,17 +15,52 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 	return 0;	
 }
 
+/* code from Github user dwelch67
+ * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
+unsigned int mmu_small (unsigned int vadd, unsigned int padd, unsigned int flags, unsigned int mmubase)
+{
+	unsigned int ra;
+	unsigned int rb;
+	unsigned int rc;
+
+	ra=vadd>>20;
+	rb=MMUTABLEBASE|(ra<<2);
+	rc=(mmubase&0xFFFFFC00) | 1;
+	//hexstrings(rb); hexstring(rc);
+	PUT32(rb,rc); //first level descriptor
+	ra=(vadd>>12)&0xFF;
+	rb=(mmubase&0xFFFFFC00)|(ra<<2);
+	rc=(padd&0xFFFFF000)|(0xFF0)|flags|2;
+	//hexstrings(rb); hexstring(rc);
+	PUT32(rb,rc); //second level descriptor
+	return(0);
+}
+
 /* mmu_init() configures virtual address == physical address */
 /* also configures memory to be cacheable, except for peripheral portion */
 void mmu_init()
 {
 	unsigned int ra;
+	unsigned int secaddr = 0x400; /* Address for the secondary MMU table base (for small pages) */
 
-	/* Make memory cacheable */
-	for (ra = 0; ; ra += 0x00100000)
+	/* aligned_bufs (DMA buffer) occupies memory region 0x3A7EC to 0x3CBEC
+	 * Make memory cacheable for the first 1MB (in 4KB pages) except for DMA region */
+	for (ra = 0; ; ra += 0x001000){
+		if(ra == 0x100000)
+			break;
+		if (ra >= 0x3A000 && ra <= 0x3D000){
+			mmu_small(ra, ra, 0x0 | 0x8, secaddr);
+			secaddr += 0x400; // Pages must be 1K aligned
+		}
+		else{
+			mmu_section(ra, ra, 0x15C06);
+		}
+	}
+
+	/* Make memory cacheable (in 1MB sections) for the rest of memory up until peripherals */
+	for ( ; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x15C06);
-		//mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra >= 0x3F000000)
 			break; /* Stop before IO peripherals */
 	}

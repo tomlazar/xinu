@@ -22,7 +22,8 @@ _getcachemaint:
  * Armv8 architecture reference manual page 5720 */
 .globl _flush_area
 _flush_area:
-	mcr     p15, 0, r0, c7, c10, 1         ;@ Clean line by VA to PoC
+	//mcr     p15, 0, r0, c7, c10, 1         ;@ Clean line by VA to PoC
+	mcr     p15, 0, r0, c7, c11, 1         ;@ Clean line by VA to PoU
 	bx	lr
 
 /* DCIMVAC (invalidate specific value)

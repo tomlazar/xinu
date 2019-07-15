@@ -438,7 +438,6 @@ usb_control_msg(struct usb_device *dev,
 	/* Force error if actual size was not the same as requested size.  */
         if (status == USB_STATUS_SUCCESS && req->actual_size != req->size)
         {
-	    kprintf("\r\nForce error -> actual size not same as requested size...\r\n");
             status = USB_STATUS_INVALID_DATA;
             req->dev->error_count++;
             req->dev->last_error = status;
@@ -609,10 +608,8 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
     {
         hdr = (struct usb_descriptor_header*)((uint8_t*)dev->config_descriptor + i);
 
-	kprintf("\r\n\nhdr->bLength = %d, sizeof usb_descriptor_header = %d, desc.wTotalLength = %d\r\n", hdr->bLength, sizeof(struct usb_descriptor_header), desc.wTotalLength);
         if (hdr->bLength < sizeof(struct usb_descriptor_header))
         {
-	    kprintf("\r\n\nInval case A. hdr->bLength = %d ....... sizeof usb_descriptor_header = %d\r\n", hdr->bLength, sizeof(struct usb_descriptor_header));
 	    goto out_invalid;
         }
 
@@ -621,7 +618,6 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
             case USB_DESCRIPTOR_TYPE_INTERFACE:
                 if (i + sizeof(struct usb_interface_descriptor) > desc.wTotalLength)
                 {
-	    	    kprintf("\r\n\nInval case B\r\n\n");
                     goto out_invalid;
                 }
                 if (interface_idx >= 0 && !in_alternate_setting &&

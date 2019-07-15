@@ -166,6 +166,8 @@ static semaphore chfree_sema;
 static struct usb_xfer_request *channel_pending_xfers[DWC_NUM_CHANNELS];
 
 /** Aligned buffers for DMA.  */
+/* Occupies memory region: 0x3A7EC to 0x3CBEC
+ */
 static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
                                 __aligned(4);
 
@@ -503,7 +505,6 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
 {
     uint16_t len;
     const struct usb_control_setup_data *setup = &req->setup_data;
-    kprintf("\r\nStandard request---->\r\n");
     switch (setup->bRequest)
     {
         case USB_DEVICE_REQUEST_GET_STATUS:
@@ -994,7 +995,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
     /* Set up DMA buffer.  */
 
-//    if (IS_WORD_ALIGNED(data))
+    //    if (IS_WORD_ALIGNED(data))
     if (0)
     {
 	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
@@ -1029,7 +1030,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    _inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. Without this line, hardware error occurs over xfer */
+	    //_inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. Without this line, hardware error occurs over xfer */
 	}
     }
 

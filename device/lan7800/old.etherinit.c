@@ -59,8 +59,7 @@ lan7800_bind_device(struct usb_device *udev)
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
 
-	/* Make sure this driver isn't already bound to a LAN7800.
-	 *      * TODO: Support multiple devices of this type concurrently.  */
+	/* Make sure this driver isn't already bound to a LAN7800. */
 	ethptr = &ethertab[0];
 	STATIC_ASSERT(NETHER == 1);
 	if (ethptr->csr != NULL)
@@ -93,6 +92,7 @@ lan7800_bind_device(struct usb_device *udev)
 	udev->driver_private = ethptr;
 
 	signal(lan7800_attached[ethptr - ethertab]);
+	kprintf("\r\nReturning from bind device...\r\n");
 	
 	return USB_STATUS_SUCCESS;
 }
@@ -180,13 +180,13 @@ getEthAddr(uint8_t *addr)
 	 * loop iterates less than five times, the bug appears.
 	 * I discovered this "fix" after noticing that the devAddress values were incorrect,
 	 * 2:0:0:0:0:0, after storing the addr into the devAddress,
-	 * as if the MAC address was never being loaded. So I printed them here to debug.
-	 * Go figure, the print statement seemed to fix it. I pinched myself, was not dreaming.
-	 * --Behavior--: if kprintf is not called here at least five times, then the global
+	 * as if the MAC address was never being loaded. Printed them here to debug.
+	 * Go figure, the print statement seemed to fix it.
+	 * --Behavior--: if kprintf is not called here at least six times, then the global
 	 * array @param addr does not contain the MAC address, but rather: 2:0:0:0:0:0. 
 	 * When kprintf is called here, then the MAC address is set successfully. */
 	ushort j;
-	for(j = 0; j < 6; j++)
+	for(j = 0; j < 25; j++)
 		kprintf("");
 }
 
@@ -242,7 +242,7 @@ devcall etherInit(device *devptr)
 		goto err_free_isema;
 	}
 	
-	/* Get the MAC address and store it into a global array called addr.. */
+	/* Get the MAC address and store it */
 	getEthAddr(ethptr->devAddress);
 
 	/* Copy the MAC address array into the devAddress member of the
@@ -256,6 +256,7 @@ devcall etherInit(device *devptr)
 		goto err_free_attached_sema;
 	}
 
+	kprintf("Ether device initialized\r\n");
 	return OK;
 
 err_free_attached_sema:
