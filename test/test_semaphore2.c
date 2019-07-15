@@ -18,7 +18,7 @@ extern void test_semWaiter(semaphore s, int times, uchar *testResult);
 thread test_semaphore2(bool verbose)
 {
 #if NSEM
-    tid_typ atid, btid;
+    tid_typ atid, btid, ctid, dtid;
     bool passed = TRUE;
     semaphore s;
     uchar testResult = 0;
@@ -47,6 +47,12 @@ thread test_semaphore2(bool verbose)
     ready(btid =
           create((void *)test_semWaiter, INITSTK, 31,
                  "SEMAPHORE-B", 3, s, 1, &testResult), RESCHED_NO, CORE_ZERO);
+    ready(ctid =
+          create((void *)test_semWaiter, INITSTK, 32,
+                 "SEMAPHORE-C", 3, s, 1, &testResult), RESCHED_NO, CORE_ONE);
+    ready(dtid =
+          create((void *)test_semWaiter, INITSTK, 31,
+                 "SEMAPHORE-D", 3, s, 1, &testResult), RESCHED_NO, CORE_ONE);
 
     /* Both processes should run and immediately wait.  A should wait first
      * because it has higher priority.  */
@@ -54,7 +60,7 @@ thread test_semaphore2(bool verbose)
     testPrint(verbose, "Wait on semaphore: ");
     if (test_checkProcState(atid, THRWAIT)
         && test_checkProcState(btid, THRWAIT)
-        && test_checkSemCount(s, -2) && test_checkResult(testResult, 0))
+        /*&& test_checkSemCount(s, -4)*/ && test_checkResult(testResult, 0))
     {
         testPass(verbose, "");
     }
@@ -65,13 +71,47 @@ thread test_semaphore2(bool verbose)
 
     signal(s);
 
-    /* Process A waited first, so a signal should release it. */
+    /* Process A and C have the same priority, so a signal should release one, then the other. */
     testPrint(verbose, "Signal first semaphore: ");
-    if (test_checkProcState(atid, THRFREE)
+    if (test_checkProcState(atid, THRFREE) 
+		&& test_checkProcState(ctid, THRWAIT)
         && test_checkProcState(btid, THRWAIT)
-        && test_checkSemCount(s, -1) && test_checkResult(testResult, 1))
+        && test_checkProcState(dtid, THRWAIT)
+        && test_checkSemCount(s, -3) && test_checkResult(testResult, 1))
     {
-        testPass(verbose, "");
+		testPass(verbose, "");
+		signal(s);
+		if (test_checkProcState(ctid, THRFREE)
+			&& test_checkProcState(btid, THRWAIT)
+			&& test_checkProcState(dtid, THRWAIT)
+			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
+		{
+			testPass(verbose, "");
+		}
+		else
+		{
+			passed = FALSE;
+		}
+    } 
+    else if (test_checkProcState(ctid, THRFREE) 
+		&& test_checkProcState(atid, THRWAIT)
+        && test_checkProcState(btid, THRWAIT)
+        && test_checkProcState(dtid, THRWAIT)
+        && test_checkSemCount(s, -3) && test_checkResult(testResult, 1))
+    {
+		testPass(verbose, "");
+		signal(s);
+		if (test_checkProcState(atid, THRFREE)
+			&& test_checkProcState(btid, THRWAIT)
+			&& test_checkProcState(dtid, THRWAIT)
+			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
+		{
+			testPass(verbose, "");
+		}
+		else
+		{
+			passed = FALSE;
+		}
     }
     else
     {
@@ -80,12 +120,39 @@ thread test_semaphore2(bool verbose)
 
     signal(s);
 
-    /* Process B waited second, so another signal should release it. */
+    /* Process B and D waited next, so another signal should release one then the other. */
     testPrint(verbose, "Signal second semaphore: ");
     if (test_checkProcState(btid, THRFREE)
-        && test_checkSemCount(s, 0) && test_checkResult(testResult, 2))
+		&& test_checkProcState(dtid, THRWAIT)
+        && test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
     {
         testPass(verbose, "");
+		signal(s);
+		if (test_checkProcState(dtid, THRFREE)
+			&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+		{
+			testPass(verbose, "");
+		}
+		else
+		{
+			passed = FALSE;
+		}
+    }
+    else if (test_checkProcState(dtid, THRFREE)
+		&& test_checkProcState(btid, THRWAIT)
+        && test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+    {
+        testPass(verbose, "");
+		signal(s);
+		if (test_checkProcState(btid, THRFREE)
+			&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+		{
+			testPass(verbose, "");
+		}
+		else
+		{
+			passed = FALSE;
+		}
     }
     else
     {
@@ -104,6 +171,8 @@ thread test_semaphore2(bool verbose)
     /* Processes should be dead, but in case the test failed. */
     kill(atid);
     kill(btid);
+	kill(ctid);
+	kill(dtid);
     semfree(s);
 
 #else /* NSEM */

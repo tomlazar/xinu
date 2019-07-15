@@ -135,6 +135,11 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 1);
 			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 1);
 			break;
+		case '5':
+			ready(create((void *)testmain, INITSTK, 2, "MAIN A", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 1, "MAIN B", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN C", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 1, "MAIN D", 0, NULL), RESCHED_NO, 1);
 		default:
 			break;
 	}
