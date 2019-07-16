@@ -54,18 +54,24 @@ thread test_semaphore2(bool verbose)
           create((void *)test_semWaiter, INITSTK, 31,
                  "SEMAPHORE-D", 3, s, 1, &testResult), RESCHED_NO, CORE_ONE);
 
-    /* Both processes should run and immediately wait.  A should wait first
-     * because it has higher priority.  */
+    /* Both processes should run and immediately wait.  A and C should wait first
+     * because they have higher priority.  */
     yield();
+    //ready(create((void *)yield, INITSTK, 99, "YieldCore1", 0), RESCHED_YES, CORE_ONE);
+    udelay(9);
+    
     testPrint(verbose, "Wait on semaphore: ");
+    
     if (test_checkProcState(atid, THRWAIT)
         && test_checkProcState(btid, THRWAIT)
-        /*&& test_checkSemCount(s, -4)*/ && test_checkResult(testResult, 0))
+        && test_checkSemCount(s, -4) && test_checkResult(testResult, 0))
     {
+    kprintf("\r\nSemCount (Pass): %d...", semcount(s));
         testPass(verbose, "");
     }
     else
     {
+    kprintf("\r\nSemCount (Fail): %d...", semcount(s));
         passed = FALSE;
     }
 
