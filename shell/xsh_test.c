@@ -33,11 +33,11 @@ int testmain(int argc, char **argv)
 {
 	uint cpuid = getcpuid();
 	int i = 0;
-	kprintf("\r\n********=======********\r\n");
+	printf("\r\n********=======********\r\n");
 	resched();
 	for (i = 0; i < 10; i++)
 	{
-		kprintf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
+		printf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
 		//resched();
@@ -83,13 +83,13 @@ shellcmd xsh_test(int nargs, char *args[])
 {
 	int c, pid;
 
-	kprintf("0) Test creation of one process\r\n");
-	kprintf("1) Test passing of many args\r\n");
-	kprintf("2) Create three processes and run them\r\n");
-	kprintf("3) Create three processes and run them on other cores\r\n");
-	kprintf("4) Priority scheduling on one core\r\n");
+	printf("0) Test creation of one process\r\n");
+	printf("1) Test passing of many args\r\n");
+	printf("2) Create three processes and run them\r\n");
+	printf("3) Create three processes and run them on other cores\r\n");
+	printf("4) Priority scheduling on one core\r\n");
 
-	kprintf("===TEST BEGIN===\r\n");
+	printf("===TEST BEGIN===\r\n");
 
 	// TODO: Test your operating system!
 

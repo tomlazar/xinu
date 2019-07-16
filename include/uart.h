@@ -47,6 +47,7 @@ struct uart
     ushort ocount;              /**< Bytes in buffer                    */
     uchar out[UART_OBLEN];      /**< Output buffer                      */
     volatile bool oidle;        /**< UART transmitter idle              */
+    mutex_t olock;		/**< Mutex to guard counters		*/
 };
 
 extern struct uart uarttab[];
