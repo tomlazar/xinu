@@ -15,6 +15,7 @@
 #include <queue.h>
 #include <thread.h>
 #include <semaphore.h>
+#include <dma_buf.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -145,6 +146,9 @@ int platforminit(void)
 		muxtab[i].state = MUTEX_FREE;
 		muxtab[i].lock = MUTEX_UNLOCKED;
 	}
+
+	/* Initialize dma buffer space */
+	dma_buf_init();
 
 	/* Initialze the Hardware Random Number Generator */
 	random_init();

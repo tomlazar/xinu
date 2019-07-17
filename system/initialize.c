@@ -18,6 +18,7 @@
 #endif
 
 #include "platforms/arm-rpi3/mmu.h"
+#include <dma_buf.h>
 
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
@@ -75,6 +76,9 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
+	kprintf("dma_buf_space:  0x%08X\r\n", dma_buf_space);
+	kprintf("&dma_buf_space: 0x%08X\r\n", &dma_buf_space);
+
 	/* Enable interrupts  */
 	enable();	
 
@@ -97,7 +101,6 @@ static int sysinit(void)
 
 	/* Initialize serial lock */
 	serial_lock = mutex_create();
-	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */

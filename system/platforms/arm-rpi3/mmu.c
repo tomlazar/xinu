@@ -1,5 +1,6 @@
 #include <mmu.h>
 #include <mutex.h>
+#include <dma_buf.h>
 
 /* code from Github user dwelch67
  * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
@@ -41,37 +42,23 @@ unsigned int mmu_small (unsigned int vadd, unsigned int padd, unsigned int flags
 void mmu_init()
 {
 	unsigned int ra;
-	unsigned int secaddr = 0x400; /* Address for the secondary MMU table base (for small pages) */
-
-	/* aligned_bufs (DMA buffer) occupies memory region 0x3A7EC to 0x3CBEC
-	 * Make memory cacheable for the first 1MB (in 4KB pages) except for DMA region */
-	for (ra = 0; ; ra += 0x001000){
-		if(ra == 0x100000)
-			break;
-		if (ra >= 0x3A000 && ra <= 0x3D000){
-			mmu_small(ra, ra, 0x0 | 0x8, secaddr);
-			secaddr += 0x400; // Pages must be 1K aligned
-		}
-		else{
-			mmu_section(ra, ra, 0x15C06);
-		}
-	}
-
-	/* Make memory cacheable (in 1MB sections) for the rest of memory up until peripherals */
-	for ( ; ; ra += 0x00100000)
-	{
+	for (ra = 0; ; ra += 0x00100000)
+	{		
 		mmu_section(ra, ra, 0x15C06);
 		if (ra >= 0x3F000000)
-			break; /* Stop before IO peripherals */
+			break;
 	}
 
 	/* Peripherals not marked (use 0x0000) */
 	for ( ; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x0000);
-		if (ra == 0xFFF00000)
+		if (ra == 0x40000000)
 			break;
 	}
+
+	// make dma buffer area non-cacheable
+	mmu_section(dma_buf_space, dma_buf_space, 0x0);
 
 	start_mmu(MMUTABLEBASE);
 }

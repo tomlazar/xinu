@@ -78,12 +78,6 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
-#include "mmu.h"
-#include <core.h>
-#include <mutex.h>
-#include <uart.h>
-#include "../../../device/uart-pl011/pl011.h"
-#include <clock.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -114,7 +108,6 @@ static volatile struct dwc_regs * const regs = (void*)DWC_REGS_BASE;
  */
 #define XFER_SCHEDULER_THREAD_PRIORITY 60
 
-//
 /** Name of USB transfer request scheduler thread.  */
 #define XFER_SCHEDULER_THREAD_NAME "USB scheduler"
 
@@ -166,10 +159,9 @@ static semaphore chfree_sema;
 static struct usb_xfer_request *channel_pending_xfers[DWC_NUM_CHANNELS];
 
 /** Aligned buffers for DMA.  */
-/* Occupies memory region: 0x3A7EC to 0x3CBEC
- */
-static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
-                                __aligned(4);
+//static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
+//                                __aligned(4);
+static uint8_t **aligned_bufs;
 
 /* Find index of first set bit in a nonzero word.  */
 static inline ulong first_set_bit(ulong word)
@@ -505,11 +497,12 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
 {
     uint16_t len;
     const struct usb_control_setup_data *setup = &req->setup_data;
+
     switch (setup->bRequest)
     {
         case USB_DEVICE_REQUEST_GET_STATUS:
             len = min(setup->wLength, sizeof(root_hub_device_status));
-	    memcpy(req->recvbuf, &root_hub_device_status, len);
+            memcpy(req->recvbuf, &root_hub_device_status, len);
             req->actual_size = len;
             return USB_STATUS_SUCCESS;
 
@@ -650,7 +643,7 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
                 case USB_DESCRIPTOR_TYPE_HUB:
                     /* GetHubDescriptor (11.24.2) */
                     len = min(setup->wLength, root_hub_hub_descriptor.bDescLength);
-		    memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
+                    memcpy(req->recvbuf, &root_hub_hub_descriptor, len);
                     req->actual_size = len;
                     return USB_STATUS_SUCCESS;
             }
@@ -749,7 +742,6 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
         root_hub_status_change_request = req;
         if (host_port_status.wPortChange != 0)
         {
-            usb_debug("Port status changed...\r\n");
             dwc_host_port_status_changed();
         }
     }
@@ -881,19 +873,19 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
             case 0: /* SETUP phase of control transfer */
                 usb_dev_debug(req->dev, "Starting SETUP transaction\r\n");
                 characteristics.endpoint_direction = USB_DIRECTION_OUT;
-		data = &req->setup_data;
+                data = &req->setup_data;
                 transfer.size = sizeof(struct usb_control_setup_data);
                 transfer.packet_id = DWC_USB_PID_SETUP;
                 break;
 
             case 1: /* DATA phase of control transfer */
                 usb_dev_debug(req->dev, "Starting DATA transactions\r\n");
-		characteristics.endpoint_direction =
+                characteristics.endpoint_direction =
                                         req->setup_data.bmRequestType >> 7;
                 /* We need to carefully take into account that we might be
                  * re-starting a partially complete transfer.  */
                 data = req->recvbuf + req->actual_size;
-		transfer.size = req->size - req->actual_size;
+                transfer.size = req->size - req->actual_size;
                 if (req->actual_size == 0)
                 {
                     /* First transaction in the DATA phase: use a DATA1 packet
@@ -924,7 +916,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                 }
                 /* The STATUS transaction has no data buffer, yet must use a
                  * DATA1 packet ID.  */
-		data = NULL;
+                data = NULL;
                 transfer.size = 0;
                 transfer.packet_id = DWC_USB_PID_DATA1;
                 break;
@@ -994,32 +986,20 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
     }
 
     /* Set up DMA buffer.  */
-
-    //    if (IS_WORD_ALIGNED(data))
-    if (0)
+//    if (IS_WORD_ALIGNED(data))
+	if (0)
     {
-	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
-	 * convert the address from ARM to VC4. This is done both times which
-	 * the DMA address is stored.
-         * Can DMA directly from source or to destination if word-aligned.  */
-        uint data_vc4 = (uint32_t)data | 0xC0000000;
-	chanptr->dma_address = data_vc4; // Write data to memory that will be xferred by DMA to USB
+        /* Can DMA directly from source or to destination if word-aligned.  */
+        chanptr->dma_address = (uint32_t)data;
     }
     else
     {
-	/* Need to use alternate buffer for DMA, since the actual source or
+        /* Need to use alternate buffer for DMA, since the actual source or
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-	/* XXX TODO: Figure out why this delay is necessary for execution to proceed... */
-	udelay(24);
-
-	/* From the BCM2835 Peripherals document:
-	Software accessing RAM using the DMA engines must use bus addresses (based at
-	0xC0000000) */
-	chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
-
-	if (transfer.size > sizeof(aligned_bufs[chan]))
+        chanptr->dma_address = (uint32_t)aligned_bufs[chan];
+        if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
                             (sizeof(aligned_bufs[chan]) %
@@ -1030,15 +1010,14 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
             memcpy(aligned_bufs[chan], data, transfer.size);
-	    //_inval_area((uint32_t)aligned_bufs[chan]);	/* This invalidation brings initialization to device 2. The udelays bring it to device 3. Without this line, hardware error occurs over xfer */
-	}
+        }
     }
 
     /* Set pointer to start of next chunk of data to send/receive (may be
      * different from the actual DMA address to be used by the hardware if an
      * alternate buffer was selected above).  */
     req->cur_data_ptr = data;
-    
+
     /* Calculate the number of packets being set up for this transfer.  */
     transfer.packet_count = DIV_ROUND_UP(transfer.size,
                                          characteristics.max_packet_size);
@@ -1059,7 +1038,7 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
      * can find it.  */
     channel_pending_xfers[chan] = req;
 
-    usb_dev_debug(req->dev, "\r\n======================****=======================\r\n\nSetting up transactions on channel %u:\r\n"
+    usb_dev_debug(req->dev, "Setting up transactions on channel %u:\r\n"
                   "\t\tmax_packet_size=%u, "
                   "endpoint_number=%u, endpoint_direction=%s,\r\n"
                   "\t\tlow_speed=%u, endpoint_type=%s, device_address=%u,\r\n\t\t"
@@ -1211,7 +1190,7 @@ defer_xfer(struct usb_xfer_request *req)
                                          DEFER_XFER_THREAD_PRIORITY,
                                          DEFER_XFER_THREAD_NAME,
                                          1, req);
-        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO, CORE_ZERO))
+        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO, 0))
         {
             req->deferer_thread_tid = BADTID;
             usb_dev_error(req->dev,
@@ -1244,7 +1223,6 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
     /* The hardware seems to update transfer.packet_count as expected, so we can
      * look at it before deciding whether to use transfer.size (which is not
      * always updated as expected).  */
-   
     uint packets_remaining   = chanptr->transfer.packet_count;
     uint packets_transferred = req->attempted_packets_remaining -
                                packets_remaining;
@@ -1273,11 +1251,9 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                                 chanptr->transfer.size;
             /* Copy data from DMA buffer if needed */
 //            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
-            if (1)
-	    {
-	        usb_dev_debug(req->dev, "\r\n\nNOT word aligned. COPY FROM DMA BUFFER.\r\n");
-
-		memcpy(req->cur_data_ptr,
+			if (1)
+            {
+                memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],
                        bytes_transferred);
@@ -1285,7 +1261,6 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         }
         else
         {
-
             /* Ignore transfer.size field for OUT transfers because it's not
              * updated sanely.  */
             if (packets_transferred > 1)
@@ -1507,7 +1482,6 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
-	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1577,7 +1551,6 @@ dwc_handle_channel_halted_interrupt(uint chan)
         }
     }
 
-    
     /* If we got here because the transfer successfully completed or an error
      * occurred, call the device-driver-provided completion callback.  */
     usb_complete_xfer(req);
@@ -1833,7 +1806,7 @@ dwc_start_xfer_scheduler(void)
                                     XFER_SCHEDULER_THREAD_STACK_SIZE,
                                     XFER_SCHEDULER_THREAD_PRIORITY,
                                     XFER_SCHEDULER_THREAD_NAME, 0);
-    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO, CORE_ZERO))
+    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO, 0))
     {
         semfree(chfree_sema);
         mailboxFree(hcd_xfer_mailbox);
@@ -1849,6 +1822,10 @@ usb_status_t
 hcd_start(void)
 {
     usb_status_t status;
+
+	aligned_bufs = dma_buf_alloc(DWC_NUM_CHANNELS * (WORD_ALIGN(USB_MAX_PACKET_SIZE)));
+
+	kprintf("aligned_bufs = 0x%08X\r\n", aligned_bufs);
 
     status = dwc_power_on();
     if (status != USB_STATUS_SUCCESS)
