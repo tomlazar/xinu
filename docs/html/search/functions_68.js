@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['hcd_5fsubmit_5fxfer_5frequest',['hcd_submit_xfer_request',['../usb__dwc__hcd_8c.html#a72b7448515ed0c92480cb6737009e626',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fstart',['hcd_start',['../group__usbhcd.html#gaab6ab94dcc19ea7a80aed9af1c44ab7d',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fstop',['hcd_stop',['../group__usbhcd.html#ga058fc081836262ad2376911fcf7cf14b',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fsubmit_5fxfer_5frequest',['hcd_submit_xfer_request',['../group__usbhcd.html#ga72b7448515ed0c92480cb6737009e626',1,'usb_dwc_hcd.c']]],
   ['hexdump',['hexdump',['../group__misc.html#ga5bc0d7c8691391445b85777874908adb',1,'debug.c']]],
   ['httpalloc',['httpAlloc',['../httpAlloc_8c.html#a004ffc8ed703351e29a9f7a79d279ff8',1,'httpAlloc.c']]],
   ['httpclose',['httpClose',['../httpClose_8c.html#a0dfa93f21eae160003d613e20af798d8',1,'httpClose.c']]],

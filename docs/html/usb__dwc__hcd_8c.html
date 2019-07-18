@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -136,7 +137,7 @@ Enumerations</h2></td></tr>
 <b>DWC_USB_PID_SETUP</b> = 3
  }</td></tr>
 <tr class="separator:a636c325dbaf124cfa4c527196827972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b5f13b20e154376312b7514f9dbcb81"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usb__dwc__hcd_8c.html#a7b5f13b20e154376312b7514f9dbcb81">dwc_intr_status</a> { <br/>
+<tr class="memitem:ga7b5f13b20e154376312b7514f9dbcb81"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usbhcd.html#ga7b5f13b20e154376312b7514f9dbcb81">dwc_intr_status</a> { <br/>
 &#160;&#160;<b>XFER_COMPLETE</b> = 0, 
 <b>XFER_FAILED</b> = 1, 
 <b>XFER_NEEDS_DEFERRAL</b> = 2, 
@@ -145,18 +146,16 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>XFER_NEEDS_TRANS_RESTART</b> = 4
 <br/>
  }</td></tr>
-<tr class="separator:a7b5f13b20e154376312b7514f9dbcb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ga7b5f13b20e154376312b7514f9dbcb81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aab6ab94dcc19ea7a80aed9af1c44ab7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab6ab94dcc19ea7a80aed9af1c44ab7d"></a>
-usb_status_t&#160;</td><td class="memItemRight" valign="bottom"><b>hcd_start</b> (void)</td></tr>
-<tr class="separator:aab6ab94dcc19ea7a80aed9af1c44ab7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a058fc081836262ad2376911fcf7cf14b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a058fc081836262ad2376911fcf7cf14b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>hcd_stop</b> (void)</td></tr>
-<tr class="separator:a058fc081836262ad2376911fcf7cf14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72b7448515ed0c92480cb6737009e626"><td class="memItemLeft" align="right" valign="top">usb_status_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="usb__dwc__hcd_8c.html#a72b7448515ed0c92480cb6737009e626">hcd_submit_xfer_request</a> (struct usb_xfer_request *req)</td></tr>
-<tr class="separator:a72b7448515ed0c92480cb6737009e626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaab6ab94dcc19ea7a80aed9af1c44ab7d"><td class="memItemLeft" align="right" valign="top">usb_status_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usbhcd.html#gaab6ab94dcc19ea7a80aed9af1c44ab7d">hcd_start</a> (void)</td></tr>
+<tr class="separator:gaab6ab94dcc19ea7a80aed9af1c44ab7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga058fc081836262ad2376911fcf7cf14b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usbhcd.html#ga058fc081836262ad2376911fcf7cf14b">hcd_stop</a> (void)</td></tr>
+<tr class="separator:ga058fc081836262ad2376911fcf7cf14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga72b7448515ed0c92480cb6737009e626"><td class="memItemLeft" align="right" valign="top">usb_status_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__usbhcd.html#ga72b7448515ed0c92480cb6737009e626">hcd_submit_xfer_request</a> (struct usb_xfer_request *req)</td></tr>
+<tr class="separator:ga72b7448515ed0c92480cb6737009e626"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file contains a USB Host Controller Driver for the Synopsys DesignWare Hi-Speed USB 2.0 On-The-Go Controller. </p>
@@ -300,19 +299,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hcd_stop</b> (void)</
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a class="anchor" id="a7b5f13b20e154376312b7514f9dbcb81"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="usb__dwc__hcd_8c.html#a7b5f13b20e154376312b7514f9dbcb81">dwc_intr_status</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Internal transfer status codes used to simplify interrupt handling. </p>
-
-</div>
-</div>
 <a class="anchor" id="a636c325dbaf124cfa4c527196827972d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -323,25 +309,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>hcd_stop</b> (void)</
       </table>
 </div><div class="memdoc">
 <p>USB packet ID constants recognized by the DWC hardware. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a72b7448515ed0c92480cb6737009e626"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">usb_status_t hcd_submit_xfer_request </td>
-          <td>(</td>
-          <td class="paramtype">struct usb_xfer_request *&#160;</td>
-          <td class="paramname"><em>req</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>This Host Controller Driver implements this interface asynchronously, as intended. Furthermore, it uses a simplistic scheduling algorithm where it places transfer requests into a single queue and executes them in the order they were submitted. Transfers that need to be retried, including periodic transfers that receive a NAK reply and split transactions that receive a NYET reply when doing the Complete Split transaction, are scheduled to be retried at an appropriate time by separate code that shortcuts the main queue when the timer expires.</p>
-<p>Jump to dwc_schedule_xfer_requests() to see what happens next. </p>
 
 </div>
 </div>

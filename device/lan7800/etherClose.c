@@ -13,10 +13,9 @@
 /* 
  * @ingroup etherspecific
  *
- * Implementation of etherClose() for the smsc9512; see the documentation for
- * this function in ether.h.  
- * @param devptr	TODODOC desc. of devptr
- * @return SYSERR TODODOC why does it return SYSERR
+ * Implementation of etherClose() for the lan7800
+ * @param devptr	Pointer to ethernet device to close
+ * @return		::SYSERR, the device is never closed
  */
 devcall etherClose(device *devptr)
 {

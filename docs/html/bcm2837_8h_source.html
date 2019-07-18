@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -167,8 +168,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    POWER_USB    = 3,</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="bcm2837_8h.html#ad5db106cf15f544accbdeb02ed89894a">bcm2837_setpower</a>(<span class="keyword">enum</span> board_power_feature feature, <span class="keywordtype">bool</span> on);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="bcm2837_8h.html#ad1cb830ad707715e909b54abc6f8d9d5">bcm2837_power_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="group__bcm2837.html#gad5db106cf15f544accbdeb02ed89894a">bcm2837_setpower</a>(<span class="keyword">enum</span> board_power_feature feature, <span class="keywordtype">bool</span> on);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group__bcm2837.html#gad1cb830ad707715e909b54abc6f8d9d5">bcm2837_power_init</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#define board_setpower bcm2837_setpower</span></div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor"></span></div>
@@ -196,8 +197,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define post_peripheral_access_mb dmb</span></div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* _BCM2837_H_ */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="bcm2837_8h_html_ad1cb830ad707715e909b54abc6f8d9d5"><div class="ttname"><a href="bcm2837_8h.html#ad1cb830ad707715e909b54abc6f8d9d5">bcm2837_power_init</a></div><div class="ttdeci">void bcm2837_power_init(void)</div><div class="ttdef"><b>Definition:</b> bcm2837_power.c:90</div></div>
-<div class="ttc" id="bcm2837_8h_html_ad5db106cf15f544accbdeb02ed89894a"><div class="ttname"><a href="bcm2837_8h.html#ad5db106cf15f544accbdeb02ed89894a">bcm2837_setpower</a></div><div class="ttdeci">int bcm2837_setpower(enum board_power_feature feature, bool on)</div><div class="ttdef"><b>Definition:</b> bcm2837_power.c:66</div></div>
+<div class="ttc" id="group__bcm2837_html_gad5db106cf15f544accbdeb02ed89894a"><div class="ttname"><a href="group__bcm2837.html#gad5db106cf15f544accbdeb02ed89894a">bcm2837_setpower</a></div><div class="ttdeci">int bcm2837_setpower(enum board_power_feature feature, bool on)</div><div class="ttdef"><b>Definition:</b> bcm2837_power.c:91</div></div>
+<div class="ttc" id="group__bcm2837_html_gad1cb830ad707715e909b54abc6f8d9d5"><div class="ttname"><a href="group__bcm2837.html#gad1cb830ad707715e909b54abc6f8d9d5">bcm2837_power_init</a></div><div class="ttdeci">void bcm2837_power_init(void)</div><div class="ttdef"><b>Definition:</b> bcm2837_power.c:117</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

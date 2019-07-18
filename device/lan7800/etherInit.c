@@ -39,7 +39,7 @@ uchar addr[ETH_ADDR_LEN] = {0};
  * @ingroup lan7800
  *
  * Try to bind the LAN7800 driver to a specific USB device.
- * @param udev	TODODOC
+ * @param udev	Pointer to USB device
  */
 static usb_status_t
 lan7800_bind_device(struct usb_device *udev)
@@ -104,7 +104,7 @@ lan7800_bind_device(struct usb_device *udev)
  * @ingroup lan7800
  *
  * Unbinds the LAN7800 driver from the LAN7800 device that has been detached.
- * @param udev	TODODOC
+ * @param udev	Pointer to USB device
  */
 static void
 lan7800_unbind_device(struct usb_device *udev)
@@ -218,8 +218,8 @@ lan7800_wait_device_attached(ushort minor)
  * @ingroup lan7800
  *
  * Implementation of etherInit() for lan7800; documentation in ether.h 
- * @param devptr	TODODOC
- * @return TODODOC
+ * @param devptr Pointer to ethernet device.
+ * @return ::OK on successful initialization, ::SYSERR otherwise.
  */
 /**
  * @details

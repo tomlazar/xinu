@@ -489,7 +489,7 @@ usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga2283a3790e3b0874e957b9c10ef44
 \item 
 usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}{lan7800\-\_\-set\-\_\-reg\-\_\-bits} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t set)
 \item 
-usb\-\_\-status\-\_\-t \hyperlink{lan7800_8h_a332faebc17d841f5faeae06562624624}{lan7800\-\_\-wait\-\_\-device\-\_\-attached} (ushort minor)
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga332faebc17d841f5faeae06562624624}{lan7800\-\_\-wait\-\_\-device\-\_\-attached} (ushort minor)
 \item 
 usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}{lan7800\-\_\-set\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, const uint8\-\_\-t $\ast$macaddr)
 \item 
@@ -591,25 +591,10 @@ This function is responsible for breaking up the raw U\-S\-B transfer data into 
 )}}\label{lan7800_8h_a020d1eb5f8327dda168c302e8aecbfbf}
 Callback function executed with interrupts disabled when an asynchronous U\-S\-B bulk transfer to the Bulk O\-U\-T endpoint of the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter for the purpose of sending an Ethernet packet has successfully completed or has failed.
 
-Currently all this function has to do is return the buffer to its pool. This may wake up a thread in ether\-Write() that is waiting for a free buffer.
+Currently all this function has to do is return the buffer to its pool. This may wake up a thread in \hyperlink{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{ether\-Write()} that is waiting for a free buffer.
 
 
 \begin{DoxyParams}{Parameters}
 {\em req} & U\-S\-B bulk O\-U\-T transfer request that has completed. \\
 \hline
 \end{DoxyParams}
-\hypertarget{lan7800_8h_a332faebc17d841f5faeae06562624624}{\index{lan7800.\-h@{lan7800.\-h}!lan7800\-\_\-wait\-\_\-device\-\_\-attached@{lan7800\-\_\-wait\-\_\-device\-\_\-attached}}
-\index{lan7800\-\_\-wait\-\_\-device\-\_\-attached@{lan7800\-\_\-wait\-\_\-device\-\_\-attached}!lan7800.h@{lan7800.\-h}}
-\subsubsection[{lan7800\-\_\-wait\-\_\-device\-\_\-attached}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-wait\-\_\-device\-\_\-attached (
-\begin{DoxyParamCaption}
-\item[{ushort}]{minor}
-\end{DoxyParamCaption}
-)}}\label{lan7800_8h_a332faebc17d841f5faeae06562624624}
-Wait until the specified Ethernet device has been attached. This is necessary because U\-S\-B is a dynamic bus, but Xinu expects static devices. 
-\begin{DoxyParams}{Parameters}
-{\em minor} & Minor number of the Ethernet device to wait for. \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Currently \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S. 
-\end{DoxyReturn}

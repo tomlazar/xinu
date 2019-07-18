@@ -11,6 +11,7 @@ var searchData=
   ['rawsend',['rawSend',['../group__raw.html#ga96bcfddfc19de3105a3ad83cf5ec68f7',1,'rawSend.c']]],
   ['rawwrite',['rawWrite',['../group__raw.html#ga5b6e06855a1ac2e31f4c90f2742fc817',1,'rawWrite.c']]],
   ['read',['read',['../group__devcalls.html#ga743e9d7e0afd7a1eb0c4321e79bc30a3',1,'read.c']]],
+  ['readmmio',['readMMIO',['../group__framebuffer.html#ga066eacc612c8bedce15eae1c33b004e5',1,'mailbox.c']]],
   ['ready',['ready',['../group__threads.html#ga27672998ad7f482c641123e2c09ce279',1,'ready.c']]],
   ['receive',['receive',['../group__threads.html#gab8c6462cae122b52c45f94ccdcab216a',1,'receive.c']]],
   ['recvclr',['recvclr',['../group__threads.html#ga246edc36f1a948322e6ef03630db6cf6',1,'recvclr.c']]],

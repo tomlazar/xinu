@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,21 +98,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a71d1bd833737d965d0223b5da02b6311"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71d1bd833737d965d0223b5da02b6311"></a>
-ulong&#160;</td><td class="memItemRight" valign="bottom"><b>mailboxRead</b> ()</td></tr>
-<tr class="separator:a71d1bd833737d965d0223b5da02b6311"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f8108da950b74ecf40e586187d5fa6e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f8108da950b74ecf40e586187d5fa6e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mailboxWrite</b> (ulong data)</td></tr>
-<tr class="separator:a4f8108da950b74ecf40e586187d5fa6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a066eacc612c8bedce15eae1c33b004e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a066eacc612c8bedce15eae1c33b004e5"></a>
-ulong&#160;</td><td class="memItemRight" valign="bottom"><b>readMMIO</b> (ulong base, ulong reg)</td></tr>
-<tr class="separator:a066eacc612c8bedce15eae1c33b004e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a59650d2f1bccd558d8e27ccb10f859"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a59650d2f1bccd558d8e27ccb10f859"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>writeMMIO</b> (ulong base, ulong reg, ulong val)</td></tr>
-<tr class="separator:a8a59650d2f1bccd558d8e27ccb10f859"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec48109921b4cac283b9a8b09e8d3b4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec48109921b4cac283b9a8b09e8d3b4d"></a>
-ulong&#160;</td><td class="memItemRight" valign="bottom"><b>physToBus</b> (void *address)</td></tr>
-<tr class="separator:aec48109921b4cac283b9a8b09e8d3b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga71d1bd833737d965d0223b5da02b6311"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga71d1bd833737d965d0223b5da02b6311">mailboxRead</a> ()</td></tr>
+<tr class="separator:ga71d1bd833737d965d0223b5da02b6311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4f8108da950b74ecf40e586187d5fa6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga4f8108da950b74ecf40e586187d5fa6e">mailboxWrite</a> (ulong data)</td></tr>
+<tr class="separator:ga4f8108da950b74ecf40e586187d5fa6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga066eacc612c8bedce15eae1c33b004e5"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga066eacc612c8bedce15eae1c33b004e5">readMMIO</a> (ulong base, ulong reg)</td></tr>
+<tr class="separator:ga066eacc612c8bedce15eae1c33b004e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a59650d2f1bccd558d8e27ccb10f859"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga8a59650d2f1bccd558d8e27ccb10f859">writeMMIO</a> (ulong base, ulong reg, ulong val)</td></tr>
+<tr class="separator:ga8a59650d2f1bccd558d8e27ccb10f859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec48109921b4cac283b9a8b09e8d3b4d"><td class="memItemLeft" align="right" valign="top">ulong&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gaec48109921b4cac283b9a8b09e8d3b4d">physToBus</a> (void *address)</td></tr>
+<tr class="separator:gaec48109921b4cac283b9a8b09e8d3b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides communication channels between VC and ARM. </p>

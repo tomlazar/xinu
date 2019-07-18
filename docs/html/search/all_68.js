@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['hcd_5fsubmit_5fxfer_5frequest',['hcd_submit_xfer_request',['../usb__dwc__hcd_8c.html#a72b7448515ed0c92480cb6737009e626',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fstart',['hcd_start',['../group__usbhcd.html#gaab6ab94dcc19ea7a80aed9af1c44ab7d',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fstop',['hcd_stop',['../group__usbhcd.html#ga058fc081836262ad2376911fcf7cf14b',1,'usb_dwc_hcd.c']]],
+  ['hcd_5fsubmit_5fxfer_5frequest',['hcd_submit_xfer_request',['../group__usbhcd.html#ga72b7448515ed0c92480cb6737009e626',1,'usb_dwc_hcd.c']]],
   ['hexdump',['hexdump',['../group__misc.html#ga5bc0d7c8691391445b85777874908adb',1,'debug.c']]],
   ['hlen',['hlen',['../structdhcpPkt.html#a08914a4ec7eb2b42b49c58846241c651',1,'dhcpPkt']]],
   ['hops',['hops',['../structdhcpPkt.html#ab23d57fb3a3cd50f1a98a74640be536f',1,'dhcpPkt']]],

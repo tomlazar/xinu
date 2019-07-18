@@ -10,6 +10,29 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{devcall {\bfseries ether\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)}\label{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}
-
+devcall \hyperlink{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{ether\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)
 \end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{\index{ether\-Write.\-c@{ether\-Write.\-c}!ether\-Write@{ether\-Write}}
+\index{ether\-Write@{ether\-Write}!etherWrite.c@{ether\-Write.\-c}}
+\subsubsection[{ether\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall ether\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}
+Implementation of \hyperlink{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{ether\-Write()} for the Micro\-Chip L\-A\-N7800; see the documentation for this function in ether.\-h. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the ethernet device to write to. \\
+\hline
+{\em buf} & Packet buffer \\
+\hline
+{\em len} & Amount of bytes to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The length of the packet written 
+\end{DoxyReturn}

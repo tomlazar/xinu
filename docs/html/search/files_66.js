@@ -10,6 +10,7 @@ var searchData=
   ['flashopen_2ec',['flashOpen.c',['../flashOpen_8c.html',1,'']]],
   ['flashread_2ec',['flashRead.c',['../flashRead_8c.html',1,'']]],
   ['flashwrite_2ec',['flashWrite.c',['../flashWrite_8c.html',1,'']]],
+  ['font_2ec',['font.c',['../font_8c.html',1,'']]],
   ['fprintf_2ec',['fprintf.c',['../fprintf_8c.html',1,'']]],
   ['fputc_2ec',['fputc.c',['../fputc_8c.html',1,'']]],
   ['fputs_2ec',['fputs.c',['../fputs_8c.html',1,'']]],

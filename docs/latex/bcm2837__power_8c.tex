@@ -6,46 +6,15 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{bcm2837__power_8c_a560d6c2a9ab56136a3219b1aceaca531}{void {\bfseries bcm2837\-\_\-mailbox\-\_\-write} (uint channel, uint value)}\label{bcm2837__power_8c_a560d6c2a9ab56136a3219b1aceaca531}
-
+void \hyperlink{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}{bcm2837\-\_\-mailbox\-\_\-write} (uint channel, uint value)
 \item 
-\hypertarget{bcm2837__power_8c_af3a135e92d25f12cae0cc9c4e380c2e0}{uint {\bfseries bcm2837\-\_\-mailbox\-\_\-read} (uint channel)}\label{bcm2837__power_8c_af3a135e92d25f12cae0cc9c4e380c2e0}
-
+uint \hyperlink{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}{bcm2837\-\_\-mailbox\-\_\-read} (uint channel)
 \item 
-int \hyperlink{bcm2837__power_8c_ad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
+int \hyperlink{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
 \item 
-void \hyperlink{bcm2837__power_8c_ad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
+void \hyperlink{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 This driver provides the ability to power on and power off hardware, such as the U\-S\-B Controller, on the B\-C\-M2837\-B0 So\-C used on the Raspberry Pi 3 B+. This makes use of the B\-C\-M2837\-B0's mailbox mechanism. 
-
-\subsection{Function Documentation}
-\hypertarget{bcm2837__power_8c_ad1cb830ad707715e909b54abc6f8d9d5}{\index{bcm2837\-\_\-power.\-c@{bcm2837\-\_\-power.\-c}!bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}}
-\index{bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}!bcm2837_power.c@{bcm2837\-\_\-power.\-c}}
-\subsubsection[{bcm2837\-\_\-power\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void bcm2837\-\_\-power\-\_\-init (
-\begin{DoxyParamCaption}
-\item[{void}]{}
-\end{DoxyParamCaption}
-)}}\label{bcm2837__power_8c_ad1cb830ad707715e909b54abc6f8d9d5}
-Resets B\-C\-M2837 power to default state (all devices powered off). \hypertarget{bcm2837__power_8c_ad5db106cf15f544accbdeb02ed89894a}{\index{bcm2837\-\_\-power.\-c@{bcm2837\-\_\-power.\-c}!bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}}
-\index{bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}!bcm2837_power.c@{bcm2837\-\_\-power.\-c}}
-\subsubsection[{bcm2837\-\_\-setpower}]{\setlength{\rightskip}{0pt plus 5cm}int bcm2837\-\_\-setpower (
-\begin{DoxyParamCaption}
-\item[{enum board\-\_\-power\-\_\-feature}]{feature, }
-\item[{bool}]{on}
-\end{DoxyParamCaption}
-)}}\label{bcm2837__power_8c_ad5db106cf15f544accbdeb02ed89894a}
-Powers on or powers off B\-C\-M2837 hardware.
-
-
-\begin{DoxyParams}{Parameters}
-{\em feature} & Device or hardware to power on or off. \\
-\hline
-{\em on} & \-::\-T\-R\-U\-E to power on; \-::\-F\-A\-L\-S\-E to power off.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\-::\-O\-K if successful; \-::\-S\-Y\-S\-E\-R\-R otherwise. 
-\end{DoxyReturn}

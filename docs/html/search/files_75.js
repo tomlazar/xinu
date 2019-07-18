@@ -28,6 +28,7 @@ var searchData=
   ['ulaw2linear_2ec',['ulaw2linear.c',['../ulaw2linear_8c.html',1,'']]],
   ['unistd_2ec',['unistd.c',['../unistd_8c.html',1,'']]],
   ['unlock_2ec',['unlock.c',['../unlock_8c.html',1,'']]],
+  ['unparkcore_2ec',['unparkcore.c',['../unparkcore_8c.html',1,'']]],
   ['unsleep_2ec',['unsleep.c',['../unsleep_8c.html',1,'']]],
   ['usb_5fdwc_5fhcd_2ec',['usb_dwc_hcd.c',['../usb__dwc__hcd_8c.html',1,'']]],
   ['usb_5fdwc_5fregs_2eh',['usb_dwc_regs.h',['../usb__dwc__regs_8h.html',1,'']]],

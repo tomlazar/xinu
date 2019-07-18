@@ -6,25 +6,36 @@
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{trig_8c_a06d83b3a8c4e7de105f0cbec05156ca8}{double {\bfseries power} (double base, int exp)}\label{trig_8c_a06d83b3a8c4e7de105f0cbec05156ca8}
-
+double \hyperlink{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}{power} (double base, int exp)
 \item 
-\hypertarget{trig_8c_aace690b4b57f656869ad150be9b8527b}{long {\bfseries factorial} (int num)}\label{trig_8c_aace690b4b57f656869ad150be9b8527b}
-
+long \hyperlink{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}{factorial} (int num)
 \item 
-\hypertarget{trig_8c_a8f29a8a49cb9e546d0593b65f839f27a}{double {\bfseries cosine\-\_\-taylor} (double x, int terms)}\label{trig_8c_a8f29a8a49cb9e546d0593b65f839f27a}
-
+double \hyperlink{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}{cosine\-\_\-taylor} (double x, int terms)
 \item 
-\hypertarget{trig_8c_aea037da8bd8165c16730fb1f23b6df03}{double {\bfseries cos} (int x)}\label{trig_8c_aea037da8bd8165c16730fb1f23b6df03}
-
+double \hyperlink{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}{cos} (int x)
 \item 
-\hypertarget{trig_8c_ad72a63046aee1a31203e50b812f03bd7}{double {\bfseries sine\-\_\-taylor} (double x, int terms)}\label{trig_8c_ad72a63046aee1a31203e50b812f03bd7}
-
+double \hyperlink{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{sine\-\_\-taylor} (double x, int terms)
 \item 
-\hypertarget{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}{double {\bfseries sin} (int x)}\label{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}
-
+double \hyperlink{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}{sin} (int x)
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Provides sine and cosine for Taylor series. Cannot handle values above 215 degrees--will cause overflow. To correct this, only compute values between 0 and 90. Answers are not exactly accurate, but accurate enough for our purposes. 
+
+\subsection{Function Documentation}
+\hypertarget{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}{\index{trig.\-c@{trig.\-c}!sin@{sin}}
+\index{sin@{sin}!trig.c@{trig.\-c}}
+\subsubsection[{sin}]{\setlength{\rightskip}{0pt plus 5cm}double sin (
+\begin{DoxyParamCaption}
+\item[{int}]{x}
+\end{DoxyParamCaption}
+)}}\label{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}
+Note\-: For graphics purposes, the sine must always be turned negative because a monitor is technically in quadrant 4 instead of quadrant 1. 
+\begin{DoxyParams}{Parameters}
+{\em x} & T\-O\-D\-O\-D\-O\-C \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T\-O\-D\-O\-D\-O\-C 
+\end{DoxyReturn}

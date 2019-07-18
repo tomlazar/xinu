@@ -21,8 +21,8 @@
  *
  * Implementation of etherOpen() for the lan7800; see the documentation for
  * this function in ether.h.  
- * @param devptr	TODODOC
- * @return TODODOC explain
+ * @param devptr Pointer to ethernet device.
+ * @return ::OK on success, ::SYSERR on failure.
  */
 devcall etherOpen(device *devptr)
 {

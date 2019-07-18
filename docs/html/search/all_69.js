@@ -25,6 +25,7 @@ var searchData=
   ['ilpr',['ilpr',['../structpl011__uart__csreg.html#a1f5d2e9afca91989656f0b6213fbb822',1,'pl011_uart_csreg']]],
   ['imsc',['imsc',['../structpl011__uart__csreg.html#a913643e822176d913092cb4d4c3be374',1,'pl011_uart_csreg']]],
   ['initialize_2ec',['initialize.c',['../initialize_8c.html',1,'']]],
+  ['initlinemap',['initlinemap',['../group__framebuffer.html#ga09da65be8be722fc8e0a30ecfa616818',1,'screenInit.c']]],
   ['insert',['insert',['../group__threads.html#gaeb1e855fcc190c3c30e8e64924939e4c',1,'insert.c']]],
   ['insert_2ec',['insert.c',['../insert_8c.html',1,'']]],
   ['insertd',['insertd',['../group__threads.html#gad203c57d47eaf6798acae5d1a89d8e91',1,'insertd.c']]],

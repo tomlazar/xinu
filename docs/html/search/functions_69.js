@@ -9,6 +9,7 @@ var searchData=
   ['icmpredirect',['icmpRedirect',['../group__icmp.html#gabd405f2f7ca3575084ab1a4fe11fdd03',1,'icmpRedirect.c']]],
   ['icmpsend',['icmpSend',['../group__icmp.html#ga9daa5ef5db7661f44e78aff72b5b76d4',1,'icmpSend.c']]],
   ['icmptimeexceeded',['icmpTimeExceeded',['../group__icmp.html#ga7b343aec5f2076fffec6141b499b731e',1,'icmpTimeExceeded.c']]],
+  ['initlinemap',['initlinemap',['../group__framebuffer.html#ga09da65be8be722fc8e0a30ecfa616818',1,'screenInit.c']]],
   ['insert',['insert',['../group__threads.html#gaeb1e855fcc190c3c30e8e64924939e4c',1,'insert.c']]],
   ['insertd',['insertd',['../group__threads.html#gad203c57d47eaf6798acae5d1a89d8e91',1,'insertd.c']]],
   ['ioerr',['ioerr',['../group__devcalls.html#ga4477aa228b9044af2671ea7882c7d0df',1,'ioerr(void):&#160;ioerr.c'],['../group__devcalls.html#ga4477aa228b9044af2671ea7882c7d0df',1,'ioerr(void):&#160;ioerr.c']]],

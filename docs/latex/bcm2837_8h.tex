@@ -59,7 +59,7 @@
 \hypertarget{bcm2837_8h_a03708ab1aa07c06be84c10ae54ba123f}{\#define {\bfseries I\-R\-Q\-\_\-\-S\-D}~62}\label{bcm2837_8h_a03708ab1aa07c06be84c10ae54ba123f}
 
 \item 
-\hypertarget{bcm2837_8h_a331133c9c99215d1ae1ce1f57a462ac1}{\#define {\bfseries board\-\_\-setpower}~\hyperlink{bcm2837__power_8c_ad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower}}\label{bcm2837_8h_a331133c9c99215d1ae1ce1f57a462ac1}
+\hypertarget{bcm2837_8h_a331133c9c99215d1ae1ce1f57a462ac1}{\#define {\bfseries board\-\_\-setpower}~\hyperlink{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower}}\label{bcm2837_8h_a331133c9c99215d1ae1ce1f57a462ac1}
 
 \item 
 \hypertarget{bcm2837_8h_aee32814867113d83ee4ffe01f5a32cff}{\#define {\bfseries pre\-\_\-peripheral\-\_\-read\-\_\-mb}~dmb}\label{bcm2837_8h_aee32814867113d83ee4ffe01f5a32cff}
@@ -92,9 +92,9 @@ enum {\bfseries board\-\_\-power\-\_\-feature} \{ {\bfseries P\-O\-W\-E\-R\-\_\-
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{bcm2837_8h_ad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
+int \hyperlink{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
 \item 
-void \hyperlink{bcm2837_8h_ad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
+void \hyperlink{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
 \item 
 \hypertarget{bcm2837_8h_a5e0e58b5a11a26c6eb46b74716e8801b}{void {\bfseries dmb} (void)}\label{bcm2837_8h_a5e0e58b5a11a26c6eb46b74716e8801b}
 
@@ -105,32 +105,3 @@ void \hyperlink{bcm2837_8h_ad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power
 Definitions specific to the B\-C\-M2837 So\-C used in the Raspberry Pi 3.
 
 Note that although some of the numbers defined in this file are documented in Broadcom's \char`\"{}\-B\-C\-M2837 A\-R\-M Peripherals\char`\"{} document, unfortunately some could only be found in the Linux source (arch/arm/mach-\/bcm2708/include/mach/platform.\-h). 
-
-\subsection{Function Documentation}
-\hypertarget{bcm2837_8h_ad1cb830ad707715e909b54abc6f8d9d5}{\index{bcm2837.\-h@{bcm2837.\-h}!bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}}
-\index{bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}!bcm2837.h@{bcm2837.\-h}}
-\subsubsection[{bcm2837\-\_\-power\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void bcm2837\-\_\-power\-\_\-init (
-\begin{DoxyParamCaption}
-\item[{void}]{}
-\end{DoxyParamCaption}
-)}}\label{bcm2837_8h_ad1cb830ad707715e909b54abc6f8d9d5}
-Resets B\-C\-M2837 power to default state (all devices powered off). \hypertarget{bcm2837_8h_ad5db106cf15f544accbdeb02ed89894a}{\index{bcm2837.\-h@{bcm2837.\-h}!bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}}
-\index{bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}!bcm2837.h@{bcm2837.\-h}}
-\subsubsection[{bcm2837\-\_\-setpower}]{\setlength{\rightskip}{0pt plus 5cm}int bcm2837\-\_\-setpower (
-\begin{DoxyParamCaption}
-\item[{enum board\-\_\-power\-\_\-feature}]{feature, }
-\item[{bool}]{on}
-\end{DoxyParamCaption}
-)}}\label{bcm2837_8h_ad5db106cf15f544accbdeb02ed89894a}
-Powers on or powers off B\-C\-M2837 hardware.
-
-
-\begin{DoxyParams}{Parameters}
-{\em feature} & Device or hardware to power on or off. \\
-\hline
-{\em on} & \-::\-T\-R\-U\-E to power on; \-::\-F\-A\-L\-S\-E to power off.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-\-::\-O\-K if successful; \-::\-S\-Y\-S\-E\-R\-R otherwise. 
-\end{DoxyReturn}

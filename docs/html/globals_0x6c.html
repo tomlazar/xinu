@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -110,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -176,15 +177,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="lan7800_8h.html#a020d1eb5f8327dda168c302e8aecbfbf">lan7800.h</a>
 </li>
 <li>lan7800_wait_device_attached()
-: <a class="el" href="etherInit_8c.html#a332faebc17d841f5faeae06562624624">etherInit.c</a>
-, <a class="el" href="lan7800_8h.html#a332faebc17d841f5faeae06562624624">lan7800.h</a>
+: <a class="el" href="group__lan7800.html#ga332faebc17d841f5faeae06562624624">etherInit.c</a>
+, <a class="el" href="group__lan7800.html#ga332faebc17d841f5faeae06562624624">lan7800.h</a>
 </li>
 <li>lan7800_write_reg()
 : <a class="el" href="group__lan7800.html#gac5a2ec33aa01163f97cfe029dab945d9">lan7800.c</a>
 , <a class="el" href="group__lan7800.html#gac5a2ec33aa01163f97cfe029dab945d9">lan7800.h</a>
 </li>
 <li>led_init()
-: <a class="el" href="platforminit_8c.html#a7eb4d382bdd4b42c57dbb7154d03ac66">platforminit.c</a>
+: <a class="el" href="group__bcm2837.html#ga7eb4d382bdd4b42c57dbb7154d03ac66">platforminit.c</a>
+</li>
+<li>led_off()
+: <a class="el" href="group__bcm2837.html#ga429f05b7eac928971c19e37ddc7079be">platforminit.c</a>
+</li>
+<li>led_on()
+: <a class="el" href="group__bcm2837.html#ga801936b261245054eb570e040642818a">platforminit.c</a>
 </li>
 <li>lock()
 : <a class="el" href="group__monitors.html#ga890b5cddd6552af757ba83df0d98411f">lock.c</a>
@@ -193,8 +200,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="logical_8c.html#a49f7b5633e709e8dea716b543b30bc9e">logical.c</a>
 </li>
 <li>logicalRead()
-: <a class="el" href="logical_8c.html#a2105af4237641a967c1499930c48f3db">logical.c</a>
-, <a class="el" href="flashRead_8c.html#adf8be5eb00ed19812098569243d343ec">flashRead.c</a>
+: <a class="el" href="flashRead_8c.html#adf8be5eb00ed19812098569243d343ec">flashRead.c</a>
+, <a class="el" href="logical_8c.html#a2105af4237641a967c1499930c48f3db">logical.c</a>
 </li>
 <li>logicalWrite()
 : <a class="el" href="logical_8c.html#a0a64d0c25c01af994e5a67e0868bff6e">logical.c</a>

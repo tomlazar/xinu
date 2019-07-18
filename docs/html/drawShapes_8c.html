@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,33 +98,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a503b1c35573399e40e3194caae4548c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a503b1c35573399e40e3194caae4548c7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawPixel</b> (int x, int y, ulong color)</td></tr>
-<tr class="separator:a503b1c35573399e40e3194caae4548c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa429a32ff09444b627786fd6c19b581e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa429a32ff09444b627786fd6c19b581e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawLine</b> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
-<tr class="separator:aa429a32ff09444b627786fd6c19b581e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2b706c3c8323205874f3894f3fdedaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2b706c3c8323205874f3894f3fdedaa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawSegment</b> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
-<tr class="separator:ae2b706c3c8323205874f3894f3fdedaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b5faeecb7efcf4098db82c4c52d97f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b5faeecb7efcf4098db82c4c52d97f2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawRect</b> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
-<tr class="separator:a2b5faeecb7efcf4098db82c4c52d97f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4363c77931a2deda12d0300a7caa1897"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4363c77931a2deda12d0300a7caa1897"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>fillRect</b> (int x1, int y1, int x2, int y2, ulong color, bool gradient)</td></tr>
-<tr class="separator:a4363c77931a2deda12d0300a7caa1897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44dc19680fd34418b4841cbaa85a71fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44dc19680fd34418b4841cbaa85a71fd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawCircle</b> (int x0, int y0, int radius, ulong color)</td></tr>
-<tr class="separator:a44dc19680fd34418b4841cbaa85a71fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab888df48ec085eed4c0259ffdf4cc835"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab888df48ec085eed4c0259ffdf4cc835"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>fillCircle</b> (int x0, int y0, int radius, ulong color, bool gradient)</td></tr>
-<tr class="separator:ab888df48ec085eed4c0259ffdf4cc835"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3a4b9c686abe9ca2eb5e6f14c60a62d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3a4b9c686abe9ca2eb5e6f14c60a62d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>drawBody</b> (int x0, int y0, int radius, ulong color)</td></tr>
-<tr class="separator:ac3a4b9c686abe9ca2eb5e6f14c60a62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab48a4e6fc42403950e5f2b12e2382c9b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab48a4e6fc42403950e5f2b12e2382c9b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>fillBody</b> (int x0, int y0, int radius, ulong color, bool gradient)</td></tr>
-<tr class="separator:ab48a4e6fc42403950e5f2b12e2382c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga503b1c35573399e40e3194caae4548c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga503b1c35573399e40e3194caae4548c7">drawPixel</a> (int x, int y, ulong color)</td></tr>
+<tr class="separator:ga503b1c35573399e40e3194caae4548c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa429a32ff09444b627786fd6c19b581e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gaa429a32ff09444b627786fd6c19b581e">drawLine</a> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
+<tr class="separator:gaa429a32ff09444b627786fd6c19b581e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae2b706c3c8323205874f3894f3fdedaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gae2b706c3c8323205874f3894f3fdedaa">drawSegment</a> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
+<tr class="separator:gae2b706c3c8323205874f3894f3fdedaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b5faeecb7efcf4098db82c4c52d97f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga2b5faeecb7efcf4098db82c4c52d97f2">drawRect</a> (int x1, int y1, int x2, int y2, ulong color)</td></tr>
+<tr class="separator:ga2b5faeecb7efcf4098db82c4c52d97f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4363c77931a2deda12d0300a7caa1897"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga4363c77931a2deda12d0300a7caa1897">fillRect</a> (int x1, int y1, int x2, int y2, ulong color, bool gradient)</td></tr>
+<tr class="separator:ga4363c77931a2deda12d0300a7caa1897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44dc19680fd34418b4841cbaa85a71fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga44dc19680fd34418b4841cbaa85a71fd">drawCircle</a> (int x0, int y0, int radius, ulong color)</td></tr>
+<tr class="separator:ga44dc19680fd34418b4841cbaa85a71fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab888df48ec085eed4c0259ffdf4cc835"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gab888df48ec085eed4c0259ffdf4cc835">fillCircle</a> (int x0, int y0, int radius, ulong color, bool gradient)</td></tr>
+<tr class="separator:gab888df48ec085eed4c0259ffdf4cc835"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac3a4b9c686abe9ca2eb5e6f14c60a62d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gac3a4b9c686abe9ca2eb5e6f14c60a62d">drawBody</a> (int x0, int y0, int radius, ulong color)</td></tr>
+<tr class="separator:gac3a4b9c686abe9ca2eb5e6f14c60a62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab48a4e6fc42403950e5f2b12e2382c9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gab48a4e6fc42403950e5f2b12e2382c9b">fillBody</a> (int x0, int y0, int radius, ulong color, bool gradient)</td></tr>
+<tr class="separator:gab48a4e6fc42403950e5f2b12e2382c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Allows shapes to be rendered onscreen. </p>

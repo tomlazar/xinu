@@ -18,13 +18,12 @@
  *
  * Implementation of etherControl() for the LAN7800 device; see the documentation for
  * this function in ether.h.  
- * @param devptr	TODODOC desc. all params!
- * @param req		
- * @param arg1
- * @param arg2
- * @return TODODOC when does it return what
+ * @param devptr	Pointer to ethernet device.
+ * @param req		Request for determining the reason for control invocation
+ * @param arg1		Argument to pass to a control function
+ * @return		::OK on success, ::SYSERR otherwise
  */
-devcall etherControl(device *devptr, int req, long arg1, long arg2)
+devcall etherControl(device *devptr, int req, long arg1)
 {
     struct usb_device *udev;
     usb_status_t status;

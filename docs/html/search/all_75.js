@@ -55,6 +55,7 @@ var searchData=
   ['unistd_2ec',['unistd.c',['../unistd_8c.html',1,'']]],
   ['unlock',['unlock',['../group__monitors.html#ga298f8477f3e145fe2402e9b00be084cf',1,'unlock.c']]],
   ['unlock_2ec',['unlock.c',['../unlock_8c.html',1,'']]],
+  ['unparkcore_2ec',['unparkcore.c',['../unparkcore_8c.html',1,'']]],
   ['unsleep',['unsleep',['../group__threads.html#ga9ba450bf776fe6c9af43757a3e93a9fc',1,'unsleep.c']]],
   ['unsleep_2ec',['unsleep.c',['../unsleep_8c.html',1,'']]],
   ['usb',['USB',['../group__usb.html',1,'']]],

@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -70,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -96,28 +97,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a06d83b3a8c4e7de105f0cbec05156ca8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06d83b3a8c4e7de105f0cbec05156ca8"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>power</b> (double base, int exp)</td></tr>
-<tr class="separator:a06d83b3a8c4e7de105f0cbec05156ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aace690b4b57f656869ad150be9b8527b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aace690b4b57f656869ad150be9b8527b"></a>
-long&#160;</td><td class="memItemRight" valign="bottom"><b>factorial</b> (int num)</td></tr>
-<tr class="separator:aace690b4b57f656869ad150be9b8527b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f29a8a49cb9e546d0593b65f839f27a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f29a8a49cb9e546d0593b65f839f27a"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>cosine_taylor</b> (double x, int terms)</td></tr>
-<tr class="separator:a8f29a8a49cb9e546d0593b65f839f27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea037da8bd8165c16730fb1f23b6df03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea037da8bd8165c16730fb1f23b6df03"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>cos</b> (int x)</td></tr>
-<tr class="separator:aea037da8bd8165c16730fb1f23b6df03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad72a63046aee1a31203e50b812f03bd7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad72a63046aee1a31203e50b812f03bd7"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>sine_taylor</b> (double x, int terms)</td></tr>
-<tr class="separator:ad72a63046aee1a31203e50b812f03bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4288de680562fe6d55dd4bd1a9abb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c4288de680562fe6d55dd4bd1a9abb9"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>sin</b> (int x)</td></tr>
+<tr class="memitem:ga06d83b3a8c4e7de105f0cbec05156ca8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga06d83b3a8c4e7de105f0cbec05156ca8">power</a> (double base, int exp)</td></tr>
+<tr class="separator:ga06d83b3a8c4e7de105f0cbec05156ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaace690b4b57f656869ad150be9b8527b"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gaace690b4b57f656869ad150be9b8527b">factorial</a> (int num)</td></tr>
+<tr class="separator:gaace690b4b57f656869ad150be9b8527b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8f29a8a49cb9e546d0593b65f839f27a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#ga8f29a8a49cb9e546d0593b65f839f27a">cosine_taylor</a> (double x, int terms)</td></tr>
+<tr class="separator:ga8f29a8a49cb9e546d0593b65f839f27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea037da8bd8165c16730fb1f23b6df03"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gaea037da8bd8165c16730fb1f23b6df03">cos</a> (int x)</td></tr>
+<tr class="separator:gaea037da8bd8165c16730fb1f23b6df03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad72a63046aee1a31203e50b812f03bd7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__framebuffer.html#gad72a63046aee1a31203e50b812f03bd7">sine_taylor</a> (double x, int terms)</td></tr>
+<tr class="separator:gad72a63046aee1a31203e50b812f03bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c4288de680562fe6d55dd4bd1a9abb9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="trig_8c.html#a9c4288de680562fe6d55dd4bd1a9abb9">sin</a> (int x)</td></tr>
 <tr class="separator:a9c4288de680562fe6d55dd4bd1a9abb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides sine and cosine for Taylor series. Cannot handle values above 215 degrees&ndash;will cause overflow. To correct this, only compute values between 0 and 90. Answers are not exactly accurate, but accurate enough for our purposes. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a9c4288de680562fe6d55dd4bd1a9abb9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double sin </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Note: For graphics purposes, the sine must always be turned negative because a monitor is technically in quadrant 4 instead of quadrant 1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>TODODOC </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

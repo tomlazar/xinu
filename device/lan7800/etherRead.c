@@ -29,10 +29,10 @@
  *
  * Implementation of etherRead() for the MicroChip LAN7800; see the documentation for
  * this function in ether.h.  
- * @param devptr	TODODOC 
- * @param buf		TODODOC
- * @param len
- * @return TODODOC add the descriptions
+ * @param devptr	Pointer to ethernet device to read from. 
+ * @param buf		Pointer to packet buffer
+ * @param len		Amount of bytes to be read
+ * @return		Length of packet received
  */
 devcall etherRead(device *devptr, void *buf, uint len)
 {

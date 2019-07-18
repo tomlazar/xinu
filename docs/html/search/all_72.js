@@ -23,6 +23,7 @@ var searchData=
   ['rawwrite_2ec',['rawWrite.c',['../rawWrite_8c.html',1,'']]],
   ['read',['read',['../group__devcalls.html#ga743e9d7e0afd7a1eb0c4321e79bc30a3',1,'read.c']]],
   ['read_2ec',['read.c',['../read_8c.html',1,'']]],
+  ['readmmio',['readMMIO',['../group__framebuffer.html#ga066eacc612c8bedce15eae1c33b004e5',1,'mailbox.c']]],
   ['ready',['ready',['../group__threads.html#ga27672998ad7f482c641123e2c09ce279',1,'ready.c']]],
   ['ready_2ec',['ready.c',['../ready_8c.html',1,'']]],
   ['receive',['receive',['../group__threads.html#gab8c6462cae122b52c45f94ccdcab216a',1,'receive.c']]],

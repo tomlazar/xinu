@@ -3,6 +3,7 @@ var searchData=
   ['abs',['abs',['../group__libxc.html#gaeb20b44c8437544e571a3cb9bb2cc37d',1,'abs.c']]],
   ['abs_2ec',['abs.c',['../abs_8c.html',1,'']]],
   ['ack_5fresponse_5freceived',['ack_response_received',['../uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts.html#a8daa1a8ae4126d655625a31d7a5d74ef',1,'dwc_regs::dwc_host_channel::dwc_host_channel_interrupts']]],
+  ['add_5fmailbox_5ftag',['add_mailbox_tag',['../group__bcm2837.html#ga556fc5ad8b59adb57df58404e85efe8f',1,'add_mailbox_tag(volatile uint32_t *buffer, uint32_t tag, uint32_t buflen, uint32_t len, uint32_t *data):&#160;bcm2837_mbox.c'],['../group__bcm2837.html#ga556fc5ad8b59adb57df58404e85efe8f',1,'add_mailbox_tag(volatile uint32_t *, uint32_t, uint32_t, uint32_t, uint32_t *):&#160;bcm2837_mbox.c']]],
   ['ahb_5fconfiguration',['ahb_configuration',['../structdwc__regs.html#ad74731204d34ff5599e0f29b9e93722b',1,'dwc_regs']]],
   ['ahb_5ferror',['ahb_error',['../uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts.html#ab596e821aed848dec17d26de82168c9a',1,'dwc_regs::dwc_host_channel::dwc_host_channel_interrupts']]],
   ['arp',['ARP',['../group__arp.html',1,'']]],

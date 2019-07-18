@@ -15,9 +15,10 @@ var searchData=
   ['etherclose_2ec',['etherClose.c',['../etherClose_8c.html',1,'']]],
   ['ethercontrol_2ec',['etherControl.c',['../etherControl_8c.html',1,'']]],
   ['ethergram',['etherGram',['../structetherGram.html',1,'']]],
-  ['etherinit',['etherInit',['../etherInit_8c.html#abebfba028b4cb811de75d2beabfd1669',1,'etherInit.c']]],
+  ['etherinit',['etherInit',['../group__lan7800.html#gabebfba028b4cb811de75d2beabfd1669',1,'etherInit.c']]],
   ['etherinit_2ec',['etherInit.c',['../etherInit_8c.html',1,'']]],
   ['etherread_2ec',['etherRead.c',['../etherRead_8c.html',1,'']]],
+  ['etherwrite',['etherWrite',['../etherWrite_8c.html#a5360e257755e44346f9a39e78b1ac04d',1,'etherWrite.c']]],
   ['etherwrite_2ec',['etherWrite.c',['../etherWrite_8c.html',1,'']]],
   ['ethernet_20loopback',['Ethernet Loopback',['../group__ethloop.html',1,'']]],
   ['ethloopclose',['ethloopClose',['../group__ethloop.html#ga5190bdfc4447e69bb92bbc9134c9c4e0',1,'ethloopClose.c']]],
@@ -31,5 +32,6 @@ var searchData=
   ['ethloopread',['ethloopRead',['../group__ethloop.html#ga0f1d4566b0a867a5980752ab97249274',1,'ethloopRead.c']]],
   ['ethloopread_2ec',['ethloopRead.c',['../ethloopRead_8c.html',1,'']]],
   ['ethloopwrite',['ethloopWrite',['../group__ethloop.html#ga6a57120dafe68d0d0c2e97572bb5759c',1,'ethloopWrite.c']]],
-  ['ethloopwrite_2ec',['ethloopWrite.c',['../ethloopWrite_8c.html',1,'']]]
+  ['ethloopwrite_2ec',['ethloopWrite.c',['../ethloopWrite_8c.html',1,'']]],
+  ['embedded_20xinu',['Embedded Xinu',['../md__users_home_pmcgee6_raxinu_19_ra_xinu_README.html',1,'']]]
 ];
