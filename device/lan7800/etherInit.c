@@ -37,7 +37,9 @@ uchar addr[ETH_ADDR_LEN] = {0};
 
 /**
  * @ingroup lan7800
+ *
  * Try to bind the LAN7800 driver to a specific USB device.
+ * @param udev	TODODOC
  */
 static usb_status_t
 lan7800_bind_device(struct usb_device *udev)
@@ -99,7 +101,10 @@ lan7800_bind_device(struct usb_device *udev)
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Unbinds the LAN7800 driver from the LAN7800 device that has been detached.
+ * @param udev	TODODOC
  */
 static void
 lan7800_unbind_device(struct usb_device *udev)
@@ -116,6 +121,8 @@ lan7800_unbind_device(struct usb_device *udev)
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Specification of a USB device driver for the LAN7800 device. This is for the USB core subsystem
  * and not related to Xinu's primary device and driver model.
  */
@@ -192,13 +199,12 @@ getEthAddr(uint8_t *addr)
 }
 
 /**
- * @ingroup etherspecific
+ * @ingroup lan7800
+ * 
  * Wait until the specified Ethernet device has been attached.
  * This is necessary because USB is a dynamic bus, but Xinu expects static devices.
- * @param minor
- * 		Minor number of the Ethernet device to wait for.
- * @return
- * 		Currently ::USB_STATUS_SUCCESS.
+ * @param minor		Minor number of the Ethernet device to wait for.
+ * @return Currently ::USB_STATUS_SUCCESS.
  */
 usb_status_t
 lan7800_wait_device_attached(ushort minor)
@@ -208,7 +214,13 @@ lan7800_wait_device_attached(ushort minor)
 	return USB_STATUS_SUCCESS;
 }
 
-/* Implementation of etherInit() for lan7800; documentation in ether.h */
+/**
+ * @ingroup lan7800
+ *
+ * Implementation of etherInit() for lan7800; documentation in ether.h 
+ * @param devptr	TODODOC
+ * @return TODODOC
+ */
 /**
  * @details
  * LAN7800-specific notes: This function returns ::OK if the Ethernet

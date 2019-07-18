@@ -27,15 +27,10 @@
  * @ingroup lan7800
  *
  * Write to a register on the Microchip LAN7800 USB Ethernet Adapter.
- * @param udev
- * 		USB device for the adapter
- * @param index
- * 		Index of the register to write
- * @param data
- * 		Value to write to the register
- * @return
- * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- * 		code.
+ * @param udev	USB device for the adapter
+ * @param index	Index of the register to write
+ * @param data	Value to write to the register
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error code.
  */
 	usb_status_t
 lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
@@ -52,15 +47,10 @@ lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
  * @ingroup lan7800
  *
  * Read from a register on the Microchip LAN7800 USB Ethernet Adapter.
- * @param udev
- * 		USB device for the adapter
- * @param index
- * 		Index of the register to read
- * @param data
- * 		Pointer into which to write the register's value
- * @return
- * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- * 		code.
+ * @param udev	USB device for the adapter
+ * @param index	Index of the register to read
+ * @param data	Pointer into which to write the register's value
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error code.
  */
 	usb_status_t
 lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
@@ -75,22 +65,16 @@ lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
 
 /**
  * @ingroup lan7800
- * 
+ *
  * Modify the value contained in a register on the Microchip LAN7800 USB Ethernet
  * Adapter.
- * @param udev
- * 		USB device for the adapter
- * @param index
- * 		Index of the register to modify
- * @param mask
- * 		Mask that contains 1 for the bits where the old value in the register
+ * @param udev	USB device for the adapter
+ * @param index	Index of the register to modify
+ * @param mask	Mask that contains 1 for the bits where the old value in the register
  * 		will be kept rather than cleared (unless those bits also appear in @p
  * 		set, in which case they will still be set).
- * @param set
- * 		Mask of bits to set in the register.
- * @return
- * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- * 		code.
+ * @param set	Mask of bits to set in the register.
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error code.
  */
 	usb_status_t
 lan7800_modify_reg(struct usb_device *udev, uint32_t index,
@@ -113,16 +97,11 @@ lan7800_modify_reg(struct usb_device *udev, uint32_t index,
  * @ingroup lan7800
  *
  * Set bits in a register on the Microchip LAN7800 USB Ethernet Adapter.
- * @param udev
- * 		USB Device for the adapter
- * @param index
- * 		Index of the register to modify
- * @param set
- * 		Bits to set in the register. At positions where the is a 0, the old value
+ * @param udev	USB Device for the adapter
+ * @param index	Index of the register to modify
+ * @param set	Bits to set in the register. At positions where the is a 0, the old value
  * 		in the register will be written.
- * @return
- * 		::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- * 		code.
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error code.
  */
 usb_status_t lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint32_t set)
 {
@@ -134,14 +113,11 @@ usb_status_t lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint3
  *
  * Change the MAC address of the Microchip LAN7800 USB Ethernet Adapter
  * on the actual hardware by writing to its registers.
- * @param udev
- *          	USB device for the adapter
- * @param macaddr
- *           	New MAC address to set (6 bytes long)
- * @return
- *      	::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- *              code.  On failure the existing MAC address may have been partially
- *              modified.
+ * @param udev		USB device for the adapter
+ * @param macaddr	New MAC address to set (6 bytes long)
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
+ *         code.  On failure the existing MAC address may have been partially
+ *         modified.
  */     
 usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *macaddr)
 {
@@ -165,13 +141,9 @@ usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *mac
  * @ingroup lan7800
  *
  * Reads the MAC address of the MICROCHIP LAN7800 USB Ethernet Adapter.
- * @param udev
- *      	USB device for the adapter
- * @param macaddr
- *      	Pointer into which to write the MAC address (6 bytes long)
- * @return
- *       	::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error
- *       	code.
+ * @param udev		USB device for the adapter
+ * @param macaddr	Pointer into which to write the MAC address (6 bytes long)
+ * @return ::USB_STATUS_SUCCESS on success; otherwise another ::usb_status_t error code.
  */
 usb_status_t lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 {
@@ -201,18 +173,13 @@ usb_status_t lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 }
 /**
  * @ingroup lan7800
- * 
+ *
  * Wait for a bit value to change on the Microchip LAN7800 USB Ethernet Adapter.
- * @param udev
- *      	USB device for the adapter
- * @param reg
- *      	Register to change
- * @param mask
- * 		Mask value for register
- * @param set
- * 		Value of register bit to apply
- * @return
- *       	::USB_STATUS_SUCCESS after value is applied
+ * @param udev	USB device for the adapter
+ * @param reg	Register to change
+ * @param mask	Mask value for register
+ * @param set	Value of register bit to apply
+ * @return ::USB_STATUS_SUCCESS after value is applied
  */
 usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev, const uint32_t reg,
 		const uint32_t mask, const bool set)
@@ -233,10 +200,8 @@ usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev, const uint32_t r
  * @ingroup lan7800
  * 
  * Waits for PHY to be free.
- * @param udev
- * 		USB device for the adapter
- * @return
- * 		returns ::USB_STATUS_SUCCESS on success.
+ * @param udev	USB device for the adapter
+ * @return ::USB_STATUS_SUCCESS on success.
  */
 usb_status_t lan7800_phy_wait_not_busy(struct usb_device *udev)
 {
@@ -266,10 +231,8 @@ usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
  * @ingroup lan7800
  *
  * Read raw EEPROM from the Microchip LAN7800 Ethernet device.
- * @param udev
- * 		USB device for the adapter
- * @return
- * 		returns ::USB_STATUS_SUCCESS on success.
+ * @param udev	USB device for the adapter
+ * @return ::USB_STATUS_SUCCESS on success.
  */
 usb_status_t lan7800_read_raw_eeprom(struct usb_device *udev, uint32_t offset,
 		uint32_t length, uint8_t *data)
@@ -322,14 +285,11 @@ exit:
 
 /**
  * @ingroup lan7800
- * 
+ *
  * Set max RX frame length for the Microchip LAN7800 Ethernet device.
- * @param udev
- * 		USB device for the adapter
- * @param size
- * 		Size of max RX frame
- * @return
- * 		returns ::USB_STATUS_SUCCESS on success.
+ * @param udev	USB device for the adapter
+ * @param size	Size of max RX frame
+ * @return ::USB_STATUS_SUCCESS on success.
  */
 usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *udev, int size)
 {
@@ -361,14 +321,11 @@ usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *udev, int size)
 
 /**
  * @ingroup lan7800
- * 
+ *
  * Enable or disable Rx checksum offload engine for the Microchip LAN7800 Ethernet device.
- * @param udev
- * 		USB device for the adapter
- * @param set
- * 		Bit (whether to enable or disable)
- * @return
- * 		returns ::USB_STATUS_SUCCESS on success.
+ * @param udev	USB device for the adapter
+ * @param set	Bit (whether to enable or disable)
+ * @return ::USB_STATUS_SUCCESS on success.
  */
 usb_status_t lan7800_set_features(struct usb_device *udev, uint32_t set)
 {
@@ -403,12 +360,9 @@ usb_status_t lan7800_set_features(struct usb_device *udev, uint32_t set)
  * @ingroup lan7800
  * 
  * Initialize various functions for the Microchip LAN7800 Ethernet device.
- * @param udev
- * 		USB device for the adapter
- * @param macaddress
- * 		MAC address to be set on the device (obtained from the BCM2837B0 mailbox)
- * @return
- * 		returns ::USB_STATUS_SUCCESS on success.
+ * @param udev		USB device for the adapter
+ * @param macaddress	MAC address to be set on the device (obtained from the BCM2837B0 mailbox)
+ * @return ::USB_STATUS_SUCCESS on success.
  */
 usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 {

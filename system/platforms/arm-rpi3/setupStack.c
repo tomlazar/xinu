@@ -13,8 +13,15 @@
  * rest spill onto the stack.  */
 #define MAX_REG_ARGS 4
 
-/** Set up the context record and arguments on the stack for a new thread
- * (ARM version)  */
+/**
+ * @ingroup bcm2837
+ *
+ * Set up the context record and arguments on the stack for a new thread
+ * (ARM version)  
+ * @param stackaddr	TODODOC
+ * @param procaddr	
+ * @return TODODOC
+ */
 void *setupStack(void *stackaddr, void *procaddr,
                  void *retaddr, uint nargs, va_list ap)
 {

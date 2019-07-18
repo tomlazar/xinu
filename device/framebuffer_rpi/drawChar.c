@@ -7,9 +7,17 @@
 
 #include <framebuffer.h>
 
-/* font.c includes a 12 byte representation of each of the first 128 ASCII
+/** 
+ * @ingroup framebuffer
+ *
+ * font.c includes a 12 byte representation of each of the first 128 ASCII
  * characters.  each byte is one row of 0's and 1's, where 1's represent that a
- * pixel should be rendered in that location. */
+ * pixel should be rendered in that location. 
+ * @param c	character to be drawn
+ * @param x	x-coordinate of character
+ * @param y	y-coordinate of character
+ * @param color	color of character
+ */
 void drawChar(char c, int x, int y, ulong color)
 {
     int i, j;

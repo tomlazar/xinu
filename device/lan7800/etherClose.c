@@ -10,8 +10,14 @@
 
 #include <ether.h>
 
-/* Implementation of etherClose() for the smsc9512; see the documentation for
- *  * this function in ether.h.  */
+/* 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherClose() for the smsc9512; see the documentation for
+ * this function in ether.h.  
+ * @param devptr	TODODOC desc. of devptr
+ * @return SYSERR TODODOC why does it return SYSERR
+ */
 devcall etherClose(device *devptr)
 {
     /* TODO: need to handle canceling all the outstanding USB requests, etc. */

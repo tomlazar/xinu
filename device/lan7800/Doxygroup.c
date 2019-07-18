@@ -6,4 +6,4 @@
  *  This module presents a driver implementation for the Raspberry Pi 3 B+
  *   Ethernet device.
  *
- * /
+ */

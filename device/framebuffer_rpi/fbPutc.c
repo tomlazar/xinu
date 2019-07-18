@@ -20,8 +20,8 @@ extern bool screen_initialized;
  * @ingroup framebuffer
  *
  * Write a single character to the framebuffer
- * @param  devptr  pointer to framebuffer device
- * @param  ch    character to write
+ * @param devptr	pointer to framebuffer device
+ * @param ch		character to write
  */
 devcall fbPutc(device *devptr, char ch)
 {

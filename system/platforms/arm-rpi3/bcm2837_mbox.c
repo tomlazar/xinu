@@ -1,4 +1,7 @@
-/* Definitions for Mailbox functions of the BCM2837B0 (Pi 3 B+).
+/**
+ * @file bcm2837_mbox.c
+ *
+ * Definitions for Mailbox functions of the BCM2837B0 (Pi 3 B+).
  *
  * Embedded Xinu Copyright (C) 2009, 2013, 2018. All rights reserved.
  *
@@ -11,7 +14,16 @@
 #include <string.h>
 #include "bcm2837_mbox.h"
 
-/* Add a tag to the mailbox buffer. This step must be done before a mailbox request is built. */
+/**
+ * @ingroup bcm2837
+ *
+ * Add a tag to the mailbox buffer. This step must be done before a mailbox request is built. 
+ * @param buffer	TODODOC
+ * @param tag		
+ * @param buflen	
+ * @param len		
+ * @param data		
+ */
 void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, uint32_t len, uint32_t* data) {
 	volatile uint32_t* start = buffer + SLOT_TAGSTART;
         start[SLOT_TAG_ID] = tag;
@@ -32,7 +44,12 @@ void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, u
 	start[SLOT_TAG_DATA+bufwords] = 0;
 }
 
-/* Ready the buffer by initializing proper lengths, slots. */
+/**
+ * @ingroup bcm2837
+ *
+ * Ready the buffer by initializing proper lengths, slots. 
+ * @param mailbuffer	TODODOC
+ */
 void build_mailbox_request(volatile uint32_t* mailbuffer) {
 	uint32_t tag_length = mailbuffer[MBOX_HEADER_LENGTH + SLOT_TAG_BUFLEN];
 	uint32_t end = (MBOX_HEADER_LENGTH*4) + (TAG_HEADER_LENGTH*4) + tag_length;
@@ -41,8 +58,12 @@ void build_mailbox_request(volatile uint32_t* mailbuffer) {
 	mailbuffer[SLOT_RR] = RR_REQUEST;
 }
 
-/* Function for getting the MAC address using the corresponding MAC mailbox tag. 
- * @param volatile uint32_t* mailbuffer		Mailbox buffer written with MAC address upon conclusion. */
+/**
+ * @ingroup bcm2837
+ *
+ * Function for getting the MAC address using the corresponding MAC mailbox tag. 
+ * @param mailbuffer	Mailbox buffer written with MAC address upon conclusion. 
+ */
 void get_mac_mailbox(volatile uint32_t* mailbuffer){
 
 	/* Load the tag, build the buffer */

@@ -11,14 +11,13 @@
  *
  * Write a buffer of characters to the framebuffer.
  *
- * @param devptr  pointer to framebuffer device
- * @param buf   buffer of characters to write
- * @param len   number of characters to write from the buffer
+ * @param devptr	pointer to framebuffer device
+ * @param buf		buffer of characters to write
+ * @param len		number of characters to write from the buffer
  *
- * @return
- *      The number of characters written, which may be less than @p len in the
- *      event of a write error; or ::SYSERR if an error occurred before any
- *      characters at all were written.
+ * @return The number of characters written, which may be less than @p len in the
+ * 		event of a write error; or ::SYSERR if an error occurred before any
+ * 		characters at all were written.
  */
 devcall fbWrite(device *devptr, const uchar *buf, uint len)
 {

@@ -11,6 +11,14 @@
 #include <stddef.h>
 #include <framebuffer.h>
 
+/**
+ * @ingroup framebuffer
+ *
+ * TODODOC description
+ * @param base	TODODOC
+ * @param exp	
+ * @return TODODOC
+ */
 double power(double base, int exp)
 {
     double result = 1.0;
@@ -22,6 +30,13 @@ double power(double base, int exp)
     return result;
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * TODODOC
+ * @param num	TODODOC
+ * @return 
+ */
 long factorial(int num)
 {
     if (num < 2)
@@ -29,6 +44,14 @@ long factorial(int num)
     return num*factorial(num-1);
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * TODODOC
+ * @oaram x	TODODOC
+ * @param terms	
+ * @return TODODOC
+ */
 double cosine_taylor(double x, int terms)
 {
     int i;
@@ -40,6 +63,13 @@ double cosine_taylor(double x, int terms)
     return result;
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * TODODOC
+ * @param x	TODODOC
+ * @return TODODOC
+ */
 double cos(int x)
 {
     double radx;
@@ -69,6 +99,14 @@ double cos(int x)
     }
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * TODODOC
+ * @param x	TODODOC
+ * @param terms	
+ * @return TODODOC
+ */
 double sine_taylor(double x, int terms)
 {
     int i;
@@ -80,8 +118,14 @@ double sine_taylor(double x, int terms)
     return result;
 }
 
-/* Note: For graphics purposes, the sine must always be turned negative because
- * a monitor is technically in quadrant 4 instead of quadrant 1. */
+/**
+ * @ingroup framebuffers
+ *
+ * Note: For graphics purposes, the sine must always be turned negative because
+ * a monitor is technically in quadrant 4 instead of quadrant 1. 
+ * @param x	TODODOC
+ * @return TODODOC
+ */
 double sin(int x)
 {
     double radx;

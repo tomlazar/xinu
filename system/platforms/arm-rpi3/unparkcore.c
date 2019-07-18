@@ -1,3 +1,9 @@
+/**
+ * @file unparkcore.c
+ *
+ */
+/* Embedded Xinu, Copyright (C) 2009. All rights reserved */
+
 #include <stddef.h>
 #include <thread.h>
 #include <core.h>
@@ -19,6 +25,14 @@ unsigned int core_init_sp[4];
 
 void *init_args[4];
 
+/**
+ * @ingroup bcm2837
+ *
+ * TODODOC description
+ * @param num		TODODOC
+ * @param procaddr	
+ * @param args		
+ */
 void unparkcore(int num, void *procaddr, void *args) {
 	udelay(5);
 	if (num > 0 && num < 4)
@@ -32,6 +46,11 @@ void unparkcore(int num, void *procaddr, void *args) {
 	}
 }
 
+/**
+ * @ingroup bcm2837
+ *
+ * TODODOC description
+ */
 void createnullthread(void)
 {
 	uint cpuid;
@@ -48,6 +67,11 @@ void createnullthread(void)
 	}
 }
 
+/**
+ * @ingroup bcm2837
+ *
+ * TODODOC description
+ */
 void printcpsr(void){
 	uint mode;
 	int i;

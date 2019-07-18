@@ -16,8 +16,14 @@
 #include <usb_core_driver.h>
 #include "lan7800.h"
 
-/* Implementation of etherOpen() for the lan7800; see the documentation for
- * this function in ether.h.  */
+/* 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherOpen() for the lan7800; see the documentation for
+ * this function in ether.h.  
+ * @param devptr	TODODOC
+ * @return TODODOC explain
+ */
 devcall etherOpen(device *devptr)
 {
 	struct ether *ethptr;
