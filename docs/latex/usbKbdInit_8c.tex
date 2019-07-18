@@ -1,0 +1,34 @@
+\hypertarget{usbKbdInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Init.c File Reference}
+\label{usbKbdInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Init.\-c}}
+}
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usbkbd.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{usbKbdInit_8c_adcec5b3d0038b082ef1865dee38bacf9}{usb\-Kbd\-Init} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct usbkbd \hyperlink{usbKbdInit_8c_a25340f55d426a9d38e946c4b70e49adb}{usbkbds} \mbox{[}N\-U\-S\-B\-K\-B\-D\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{usbKbdInit_8c_adcec5b3d0038b082ef1865dee38bacf9}{\index{usb\-Kbd\-Init.\-c@{usb\-Kbd\-Init.\-c}!usb\-Kbd\-Init@{usb\-Kbd\-Init}}
+\index{usb\-Kbd\-Init@{usb\-Kbd\-Init}!usbKbdInit.c@{usb\-Kbd\-Init.\-c}}
+\subsubsection[{usb\-Kbd\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall usb\-Kbd\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{usbKbdInit_8c_adcec5b3d0038b082ef1865dee38bacf9}
+Initializes the specified U\-S\-B keyboard.
+
+This actually only prepares the corresponding keyboard structure for use and does not depend on a physical keyboard being attached. The physical keyboard is recognized only when it is attached, and any read requests to the device will block until that point. 
+
+\subsection{Variable Documentation}
+\hypertarget{usbKbdInit_8c_a25340f55d426a9d38e946c4b70e49adb}{\index{usb\-Kbd\-Init.\-c@{usb\-Kbd\-Init.\-c}!usbkbds@{usbkbds}}
+\index{usbkbds@{usbkbds}!usbKbdInit.c@{usb\-Kbd\-Init.\-c}}
+\subsubsection[{usbkbds}]{\setlength{\rightskip}{0pt plus 5cm}struct usbkbd usbkbds\mbox{[}N\-U\-S\-B\-K\-B\-D\mbox{]}}}\label{usbKbdInit_8c_a25340f55d426a9d38e946c4b70e49adb}
+Table of U\-S\-B keyboard control blocks 

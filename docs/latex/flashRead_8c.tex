@@ -1,0 +1,61 @@
+\hypertarget{flashRead_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Read.c File Reference}
+\label{flashRead_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Read.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Read.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{flashRead_8c_adf8be5eb00ed19812098569243d343ec}{logical\-Read} (struct flash $\ast$, uchar $\ast$, ulong)
+\item 
+devcall \hyperlink{flashRead_8c_a07f81f2106d221adda90c36bfebe1ecf}{flash\-Read} (device $\ast$devptr, uchar $\ast$buffer, ulong block)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A simple, high-\/level interface to read from flash. 
+
+\subsection{Function Documentation}
+\hypertarget{flashRead_8c_a07f81f2106d221adda90c36bfebe1ecf}{\index{flash\-Read.\-c@{flash\-Read.\-c}!flash\-Read@{flash\-Read}}
+\index{flash\-Read@{flash\-Read}!flashRead.c@{flash\-Read.\-c}}
+\subsubsection[{flash\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{uchar $\ast$}]{buffer, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{flashRead_8c_a07f81f2106d221adda90c36bfebe1ecf}
+Provides a simple way to read in the contents of a block 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to the flash device \\
+\hline
+{\em $\ast$buffer} & buffer to store contents into (should be flash-\/$>$log\-\_\-size) \\
+\hline
+{\em block} & block number to read in \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{flashRead_8c_adf8be5eb00ed19812098569243d343ec}{\index{flash\-Read.\-c@{flash\-Read.\-c}!logical\-Read@{logical\-Read}}
+\index{logical\-Read@{logical\-Read}!flashRead.c@{flash\-Read.\-c}}
+\subsubsection[{logical\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall logical\-Read (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{uchar $\ast$}]{buffer, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{flashRead_8c_adf8be5eb00ed19812098569243d343ec}
+With a logical block address, read in the contents of the block into the buffer. This will check if the erase-\/block is already in memory and if so simply read from the cached copy, if it is not read it into memory and read the specified block. If there is no more room in memory to store an erase-\/block it will automatically write to the oldest erase-\/block to flash and read in the requested block. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to read on. \\
+\hline
+{\em $\ast$buffer} & buffer to read into. \\
+\hline
+{\em block} & block to read on device. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes read or S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

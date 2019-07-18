@@ -1,0 +1,78 @@
+\hypertarget{usbcore_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbcore.c File Reference}
+\label{usbcore_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbcore.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbcore.\-c}}
+}
+{\ttfamily \#include $<$memory.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$semaphore.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hcdi.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hub\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-std\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-subsystem.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usbcore_8c_a77aa34730d9e0391fc2dfe1b366b7665}{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}~32
+\item 
+\#define \hyperlink{usbcore_8c_a6035eec27759b13ca69cdd4099326465}{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V}~16
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__usbcore_ga04500240d93eaedb734240929e5a06be}{usb\-\_\-init\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+struct usb\-\_\-xfer\-\_\-request $\ast$ \hyperlink{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}{usb\-\_\-alloc\-\_\-xfer\-\_\-request} (uint bufsize)
+\item 
+void \hyperlink{group__usbcore_ga4ef47c1a9b0707276d121214cdd461d0}{usb\-\_\-free\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga873be6d448b1c95c51cb5600a197cf64}{usb\-\_\-submit\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+void \hyperlink{group__usbcore_gabf82a9972b273a0e842212e2d638272b}{usb\-\_\-complete\-\_\-xfer} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg} (struct usb\-\_\-device $\ast$dev, const struct usb\-\_\-endpoint\-\_\-descriptor $\ast$endpoint\-\_\-desc, uint8\-\_\-t b\-Request, uint8\-\_\-t bm\-Request\-Type, uint16\-\_\-t w\-Value, uint16\-\_\-t w\-Index, void $\ast$data, uint16\-\_\-t w\-Length)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga421272b0f3799410bc7089f29b822c8c}{usb\-\_\-get\-\_\-descriptor} (struct usb\-\_\-device $\ast$dev, uint8\-\_\-t b\-Request, uint8\-\_\-t bm\-Request\-Type, uint16\-\_\-t w\-Value, uint16\-\_\-t w\-Index, void $\ast$buf, uint16\-\_\-t buflen)
+\item 
+struct usb\-\_\-device $\ast$ \hyperlink{group__usbcore_gaf176c490fcac1b9ec676669f1d235dae}{usb\-\_\-alloc\-\_\-device} (struct usb\-\_\-device $\ast$parent)
+\item 
+void \hyperlink{group__usbcore_ga1276a0bdafec25f3313ecd6839c51e25}{usb\-\_\-free\-\_\-device} (struct usb\-\_\-device $\ast$dev)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga42564b27159fcf3073738ad16e9aa287}{usb\-\_\-attach\-\_\-device} (struct usb\-\_\-device $\ast$dev)
+\item 
+void \hyperlink{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}{usb\-\_\-lock\-\_\-bus} (void)
+\item 
+void \hyperlink{group__usbcore_gaf957391ad00401a906dbeb919183f56c}{usb\-\_\-unlock\-\_\-bus} (void)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga33403372a738979110884fd1b3f4c474}{usb\-\_\-register\-\_\-device\-\_\-driver} (const struct usb\-\_\-device\-\_\-driver $\ast$drv)
+\item 
+syscall \hyperlink{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}{usbinit} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct usb\-\_\-device \hyperlink{usbcore_8c_a99d9c43808418a501ba83becb1e8069c}{usb\-\_\-devices} \mbox{[}\hyperlink{usbcore_8c_a77aa34730d9e0391fc2dfe1b366b7665}{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}\mbox{]}
+\item 
+struct usb\-\_\-device $\ast$ \hyperlink{usbcore_8c_a3cc0b9a756366165d0e1547cde12ed39}{usb\-\_\-root\-\_\-hub} = N\-U\-L\-L
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains the U\-S\-B (Universal Serial Bus) core driver. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{usbcore_8c_a77aa34730d9e0391fc2dfe1b366b7665}{\index{usbcore.\-c@{usbcore.\-c}!M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V@{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}}
+\index{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V@{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}!usbcore.c@{usbcore.\-c}}
+\subsubsection[{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V~32}}\label{usbcore_8c_a77aa34730d9e0391fc2dfe1b366b7665}
+Maximum number of simultaneous U\-S\-B devices supported. \hypertarget{usbcore_8c_a6035eec27759b13ca69cdd4099326465}{\index{usbcore.\-c@{usbcore.\-c}!M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V@{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V}}
+\index{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V@{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V}!usbcore.c@{usbcore.\-c}}
+\subsubsection[{M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-R\-V~16}}\label{usbcore_8c_a6035eec27759b13ca69cdd4099326465}
+Maximum number of simultaneous U\-S\-B device drivers supported. 
+
+\subsection{Variable Documentation}
+\hypertarget{usbcore_8c_a99d9c43808418a501ba83becb1e8069c}{\index{usbcore.\-c@{usbcore.\-c}!usb\-\_\-devices@{usb\-\_\-devices}}
+\index{usb\-\_\-devices@{usb\-\_\-devices}!usbcore.c@{usbcore.\-c}}
+\subsubsection[{usb\-\_\-devices}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device usb\-\_\-devices\mbox{[}{\bf M\-A\-X\-\_\-\-N\-U\-S\-B\-D\-E\-V}\mbox{]}}}\label{usbcore_8c_a99d9c43808418a501ba83becb1e8069c}
+Table of U\-S\-B device structures that can be dynamically assigned to actual devices as needed. \hypertarget{usbcore_8c_a3cc0b9a756366165d0e1547cde12ed39}{\index{usbcore.\-c@{usbcore.\-c}!usb\-\_\-root\-\_\-hub@{usb\-\_\-root\-\_\-hub}}
+\index{usb\-\_\-root\-\_\-hub@{usb\-\_\-root\-\_\-hub}!usbcore.c@{usbcore.\-c}}
+\subsubsection[{usb\-\_\-root\-\_\-hub}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device$\ast$ usb\-\_\-root\-\_\-hub = N\-U\-L\-L}}\label{usbcore_8c_a3cc0b9a756366165d0e1547cde12ed39}
+Pointer to the root hub, or N\-U\-L\-L if the U\-S\-B subsystem has not yet been successfully initialized. 

@@ -1,0 +1,69 @@
+\hypertarget{usb__dwc__regs_8h}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-regs.h File Reference}
+\label{usb__dwc__regs_8h}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-regs.\-h@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-regs.\-h}}
+}
+{\ttfamily \#include $<$usb\-\_\-util.\-h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdwc__regs}{dwc\-\_\-regs}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__core__interrupts}{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}
+\item 
+struct \hyperlink{structdwc__regs_1_1dwc__host__channel}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_a786cf2c77230c0d1ed90bbb48ee212c8}{D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}~8
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_ab2fd65d6aac77ef94554e8def310836b}{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E}~(1 $<$$<$ 0)
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_a9c64b9f58cb42716371bb477279976c2}{B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T}~(1 $<$$<$ 4)
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_a6701f2caae66ec55147cfe58bbe9227c}{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E}~(1 $<$$<$ 5)
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_a9799770133ea4caf3a5be5811a6bbcd3}{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E}~(1 $<$$<$ 31)
+\item 
+\#define \hyperlink{usb__dwc__regs_8h_a260ffdb7a98c3b82ee928236a234592e}{D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T}~(1 $<$$<$ 0)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Registers of the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{usb__dwc__regs_8h_a9c64b9f58cb42716371bb477279976c2}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T@{B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T}}
+\index{B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T@{B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\-C\-M\-\_\-\-D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-A\-X\-I\-\_\-\-W\-A\-I\-T~(1 $<$$<$ 4)}}\label{usb__dwc__regs_8h_a9c64b9f58cb42716371bb477279976c2}
+Bits \mbox{[}4\-:1\mbox{]} of the A\-H\-B Configuration register were redefined by Broadcom for the B\-C\-M2835; hence this flag is only valid on the B\-C\-M2835.
+
+This bit is documented as\-:
+
+1 = Wait for all outstanding A\-X\-I writes to complete before signalling (internally) that D\-M\-A is done. 0 = don't wait.
+
+We set this bit because the Linux driver does, although we did not observe a difference in behavior. \hypertarget{usb__dwc__regs_8h_a6701f2caae66ec55147cfe58bbe9227c}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E}}
+\index{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-D\-M\-A\-\_\-\-E\-N\-A\-B\-L\-E~(1 $<$$<$ 5)}}\label{usb__dwc__regs_8h_a6701f2caae66ec55147cfe58bbe9227c}
+Writing 1 to this bit in the A\-H\-B Configuration Register allows the U\-S\-B controller to perform D\-M\-A (Direct Memory Access). Disabled by default. \hypertarget{usb__dwc__regs_8h_ab2fd65d6aac77ef94554e8def310836b}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E}}
+\index{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-I\-N\-T\-E\-R\-R\-U\-P\-T\-\_\-\-E\-N\-A\-B\-L\-E~(1 $<$$<$ 0)}}\label{usb__dwc__regs_8h_ab2fd65d6aac77ef94554e8def310836b}
+Enable interrupts from the U\-S\-B controller. Disabled by default. \hypertarget{usb__dwc__regs_8h_a9799770133ea4caf3a5be5811a6bbcd3}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E}}
+\index{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E@{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-W\-C\-\_\-\-A\-H\-B\-\_\-\-M\-A\-S\-T\-E\-R\-\_\-\-I\-D\-L\-E~(1 $<$$<$ 31)}}\label{usb__dwc__regs_8h_a9799770133ea4caf3a5be5811a6bbcd3}
+T\-O\-D\-O \hypertarget{usb__dwc__regs_8h_a786cf2c77230c0d1ed90bbb48ee212c8}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S@{D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}}
+\index{D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S@{D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-W\-C\-\_\-\-N\-U\-M\-\_\-\-C\-H\-A\-N\-N\-E\-L\-S~8}}\label{usb__dwc__regs_8h_a786cf2c77230c0d1ed90bbb48ee212c8}
+Number of D\-W\-C host channels, each of which can be used for an independent U\-S\-B transfer. On the B\-C\-M2835 (Raspberry Pi), 8 are available. This is documented on page 201 of the B\-C\-M2835 A\-R\-M Peripherals document. \hypertarget{usb__dwc__regs_8h_a260ffdb7a98c3b82ee928236a234592e}{\index{usb\-\_\-dwc\-\_\-regs.\-h@{usb\-\_\-dwc\-\_\-regs.\-h}!D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T@{D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T}}
+\index{D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T@{D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T}!usb_dwc_regs.h@{usb\-\_\-dwc\-\_\-regs.\-h}}
+\subsubsection[{D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-W\-C\-\_\-\-S\-O\-F\-T\-\_\-\-R\-E\-S\-E\-T~(1 $<$$<$ 0)}}\label{usb__dwc__regs_8h_a260ffdb7a98c3b82ee928236a234592e}
+Write 1 to this location in the Core Reset Register to start a soft reset. This bit will then be cleared by the hardware when the reset is complete. 

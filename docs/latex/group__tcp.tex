@@ -1,0 +1,765 @@
+\hypertarget{group__tcp}{\section{T\-C\-P}
+\label{group__tcp}\index{T\-C\-P@{T\-C\-P}}
+}
+
+
+Transmission Control Protocol driver.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ushort \hyperlink{group__tcp_gaa2153df9bbc47bfd108b8220ff1d8ab2}{tcp\-Alloc} (void)
+\item 
+\hypertarget{group__tcp_ga25d584036e586a90cc128af3db5d74f5}{ushort {\bfseries tcp\-Chksum} (struct packet $\ast$pkt, ushort len, struct netaddr $\ast$src, struct netaddr $\ast$dst)}\label{group__tcp_ga25d584036e586a90cc128af3db5d74f5}
+
+\item 
+devcall \hyperlink{group__tcp_gaf2201252cc913e86fe5a373d7de34ce1}{tcp\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tcp_gaec53b1eedec31d820839a58848186ba8}{tcp\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+struct tcb $\ast$ \hyperlink{group__tcp_gaa4058dc134ea0d6fe0e7317506d950f1}{tcp\-Demux} (ushort dstpt, ushort srcpt, struct netaddr $\ast$dstip, struct netaddr $\ast$srcip)
+\item 
+devcall \hyperlink{group__tcp_ga198efe4277244205130d48ee968f1637}{tcp\-Free} (struct tcb $\ast$tcbptr)
+\item 
+devcall \hyperlink{group__tcp_ga303c6d47bcc758c70437f3ff5c87eac8}{tcp\-Getc} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tcp_gae7df99509f17d9b30690259c54609971}{tcp\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tcp_ga230f078f96a8801c3ad397608bcf0024}{tcp\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__tcp_ga72ec23c6f1f48df8cb9d1be254f78633}{tcp\-Open\-Active} (struct tcb $\ast$tcbptr)
+\item 
+devcall \hyperlink{group__tcp_ga806281518a04d24bb69d002f646de124}{tcp\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__tcp_ga05afe88a1739bc885bb7c36e78b1abb8}{tcp\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+int \hyperlink{group__tcp_gacfb5a1029610c46c6b613083c5c64b4b}{tcp\-Recv} (struct packet $\ast$pkt, struct netaddr $\ast$src, struct netaddr $\ast$dst)
+\item 
+int \hyperlink{group__tcp_gac5d9dee72be6259d34f7485488fa1ec2}{tcp\-Recv\-Ack} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_ga30aa46165497d851dc343bc9e2213b49}{tcp\-Recv\-Data} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_gadd802c3df4d82e41b0e5a1546298fad1}{tcp\-Recv\-Listen} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr, struct netaddr $\ast$src)
+\item 
+int \hyperlink{group__tcp_gaf75dfc1963cc2d89642783340c207a6e}{tcp\-Recv\-Opts} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_ga1710673f803d8de161b1f3361c4bdfe3}{tcp\-Recv\-Other} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_ga677c08cb2df41f2401c5d290a9c75aed}{tcp\-Recv\-Rtt} (struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_gad0ae4a69a0245140ecc469e4da3e0b3e}{tcp\-Recv\-Synsent} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+bool \hyperlink{group__tcp_ga7a97dea541478f672cf14d3605b4d61a}{tcp\-Recv\-Valid} (struct packet $\ast$pkt, struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_ga9043f3398e6fc376b80bd6815089d429}{tcp\-Send} (struct tcb $\ast$tcbptr, uchar ctrl, uint seqnum, uint acknum, uint datastart, ushort datalen)
+\item 
+int \hyperlink{group__tcp_ga96aabab6af46b8ca509a343ace40560d}{tcp\-Send\-Ack} (struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_gafd1b604ee757b32ba9e8ba43c5b36016}{tcp\-Send\-Data} (struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_gaccbfb1de34110858fffedcfd8c25d173}{tcp\-Send\-Persist} (struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_gaba6d7a6b0712369c16b4638856448a0d}{tcp\-Send\-Rst} (struct packet $\ast$pkt, struct netaddr $\ast$src, struct netaddr $\ast$dst)
+\item 
+int \hyperlink{group__tcp_ga6624cffbf72611b38c851038c69c081a}{tcp\-Send\-Rxt} (struct tcb $\ast$tcbptr)
+\item 
+int \hyperlink{group__tcp_ga11d70dce9f7e24b008e67c1441280516}{tcp\-Send\-Syn} (struct tcb $\ast$tcbptr)
+\item 
+ushort \hyperlink{group__tcp_ga9c6b058b062936d898e8271d17c9be3b}{tcp\-Send\-Window} (struct tcb $\ast$tcbptr)
+\item 
+tcpseq \hyperlink{group__tcp_ga68b91348e1b9aee77e4864bf8cff4865}{tcp\-Seqdiff} (tcpseq first, tcpseq second)
+\item 
+int \hyperlink{group__tcp_ga2eb00046ecdf585e473444ac8f43c4ff}{tcp\-Setup} (struct tcb $\ast$tcbptr)
+\item 
+void \hyperlink{group__tcp_ga98980048cd0cb43f86026683f5dca029}{tcp\-Stat} (struct tcb $\ast$tcbptr)
+\item 
+thread \hyperlink{group__tcp_ga85c103c53fb875865effc96125c85b0f}{tcp\-Timer} (void)
+\item 
+devcall \hyperlink{group__tcp_ga6fee4e9c9633a74534e7a68cfa5e30fa}{tcp\-Timer\-Purge} (struct tcb $\ast$tcbptr, uchar type)
+\item 
+int \hyperlink{group__tcp_ga85db0509e89ad372e57a2e03cb87b95c}{tcp\-Timer\-Remain} (struct tcb $\ast$tcbptr, uchar type)
+\item 
+devcall \hyperlink{group__tcp_ga201c9b5969b80c388867c898b99a985b}{tcp\-Timer\-Sched} (int time, struct tcb $\ast$tcbptr, uchar type)
+\item 
+void \hyperlink{group__tcp_ga2e1f210796b029602528dd31c4b63a71}{tcp\-Timer\-Trigger} (uchar type, struct tcb $\ast$tcbptr)
+\item 
+devcall \hyperlink{group__tcp_gaadacb875ab044ec9478a2e50c07e0e47}{tcp\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Transmission Control Protocol driver. This module provides an interface to the Transmission Control Protocol (T\-C\-P). 
+
+\subsection{Function Documentation}
+\hypertarget{group__tcp_gaa2153df9bbc47bfd108b8220ff1d8ab2}{\index{T\-C\-P@{T\-C\-P}!tcp\-Alloc@{tcp\-Alloc}}
+\index{tcp\-Alloc@{tcp\-Alloc}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}ushort tcp\-Alloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaa2153df9bbc47bfd108b8220ff1d8ab2}
+Allocate an available tcp device. \begin{DoxyReturn}{Returns}
+device number for a tcp device, S\-Y\-S\-E\-R\-R if none are free 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gaf2201252cc913e86fe5a373d7de34ce1}{\index{T\-C\-P@{T\-C\-P}!tcp\-Close@{tcp\-Close}}
+\index{tcp\-Close@{tcp\-Close}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaf2201252cc913e86fe5a373d7de34ce1}
+Close a T\-C\-P device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-C\-P device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-C\-P is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gaec53b1eedec31d820839a58848186ba8}{\index{T\-C\-P@{T\-C\-P}!tcp\-Control@{tcp\-Control}}
+\index{tcp\-Control@{tcp\-Control}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaec53b1eedec31d820839a58848186ba8}
+Control function for T\-C\-P devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & ethernet device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gaa4058dc134ea0d6fe0e7317506d950f1}{\index{T\-C\-P@{T\-C\-P}!tcp\-Demux@{tcp\-Demux}}
+\index{tcp\-Demux@{tcp\-Demux}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Demux}]{\setlength{\rightskip}{0pt plus 5cm}struct tcb$\ast$ tcp\-Demux (
+\begin{DoxyParamCaption}
+\item[{ushort}]{dstpt, }
+\item[{ushort}]{srcpt, }
+\item[{struct netaddr $\ast$}]{dstip, }
+\item[{struct netaddr $\ast$}]{srcip}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaa4058dc134ea0d6fe0e7317506d950f1}
+Locate the T\-C\-P socket for a T\-C\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em dstpt} & destination port of the T\-C\-P packet \\
+\hline
+{\em srcpt} & source port of the T\-C\-P packet \\
+\hline
+{\em dstip} & destination I\-P of the T\-C\-P packet \\
+\hline
+{\em srcip} & source I\-P of the T\-C\-P packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+most completely matched socket, N\-U\-L\-L if no match 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga198efe4277244205130d48ee968f1637}{\index{T\-C\-P@{T\-C\-P}!tcp\-Free@{tcp\-Free}}
+\index{tcp\-Free@{tcp\-Free}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Free}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Free (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga198efe4277244205130d48ee968f1637}
+Delete a T\-C\-B. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & pointer to transmission control block for connection  T\-C\-B mutex is already held \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_ga303c6d47bcc758c70437f3ff5c87eac8}{\index{T\-C\-P@{T\-C\-P}!tcp\-Getc@{tcp\-Getc}}
+\index{tcp\-Getc@{tcp\-Getc}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga303c6d47bcc758c70437f3ff5c87eac8}
+Read into a single octet from T\-C\-P. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-C\-P device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+character read from T\-C\-P 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gae7df99509f17d9b30690259c54609971}{\index{T\-C\-P@{T\-C\-P}!tcp\-Init@{tcp\-Init}}
+\index{tcp\-Init@{tcp\-Init}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gae7df99509f17d9b30690259c54609971}
+Initialize T\-C\-P structures. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & tcp device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if device is initialized 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga230f078f96a8801c3ad397608bcf0024}{\index{T\-C\-P@{T\-C\-P}!tcp\-Open@{tcp\-Open}}
+\index{tcp\-Open@{tcp\-Open}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga230f078f96a8801c3ad397608bcf0024}
+Associate a tcp with a network device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & tcp device table entry \\
+\hline
+{\em ap} & 2nd argument is the local I\-P address 3rd argument is the remote I\-P address 4th argument is the local port (auto-\/assigned if zero) 5th argument is the remote port (ignored if zero) 6th argument is the mode (T\-C\-P\-\_\-\-A\-C\-T\-I\-V\-E or T\-C\-P\-\_\-\-P\-A\-S\-S\-I\-V\-E) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-C\-P is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga72ec23c6f1f48df8cb9d1be254f78633}{\index{T\-C\-P@{T\-C\-P}!tcp\-Open\-Active@{tcp\-Open\-Active}}
+\index{tcp\-Open\-Active@{tcp\-Open\-Active}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Open\-Active}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Open\-Active (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga72ec23c6f1f48df8cb9d1be254f78633}
+Actively opens a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & T\-C\-B for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if tcp is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga806281518a04d24bb69d002f646de124}{\index{T\-C\-P@{T\-C\-P}!tcp\-Putc@{tcp\-Putc}}
+\index{tcp\-Putc@{tcp\-Putc}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga806281518a04d24bb69d002f646de124}
+Write a single octet to send via T\-C\-P.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-C\-P device table entry\\
+\hline
+{\em ch} & character to output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily ch} as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success; {\ttfamily S\-Y\-S\-E\-R\-R} on failure. 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga05afe88a1739bc885bb7c36e78b1abb8}{\index{T\-C\-P@{T\-C\-P}!tcp\-Read@{tcp\-Read}}
+\index{tcp\-Read@{tcp\-Read}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga05afe88a1739bc885bb7c36e78b1abb8}
+Read into a buffer from T\-C\-P. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-C\-P device table entry \\
+\hline
+{\em buf} & buffer to read octets into \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+count of octets read 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gacfb5a1029610c46c6b613083c5c64b4b}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv@{tcp\-Recv}}
+\index{tcp\-Recv@{tcp\-Recv}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gacfb5a1029610c46c6b613083c5c64b4b}
+Processes an incoming T\-C\-P packet. See R\-F\-C 793, pg 65 for an overview of the T\-C\-P packet arrival algorithm. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em src} & source of incoming packet \\
+\hline
+{\em dst} & destination of incoming packet \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_gac5d9dee72be6259d34f7485488fa1ec2}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Ack@{tcp\-Recv\-Ack}}
+\index{tcp\-Recv\-Ack@{tcp\-Recv\-Ack}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Ack}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Ack (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gac5d9dee72be6259d34f7485488fa1ec2}
+Process an ackowledgement of data in an incoming T\-C\-P segment for a connection which has been fully established. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection  T\-C\-B mutex is already held  T\-C\-B mutex is still held \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_ga30aa46165497d851dc343bc9e2213b49}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Data@{tcp\-Recv\-Data}}
+\index{tcp\-Recv\-Data@{tcp\-Recv\-Data}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Data (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga30aa46165497d851dc343bc9e2213b49}
+Processes the data in an incoming packet for a T\-C\-P connection. Function based on R\-F\-C 763, pg 73-\/76. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_gadd802c3df4d82e41b0e5a1546298fad1}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Listen@{tcp\-Recv\-Listen}}
+\index{tcp\-Recv\-Listen@{tcp\-Recv\-Listen}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Listen}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Listen (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr, }
+\item[{struct netaddr $\ast$}]{src}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gadd802c3df4d82e41b0e5a1546298fad1}
+Processes an incoming packet for a T\-C\-P connection in the L\-I\-S\-T\-E\-N state. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+{\em src} & source I\-P address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\hypertarget{group__tcp_gaf75dfc1963cc2d89642783340c207a6e}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Opts@{tcp\-Recv\-Opts}}
+\index{tcp\-Recv\-Opts@{tcp\-Recv\-Opts}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Opts}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Opts (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaf75dfc1963cc2d89642783340c207a6e}
+Processes the options in an incoming packet for a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga1710673f803d8de161b1f3361c4bdfe3}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Other@{tcp\-Recv\-Other}}
+\index{tcp\-Recv\-Other@{tcp\-Recv\-Other}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Other}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Other (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga1710673f803d8de161b1f3361c4bdfe3}
+Processes an incoming packet for a T\-C\-P connection in the S\-Y\-N\-R\-E\-C\-V, E\-S\-T\-A\-B, F\-I\-N\-W\-T1, F\-I\-N\-W\-T2, C\-L\-O\-S\-E\-W\-T, C\-L\-O\-S\-I\-N\-G, L\-A\-S\-T\-A\-C\-K, or T\-I\-M\-E\-W\-T state. Function based on R\-F\-C 763, pg 69-\/73. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga677c08cb2df41f2401c5d290a9c75aed}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Rtt@{tcp\-Recv\-Rtt}}
+\index{tcp\-Recv\-Rtt@{tcp\-Recv\-Rtt}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Rtt}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Rtt (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga677c08cb2df41f2401c5d290a9c75aed}
+Handle round trip time estimates based on an incoming acknowledgement. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K  T\-C\-B mutex is already held  T\-C\-B mutex is still held 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gad0ae4a69a0245140ecc469e4da3e0b3e}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Synsent@{tcp\-Recv\-Synsent}}
+\index{tcp\-Recv\-Synsent@{tcp\-Recv\-Synsent}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Synsent}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Recv\-Synsent (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gad0ae4a69a0245140ecc469e4da3e0b3e}
+Processes an incoming packet for a T\-C\-P connection in the S\-Y\-N\-S\-E\-N\-T state. Function based on R\-F\-C 763, pg 66-\/68. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K or T\-C\-P\-\_\-\-E\-R\-R\-\_\-\-S\-N\-D\-R\-S\-T 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\hypertarget{group__tcp_ga7a97dea541478f672cf14d3605b4d61a}{\index{T\-C\-P@{T\-C\-P}!tcp\-Recv\-Valid@{tcp\-Recv\-Valid}}
+\index{tcp\-Recv\-Valid@{tcp\-Recv\-Valid}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Recv\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool tcp\-Recv\-Valid (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga7a97dea541478f672cf14d3605b4d61a}
+Checks if an incoming T\-C\-P segment is valid. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet \\
+\hline
+{\em tcbptr} & pointer to transmission control block for connection  T\-C\-B mutex is already held  T\-C\-B mutex is still held \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_ga9043f3398e6fc376b80bd6815089d429}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send@{tcp\-Send}}
+\index{tcp\-Send@{tcp\-Send}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr, }
+\item[{uchar}]{ctrl, }
+\item[{uint}]{seqnum, }
+\item[{uint}]{acknum, }
+\item[{uint}]{datastart, }
+\item[{ushort}]{datalen}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga9043f3398e6fc376b80bd6815089d429}
+Sends a T\-C\-P packet for a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & pointer to the transmission control block for connection \\
+\hline
+{\em ctrl} & control flags to be set \\
+\hline
+{\em seqnum} & sequence number for the packet \\
+\hline
+{\em acknum} & acknowledgement number for the packet \\
+\hline
+{\em data} & data to be included in the packet, N\-U\-L\-L if no data \\
+\hline
+{\em datalen} & length of the data, 0 if no data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga96aabab6af46b8ca509a343ace40560d}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Ack@{tcp\-Send\-Ack}}
+\index{tcp\-Send\-Ack@{tcp\-Send\-Ack}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Ack}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Ack (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga96aabab6af46b8ca509a343ace40560d}
+Sends an A\-C\-K packet to ackowledge all received data for a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em tcpptr} & pointer to the transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_gafd1b604ee757b32ba9e8ba43c5b36016}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Data@{tcp\-Send\-Data}}
+\index{tcp\-Send\-Data@{tcp\-Send\-Data}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Data (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gafd1b604ee757b32ba9e8ba43c5b36016}
+Sends pending outbound data (including S\-Y\-N and F\-I\-N) for a T\-C\-P connection, if new data is ready for transmission. 
+\begin{DoxyParams}{Parameters}
+{\em tcpptr} & pointer to the transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of octets sent 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+$<$ amount of window filled with data pending A\-C\-K
+
+$<$ amount of data pending A\-C\-K or transmission \hypertarget{group__tcp_gaccbfb1de34110858fffedcfd8c25d173}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Persist@{tcp\-Send\-Persist}}
+\index{tcp\-Send\-Persist@{tcp\-Send\-Persist}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Persist}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Persist (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaccbfb1de34110858fffedcfd8c25d173}
+Send a segment to probe a receiver who advertised a window size of 0. 
+\begin{DoxyParams}{Parameters}
+{\em tcpptr} & pointer to the transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of octets sent 
+\end{DoxyReturn}
+\hypertarget{group__tcp_gaba6d7a6b0712369c16b4638856448a0d}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Rst@{tcp\-Send\-Rst}}
+\index{tcp\-Send\-Rst@{tcp\-Send\-Rst}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Rst}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Rst (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaba6d7a6b0712369c16b4638856448a0d}
+Sends a reset in response to an incorrect T\-C\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet which requires a reset response \\
+\hline
+{\em src} & source I\-P address of the packet \\
+\hline
+{\em dst} & destination I\-P address of the packet \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_ga6624cffbf72611b38c851038c69c081a}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Rxt@{tcp\-Send\-Rxt}}
+\index{tcp\-Send\-Rxt@{tcp\-Send\-Rxt}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Rxt}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Rxt (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga6624cffbf72611b38c851038c69c081a}
+Retransmitts a segment of pending outbound data (including S\-Y\-N and F\-I\-N) for a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em tcpptr} & pointer to the transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of octets sent 
+\end{DoxyReturn}
+$<$ amount of data pending A\-C\-K \hypertarget{group__tcp_ga11d70dce9f7e24b008e67c1441280516}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Syn@{tcp\-Send\-Syn}}
+\index{tcp\-Send\-Syn@{tcp\-Send\-Syn}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Syn}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Send\-Syn (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga11d70dce9f7e24b008e67c1441280516}
+Sends an S\-Y\-N packet to establish a T\-C\-P connection. 
+\begin{DoxyParams}{Parameters}
+{\em tcpptr} & pointer to the transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga9c6b058b062936d898e8271d17c9be3b}{\index{T\-C\-P@{T\-C\-P}!tcp\-Send\-Window@{tcp\-Send\-Window}}
+\index{tcp\-Send\-Window@{tcp\-Send\-Window}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Send\-Window}]{\setlength{\rightskip}{0pt plus 5cm}ushort tcp\-Send\-Window (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga9c6b058b062936d898e8271d17c9be3b}
+Calculates the window size to advertise in an outgoing T\-C\-P packet. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & pointer to transmission control block for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga68b91348e1b9aee77e4864bf8cff4865}{\index{T\-C\-P@{T\-C\-P}!tcp\-Seqdiff@{tcp\-Seqdiff}}
+\index{tcp\-Seqdiff@{tcp\-Seqdiff}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Seqdiff}]{\setlength{\rightskip}{0pt plus 5cm}tcpseq tcp\-Seqdiff (
+\begin{DoxyParamCaption}
+\item[{tcpseq}]{first, }
+\item[{tcpseq}]{second}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga68b91348e1b9aee77e4864bf8cff4865}
+Calculates the difference between two sequence numbers. 
+\begin{DoxyParams}{Parameters}
+{\em first} & sequence number that occurs first \\
+\hline
+{\em second} & sequence number that occurs second \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+difference between two sequence numbers 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga2eb00046ecdf585e473444ac8f43c4ff}{\index{T\-C\-P@{T\-C\-P}!tcp\-Setup@{tcp\-Setup}}
+\index{tcp\-Setup@{tcp\-Setup}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Setup}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Setup (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga2eb00046ecdf585e473444ac8f43c4ff}
+Intializes a transmission control block.  tcbptr T\-C\-B for connection \begin{DoxyReturn}{Returns}
+O\-K if T\-C\-B is initialized properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition T\-C\-B mutex is already held 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition T\-C\-B mutex is still held 
+\end{DoxyPostcond}
+\hypertarget{group__tcp_ga98980048cd0cb43f86026683f5dca029}{\index{T\-C\-P@{T\-C\-P}!tcp\-Stat@{tcp\-Stat}}
+\index{tcp\-Stat@{tcp\-Stat}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Stat}]{\setlength{\rightskip}{0pt plus 5cm}void tcp\-Stat (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga98980048cd0cb43f86026683f5dca029}
+Transmission Control Protocol status command. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & pointer to transmission control block \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_ga85c103c53fb875865effc96125c85b0f}{\index{T\-C\-P@{T\-C\-P}!tcp\-Timer@{tcp\-Timer}}
+\index{tcp\-Timer@{tcp\-Timer}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Timer}]{\setlength{\rightskip}{0pt plus 5cm}thread tcp\-Timer (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga85c103c53fb875865effc96125c85b0f}
+T\-C\-P timer process to manage timeout and retransmit events. \hypertarget{group__tcp_ga6fee4e9c9633a74534e7a68cfa5e30fa}{\index{T\-C\-P@{T\-C\-P}!tcp\-Timer\-Purge@{tcp\-Timer\-Purge}}
+\index{tcp\-Timer\-Purge@{tcp\-Timer\-Purge}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Timer\-Purge}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Timer\-Purge (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr, }
+\item[{uchar}]{type}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga6fee4e9c9633a74534e7a68cfa5e30fa}
+Remove all T\-C\-P timer events for a particular T\-C\-B. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & T\-C\-B for which to remove all events \\
+\hline
+{\em type} & type of events to remove, all types are removed if N\-U\-L\-L \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the time elapsed for the first remvoed event, S\-Y\-S\-E\-R\-R if no events were removed 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga85db0509e89ad372e57a2e03cb87b95c}{\index{T\-C\-P@{T\-C\-P}!tcp\-Timer\-Remain@{tcp\-Timer\-Remain}}
+\index{tcp\-Timer\-Remain@{tcp\-Timer\-Remain}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Timer\-Remain}]{\setlength{\rightskip}{0pt plus 5cm}int tcp\-Timer\-Remain (
+\begin{DoxyParamCaption}
+\item[{struct tcb $\ast$}]{tcbptr, }
+\item[{uchar}]{type}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga85db0509e89ad372e57a2e03cb87b95c}
+Determine time reamining for a T\-C\-P timer event for a particular T\-C\-B. 
+\begin{DoxyParams}{Parameters}
+{\em tcbptr} & T\-C\-B to which event corresponds \\
+\hline
+{\em type} & type of timer event \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+time remaining for event, 0 if no event exists 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga201c9b5969b80c388867c898b99a985b}{\index{T\-C\-P@{T\-C\-P}!tcp\-Timer\-Sched@{tcp\-Timer\-Sched}}
+\index{tcp\-Timer\-Sched@{tcp\-Timer\-Sched}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Timer\-Sched}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Timer\-Sched (
+\begin{DoxyParamCaption}
+\item[{int}]{time, }
+\item[{struct tcb $\ast$}]{tcbptr, }
+\item[{uchar}]{type}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga201c9b5969b80c388867c898b99a985b}
+Schedule T\-C\-P timer events. 
+\begin{DoxyParams}{Parameters}
+{\em time} & milliseconds before timer triggers \\
+\hline
+{\em tcbptr} & T\-C\-B with which event is associated \\
+\hline
+{\em type} & type of timer event \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if event is successfully scheduled, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tcp_ga2e1f210796b029602528dd31c4b63a71}{\index{T\-C\-P@{T\-C\-P}!tcp\-Timer\-Trigger@{tcp\-Timer\-Trigger}}
+\index{tcp\-Timer\-Trigger@{tcp\-Timer\-Trigger}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Timer\-Trigger}]{\setlength{\rightskip}{0pt plus 5cm}void tcp\-Timer\-Trigger (
+\begin{DoxyParamCaption}
+\item[{uchar}]{type, }
+\item[{struct tcb $\ast$}]{tcbptr}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_ga2e1f210796b029602528dd31c4b63a71}
+Processes T\-C\-P timer events. 
+\begin{DoxyParams}{Parameters}
+{\em evtptr} & timer event to process \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__tcp_gaadacb875ab044ec9478a2e50c07e0e47}{\index{T\-C\-P@{T\-C\-P}!tcp\-Write@{tcp\-Write}}
+\index{tcp\-Write@{tcp\-Write}!TCP@{T\-C\-P}}
+\subsubsection[{tcp\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall tcp\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__tcp_gaadacb875ab044ec9478a2e50c07e0e47}
+Write into a buffer to send via T\-C\-P. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-C\-P device table entry \\
+\hline
+{\em buf} & buffer to read octets into \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+count of octets written 
+\end{DoxyReturn}

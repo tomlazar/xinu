@@ -1,0 +1,72 @@
+\hypertarget{usbhub_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbhub.c File Reference}
+\label{usbhub_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbhub.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbhub.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hub\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hub\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-std\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include $<$core.\-h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structusb__port}{usb\-\_\-port}
+\item 
+struct \hyperlink{structusb__hub}{usb\-\_\-hub}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usbhub_8c_a51cf60587d106697dbd690ac14729716}{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}~16
+\item 
+\#define \hyperlink{usbhub_8c_ad18349f6219d59a01e754548c2c7ef63}{M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S}~16
+\item 
+\#define \hyperlink{usbhub_8c_a4d3ad90d89b54b36b1614b286d42936d}{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}~8192
+\item 
+\#define \hyperlink{usbhub_8c_a2502c68e157118b66d775dbdecea4018}{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}~60
+\item 
+\#define \hyperlink{usbhub_8c_a769c716d7d25d1fda18edf2fb465a40a}{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}~\char`\"{}U\-S\-B hub thread\char`\"{}
+\item 
+\#define \hyperlink{usbhub_8c_aff0652da0371e4d04f95bcd4500046a0}{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}~800
+\item 
+\#define \hyperlink{usbhub_8c_a961087ab65ece078cbc2b897e2081c4a}{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y}~10
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__usbhub_ga3ca1e7a532628e72cf71eb3e02248e09}{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree} (struct usb\-\_\-device $\ast$dev, usb\-\_\-status\-\_\-t($\ast$callback)(struct usb\-\_\-device $\ast$))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct usb\-\_\-device\-\_\-driver \hyperlink{group__usbhub_ga45355fca9db05572ff83be5f5ba710ec}{usb\-\_\-hub\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains the U\-S\-B (Universal Serial Bus) hub device driver. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{usbhub_8c_a51cf60587d106697dbd690ac14729716}{\index{usbhub.\-c@{usbhub.\-c}!H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S@{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}}
+\index{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S@{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S~16}}\label{usbhub_8c_a51cf60587d106697dbd690ac14729716}
+Maximum number of ports per hub supported by this driver. (U\-S\-B 2.\-0 theoretically allows up to 255 ports per hub.) \hypertarget{usbhub_8c_a769c716d7d25d1fda18edf2fb465a40a}{\index{usbhub.\-c@{usbhub.\-c}!H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}}
+\index{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E~\char`\"{}U\-S\-B hub thread\char`\"{}}}\label{usbhub_8c_a769c716d7d25d1fda18edf2fb465a40a}
+Name of U\-S\-B hub thread. \hypertarget{usbhub_8c_a2502c68e157118b66d775dbdecea4018}{\index{usbhub.\-c@{usbhub.\-c}!H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}}
+\index{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y~60}}\label{usbhub_8c_a2502c68e157118b66d775dbdecea4018}
+Priority of U\-S\-B hub thread. This should be fairly high so that changes in U\-S\-B connectivity can be responded to quickly. \hypertarget{usbhub_8c_a4d3ad90d89b54b36b1614b286d42936d}{\index{usbhub.\-c@{usbhub.\-c}!H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}}
+\index{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define H\-U\-B\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E~8192}}\label{usbhub_8c_a4d3ad90d89b54b36b1614b286d42936d}
+Stack size of U\-S\-B hub thread. This shouldn't need to be very large, but the hub thread can call into U\-S\-B device drivers' bind\-\_\-device and unbind\-\_\-device callbacks. \hypertarget{usbhub_8c_ad18349f6219d59a01e754548c2c7ef63}{\index{usbhub.\-c@{usbhub.\-c}!M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S@{M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S}}
+\index{M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S@{M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\-A\-X\-\_\-\-N\-U\-S\-B\-H\-U\-B\-S~16}}\label{usbhub_8c_ad18349f6219d59a01e754548c2c7ef63}
+Maximum number of U\-S\-B hubs that can be attached to the U\-S\-B at the same time. \hypertarget{usbhub_8c_a961087ab65ece078cbc2b897e2081c4a}{\index{usbhub.\-c@{usbhub.\-c}!U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y@{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y}}
+\index{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y@{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-D\-E\-L\-A\-Y~10}}\label{usbhub_8c_a961087ab65ece078cbc2b897e2081c4a}
+Milliseconds between each status check on the port while waiting for it to finish being reset (Linux uses several values, but 10 in the default case). \hypertarget{usbhub_8c_aff0652da0371e4d04f95bcd4500046a0}{\index{usbhub.\-c@{usbhub.\-c}!U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T@{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}}
+\index{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T@{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}!usbhub.c@{usbhub.\-c}}
+\subsubsection[{U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\-S\-B\-\_\-\-P\-O\-R\-T\-\_\-\-R\-E\-S\-E\-T\-\_\-\-T\-I\-M\-E\-O\-U\-T~800}}\label{usbhub_8c_aff0652da0371e4d04f95bcd4500046a0}
+Maximum milliseconds to wait for a port to reset (800 is the same value that Linux uses). 

@@ -1,0 +1,37 @@
+\hypertarget{httpWrite_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Write.c File Reference}
+\label{httpWrite_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Write.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Write.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{httpWrite_8c_a1fde277fcd24fbd7f3a5b888c40d56d8}{http\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpWrite_8c_a1fde277fcd24fbd7f3a5b888c40d56d8}{\index{http\-Write.\-c@{http\-Write.\-c}!http\-Write@{http\-Write}}
+\index{http\-Write@{http\-Write}!httpWrite.c@{http\-Write.\-c}}
+\subsubsection[{http\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall http\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{httpWrite_8c_a1fde277fcd24fbd7f3a5b888c40d56d8}
+Write a buffer to a http 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & H\-T\-T\-P device table entry \\
+\hline
+{\em buf} & buffer of characters to output \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+count of characters output to underlying device 
+\end{DoxyReturn}

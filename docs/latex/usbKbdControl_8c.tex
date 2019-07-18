@@ -1,0 +1,37 @@
+\hypertarget{usbKbdControl_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Control.c File Reference}
+\label{usbKbdControl_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Control.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Control.\-c}}
+}
+{\ttfamily \#include $<$usbkbd.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{usbKbdControl_8c_aaa7aa81317095a0f1ad657394a3b072b}{usb\-Kbd\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{usbKbdControl_8c_aaa7aa81317095a0f1ad657394a3b072b}{\index{usb\-Kbd\-Control.\-c@{usb\-Kbd\-Control.\-c}!usb\-Kbd\-Control@{usb\-Kbd\-Control}}
+\index{usb\-Kbd\-Control@{usb\-Kbd\-Control}!usbKbdControl.c@{usb\-Kbd\-Control.\-c}}
+\subsubsection[{usb\-Kbd\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall usb\-Kbd\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{usbKbdControl_8c_aaa7aa81317095a0f1ad657394a3b072b}
+Control parameters to a U\-S\-B keyboard. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to U\-S\-B keyboard device \\
+\hline
+{\em func} & index of function to run (defined in usbkbd.\-h) \\
+\hline
+{\em arg1} & first argument to called function \\
+\hline
+{\em arg2} & second argument to called function\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-Y\-S\-E\-R\-R if control function not recognized; otherwise a control-\/function-\/dependent value. 
+\end{DoxyReturn}

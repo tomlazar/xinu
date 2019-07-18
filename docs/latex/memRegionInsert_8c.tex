@@ -1,0 +1,39 @@
+\hypertarget{memRegionInsert_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Insert.c File Reference}
+\label{memRegionInsert_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Insert.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Insert.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{memRegionInsert_8c_ac7a3cef0a9e2e15981447dc9b5bf6e09}{mem\-Region\-Insert} (struct memregion $\ast$region, struct memregion $\ast$$\ast$list)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{memRegionInsert_8c_a66924dfd893569f1ae424b0c1a39b028}{struct memregion $\ast$ {\bfseries regalloclist}}\label{memRegionInsert_8c_a66924dfd893569f1ae424b0c1a39b028}
+
+\item 
+\hypertarget{memRegionInsert_8c_a9ee2a209b01cb7311e5e0ce00f1685e3}{struct memregion $\ast$ {\bfseries regfreelist}}\label{memRegionInsert_8c_a9ee2a209b01cb7311e5e0ce00f1685e3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Insert a memory region into a list of memory regions (free or allocated). 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionInsert_8c_ac7a3cef0a9e2e15981447dc9b5bf6e09}{\index{mem\-Region\-Insert.\-c@{mem\-Region\-Insert.\-c}!mem\-Region\-Insert@{mem\-Region\-Insert}}
+\index{mem\-Region\-Insert@{mem\-Region\-Insert}!memRegionInsert.c@{mem\-Region\-Insert.\-c}}
+\subsubsection[{mem\-Region\-Insert}]{\setlength{\rightskip}{0pt plus 5cm}void mem\-Region\-Insert (
+\begin{DoxyParamCaption}
+\item[{struct memregion $\ast$}]{region, }
+\item[{struct memregion $\ast$$\ast$}]{list}
+\end{DoxyParamCaption}
+)}}\label{memRegionInsert_8c_ac7a3cef0a9e2e15981447dc9b5bf6e09}
+Insert a region into a region list. This will coalesce with neighboring regions if applicable (list is free list). 
+\begin{DoxyParams}{Parameters}
+{\em region} & Region to insert. \\
+\hline
+{\em list} & List to insert region in. \\
+\hline
+\end{DoxyParams}

@@ -1,8 +1,8 @@
 /**
  * @defgroup framebuffer Framebuffer
  * @ingroup devices
- * @brief Driver for the BCM2835 (Raspberry Pi) framebuffer.
+ * @brief Driver for the BCM2837B0 (Raspberry Pi 3 B+) framebuffer.
  *
- * This driver communicates with the VideoCore GPU on the Raspberry Pi and
+ * This driver communicates with the VideoCore GPU and
  * provides functions to draw shapes and print text to the screen.
  */

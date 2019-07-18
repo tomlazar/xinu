@@ -1,0 +1,73 @@
+\hypertarget{httpServer_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Server.c File Reference}
+\label{httpServer_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Server.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Server.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$shell.\-h$>$}\\*
+{\ttfamily \#include $<$tcp.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+thread \hyperlink{httpServer_8c_ac220f02d77a515e5a607dd1b070a7fa4}{kill\-Http\-Server} (uint, tid\-\_\-typ, uint)
+\item 
+thread \hyperlink{httpServer_8c_aff0b569bf321d1df3e04c1e55ff75bb1}{http\-Server} (int, int)
+\item 
+thread \hyperlink{httpServer_8c_ae46a897473e501e8d999ca2cb1374c67}{http\-Server\-Kick\-Start} (int net\-Descrp)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpServer_8c_aff0b569bf321d1df3e04c1e55ff75bb1}{\index{http\-Server.\-c@{http\-Server.\-c}!http\-Server@{http\-Server}}
+\index{http\-Server@{http\-Server}!httpServer.c@{http\-Server.\-c}}
+\subsubsection[{http\-Server}]{\setlength{\rightskip}{0pt plus 5cm}thread http\-Server (
+\begin{DoxyParamCaption}
+\item[{int}]{net\-Descrp, }
+\item[{int}]{gentcpdev}
+\end{DoxyParamCaption}
+)}}\label{httpServer_8c_aff0b569bf321d1df3e04c1e55ff75bb1}
+H\-T\-T\-P server thread 
+\begin{DoxyParams}{Parameters}
+{\em host} & I\-P address of interface on which to listen \\
+\hline
+{\em gentcpdev} & the allocated tcp device for general listening \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K or S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{httpServer_8c_ae46a897473e501e8d999ca2cb1374c67}{\index{http\-Server.\-c@{http\-Server.\-c}!http\-Server\-Kick\-Start@{http\-Server\-Kick\-Start}}
+\index{http\-Server\-Kick\-Start@{http\-Server\-Kick\-Start}!httpServer.c@{http\-Server.\-c}}
+\subsubsection[{http\-Server\-Kick\-Start}]{\setlength{\rightskip}{0pt plus 5cm}thread http\-Server\-Kick\-Start (
+\begin{DoxyParamCaption}
+\item[{int}]{net\-Descrp}
+\end{DoxyParamCaption}
+)}}\label{httpServer_8c_ae46a897473e501e8d999ca2cb1374c67}
+H\-T\-T\-P server kick start thread \begin{DoxyReturn}{Returns}
+O\-K or S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{httpServer_8c_ac220f02d77a515e5a607dd1b070a7fa4}{\index{http\-Server.\-c@{http\-Server.\-c}!kill\-Http\-Server@{kill\-Http\-Server}}
+\index{kill\-Http\-Server@{kill\-Http\-Server}!httpServer.c@{http\-Server.\-c}}
+\subsubsection[{kill\-Http\-Server}]{\setlength{\rightskip}{0pt plus 5cm}thread kill\-Http\-Server (
+\begin{DoxyParamCaption}
+\item[{uint}]{httpdev, }
+\item[{tid\-\_\-typ}]{shelltid, }
+\item[{uint}]{tcpdev}
+\end{DoxyParamCaption}
+)}}\label{httpServer_8c_ac220f02d77a515e5a607dd1b070a7fa4}
+Kills H\-T\-T\-P server spawned threads and close devices 
+\begin{DoxyParams}{Parameters}
+{\em httpdev} & H\-T\-T\-P device to close \\
+\hline
+{\em shelltid} & shell thread I\-D to kill \\
+\hline
+{\em tcpdev} & T\-C\-P device to close \\
+\hline
+{\em servertid} & server thread I\-D to kill \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread return status 
+\end{DoxyReturn}

@@ -1,0 +1,227 @@
+\hypertarget{group__devcalls}{\section{Devices}
+\label{group__devcalls}\index{Devices@{Devices}}
+}
+
+
+Open, close, read, and write to devices.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{group__devcalls_ga67013cfade639dcd90764203bfdb4656}{close} (int descrp)
+\item 
+devcall \hyperlink{group__devcalls_ga24e6838ad3f08cdb319118280033a9d5}{control} (int descrp, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__devcalls_ga372cf2b2321576c8115c314ebc92a04f}{getc} (int descrp)
+\item 
+syscall \hyperlink{group__devcalls_gaf1ee3b6e179acd2e54709cffc3b28aa7}{getdev} (const char $\ast$dev)
+\item 
+devcall \hyperlink{group__devcalls_ga4477aa228b9044af2671ea7882c7d0df}{ioerr} (void)
+\item 
+devcall \hyperlink{group__devcalls_gaad9596bdb25cbdcf08f76b1d3fa69c2b}{ionull} (void)
+\item 
+devcall \hyperlink{group__devcalls_ga1eba5ef52c39e4c1d412e31cd03d4d2c}{open} (int descrp,...)
+\item 
+devcall \hyperlink{group__devcalls_ga5fbd09b014442a3be3cbdd4b63f0580e}{putc} (int descrp, char ch)
+\item 
+devcall \hyperlink{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{read} (int descrp, void $\ast$buffer, uint count)
+\item 
+devcall \hyperlink{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{write} (int descrp, const void $\ast$buffer, uint count)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Open, close, read, and write to devices. 
+
+\subsection{Function Documentation}
+\hypertarget{group__devcalls_ga67013cfade639dcd90764203bfdb4656}{\index{Devices@{Devices}!close@{close}}
+\index{close@{close}!Devices@{Devices}}
+\subsubsection[{close}]{\setlength{\rightskip}{0pt plus 5cm}devcall close (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga67013cfade639dcd90764203bfdb4656}
+Close a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the device to close.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if device was successfully closed; \-::\-S\-Y\-S\-E\-R\-R otherwise.
+\end{DoxyReturn}
+Most device drivers will return \-::\-S\-Y\-S\-E\-R\-R if the device is not open but otherwise will always be able to successfully close the device and return \-::\-O\-K.
+
+Caveat\-: You must not close the device while any threads are using it (e.\-g. for \hyperlink{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{read()} or \hyperlink{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{write()}), unless the corresponding device driver documents this as allowed. \hypertarget{group__devcalls_ga24e6838ad3f08cdb319118280033a9d5}{\index{Devices@{Devices}!control@{control}}
+\index{control@{control}!Devices@{Devices}}
+\subsubsection[{control}]{\setlength{\rightskip}{0pt plus 5cm}devcall control (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga24e6838ad3f08cdb319118280033a9d5}
+Execute an I/\-O Control request on a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the device. \\
+\hline
+{\em func} & Device-\/specific specific control \char`\"{}function\char`\"{}. \\
+\hline
+{\em arg1} & Additional argument for the device-\/specific control function. \\
+\hline
+{\em arg2} & Additional argument for the device-\/specific control function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns \-::\-S\-Y\-S\-E\-R\-R if the device index does not correspond to an appropriate device or if the control function is not recognized; otherwise returns a request-\/specific value that is typically \-::\-S\-Y\-S\-E\-R\-R on failure, but may be either \-::\-O\-K or request-\/specific data on success. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga372cf2b2321576c8115c314ebc92a04f}{\index{Devices@{Devices}!getc@{getc}}
+\index{getc@{getc}!Devices@{Devices}}
+\subsubsection[{getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall getc (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga372cf2b2321576c8115c314ebc92a04f}
+Read one character from a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of device from which to read the character.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character read as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On bad device descripter, returns \-::\-S\-Y\-S\-E\-R\-R. On other failure, returns \-::\-S\-Y\-S\-E\-R\-R or \-::\-E\-O\-F depending on the specific device driver it calls. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_gaf1ee3b6e179acd2e54709cffc3b28aa7}{\index{Devices@{Devices}!getdev@{getdev}}
+\index{getdev@{getdev}!Devices@{Devices}}
+\subsubsection[{getdev}]{\setlength{\rightskip}{0pt plus 5cm}syscall getdev (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_gaf1ee3b6e179acd2e54709cffc3b28aa7}
+Translates a device name into a device number.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Name of the device.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of the device, or \-::\-S\-Y\-S\-E\-R\-R if the device was not found. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga4477aa228b9044af2671ea7882c7d0df}{\index{Devices@{Devices}!ioerr@{ioerr}}
+\index{ioerr@{ioerr}!Devices@{Devices}}
+\subsubsection[{ioerr}]{\setlength{\rightskip}{0pt plus 5cm}devcall ioerr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga4477aa228b9044af2671ea7882c7d0df}
+Unconditionally return an error (used for \char`\"{}error\char`\"{} entries in devtab).
+
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_gaad9596bdb25cbdcf08f76b1d3fa69c2b}{\index{Devices@{Devices}!ionull@{ionull}}
+\index{ionull@{ionull}!Devices@{Devices}}
+\subsubsection[{ionull}]{\setlength{\rightskip}{0pt plus 5cm}devcall ionull (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_gaad9596bdb25cbdcf08f76b1d3fa69c2b}
+Do nothing (use for irrelevant entries in devtab).
+
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga1eba5ef52c39e4c1d412e31cd03d4d2c}{\index{Devices@{Devices}!open@{open}}
+\index{open@{open}!Devices@{Devices}}
+\subsubsection[{open}]{\setlength{\rightskip}{0pt plus 5cm}devcall open (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga1eba5ef52c39e4c1d412e31cd03d4d2c}
+Open a device so that \hyperlink{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{read()}, \hyperlink{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{write()}, \hyperlink{group__devcalls_ga5fbd09b014442a3be3cbdd4b63f0580e}{putc()}, and/or \hyperlink{group__devcalls_ga372cf2b2321576c8115c314ebc92a04f}{getc()} operations can be performed on it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the device to open. \\
+\hline
+{\em ...} & Zero or more additional parameters that will be passed to the device-\/specific open function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns \-::\-O\-K. If the device index is bad or if another error occurs, returns \-::\-S\-Y\-S\-E\-R\-R. Generally, device drivers will at least return \-::\-S\-Y\-S\-E\-R\-R in the case that the device is already open, but \-::\-S\-Y\-S\-E\-R\-R may also be returned because of failure to allocate resources or for device-\/specific errors. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga5fbd09b014442a3be3cbdd4b63f0580e}{\index{Devices@{Devices}!putc@{putc}}
+\index{putc@{putc}!Devices@{Devices}}
+\subsubsection[{putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall putc (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga5fbd09b014442a3be3cbdd4b63f0580e}
+Write one character to a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of device to which to write the character. \\
+\hline
+{\em ch} & character to write\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character written as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On bad device descripter, returns {\ttfamily \-::\-S\-Y\-S\-E\-R\-R}. On other failure, returns \-::\-S\-Y\-S\-E\-R\-R or \-::\-E\-O\-F depending on the specific device driver it calls. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{\index{Devices@{Devices}!read@{read}}
+\index{read@{read}!Devices@{Devices}}
+\subsubsection[{read}]{\setlength{\rightskip}{0pt plus 5cm}devcall read (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{void $\ast$}]{buffer, }
+\item[{uint}]{count}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}
+Read data from a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the device to read from. \\
+\hline
+{\em buffer} & Buffer into which to read the data. \\
+\hline
+{\em count} & Maximum number of bytes to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes read, which may be less than {\ttfamily count} in the event of a read error or end-\/of-\/file condition. Alternatively, \-::\-S\-Y\-S\-E\-R\-R is returned if the device index is not valid or if a read error occurred before any data at all was successfully read. 
+\end{DoxyReturn}
+\hypertarget{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{\index{Devices@{Devices}!write@{write}}
+\index{write@{write}!Devices@{Devices}}
+\subsubsection[{write}]{\setlength{\rightskip}{0pt plus 5cm}devcall write (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{const void $\ast$}]{buffer, }
+\item[{uint}]{count}
+\end{DoxyParamCaption}
+)}}\label{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}
+Write data to a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the device to write to. \\
+\hline
+{\em buffer} & Buffer of data to write. \\
+\hline
+{\em count} & Number of bytes of data to write.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes written, which may be less than {\ttfamily count} in the event of a write error. Alternatively, \-::\-S\-Y\-S\-E\-R\-R is returned if the device index is not valid or if a write error occurred before any data at all was successfully written.
+\end{DoxyReturn}
+Note that, depending on the specific device, this function may simply buffer the data to be written at some later time via interrupt handling code. 

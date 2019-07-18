@@ -1,0 +1,51 @@
+\hypertarget{timer_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/timer.c File Reference}
+\label{timer_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/timer.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/timer.\-c}}
+}
+{\ttfamily \#include $<$clock.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbcm2835__timer__regs}{bcm2835\-\_\-timer\-\_\-regs}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{timer_8c_aac3583b8b3240b8c093371ecbc940114}{\#define {\bfseries B\-C\-M2835\-\_\-\-S\-Y\-S\-T\-E\-M\-\_\-\-T\-I\-M\-E\-R\-\_\-\-M\-A\-T\-C\-H\-\_\-0}~(1 $<$$<$ 0)}\label{timer_8c_aac3583b8b3240b8c093371ecbc940114}
+
+\item 
+\hypertarget{timer_8c_af4508bda05bbbc292b53e5666db2545b}{\#define {\bfseries B\-C\-M2835\-\_\-\-S\-Y\-S\-T\-E\-M\-\_\-\-T\-I\-M\-E\-R\-\_\-\-M\-A\-T\-C\-H\-\_\-1}~(1 $<$$<$ 1)}\label{timer_8c_af4508bda05bbbc292b53e5666db2545b}
+
+\item 
+\hypertarget{timer_8c_adc9250652e5fba8065727b0fc9510bf3}{\#define {\bfseries B\-C\-M2835\-\_\-\-S\-Y\-S\-T\-E\-M\-\_\-\-T\-I\-M\-E\-R\-\_\-\-M\-A\-T\-C\-H\-\_\-2}~(1 $<$$<$ 2)}\label{timer_8c_adc9250652e5fba8065727b0fc9510bf3}
+
+\item 
+\hypertarget{timer_8c_a0a5700ce3f5c1dad0e94f73663c9668f}{\#define {\bfseries B\-C\-M2835\-\_\-\-S\-Y\-S\-T\-E\-M\-\_\-\-T\-I\-M\-E\-R\-\_\-\-M\-A\-T\-C\-H\-\_\-3}~(1 $<$$<$ 3)}\label{timer_8c_a0a5700ce3f5c1dad0e94f73663c9668f}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ulong \hyperlink{timer_8c_a29a2888f4e2b7d29171a6a5735ddb7a8}{clkcount} (void)
+\item 
+\hypertarget{timer_8c_a87ba2e07da71a24718cff099d3271dcf}{void {\bfseries clkupdate} (ulong cycles)}\label{timer_8c_a87ba2e07da71a24718cff099d3271dcf}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains code that interfaces with the system timer of the B\-C\-M2835 So\-C used in the Raspberry Pi.
+
+See 12. \char`\"{}\-System Timer\char`\"{} of the B\-C\-M2835-\/\-A\-R\-M-\/\-Peripherals.\-pdf document for details about this hardware. However, this document does not say the frequency the timer runs at (it's 1 M\-Hz), nor does it say that some of the output compare registers (0 and 2) are used by the G\-P\-U and therefore cannot be used by A\-R\-M code, nor does it say what interrupt line the system timer is connected to (it's I\-R\-Qs 0-\/3 mapped linearly onto the output compare registers).
+
+See \href{http://xinu-os.org/BCM2835_System_Timer}{\tt http\-://xinu-\/os.\-org/\-B\-C\-M2835\-\_\-\-System\-\_\-\-Timer} for more information about this hardware. 
+
+\subsection{Function Documentation}
+\hypertarget{timer_8c_a29a2888f4e2b7d29171a6a5735ddb7a8}{\index{timer.\-c@{timer.\-c}!clkcount@{clkcount}}
+\index{clkcount@{clkcount}!timer.c@{timer.\-c}}
+\subsubsection[{clkcount}]{\setlength{\rightskip}{0pt plus 5cm}ulong clkcount (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{timer_8c_a29a2888f4e2b7d29171a6a5735ddb7a8}
+Raspberry-\/\-Pi specific note\-: This function returns the low-\/order 32 bits of the B\-C\-M2835's free-\/running counter. This counter runs at 1 M\-Hz and therefore overflows every 4295 seconds. 

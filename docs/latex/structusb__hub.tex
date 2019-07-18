@@ -1,0 +1,42 @@
+\hypertarget{structusb__hub}{\section{usb\-\_\-hub Struct Reference}
+\label{structusb__hub}\index{usb\-\_\-hub@{usb\-\_\-hub}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{structusb__hub_ace7d53e067ed6a06c16e1949b0d322dc}{inuse}
+\item 
+struct usb\-\_\-device $\ast$ \hyperlink{structusb__hub_a45058f0f3009116d905d6705f15d3654}{device}
+\item 
+struct usb\-\_\-hub\-\_\-descriptor \hyperlink{structusb__hub_a26e8912e4d2f0b850e01d729d9057277}{descriptor}
+\item 
+uint8\-\_\-t \hyperlink{structusb__hub_a91257987cdc0c02ea8814d9d84889d4a}{descriptor\-\_\-var\-Data} \mbox{[}64\mbox{]}
+\item 
+struct \hyperlink{structusb__port}{usb\-\_\-port} \hyperlink{structusb__hub_a4a1238ce43bf4705ca6de079ad0ec86c}{ports} \mbox{[}\hyperlink{usbhub_8c_a51cf60587d106697dbd690ac14729716}{H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This driver's representation of a U\-S\-B hub. 
+
+\subsection{Field Documentation}
+\hypertarget{structusb__hub_a26e8912e4d2f0b850e01d729d9057277}{\index{usb\-\_\-hub@{usb\-\_\-hub}!descriptor@{descriptor}}
+\index{descriptor@{descriptor}!usb_hub@{usb\-\_\-hub}}
+\subsubsection[{descriptor}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-hub\-\_\-descriptor usb\-\_\-hub\-::descriptor}}\label{structusb__hub_a26e8912e4d2f0b850e01d729d9057277}
+Descriptor of this hub. \hypertarget{structusb__hub_a91257987cdc0c02ea8814d9d84889d4a}{\index{usb\-\_\-hub@{usb\-\_\-hub}!descriptor\-\_\-var\-Data@{descriptor\-\_\-var\-Data}}
+\index{descriptor\-\_\-var\-Data@{descriptor\-\_\-var\-Data}!usb_hub@{usb\-\_\-hub}}
+\subsubsection[{descriptor\-\_\-var\-Data}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t usb\-\_\-hub\-::descriptor\-\_\-var\-Data\mbox{[}64\mbox{]}}}\label{structusb__hub_a91257987cdc0c02ea8814d9d84889d4a}
+Reserve space for the variable-\/length data at the end of the hub descriptor. That is, 'descriptor' may overflow into this field. \hypertarget{structusb__hub_a45058f0f3009116d905d6705f15d3654}{\index{usb\-\_\-hub@{usb\-\_\-hub}!device@{device}}
+\index{device@{device}!usb_hub@{usb\-\_\-hub}}
+\subsubsection[{device}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device$\ast$ usb\-\_\-hub\-::device}}\label{structusb__hub_a45058f0f3009116d905d6705f15d3654}
+Pointer to the U\-S\-B device of this hub. \hypertarget{structusb__hub_ace7d53e067ed6a06c16e1949b0d322dc}{\index{usb\-\_\-hub@{usb\-\_\-hub}!inuse@{inuse}}
+\index{inuse@{inuse}!usb_hub@{usb\-\_\-hub}}
+\subsubsection[{inuse}]{\setlength{\rightskip}{0pt plus 5cm}bool usb\-\_\-hub\-::inuse}}\label{structusb__hub_ace7d53e067ed6a06c16e1949b0d322dc}
+T\-R\-U\-E if this hub structure is being used. \hypertarget{structusb__hub_a4a1238ce43bf4705ca6de079ad0ec86c}{\index{usb\-\_\-hub@{usb\-\_\-hub}!ports@{ports}}
+\index{ports@{ports}!usb_hub@{usb\-\_\-hub}}
+\subsubsection[{ports}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-port} usb\-\_\-hub\-::ports\mbox{[}{\bf H\-U\-B\-\_\-\-M\-A\-X\-\_\-\-P\-O\-R\-T\-S}\mbox{]}}}\label{structusb__hub_a4a1238ce43bf4705ca6de079ad0ec86c}
+Array of this hub's ports. Only the first descriptor.\-b\-Nbr\-Ports entries will actually be used. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/\hyperlink{usbhub_8c}{usbhub.\-c}\end{DoxyCompactItemize}

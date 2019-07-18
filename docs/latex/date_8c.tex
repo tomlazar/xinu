@@ -1,0 +1,135 @@
+\hypertarget{date_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/apps/date.c File Reference}
+\label{date_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/apps/date.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/apps/date.\-c}}
+}
+{\ttfamily \#include $<$clock.\-h$>$}\\*
+{\ttfamily \#include $<$date.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint \hyperlink{date_8c_ab11ff1cc053403cf9c4485e55017e39d}{get\-\_\-datetime} (void)
+\item 
+uint \hyperlink{date_8c_a1899435a11fec6fc0d8d72d6aac67ca1}{set\-\_\-datetime} (uint dt)
+\item 
+void \hyperlink{date_8c_a003aee0c3a463f9cef146154e167e258}{print\-Date} (uint dt)
+\item 
+void \hyperlink{date_8c_a73e6fe80d787e4c98818ae4c138ddaf8}{print\-Date\-T\-Z} (uint dt, char timezone)
+\item 
+void \hyperlink{date_8c_a7b5240e379c771a92fe6402e225bacae}{convert\-Date} (struct time $\ast$t, uint seconds)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{date_8c_a042c17a444ab49b96f8d1aec8b7b0195}{char {\bfseries days\-\_\-in\-\_\-month} \mbox{[}$\,$\mbox{]} = \{ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 \}}\label{date_8c_a042c17a444ab49b96f8d1aec8b7b0195}
+
+\item 
+char $\ast$ {\bfseries month\-\_\-names} \mbox{[}$\,$\mbox{]}
+\item 
+char $\ast$ {\bfseries weekday\-\_\-names} \mbox{[}$\,$\mbox{]}
+\item 
+char $\ast$ {\bfseries tz\-\_\-names} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{date_8c_a7b5240e379c771a92fe6402e225bacae}{\index{date.\-c@{date.\-c}!convert\-Date@{convert\-Date}}
+\index{convert\-Date@{convert\-Date}!date.c@{date.\-c}}
+\subsubsection[{convert\-Date}]{\setlength{\rightskip}{0pt plus 5cm}void convert\-Date (
+\begin{DoxyParamCaption}
+\item[{struct time $\ast$}]{t, }
+\item[{uint}]{seconds}
+\end{DoxyParamCaption}
+)}}\label{date_8c_a7b5240e379c771a92fe6402e225bacae}
+Convert seconds (since 1900) to a more clear time structure. 
+\begin{DoxyParams}{Parameters}
+{\em time} & time structure \\
+\hline
+{\em seconds} & seconds since 1900 \\
+\hline
+\end{DoxyParams}
+\hypertarget{date_8c_ab11ff1cc053403cf9c4485e55017e39d}{\index{date.\-c@{date.\-c}!get\-\_\-datetime@{get\-\_\-datetime}}
+\index{get\-\_\-datetime@{get\-\_\-datetime}!date.c@{date.\-c}}
+\subsubsection[{get\-\_\-datetime}]{\setlength{\rightskip}{0pt plus 5cm}uint get\-\_\-datetime (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{date_8c_ab11ff1cc053403cf9c4485e55017e39d}
+Get the system date time. \begin{DoxyReturn}{Returns}
+current system date time 
+\end{DoxyReturn}
+\hypertarget{date_8c_a003aee0c3a463f9cef146154e167e258}{\index{date.\-c@{date.\-c}!print\-Date@{print\-Date}}
+\index{print\-Date@{print\-Date}!date.c@{date.\-c}}
+\subsubsection[{print\-Date}]{\setlength{\rightskip}{0pt plus 5cm}void print\-Date (
+\begin{DoxyParamCaption}
+\item[{uint}]{dt}
+\end{DoxyParamCaption}
+)}}\label{date_8c_a003aee0c3a463f9cef146154e167e258}
+Print the current date and time based on the system timezone. 
+\begin{DoxyParams}{Parameters}
+{\em dt} & date time (seconds since Jan. 1, 1900) \\
+\hline
+\end{DoxyParams}
+\hypertarget{date_8c_a73e6fe80d787e4c98818ae4c138ddaf8}{\index{date.\-c@{date.\-c}!print\-Date\-T\-Z@{print\-Date\-T\-Z}}
+\index{print\-Date\-T\-Z@{print\-Date\-T\-Z}!date.c@{date.\-c}}
+\subsubsection[{print\-Date\-T\-Z}]{\setlength{\rightskip}{0pt plus 5cm}void print\-Date\-T\-Z (
+\begin{DoxyParamCaption}
+\item[{uint}]{dt, }
+\item[{char}]{timezone}
+\end{DoxyParamCaption}
+)}}\label{date_8c_a73e6fe80d787e4c98818ae4c138ddaf8}
+Print the current date and time based on passed timezone. 
+\begin{DoxyParams}{Parameters}
+{\em dt} & date time (seconds since Jan. 1, 1900) \\
+\hline
+{\em timezone} & timezone offset in hours \\
+\hline
+\end{DoxyParams}
+\hypertarget{date_8c_a1899435a11fec6fc0d8d72d6aac67ca1}{\index{date.\-c@{date.\-c}!set\-\_\-datetime@{set\-\_\-datetime}}
+\index{set\-\_\-datetime@{set\-\_\-datetime}!date.c@{date.\-c}}
+\subsubsection[{set\-\_\-datetime}]{\setlength{\rightskip}{0pt plus 5cm}uint set\-\_\-datetime (
+\begin{DoxyParamCaption}
+\item[{uint}]{dt}
+\end{DoxyParamCaption}
+)}}\label{date_8c_a1899435a11fec6fc0d8d72d6aac67ca1}
+Set the system date time. 
+\begin{DoxyParams}{Parameters}
+{\em dt} & current date time (in seconds since Jan. 1, 1900) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current system date time 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\hypertarget{date_8c_a4c9d32552a89b4a9957761caf275eec3}{\index{date.\-c@{date.\-c}!month\-\_\-names@{month\-\_\-names}}
+\index{month\-\_\-names@{month\-\_\-names}!date.c@{date.\-c}}
+\subsubsection[{month\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ month\-\_\-names\mbox{[}$\,$\mbox{]}}}\label{date_8c_a4c9d32552a89b4a9957761caf275eec3}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{ \textcolor{stringliteral}{"January"}, \textcolor{stringliteral}{"February"}, \textcolor{stringliteral}{"March"}, \textcolor{stringliteral}{"April"},
+    \textcolor{stringliteral}{"May"}, \textcolor{stringliteral}{"June"}, \textcolor{stringliteral}{"July"}, \textcolor{stringliteral}{"August"},
+    \textcolor{stringliteral}{"September"}, \textcolor{stringliteral}{"October"}, \textcolor{stringliteral}{"November"}, \textcolor{stringliteral}{"December"}
+\}
+\end{DoxyCode}
+\hypertarget{date_8c_affd4d4bb74b3536265553464a02bf3c6}{\index{date.\-c@{date.\-c}!tz\-\_\-names@{tz\-\_\-names}}
+\index{tz\-\_\-names@{tz\-\_\-names}!date.c@{date.\-c}}
+\subsubsection[{tz\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ tz\-\_\-names\mbox{[}$\,$\mbox{]}}}\label{date_8c_affd4d4bb74b3536265553464a02bf3c6}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{            
+    \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""},     
+    \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""},     
+    
+    \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{"H"}, \textcolor{stringliteral}{"AK"}, \textcolor{stringliteral}{"P"}, \textcolor{stringliteral}{"M"},        
+    \textcolor{stringliteral}{"C"}, \textcolor{stringliteral}{"E"}, \textcolor{stringliteral}{"A"}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}, \textcolor{stringliteral}{""}   
+\}
+\end{DoxyCode}
+\hypertarget{date_8c_a85b86db77e3edd3f1e62668e65547268}{\index{date.\-c@{date.\-c}!weekday\-\_\-names@{weekday\-\_\-names}}
+\index{weekday\-\_\-names@{weekday\-\_\-names}!date.c@{date.\-c}}
+\subsubsection[{weekday\-\_\-names}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ weekday\-\_\-names\mbox{[}$\,$\mbox{]}}}\label{date_8c_a85b86db77e3edd3f1e62668e65547268}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{ \textcolor{stringliteral}{"Sunday"}, \textcolor{stringliteral}{"Monday"}, \textcolor{stringliteral}{"Tuesday"}, \textcolor{stringliteral}{"Wednesday"},
+    \textcolor{stringliteral}{"Thursday"}, \textcolor{stringliteral}{"Friday"}, \textcolor{stringliteral}{"Saturday"}
+\}
+\end{DoxyCode}

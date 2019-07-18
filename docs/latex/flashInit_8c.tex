@@ -1,0 +1,48 @@
+\hypertarget{flashInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Init.c File Reference}
+\label{flashInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Init.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}platformflash.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{flashInit_8c_a03400589cdb2c94d236fb25c038f9f10}{\#define {\bfseries N\-F\-L\-A\-S\-H}~0}\label{flashInit_8c_a03400589cdb2c94d236fb25c038f9f10}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{flashInit_8c_a1705b381acc734deddfccc7b65474ffc}{flash\-Init} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{flashInit_8c_a7dab337920d2b6bbb2f742c394fcac17}{struct flash {\bfseries flashtab} \mbox{[}N\-F\-L\-A\-S\-H\mbox{]}}\label{flashInit_8c_a7dab337920d2b6bbb2f742c394fcac17}
+
+\item 
+\hypertarget{flashInit_8c_a5d2944ac7706631873b85dadda519b85}{struct flash\-\_\-block {\bfseries bad\-\_\-block} = \{ 0, 0, F\-L\-A\-S\-H\-\_\-\-B\-L\-O\-C\-K\-\_\-\-D\-I\-R\-T\-Y, N\-U\-L\-L \}}\label{flashInit_8c_a5d2944ac7706631873b85dadda519b85}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Flash initialization. This should be called during general device initialization and will detect a C\-F\-I flash device. 
+
+\subsection{Function Documentation}
+\hypertarget{flashInit_8c_a1705b381acc734deddfccc7b65474ffc}{\index{flash\-Init.\-c@{flash\-Init.\-c}!flash\-Init@{flash\-Init}}
+\index{flash\-Init@{flash\-Init}!flashInit.c@{flash\-Init.\-c}}
+\subsubsection[{flash\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{flashInit_8c_a1705b381acc734deddfccc7b65474ffc}
+Initialized the flash device located beginning at the value of this devices C\-S\-R. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to device entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

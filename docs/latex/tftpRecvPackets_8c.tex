@@ -1,0 +1,37 @@
+\hypertarget{tftpRecvPackets_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Recv\-Packets.c File Reference}
+\label{tftpRecvPackets_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Recv\-Packets.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Recv\-Packets.\-c}}
+}
+{\ttfamily \#include $<$tftp.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+thread \hyperlink{tftpRecvPackets_8c_a4987be83b4042a6ca3d274099944bff8}{tftp\-Recv\-Packets} (int udpdev, struct tftp\-Pkt $\ast$pkt, tid\-\_\-typ parent)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tftpRecvPackets_8c_a4987be83b4042a6ca3d274099944bff8}{\index{tftp\-Recv\-Packets.\-c@{tftp\-Recv\-Packets.\-c}!tftp\-Recv\-Packets@{tftp\-Recv\-Packets}}
+\index{tftp\-Recv\-Packets@{tftp\-Recv\-Packets}!tftpRecvPackets.c@{tftp\-Recv\-Packets.\-c}}
+\subsubsection[{tftp\-Recv\-Packets}]{\setlength{\rightskip}{0pt plus 5cm}thread tftp\-Recv\-Packets (
+\begin{DoxyParamCaption}
+\item[{int}]{udpdev, }
+\item[{struct tftp\-Pkt $\ast$}]{pkt, }
+\item[{tid\-\_\-typ}]{parent}
+\end{DoxyParamCaption}
+)}}\label{tftpRecvPackets_8c_a4987be83b4042a6ca3d274099944bff8}
+Thread procedure for a thread that repeatedly reads T\-F\-T\-P packets from a U\-D\-P device and provides them in a buffer to another thread. This is a workaround for the lack of timeout support in \hyperlink{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{read()}. Not intended to be used outside of the T\-F\-T\-P code.
+
+
+\begin{DoxyParams}{Parameters}
+{\em udpdev} & U\-D\-P device to read from. \\
+\hline
+{\em pkt} & Buffer to use for reading. \\
+\hline
+{\em parent} & Thread to inform when a packet has been read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This thread never returns. 
+\end{DoxyReturn}

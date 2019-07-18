@@ -1,0 +1,77 @@
+\hypertarget{initialize_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/initialize.c File Reference}
+\label{initialize_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/initialize.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/initialize.\-c}}
+}
+{\ttfamily \#include $<$xinu.\-h$>$}\\*
+{\ttfamily \#include $<$platform.\-h$>$}\\*
+{\ttfamily \#include $<$stdint.\-h$>$}\\*
+{\ttfamily \#include $<$mutex.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+thread \hyperlink{initialize_8c_ac347b64b3e112cfb28b122133d7845e6}{main} (void)
+\item 
+\hypertarget{initialize_8c_af8f3e650c6bb12649568e3132d96bfbe}{void {\bfseries nulluser} (void)}\label{initialize_8c_af8f3e650c6bb12649568e3132d96bfbe}
+
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{initialize_8c_a556f3d21bc48e2ba9ae300ff32f64256}{struct thrent {\bfseries thrtab} \mbox{[}N\-T\-H\-R\-E\-A\-D\mbox{]}}\label{initialize_8c_a556f3d21bc48e2ba9ae300ff32f64256}
+
+\item 
+\hypertarget{initialize_8c_acdfdcbd5d00ecb12bff48d5ce5afe25f}{struct sement {\bfseries semtab} \mbox{[}N\-S\-E\-M\mbox{]}}\label{initialize_8c_acdfdcbd5d00ecb12bff48d5ce5afe25f}
+
+\item 
+\hypertarget{initialize_8c_a2c49db833581de8d32002ace1a420171}{struct monent {\bfseries montab} \mbox{[}N\-M\-O\-N\mbox{]}}\label{initialize_8c_a2c49db833581de8d32002ace1a420171}
+
+\item 
+\hypertarget{initialize_8c_a99ed71a3098dc6baa8c309eed129a475}{qid\-\_\-typ {\bfseries readylist} \mbox{[}N\-C\-O\-R\-E\-S\mbox{]}}\label{initialize_8c_a99ed71a3098dc6baa8c309eed129a475}
+
+\item 
+\hypertarget{initialize_8c_ae073e0c95be68fed5121b704c8201eac}{struct memblock {\bfseries memlist}}\label{initialize_8c_ae073e0c95be68fed5121b704c8201eac}
+
+\item 
+\hypertarget{initialize_8c_a7b3f01fc8dac1705c6f7efe1dcc67178}{struct bfpentry {\bfseries bfptab} \mbox{[}N\-P\-O\-O\-L\mbox{]}}\label{initialize_8c_a7b3f01fc8dac1705c6f7efe1dcc67178}
+
+\item 
+\hypertarget{initialize_8c_afb69a97d19a117403b3587098efb9a66}{mutex\-\_\-t {\bfseries quetab\-\_\-mutex}}\label{initialize_8c_afb69a97d19a117403b3587098efb9a66}
+
+\item 
+\hypertarget{initialize_8c_aff74f8f8b987fefca2fd3dca32351028}{mutex\-\_\-t {\bfseries thrtab\-\_\-mutex} \mbox{[}N\-T\-H\-R\-E\-A\-D\mbox{]}}\label{initialize_8c_aff74f8f8b987fefca2fd3dca32351028}
+
+\item 
+\hypertarget{initialize_8c_a41863b11b7267b4e28472c0915de93a0}{mutex\-\_\-t {\bfseries semtab\-\_\-mutex} \mbox{[}N\-S\-E\-M\mbox{]}}\label{initialize_8c_a41863b11b7267b4e28472c0915de93a0}
+
+\item 
+\hypertarget{initialize_8c_a9c58db2abf8f37361142838d4a95e25b}{mutex\-\_\-t {\bfseries serial\-\_\-lock}}\label{initialize_8c_a9c58db2abf8f37361142838d4a95e25b}
+
+\item 
+\hypertarget{initialize_8c_a0afb5be94c80bce4a7e1b63fa823177f}{int {\bfseries thrcount}}\label{initialize_8c_a0afb5be94c80bce4a7e1b63fa823177f}
+
+\item 
+\hypertarget{initialize_8c_a3b20ab195b9648b83d0673db4b9a90d3}{tid\-\_\-typ {\bfseries thrcurrent} \mbox{[}N\-C\-O\-R\-E\-S\mbox{]}}\label{initialize_8c_a3b20ab195b9648b83d0673db4b9a90d3}
+
+\item 
+\hypertarget{initialize_8c_a1cb6ce7baa38c0d7ef3f84b5825502f9}{void $\ast$ {\bfseries memheap}}\label{initialize_8c_a1cb6ce7baa38c0d7ef3f84b5825502f9}
+
+\item 
+\hypertarget{initialize_8c_a2da576dd281f51dfdb907ebb67b2fe45}{ulong {\bfseries cpuid}}\label{initialize_8c_a2da576dd281f51dfdb907ebb67b2fe45}
+
+\item 
+\hypertarget{initialize_8c_ae2815e80245b046a6e6bfa78a337def5}{struct platform {\bfseries platform}}\label{initialize_8c_ae2815e80245b046a6e6bfa78a337def5}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The system begins intializing after the C environment has been established. After intialization, the null thread remains always in a ready (T\-H\-R\-R\-E\-A\-D\-Y) or running (T\-H\-R\-C\-U\-R\-R) state. 
+
+\subsection{Function Documentation}
+\hypertarget{initialize_8c_ac347b64b3e112cfb28b122133d7845e6}{\index{initialize.\-c@{initialize.\-c}!main@{main}}
+\index{main@{main}!initialize.c@{initialize.\-c}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}thread main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{initialize_8c_ac347b64b3e112cfb28b122133d7845e6}
+Main thread. You can modify this routine to customize what Embedded Xinu does when it starts up. The default is designed to do something reasonable on all platforms based on the devices and features configured. 

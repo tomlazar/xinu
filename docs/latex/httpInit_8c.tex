@@ -1,0 +1,71 @@
+\hypertarget{httpInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Init.c File Reference}
+\label{httpInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Init.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+{\ttfamily \#include $<$semaphore.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{httpInit_8c_a4c6081885eb3fc3e0a13dd67cd9d55a3}{http\-Init} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{httpInit_8c_ad1ed31141ac5a644cd43bf9f4d5eaa45}{struct http {\bfseries httptab} \mbox{[}N\-H\-T\-T\-P\mbox{]}}\label{httpInit_8c_ad1ed31141ac5a644cd43bf9f4d5eaa45}
+
+\item 
+\hypertarget{httpInit_8c_a6678b18dd6e3814268e4dcfb8c65c839}{semaphore {\bfseries maxhttp} = -\/1}\label{httpInit_8c_a6678b18dd6e3814268e4dcfb8c65c839}
+
+\item 
+\hypertarget{httpInit_8c_af2df191321464db8046f8356017f13ff}{semaphore {\bfseries active\-X\-Web} = -\/1}\label{httpInit_8c_af2df191321464db8046f8356017f13ff}
+
+\item 
+struct httpcmd {\bfseries httpcmdtab} \mbox{[}$\,$\mbox{]}
+\item 
+\hypertarget{httpInit_8c_a0fd13ad2c10e6bb8448678664bbec20a}{ulong {\bfseries nhttpcmd} = sizeof(httpcmdtab) / sizeof(struct httpcmd)}\label{httpInit_8c_a0fd13ad2c10e6bb8448678664bbec20a}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpInit_8c_a4c6081885eb3fc3e0a13dd67cd9d55a3}{\index{http\-Init.\-c@{http\-Init.\-c}!http\-Init@{http\-Init}}
+\index{http\-Init@{http\-Init}!httpInit.c@{http\-Init.\-c}}
+\subsubsection[{http\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall http\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{httpInit_8c_a4c6081885eb3fc3e0a13dd67cd9d55a3}
+Initialize H\-T\-T\-P structures. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & H\-T\-T\-P device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if device is initialized 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\hypertarget{httpInit_8c_a9f10f19bbe0f93653f79fdf566bdafd3}{\index{http\-Init.\-c@{http\-Init.\-c}!httpcmdtab@{httpcmdtab}}
+\index{httpcmdtab@{httpcmdtab}!httpInit.c@{http\-Init.\-c}}
+\subsubsection[{httpcmdtab}]{\setlength{\rightskip}{0pt plus 5cm}struct httpcmd httpcmdtab\mbox{[}$\,$\mbox{]}}}\label{httpInit_8c_a9f10f19bbe0f93653f79fdf566bdafd3}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    \{NULL, \textcolor{stringliteral}{"index.html"}, \textcolor{stringliteral}{"HOME"}, FALSE\},
+    \{\textcolor{stringliteral}{"config"}, \textcolor{stringliteral}{"config.html"}, \textcolor{stringliteral}{"configure router"}, FALSE\},
+    \{\textcolor{stringliteral}{"nvram list"}, \textcolor{stringliteral}{"nvram.html"}, \textcolor{stringliteral}{"nvram variable list"}, TRUE\},
+    \{\textcolor{stringliteral}{"flashstat"}, \textcolor{stringliteral}{"flashstat.html"}, \textcolor{stringliteral}{"flash device info"}, TRUE\},
+    \{\textcolor{stringliteral}{"netstat"}, \textcolor{stringliteral}{"netstat.html"}, \textcolor{stringliteral}{"net device info"}, TRUE\},
+    \{\textcolor{stringliteral}{"ps"}, \textcolor{stringliteral}{"ps.html"}, \textcolor{stringliteral}{"process stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"gpiostat"}, \textcolor{stringliteral}{"gpiostat.html"}, \textcolor{stringliteral}{"gpio stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"memstat"}, \textcolor{stringliteral}{"memstat.html"}, \textcolor{stringliteral}{"memory stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"ethstat"}, \textcolor{stringliteral}{"ethstat.html"}, \textcolor{stringliteral}{"ethernet stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"vlanstat"}, \textcolor{stringliteral}{"vlanstat.html"}, \textcolor{stringliteral}{"virtual lan stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"uartstat"}, \textcolor{stringliteral}{"uartstat.html"}, \textcolor{stringliteral}{"serial device stats"}, TRUE\},
+    \{\textcolor{stringliteral}{"arp"}, \textcolor{stringliteral}{"arp.html"}, \textcolor{stringliteral}{"arp table"}, TRUE\},
+    \{\textcolor{stringliteral}{"route"}, \textcolor{stringliteral}{"route.html"}, \textcolor{stringliteral}{"route table"}, TRUE\}
+\}
+\end{DoxyCode}

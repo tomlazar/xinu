@@ -1,0 +1,38 @@
+\hypertarget{httpCleanPrompts_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Clean\-Prompts.c File Reference}
+\label{httpCleanPrompts_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Clean\-Prompts.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Clean\-Prompts.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+{\ttfamily \#include $<$shell.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{httpCleanPrompts_8c_a9fd19b022c403c039df367e9d5b8c62f}{clean\-Prompts} (device $\ast$devptr, char $\ast$buf, int len, struct http $\ast$webptr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpCleanPrompts_8c_a9fd19b022c403c039df367e9d5b8c62f}{\index{http\-Clean\-Prompts.\-c@{http\-Clean\-Prompts.\-c}!clean\-Prompts@{clean\-Prompts}}
+\index{clean\-Prompts@{clean\-Prompts}!httpCleanPrompts.c@{http\-Clean\-Prompts.\-c}}
+\subsubsection[{clean\-Prompts}]{\setlength{\rightskip}{0pt plus 5cm}int clean\-Prompts (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char $\ast$}]{buf, }
+\item[{int}]{len, }
+\item[{struct http $\ast$}]{webptr}
+\end{DoxyParamCaption}
+)}}\label{httpCleanPrompts_8c_a9fd19b022c403c039df367e9d5b8c62f}
+Clears the prompts from a provided buffer. 
+\begin{DoxyParams}{Parameters}
+{\em buf} & buffer to cook prompts out of \\
+\hline
+{\em len} & length of provided buffer \\
+\hline
+{\em webptr} & http device struct if applicable, N\-U\-L\-L if generic buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the updated length of the buffer 
+\end{DoxyReturn}

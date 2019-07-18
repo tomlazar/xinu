@@ -1,0 +1,61 @@
+\hypertarget{usbdebug_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbdebug.c File Reference}
+\label{usbdebug_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbdebug.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/usbdebug.\-c}}
+}
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hub\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-std\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-subsystem.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{usbdebug_8c_ab02d6412e5784df4d5dd406c3e95e30c}{\#define {\bfseries U\-S\-B\-I\-N\-F\-O\-\_\-\-T\-R\-E\-E\-\_\-\-S\-P\-A\-C\-E\-S\-\_\-\-P\-E\-R\-\_\-\-L\-E\-V\-E\-L}~6}\label{usbdebug_8c_ab02d6412e5784df4d5dd406c3e95e30c}
+
+\item 
+\hypertarget{usbdebug_8c_a45d7ec96cd6e160ab2b04732c9d1bf73}{\#define {\bfseries U\-S\-B\-I\-N\-F\-O\-\_\-\-T\-R\-E\-E\-\_\-\-L\-I\-N\-E\-S\-\_\-\-P\-E\-R\-\_\-\-P\-O\-R\-T}~2}\label{usbdebug_8c_a45d7ec96cd6e160ab2b04732c9d1bf73}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{usbdebug_8c_a0656f70f3d21877a3f11ee761a65cf86}{void {\bfseries usb\-\_\-log} (int priority, const char $\ast$func, struct usb\-\_\-device $\ast$dev, const char $\ast$format,...)}\label{usbdebug_8c_a0656f70f3d21877a3f11ee761a65cf86}
+
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gafe97aa2be2cc2aba482c64309cd7f88d}{usb\-\_\-status\-\_\-string} (usb\-\_\-status\-\_\-t status)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga3609ee36c2101d9179594f7cfef176e9}{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string} (enum usb\-\_\-class\-\_\-code class\-\_\-code)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga3fe8839660a728bd1bc378acd5e54ad6}{usb\-\_\-speed\-\_\-to\-\_\-string} (enum usb\-\_\-speed speed)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga799108acda1af1559339b779bf11d201}{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string} (enum usb\-\_\-transfer\-\_\-type type)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gac86b850733f589f1d2c9443934cdaf8f}{usb\-\_\-direction\-\_\-to\-\_\-string} (enum usb\-\_\-direction dir)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga46b81024db6dce7812618f41e288c1df}{usb\-\_\-get\-\_\-string\-\_\-descriptor} (struct usb\-\_\-device $\ast$dev, uint8\-\_\-t index, uint16\-\_\-t lang\-\_\-id, struct usb\-\_\-string\-\_\-descriptor $\ast$buf, uint16\-\_\-t buflen)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga10ec2ced3150725518a49629137e68c7}{usb\-\_\-get\-\_\-ascii\-\_\-string} (struct usb\-\_\-device $\ast$dev, uint32\-\_\-t i\-String, char $\ast$strbuf, uint32\-\_\-t strbufsize)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gae30f9b5d46f045da04d6150e8d662763}{usb\-\_\-device\-\_\-description} (const struct usb\-\_\-device $\ast$dev)
+\item 
+\hypertarget{usbdebug_8c_a60e41fb0069fe9790ebf13630eed83e8}{void {\bfseries usb\-\_\-print\-\_\-device\-\_\-descriptor} (const struct usb\-\_\-device $\ast$dev, const struct usb\-\_\-device\-\_\-descriptor $\ast$desc)}\label{usbdebug_8c_a60e41fb0069fe9790ebf13630eed83e8}
+
+\item 
+syscall \hyperlink{group__usb_ga264444ef6b00c2562ca7b0d897d34025}{usbinfo} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains U\-S\-B core functions not strictly necessary for U\-S\-B to actually operate. This includes\-:
+
+
+\begin{DoxyItemize}
+\item Printing debugging, informational, and error messages
+\item Printing the state of the U\-S\-B (through \hyperlink{group__usb_ga264444ef6b00c2562ca7b0d897d34025}{usbinfo()}).
+\item Obtaining human-\/readable string descriptors from U\-S\-B devices.
+\item Translating certain constants into strings describing them.
+\end{DoxyItemize}
+
+To disable all the above functionality, set U\-S\-B\-\_\-\-E\-M\-B\-E\-D\-D\-E\-D to T\-R\-U\-E in usb\-\_\-util.\-h. Obviously, only do this if you know what you're doing. 

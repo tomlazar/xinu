@@ -1,0 +1,58 @@
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-channel\-:\-:dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control Union Reference}
+\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a7bcf4e45ccb5870e8dc45536bd0b3f2d}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a7bcf4e45ccb5870e8dc45536bd0b3f2d}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_ac3cc17a8a76c8dbe57bd51ac6cb4e931}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_ae47484c2e0a2647423136c67059b6df2}{port\_address}: 7\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a87e4890c48748321e9e34ea409a5c7ed}{hub\_address}: 7\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a1067c69c6c58d4968fb5b32cbdecff6c}{transaction\_position}: 2\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a5428a632c6c823d28d7623fcafca937b}{complete\_split}: 1\\
+\>uint32\_t {\bfseries reserved}: 14\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_abd68a1a007fca3d1d5c31453c61eb215}{split\_enable}: 1\\
+\}; }\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_ac3cc17a8a76c8dbe57bd51ac6cb4e931}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Channel Split Control Register -\/
+
+This register is used to set up Split Transactions for communicating with low or full-\/speed devices attached to a high-\/speed hub. When doing so, set split\-\_\-enable to 1 and the other fields as documented. Otherwise, software must clear this register before starting the transfer.
+
+Like the Channel Characteristics register, this register only needs to be programmed one time if the channel is enabled multiple times to send all the packets of a single transfer. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a5428a632c6c823d28d7623fcafca937b}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}!complete\-\_\-split@{complete\-\_\-split}}
+\index{complete\-\_\-split@{complete\-\_\-split}!dwc_regs::dwc_host_channel::dwc_host_channel_split_control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+\subsubsection[{complete\-\_\-split}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control\-::complete\-\_\-split}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a5428a632c6c823d28d7623fcafca937b}
+0\-: Do a Start Split transaction 1\-: Do a Complete Split transaction.
+
+When split transactions are enabled, this must be programmed by software before enabling the channel. Note that you must begin with a Start Split transaction and alternate this bit for each transaction until the transfer is complete. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a87e4890c48748321e9e34ea409a5c7ed}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}!hub\-\_\-address@{hub\-\_\-address}}
+\index{hub\-\_\-address@{hub\-\_\-address}!dwc_regs::dwc_host_channel::dwc_host_channel_split_control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+\subsubsection[{hub\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control\-::hub\-\_\-address}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a87e4890c48748321e9e34ea409a5c7ed}
+U\-S\-B device address of the high-\/speed hub that acts as the Transaction Translator for this low or full-\/speed device. This is not necessarily the hub the device is physically connected to, since that could be a full-\/speed or low-\/speed hub. Instead, software must walk up the U\-S\-B device tree (towards the root hub) until a high-\/speed hub is found and use its device address here. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_ae47484c2e0a2647423136c67059b6df2}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}!port\-\_\-address@{port\-\_\-address}}
+\index{port\-\_\-address@{port\-\_\-address}!dwc_regs::dwc_host_channel::dwc_host_channel_split_control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+\subsubsection[{port\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control\-::port\-\_\-address}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_ae47484c2e0a2647423136c67059b6df2}
+0-\/based index of the port on the high-\/speed hub on which the low or full-\/speed device is attached. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_abd68a1a007fca3d1d5c31453c61eb215}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}!split\-\_\-enable@{split\-\_\-enable}}
+\index{split\-\_\-enable@{split\-\_\-enable}!dwc_regs::dwc_host_channel::dwc_host_channel_split_control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+\subsubsection[{split\-\_\-enable}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control\-::split\-\_\-enable}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_abd68a1a007fca3d1d5c31453c61eb215}
+Set to 1 to enable Split Transactions. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a1067c69c6c58d4968fb5b32cbdecff6c}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}!transaction\-\_\-position@{transaction\-\_\-position}}
+\index{transaction\-\_\-position@{transaction\-\_\-position}!dwc_regs::dwc_host_channel::dwc_host_channel_split_control@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}}
+\subsubsection[{transaction\-\_\-position}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control\-::transaction\-\_\-position}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control_a1067c69c6c58d4968fb5b32cbdecff6c}
+T\-O\-D\-O\-: what exactly does this do? 
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

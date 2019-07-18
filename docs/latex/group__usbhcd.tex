@@ -1,0 +1,31 @@
+\hypertarget{group__usbhcd}{\section{U\-S\-B Host Controller Driver}
+\label{group__usbhcd}\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}}
+}
+
+
+Platform-\/dependent code to actually send and receive data over the U\-S\-B.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{usb__dwc__hcd_8c}{usb\-\_\-dwc\-\_\-hcd.\-c}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Platform-\/dependent code to actually send and receive data over the U\-S\-B. This is a U\-S\-B Host Controller Driver (H\-C\-D) that interfaces with the Synopsys Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller, henceforth abbreviated as \char`\"{}\-D\-W\-C\char`\"{}. This is the U\-S\-B Host Controller used on the B\-C\-M2835 So\-C used on the Raspberry Pi.
+
+Please note that there is no publicly available official documentation for this particular piece of hardware, and it uses its own custom host controller interface rather than a standard one such as E\-H\-C\-I. Therefore, this driver was written on a best-\/effort basis using several sources to gleam the necessary hardware details, including the extremely complicated and difficult to understand vendor-\/provided Linux driver.
+
+This file implements the Host Controller Driver Interface defined in usb\-\_\-hcdi.\-h. Most importantly, it implements a function to power on and start the host controller (hcd\-\_\-start()) and a function to send and receive messages over the U\-S\-B (\hyperlink{usb__dwc__hcd_8c_a72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request()}).
+
+The D\-W\-C is controlled by reading and writing to/from memory-\/mapped registers. The most important registers are the host channel registers. On this particular hardware, a \char`\"{}host channel\char`\"{}, or simply \char`\"{}channel\char`\"{}, is a set of registers to which software can read and write to cause transactions to take place on the U\-S\-B. A fixed number of host channels exist; on the Raspberry Pi there are 8. From the software's perspective, transactions using different host channels can be executed at the same time.
+
+Some of the host channel registers, as well as other registers, deal with interrupts. This driver makes use heavy of these and performs all U\-S\-B transfers in an interrupt-\/driven manner. However, due to design flaws in this hardware and in U\-S\-B 2.\-0 itself, \char`\"{}interrupt\char`\"{} and \char`\"{}isochronous\char`\"{} transfers still need to make use of software polling when checking for new data, even though each individual transfer is itself interrupt-\/driven. This means that, for example, if your U\-S\-B mouse specifies a polling rate of 100 times per second, then it will, unfortunately, be polled 100 times per second in software. For more detail about how interrupts can be controlled on this particular hardware, see the comment above dwc\-\_\-setup\-\_\-interrupts().
+
+Another important concept is the idea of \char`\"{}packets\char`\"{}, \char`\"{}transactions\char`\"{}, and \char`\"{}transfers\char`\"{}. A U\-S\-B transfer, such as a single control message or bulk request, may need to be split into multiple packets if it exceeds the endpoint's maximum packet size. Unfortunately, this has to be dealt with explicitly in this code, as this hardware doesn't do it for us. But at least, from the viewpoint of this software, a \char`\"{}transaction\char`\"{} is essentially the same as a \char`\"{}packet\char`\"{}.
+
+The \char`\"{}\-On-\/\-The-\/\-Go\char`\"{} in the name of this hardware means that it supports the U\-S\-B On-\/\-The-\/\-Go protocol, which allows it to act either as a host or a device. However, we only are concerned with it acting as a host, which simplifies our driver.
+
+To simplify the U\-S\-B core software, a useful design technique (as recommended by the U\-S\-B 2.\-0 standard and used in other implementations such as Linux's) is to have the H\-C\-D present the root hub as a standard U\-S\-B hub, even if the root hub is integrated with the host controller and does not appear as a standard hub at the hardware level. This is the case with the D\-W\-C, and we implement this design. Therefore, some code in this file deals with faking requests sent to the root hub. 

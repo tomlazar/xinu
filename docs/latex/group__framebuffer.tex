@@ -1,0 +1,114 @@
+\hypertarget{group__framebuffer}{\section{Framebuffer}
+\label{group__framebuffer}\index{Framebuffer@{Framebuffer}}
+}
+
+
+Driver for the B\-C\-M2837\-B0 (Raspberry Pi 3 B+) framebuffer.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__framebuffer_gabd98f202f1503060580d385d288347b8}{fbputc} (uchar c, device $\ast$devptr)
+\item 
+syscall \hyperlink{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}{fbgetc} (device $\ast$devptr)
+\item 
+syscall \hyperlink{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}{fbprintf} (char $\ast$fmt,...)
+\item 
+devcall \hyperlink{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}{fb\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}{fb\-Write} (device $\ast$devptr, const uchar $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Driver for the B\-C\-M2837\-B0 (Raspberry Pi 3 B+) framebuffer. This driver communicates with the Video\-Core G\-P\-U and provides functions to draw shapes and print text to the screen. 
+
+\subsection{Function Documentation}
+\hypertarget{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}{\index{Framebuffer@{Framebuffer}!fbgetc@{fbgetc}}
+\index{fbgetc@{fbgetc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbgetc}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbgetc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}
+perform a synchronous kernel read 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to device on which to write character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+character read on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}{\index{Framebuffer@{Framebuffer}!fbprintf@{fbprintf}}
+\index{fbprintf@{fbprintf}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbprintf}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}
+kernel printf\-: formatted, unbuffered output to framebuffer Akin to \char`\"{}kprintf\char`\"{} for the serial driver. Alternate\-: fprintf(F\-R\-A\-M\-E\-B\-U\-F, \char`\"{}string\char`\"{}); 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$fmt} & pointer to string being printed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gabd98f202f1503060580d385d288347b8}{\index{Framebuffer@{Framebuffer}!fbputc@{fbputc}}
+\index{fbputc@{fbputc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbputc}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbputc (
+\begin{DoxyParamCaption}
+\item[{uchar}]{c, }
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gabd98f202f1503060580d385d288347b8}
+perform a synchronous character write 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to device on which to write character \\
+\hline
+{\em c} & character to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+c on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}{\index{Framebuffer@{Framebuffer}!fb\-Putc@{fb\-Putc}}
+\index{fb\-Putc@{fb\-Putc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fb\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall fb\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}
+Write a single character to the framebuffer 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to framebuffer device \\
+\hline
+{\em ch} & character to write \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}{\index{Framebuffer@{Framebuffer}!fb\-Write@{fb\-Write}}
+\index{fb\-Write@{fb\-Write}!Framebuffer@{Framebuffer}}
+\subsubsection[{fb\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall fb\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const uchar $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}
+Write a buffer of characters to the framebuffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to framebuffer device \\
+\hline
+{\em buf} & buffer of characters to write \\
+\hline
+{\em len} & number of characters to write from the buffer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of characters written, which may be less than {\ttfamily len} in the event of a write error; or \-::\-S\-Y\-S\-E\-R\-R if an error occurred before any characters at all were written. 
+\end{DoxyReturn}

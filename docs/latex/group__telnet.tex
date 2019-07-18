@@ -1,0 +1,257 @@
+\hypertarget{group__telnet}{\section{Telnet}
+\label{group__telnet}\index{Telnet@{Telnet}}
+}
+
+
+Telnet client and server.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__telnet_gac6275dc15f7326cee7558eb5099699c8}{telnet\-Alloc} (void)
+\item 
+devcall \hyperlink{group__telnet_gaf11f2a3c50db59f20a6bbef609c3635e}{telnet\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__telnet_ga46e44906834260f64f54c101fea305d4}{telnet\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__telnet_ga37878c46c1bab28512d6dbc63b42539a}{telnet\-Flush} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__telnet_gad7d501c26676645bce3b79da796b0681}{telnet\-Getc} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__telnet_gacd40f10d07036f6a23119b8490516faa}{telnet\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__telnet_gaac132307774b3f1c32a989c16e08aae9}{telnet\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__telnet_ga70f7c4c1ddb37861db221070ffb7d17b}{telnet\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__telnet_ga609c7f28d7476d70a4ceac12a2fa3c2d}{telnet\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+thread \hyperlink{group__telnet_gacf4a94044cdb14e723670cb51ed3cf9c}{telnet\-Server} (int ethdev, int port, ushort telnetdev, char $\ast$shellname)
+\item 
+thread \hyperlink{group__telnet_gadfcfa991f72f84777e8a0b5280bde25a}{telnet\-Server\-Killer} (ushort, ushort)
+\item 
+devcall \hyperlink{group__telnet_ga4be4bfecd9f11589f35e3ea64d5aa6bc}{telnet\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Telnet client and server. 
+
+\subsection{Function Documentation}
+\hypertarget{group__telnet_gac6275dc15f7326cee7558eb5099699c8}{\index{Telnet@{Telnet}!telnet\-Alloc@{telnet\-Alloc}}
+\index{telnet\-Alloc@{telnet\-Alloc}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}int telnet\-Alloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gac6275dc15f7326cee7558eb5099699c8}
+Allocate an available telnet device. \begin{DoxyReturn}{Returns}
+device number for a telnet device, S\-Y\-S\-E\-R\-R if none are free 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gaf11f2a3c50db59f20a6bbef609c3635e}{\index{Telnet@{Telnet}!telnet\-Close@{telnet\-Close}}
+\index{telnet\-Close@{telnet\-Close}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gaf11f2a3c50db59f20a6bbef609c3635e}
+Close a T\-E\-L\-N\-E\-T device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-E\-L\-N\-E\-T is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__telnet_ga46e44906834260f64f54c101fea305d4}{\index{Telnet@{Telnet}!telnet\-Control@{telnet\-Control}}
+\index{telnet\-Control@{telnet\-Control}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_ga46e44906834260f64f54c101fea305d4}
+Control function for T\-E\-L\-N\-E\-T pseudo devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__telnet_ga37878c46c1bab28512d6dbc63b42539a}{\index{Telnet@{Telnet}!telnet\-Flush@{telnet\-Flush}}
+\index{telnet\-Flush@{telnet\-Flush}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Flush}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Flush (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_ga37878c46c1bab28512d6dbc63b42539a}
+Flushes the telnet server's output buffer 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if flush is successful, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gad7d501c26676645bce3b79da796b0681}{\index{Telnet@{Telnet}!telnet\-Getc@{telnet\-Getc}}
+\index{telnet\-Getc@{telnet\-Getc}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gad7d501c26676645bce3b79da796b0681}
+Read a single character from T\-E\-L\-N\-E\-T. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+character read from T\-E\-L\-N\-E\-T, or E\-O\-F 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gacd40f10d07036f6a23119b8490516faa}{\index{Telnet@{Telnet}!telnet\-Init@{telnet\-Init}}
+\index{telnet\-Init@{telnet\-Init}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gacd40f10d07036f6a23119b8490516faa}
+Initialize T\-E\-L\-N\-E\-T structures. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if device is initialized 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gaac132307774b3f1c32a989c16e08aae9}{\index{Telnet@{Telnet}!telnet\-Open@{telnet\-Open}}
+\index{telnet\-Open@{telnet\-Open}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gaac132307774b3f1c32a989c16e08aae9}
+Associate T\-E\-L\-N\-E\-T with a hardware device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+{\em ap} & 2nd argument is the device number for the hardware device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-E\-L\-N\-E\-T is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__telnet_ga70f7c4c1ddb37861db221070ffb7d17b}{\index{Telnet@{Telnet}!telnet\-Putc@{telnet\-Putc}}
+\index{telnet\-Putc@{telnet\-Putc}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_ga70f7c4c1ddb37861db221070ffb7d17b}
+Write a single character to T\-E\-L\-N\-E\-T.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+{\em ch} & character to output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily ch} as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success; {\ttfamily S\-Y\-S\-E\-R\-R} on failure. 
+\end{DoxyReturn}
+\hypertarget{group__telnet_ga609c7f28d7476d70a4ceac12a2fa3c2d}{\index{Telnet@{Telnet}!telnet\-Read@{telnet\-Read}}
+\index{telnet\-Read@{telnet\-Read}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_ga609c7f28d7476d70a4ceac12a2fa3c2d}
+Read characters from a telnet connection 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to a telnet device \\
+\hline
+{\em buf} & buffer for reading characters \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of characters read, E\-O\-F if end of file was reached 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gacf4a94044cdb14e723670cb51ed3cf9c}{\index{Telnet@{Telnet}!telnet\-Server@{telnet\-Server}}
+\index{telnet\-Server@{telnet\-Server}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Server}]{\setlength{\rightskip}{0pt plus 5cm}thread telnet\-Server (
+\begin{DoxyParamCaption}
+\item[{int}]{ethdev, }
+\item[{int}]{port, }
+\item[{ushort}]{telnetdev, }
+\item[{char $\ast$}]{shellname}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gacf4a94044cdb14e723670cb51ed3cf9c}
+Start telnet server 
+\begin{DoxyParams}{Parameters}
+{\em ethdev} & interface on which telnet server will listen \\
+\hline
+{\em port} & port on which to start the server \\
+\hline
+{\em telnetdev} & telnet device to use for connection \\
+\hline
+{\em shellname} & shell device to use for connection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__telnet_gadfcfa991f72f84777e8a0b5280bde25a}{\index{Telnet@{Telnet}!telnet\-Server\-Killer@{telnet\-Server\-Killer}}
+\index{telnet\-Server\-Killer@{telnet\-Server\-Killer}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Server\-Killer}]{\setlength{\rightskip}{0pt plus 5cm}thread telnet\-Server\-Killer (
+\begin{DoxyParamCaption}
+\item[{ushort}]{telnetdev, }
+\item[{ushort}]{tcpdev}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_gadfcfa991f72f84777e8a0b5280bde25a}
+Kills telnet server that was spawned 
+\begin{DoxyParams}{Parameters}
+{\em telnetdev} & telnet device to close \\
+\hline
+{\em tcpdev} & tcp device to close \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread return status 
+\end{DoxyReturn}
+\hypertarget{group__telnet_ga4be4bfecd9f11589f35e3ea64d5aa6bc}{\index{Telnet@{Telnet}!telnet\-Write@{telnet\-Write}}
+\index{telnet\-Write@{telnet\-Write}!Telnet@{Telnet}}
+\subsubsection[{telnet\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall telnet\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__telnet_ga4be4bfecd9f11589f35e3ea64d5aa6bc}
+Write a buffer to a telnet client 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-E\-L\-N\-E\-T device table entry \\
+\hline
+{\em buf} & buffer of characters to output \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+count of characters output 
+\end{DoxyReturn}

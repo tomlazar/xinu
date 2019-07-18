@@ -1,6 +1,6 @@
 /**
  * @file	etherInit.c
- *
+ * @addtogroup	lan7800
  * @authors
  * 			Rade Latinovich
  * 			Patrick J. McGee
@@ -36,6 +36,7 @@ static semaphore lan7800_attached[NETHER];
 uchar addr[ETH_ADDR_LEN] = {0};
 
 /**
+ * @ingroup lan7800
  * Try to bind the LAN7800 driver to a specific USB device.
  */
 static usb_status_t

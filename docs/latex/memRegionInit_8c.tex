@@ -1,0 +1,43 @@
+\hypertarget{memRegionInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Init.c File Reference}
+\label{memRegionInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Init.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$mips.\-h$>$}\\*
+{\ttfamily \#include $<$memory.\-h$>$}\\*
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{memRegionInit_8c_a0defa2dcef4739dced9818703effd8d2}{mem\-Region\-Init} (void $\ast$memory\-\_\-start, uint memory\-\_\-size)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{memRegionInit_8c_a8edd5e9a6d0d4364a9ded11bf3b22665}{struct memregion $\ast$ {\bfseries regtab}}\label{memRegionInit_8c_a8edd5e9a6d0d4364a9ded11bf3b22665}
+
+\item 
+\hypertarget{memRegionInit_8c_a47c739246dc833be4b72e2d4fb8f0765}{struct memregion $\ast$ {\bfseries regfreelist}}\label{memRegionInit_8c_a47c739246dc833be4b72e2d4fb8f0765}
+
+\item 
+\hypertarget{memRegionInit_8c_a66924dfd893569f1ae424b0c1a39b028}{struct memregion $\ast$ {\bfseries regalloclist}}\label{memRegionInit_8c_a66924dfd893569f1ae424b0c1a39b028}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initializes system memory for region allocator. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionInit_8c_a0defa2dcef4739dced9818703effd8d2}{\index{mem\-Region\-Init.\-c@{mem\-Region\-Init.\-c}!mem\-Region\-Init@{mem\-Region\-Init}}
+\index{mem\-Region\-Init@{mem\-Region\-Init}!memRegionInit.c@{mem\-Region\-Init.\-c}}
+\subsubsection[{mem\-Region\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void mem\-Region\-Init (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{memory\-\_\-start, }
+\item[{uint}]{memory\-\_\-size}
+\end{DoxyParamCaption}
+)}}\label{memRegionInit_8c_a0defa2dcef4739dced9818703effd8d2}
+Initialize free memory into page aligned regions. Takes necessary overhead of region table for the amount of memory on platform. 
+\begin{DoxyParams}{Parameters}
+{\em memory\-\_\-start} & Base address of heap space. \\
+\hline
+\end{DoxyParams}

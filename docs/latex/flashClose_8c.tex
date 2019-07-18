@@ -1,0 +1,28 @@
+\hypertarget{flashClose_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Close.c File Reference}
+\label{flashClose_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Close.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Close.\-c}}
+}
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{flashClose_8c_ac951ebfe57e4599b81d45d0ee1cfe6a7}{flash\-Close} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{flashClose_8c_ac951ebfe57e4599b81d45d0ee1cfe6a7}{\index{flash\-Close.\-c@{flash\-Close.\-c}!flash\-Close@{flash\-Close}}
+\index{flash\-Close@{flash\-Close}!flashClose.c@{flash\-Close.\-c}}
+\subsubsection[{flash\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{flashClose_8c_ac951ebfe57e4599b81d45d0ee1cfe6a7}
+This will close the flash device, forcing the synchronization of disk blocks stored in memory and the flash device. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & device to open \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

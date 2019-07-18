@@ -1,0 +1,44 @@
+\hypertarget{group__dhcpc}{\section{D\-H\-C\-P client}
+\label{group__dhcpc}\index{D\-H\-C\-P client@{D\-H\-C\-P client}}
+}
+
+
+Client for Dynamic Host Configuration Protocol (I\-Pv4 version)  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__dhcpc_ga02ecdf413918ed8e9bab12906305608e}{dhcp\-Client} (int descrp, uint timeout, struct dhcp\-Data $\ast$data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Client for Dynamic Host Configuration Protocol (I\-Pv4 version) 
+
+\subsection{Function Documentation}
+\hypertarget{group__dhcpc_ga02ecdf413918ed8e9bab12906305608e}{\index{D\-H\-C\-P client@{D\-H\-C\-P client}!dhcp\-Client@{dhcp\-Client}}
+\index{dhcp\-Client@{dhcp\-Client}!DHCP client@{D\-H\-C\-P client}}
+\subsubsection[{dhcp\-Client}]{\setlength{\rightskip}{0pt plus 5cm}syscall dhcp\-Client (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{uint}]{timeout, }
+\item[{struct dhcp\-Data $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__dhcpc_ga02ecdf413918ed8e9bab12906305608e}
+D\-H\-C\-P (Dynamic Host Configuration Protocol) client for I\-Pv4 autoconfiguration.
+
+T\-O\-D\-O\-: This function returns immediately once the I\-P address has been assigned. It does not handle renewing leases.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em descrp} & Device descriptor for the network device on which to open the D\-H\-C\-P client on. This must be a network device that is open but has no network interface brought up on it. \\
+\hline
+\mbox{\tt in}  & {\em timeout} & Seconds to wait before timing out (must be a positive integer). \\
+\hline
+\mbox{\tt out}  & {\em data} & On success, this structure is filled in with the information about the I\-Pv4 configuration. At least the ip and mask members will be valid. The gateway, bootfile, and next\-\_\-server members are optional and will be left as all 0's if not provided.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if successful; \-::\-S\-Y\-S\-E\-R\-R if sending a D\-H\-C\-P\-D\-I\-S\-C\-O\-V\-E\-R packet failed or if a parameter was invalid; \-::\-T\-I\-M\-E\-O\-U\-T if timed out. 
+\end{DoxyReturn}

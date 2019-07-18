@@ -1,6 +1,6 @@
 /**
  * @file	lan7800.c
- *
+ * @ingroup lan7800
  * @authors
  * 		Rade Latinovich
  * 		Patrick J. McGee
@@ -24,6 +24,8 @@
 #include <string.h>
 
 /**
+ * @ingroup lan7800
+ *
  * Write to a register on the Microchip LAN7800 USB Ethernet Adapter.
  * @param udev
  * 		USB device for the adapter
@@ -47,6 +49,8 @@ lan7800_write_reg(struct usb_device *udev, uint32_t index, uint32_t data)
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Read from a register on the Microchip LAN7800 USB Ethernet Adapter.
  * @param udev
  * 		USB device for the adapter
@@ -70,6 +74,8 @@ lan7800_read_reg(struct usb_device *udev, uint32_t index, uint32_t *data)
 }
 
 /**
+ * @ingroup lan7800
+ * 
  * Modify the value contained in a register on the Microchip LAN7800 USB Ethernet
  * Adapter.
  * @param udev
@@ -104,6 +110,8 @@ lan7800_modify_reg(struct usb_device *udev, uint32_t index,
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Set bits in a register on the Microchip LAN7800 USB Ethernet Adapter.
  * @param udev
  * 		USB Device for the adapter
@@ -122,6 +130,8 @@ usb_status_t lan7800_set_reg_bits(struct usb_device *udev, uint32_t index, uint3
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Change the MAC address of the Microchip LAN7800 USB Ethernet Adapter
  * on the actual hardware by writing to its registers.
  * @param udev
@@ -152,6 +162,8 @@ usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *mac
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Reads the MAC address of the MICROCHIP LAN7800 USB Ethernet Adapter.
  * @param udev
  *      	USB device for the adapter
@@ -188,6 +200,8 @@ usb_status_t lan7800_get_mac_address(struct usb_device *udev, uint8_t *macaddr)
 
 }
 /**
+ * @ingroup lan7800
+ * 
  * Wait for a bit value to change on the Microchip LAN7800 USB Ethernet Adapter.
  * @param udev
  *      	USB device for the adapter
@@ -216,6 +230,8 @@ usb_status_t lan7800_mdio_wait_for_bit(struct usb_device *udev, const uint32_t r
 }
 
 /**
+ * @ingroup lan7800
+ * 
  * Waits for PHY to be free.
  * @param udev
  * 		USB device for the adapter
@@ -227,14 +243,18 @@ usb_status_t lan7800_phy_wait_not_busy(struct usb_device *udev)
 	return lan7800_mdio_wait_for_bit(udev, MII_ACC, MII_ACC_MII_BUSY, USB_STATUS_SUCCESS);
 }
 
-/* Before waiting, confirm that EEPROM is not busy. (Helper function) */
+/* 
+ * @ingroup lan7800
+ * Before waiting, confirm that EEPROM is not busy. (Helper function) */
 usb_status_t lan7800_eeprom_confirm_not_busy(struct usb_device *udev)
 {
 	return lan7800_wait_for_bit(udev, LAN7800_E2P_CMD, LAN7800_E2P_CMD_EPC_BUSY,
 			USB_STATUS_SUCCESS);
 }
 
-/* Wait for EEPROM. (Helper function) */
+/* 
+ * @ingroup lan7800
+ * Wait for EEPROM. (Helper function) */
 usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
 {
 	return lan7800_wait_for_bit(udev, LAN7800_E2P_CMD, (LAN7800_E2P_CMD_EPC_BUSY
@@ -243,6 +263,8 @@ usb_status_t lan7800_wait_eeprom(struct usb_device *udev)
 }
 
 /**
+ * @ingroup lan7800
+ *
  * Read raw EEPROM from the Microchip LAN7800 Ethernet device.
  * @param udev
  * 		USB device for the adapter
@@ -299,6 +321,8 @@ exit:
 }
 
 /**
+ * @ingroup lan7800
+ * 
  * Set max RX frame length for the Microchip LAN7800 Ethernet device.
  * @param udev
  * 		USB device for the adapter
@@ -336,6 +360,8 @@ usb_status_t lan7800_set_rx_max_frame_length(struct usb_device *udev, int size)
 }
 
 /**
+ * @ingroup lan7800
+ * 
  * Enable or disable Rx checksum offload engine for the Microchip LAN7800 Ethernet device.
  * @param udev
  * 		USB device for the adapter
@@ -374,6 +400,8 @@ usb_status_t lan7800_set_features(struct usb_device *udev, uint32_t set)
 }
 
 /**
+ * @ingroup lan7800
+ * 
  * Initialize various functions for the Microchip LAN7800 Ethernet device.
  * @param udev
  * 		USB device for the adapter

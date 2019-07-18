@@ -1,0 +1,33 @@
+\hypertarget{tlbMissHandler_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Miss\-Handler.c File Reference}
+\label{tlbMissHandler_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Miss\-Handler.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Miss\-Handler.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+{\ttfamily \#include $<$mips.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$tlb.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tlbMissHandler_8c_a8adfcc0d54746c7012101f45ebf5d9c4}{tlb\-Miss\-Handler} (int vpn\-\_\-fault, int $\ast$entrylo)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+T\-L\-B handler written in C. Should remain unused, but presents a higher level view of what the T\-L\-B handler does. 
+
+\subsection{Function Documentation}
+\hypertarget{tlbMissHandler_8c_a8adfcc0d54746c7012101f45ebf5d9c4}{\index{tlb\-Miss\-Handler.\-c@{tlb\-Miss\-Handler.\-c}!tlb\-Miss\-Handler@{tlb\-Miss\-Handler}}
+\index{tlb\-Miss\-Handler@{tlb\-Miss\-Handler}!tlbMissHandler.c@{tlb\-Miss\-Handler.\-c}}
+\subsubsection[{tlb\-Miss\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void tlb\-Miss\-Handler (
+\begin{DoxyParamCaption}
+\item[{int}]{vpn\-\_\-fault, }
+\item[{int $\ast$}]{entrylo}
+\end{DoxyParamCaption}
+)}}\label{tlbMissHandler_8c_a8adfcc0d54746c7012101f45ebf5d9c4}
+Slower (C based) T\-L\-B handler, though provides an easier way to understand. 
+\begin{DoxyParams}{Parameters}
+{\em vpn\-\_\-fault} & faulting address \\
+\hline
+\end{DoxyParams}

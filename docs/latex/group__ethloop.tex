@@ -1,0 +1,144 @@
+\hypertarget{group__ethloop}{\section{Ethernet Loopback}
+\label{group__ethloop}\index{Ethernet Loopback@{Ethernet Loopback}}
+}
+
+
+Ethernet Loopback Device Driver.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{group__ethloop_ga5190bdfc4447e69bb92bbc9134c9c4e0}{ethloop\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__ethloop_gaa131556fa83b426e8691ed04e6791a1a}{ethloop\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__ethloop_gaee123c05bdee0ccc3c23a51146b45de4}{ethloop\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__ethloop_gae8bf460f8195df364965d48802cb2c59}{ethloop\-Open} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__ethloop_ga0f1d4566b0a867a5980752ab97249274}{ethloop\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+devcall \hyperlink{group__ethloop_ga6a57120dafe68d0d0c2e97572bb5759c}{ethloop\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Ethernet Loopback Device Driver. This is a driver for a device that presents itself as an Ethernet Driver but actually just writes packets into a buffer and reads them back from the same buffer. 
+
+\subsection{Function Documentation}
+\hypertarget{group__ethloop_ga5190bdfc4447e69bb92bbc9134c9c4e0}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Close@{ethloop\-Close}}
+\index{ethloop\-Close@{ethloop\-Close}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_ga5190bdfc4447e69bb92bbc9134c9c4e0}
+Close a ethloop device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & ethloop device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if ethloop is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__ethloop_gaa131556fa83b426e8691ed04e6791a1a}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Control@{ethloop\-Control}}
+\index{ethloop\-Control@{ethloop\-Control}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_gaa131556fa83b426e8691ed04e6791a1a}
+Control function for ethloop devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & ethloop device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__ethloop_gaee123c05bdee0ccc3c23a51146b45de4}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Init@{ethloop\-Init}}
+\index{ethloop\-Init@{ethloop\-Init}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_gaee123c05bdee0ccc3c23a51146b45de4}
+Initialize ethloop device 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on open 
+\end{DoxyReturn}
+\hypertarget{group__ethloop_gae8bf460f8195df364965d48802cb2c59}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Open@{ethloop\-Open}}
+\index{ethloop\-Open@{ethloop\-Open}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_gae8bf460f8195df364965d48802cb2c59}
+Open an ethloop device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & ethloop device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if ethloop is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__ethloop_ga0f1d4566b0a867a5980752ab97249274}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Read@{ethloop\-Read}}
+\index{ethloop\-Read@{ethloop\-Read}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_ga0f1d4566b0a867a5980752ab97249274}
+Read data from an Ethernet Loopback device. This will block until data has been made available by a call to \hyperlink{group__ethloop_ga6a57120dafe68d0d0c2e97572bb5759c}{ethloop\-Write()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for the ethloop.\\
+\hline
+{\em buf} & Buffer into which to place the read data.\\
+\hline
+{\em len} & Maximum length of the data to read, in bytes.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes read, which will be less than or equal to {\ttfamily len}. Otherwise returns S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__ethloop_ga6a57120dafe68d0d0c2e97572bb5759c}{\index{Ethernet Loopback@{Ethernet Loopback}!ethloop\-Write@{ethloop\-Write}}
+\index{ethloop\-Write@{ethloop\-Write}!Ethernet Loopback@{Ethernet Loopback}}
+\subsubsection[{ethloop\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall ethloop\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__ethloop_ga6a57120dafe68d0d0c2e97572bb5759c}
+Write data to an Ethernet Loopback device. On success, the data will be available to be read by a subsequent call to \hyperlink{group__ethloop_ga0f1d4566b0a867a5980752ab97249274}{ethloop\-Read()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for the ethloop.\\
+\hline
+{\em buf} & Buffer of data to write.\\
+\hline
+{\em len} & Length of data to write, in bytes.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes written, which will be exactly {\ttfamily len}. On failure, returns S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}

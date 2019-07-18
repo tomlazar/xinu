@@ -1,0 +1,72 @@
+\hypertarget{structdwc__regs_1_1dwc__host__channel}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-channel Struct Reference}
+\label{structdwc__regs_1_1dwc__host__channel}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics}{dwc\-\_\-host\-\_\-channel\-\_\-characteristics}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}{dwc\-\_\-host\-\_\-channel\-\_\-interrupts}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control}{dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control}
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer}{dwc\-\_\-host\-\_\-channel\-\_\-transfer}
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a7a5d65f368b7c411de0feeff773b16a3}{union \\*
+\hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics} {\bfseries characteristics}}\label{structdwc__regs_1_1dwc__host__channel_a7a5d65f368b7c411de0feeff773b16a3}
+
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_ae514373a263b188d2bfdff6f20119cb5}{union \\*
+\hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__split__control}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-split\-\_\-control} {\bfseries split\-\_\-control}}\label{structdwc__regs_1_1dwc__host__channel_ae514373a263b188d2bfdff6f20119cb5}
+
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a9e3e1d846c0716e4adc473e08dfc0d46}{union \\*
+\hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts} {\bfseries interrupts}}\label{structdwc__regs_1_1dwc__host__channel_a9e3e1d846c0716e4adc473e08dfc0d46}
+
+\item 
+union \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}{dwc\-\_\-host\-\_\-channel\-\_\-interrupts} \hyperlink{structdwc__regs_1_1dwc__host__channel_a78409680286365a55da4dce096730c4b}{interrupt\-\_\-mask}
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a611fc01627213aa33d2c7f1aad698c8e}{union \\*
+\hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer}{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer} {\bfseries transfer}}\label{structdwc__regs_1_1dwc__host__channel_a611fc01627213aa33d2c7f1aad698c8e}
+
+\item 
+uint32\-\_\-t \hyperlink{structdwc__regs_1_1dwc__host__channel_a2c8460c60568d37d2019340802d34637}{dma\-\_\-address}
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a29c952f465f597f14e188bca17dc7de4}{uint32\-\_\-t {\bfseries reserved\-\_\-1}}\label{structdwc__regs_1_1dwc__host__channel_a29c952f465f597f14e188bca17dc7de4}
+
+\item 
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a6d6a9b193d118981d757576c398f51e3}{uint32\-\_\-t {\bfseries reserved\-\_\-2}}\label{structdwc__regs_1_1dwc__host__channel_a6d6a9b193d118981d757576c398f51e3}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+0x500 \-: Array of host channels. Each host channel can be used to execute an independent U\-S\-B transfer or transaction simultaneously. A U\-S\-B transfer may consist of multiple transactions, or packets. To avoid having to re-\/program the channel, it may be useful to use one channel for all transactions of a transfer before allowing other transfers to be scheduled on it. 
+
+\subsection{Field Documentation}
+\hypertarget{structdwc__regs_1_1dwc__host__channel_a2c8460c60568d37d2019340802d34637}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}!dma\-\_\-address@{dma\-\_\-address}}
+\index{dma\-\_\-address@{dma\-\_\-address}!dwc_regs::dwc_host_channel@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}}
+\subsubsection[{dma\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dma\-\_\-address}}\label{structdwc__regs_1_1dwc__host__channel_a2c8460c60568d37d2019340802d34637}
+Channel D\-M\-A Address Register -\/
+
+Word-\/aligned address at which the hardware will read or write data using Direct Memory Access. This must be programmed before beginning the transfer, unless the size of the data to send or receive is 0. The hardware will increment this address by the number of bytes successfully received or sent, which will correspond to the size decrease in transfer.\-size.
+
+Note\-: D\-M\-A must be enabled in the A\-H\-B Configuration Register before this register can be used. Otherwise, the hardware is considered to be in Slave mode and must be controlled a different way, which we do not use in our driver and do not attempt to document.
+
+B\-C\-M2835-\/specific note\-: Theoretically, addresses written to this register must be bus addresses, not A\-R\-M physical addresses. However, in our experience the behavior is the same when simply using A\-R\-M physical addresses. \hypertarget{structdwc__regs_1_1dwc__host__channel_a78409680286365a55da4dce096730c4b}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}!interrupt\-\_\-mask@{interrupt\-\_\-mask}}
+\index{interrupt\-\_\-mask@{interrupt\-\_\-mask}!dwc_regs::dwc_host_channel@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel}}
+\subsubsection[{interrupt\-\_\-mask}]{\setlength{\rightskip}{0pt plus 5cm}union {\bf dwc\-\_\-host\-\_\-channel\-\_\-interrupts} dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::interrupt\-\_\-mask}}\label{structdwc__regs_1_1dwc__host__channel_a78409680286365a55da4dce096730c4b}
+Channel Interrupts Mask Register -\/
+
+This has the same format as the Channel Interrupts Register, but software uses this to enable (1) or disable (0) the corresponding interrupt. Defaults to all 0's after a reset. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}
