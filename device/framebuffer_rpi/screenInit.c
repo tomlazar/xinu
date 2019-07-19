@@ -27,10 +27,12 @@ volatile unsigned int  __attribute__((aligned(16))) mbox[36];
 
 /**
  * @ingroup framebuffer
- *
- * Make a mailbox call. Returns SYSERR on failure, non-zero on success 
- * @param ch	TODODOC
+ * 
+ * Make a mailbox call.
+ * @param ch	Mailbox channel
+ * @return ::SYSERR on failure, non-zero on success
  */
+
 int mbox_call(unsigned char ch)
 {
 	unsigned int r = (((unsigned int)((unsigned long)&mbox)&~0xF) | (ch&0xF));
@@ -52,8 +54,9 @@ int mbox_call(unsigned char ch)
 
 /**
  * @ingroup framebuffer
- *
+ * 
  * Calls framebufferInit() several times to ensure we successfully initialize, just in case. 
+ * @return Void upon completion.
  */
 void screenInit() {
 	int i = 0;
@@ -73,8 +76,8 @@ void screenInit() {
 /**
  * @ingroup framebuffer
  *
- * Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. 
- * @return TODODOC what returns when
+ * Initializes the framebuffer used by the GPU via the framebuffer mailbox.
+ * @return ::OK on success; ::SYSERR on failure. 
  */
 int framebufferInit() {
 	//GPU expects this struct to be 16 byte aligned
@@ -158,7 +161,7 @@ int framebufferInit() {
  * @ingroup framebuffer
  *
  * Very heavy handed clearing of the screen to a single color. 
- * @param color	TODODOC
+ * @param color	
  */
 void screenClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress);
@@ -173,7 +176,7 @@ void screenClear(ulong color) {
  * @ingroup framebuffer
  *
  * Clear the minishell window
- * @param color	TODODOC
+ * @param color	Color to paint the window upon clear
  */
 void minishellClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress + (pitch * (DEFAULT_HEIGHT - (MINISHELLMINROW * CHAR_HEIGHT))) +  (DEFAULT_WIDTH * (BIT_DEPTH / 8)));

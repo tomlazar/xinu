@@ -18,9 +18,9 @@
  *
  * Set up the context record and arguments on the stack for a new thread
  * (ARM version)  
- * @param stackaddr	TODODOC
- * @param procaddr	
- * @return TODODOC
+ * @param stackaddr	Stack address
+ * @param procaddr	Process address
+ * @return Top of the stack
  */
 void *setupStack(void *stackaddr, void *procaddr,
                  void *retaddr, uint nargs, va_list ap)

@@ -152,7 +152,7 @@ void drawRect(int x1, int y1, int x2, int y2, ulong color) {
 /**
  * @ingroup framebuffer
  *
- * Draws a filled in ractangle TODODOC better description
+ * Draws a filled-in ractangle, given coordinates and colorization options
  * @param x1		upper left hand corner x-coordinate
  * @param y1		upper left hand corner y-coordinate
  * @param x2		lower right hand corner x-coordinate

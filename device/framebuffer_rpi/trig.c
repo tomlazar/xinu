@@ -14,10 +14,10 @@
 /**
  * @ingroup framebuffer
  *
- * TODODOC description
- * @param base	TODODOC
- * @param exp	
- * @return TODODOC
+ * Compute the double-precision result of a power operation
+ * @param base	Double-precision base value of operation
+ * @param exp	Integer exponent to which the base is raised
+ * @return Double-precision result of the power operation
  */
 double power(double base, int exp)
 {
@@ -33,9 +33,9 @@ double power(double base, int exp)
 /**
  * @ingroup framebuffer
  *
- * TODODOC
- * @param num	TODODOC
- * @return 
+ * Compute the factorial of an integer
+ * @param num	Integer to compute factorial operation on
+ * @return	Long integer result of the factorial operation
  */
 long factorial(int num)
 {
@@ -47,10 +47,10 @@ long factorial(int num)
 /**
  * @ingroup framebuffer
  *
- * TODODOC
- * @oaram x	TODODOC
- * @param terms	
- * @return TODODOC
+ * Compute the Taylor series approximation of cosine using power and factorial
+ * @oaram x	Base value
+ * @param terms	Terms of the sum
+ * @return Double-precision result of the cosine approximation
  */
 double cosine_taylor(double x, int terms)
 {
@@ -66,9 +66,9 @@ double cosine_taylor(double x, int terms)
 /**
  * @ingroup framebuffer
  *
- * TODODOC
- * @param x	TODODOC
- * @return TODODOC
+ * Compute the cosine using the Taylor approximation as a helper function
+ * @param x	Angle, in degrees
+ * @return	Double-precision result of the computation
  */
 double cos(int x)
 {
@@ -102,10 +102,10 @@ double cos(int x)
 /**
  * @ingroup framebuffer
  *
- * TODODOC
- * @param x	TODODOC
- * @param terms	
- * @return TODODOC
+ * Compute the Taylor series approximation of sine
+ * @param x	Base value
+ * @param terms	Terms of the sum
+ * @return Double-precision result of the sine approximation
  */
 double sine_taylor(double x, int terms)
 {
@@ -121,10 +121,11 @@ double sine_taylor(double x, int terms)
 /**
  * @ingroup framebuffers
  *
+ * Compute the sine using the Taylor approximation as a helper function
  * Note: For graphics purposes, the sine must always be turned negative because
  * a monitor is technically in quadrant 4 instead of quadrant 1. 
- * @param x	TODODOC
- * @return TODODOC
+ * @param x	Angle, in degrees
+ * @return Double-precision result of the computation
  */
 double sin(int x)
 {

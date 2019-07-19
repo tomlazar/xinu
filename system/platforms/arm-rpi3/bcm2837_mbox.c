@@ -18,11 +18,11 @@
  * @ingroup bcm2837
  *
  * Add a tag to the mailbox buffer. This step must be done before a mailbox request is built. 
- * @param buffer	TODODOC
- * @param tag		
- * @param buflen	
- * @param len		
- * @param data		
+ * @param buffer	Mailbox buffer
+ * @param tag		Tag to pass
+ * @param buflen	Buffer length
+ * @param len		Length of data to be sent
+ * @param data		Data to be sent
  */
 void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, uint32_t len, uint32_t* data) {
 	volatile uint32_t* start = buffer + SLOT_TAGSTART;
@@ -48,7 +48,7 @@ void add_mailbox_tag(volatile uint32_t* buffer, uint32_t tag, uint32_t buflen, u
  * @ingroup bcm2837
  *
  * Ready the buffer by initializing proper lengths, slots. 
- * @param mailbuffer	TODODOC
+ * @param mailbuffer	Mailbox buffer
  */
 void build_mailbox_request(volatile uint32_t* mailbuffer) {
 	uint32_t tag_length = mailbuffer[MBOX_HEADER_LENGTH + SLOT_TAG_BUFLEN];

@@ -1,3 +1,4 @@
+@mainpage <!-- Main page tag for Doxygen to use as its main page upon generation -->
 # Embedded Xinu
 
 Embedded Xinu, Copyright (C) 2008, 2009, 2010.  All rights reserved.

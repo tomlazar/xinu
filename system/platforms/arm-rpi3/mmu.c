@@ -11,11 +11,11 @@
 /**
  * @ingroup bcm2837
  *
- * code from Github user dwelch67 
- * @param vadd	TODODOC
- * @param padd	
- * @param flags	
- * @return TODODOC
+ * Mark a section of memory as cacheable, given flags
+ * @param vadd		Virtual address
+ * @param padd		Physical address
+ * @param flags		Flag to mark the section
+ * @return Zero
  */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
 {

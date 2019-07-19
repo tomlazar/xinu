@@ -215,7 +215,7 @@ dwc_release_channel(uint chan)
  * @ingroup usbhcd
  *
  * Powers on the DWC hardware.
- * @return TODODOC
+ * @return ::USB_STATUS_SUCCESS on successful poweron of the controller; otherwise return ::USB_STATUS_HARDWARE_ERROR
  */
 static usb_status_t
 dwc_power_on(void)
@@ -301,7 +301,7 @@ dwc_setup_dma_mode(void)
  * modifying it.  Due to the inconsistent design of the bits in this register,
  * this requires zeroing the write-clear bits so they aren't unintentionally
  * cleared by writing back 1's to them.
- * @return TODODOC
+ * @return Status register of the Host Port
  */
 static union dwc_host_port_ctrlstatus
 dwc_get_host_port_ctrlstatus(void)
@@ -626,8 +626,8 @@ dwc_get_root_hub_status(struct usb_hub_status *status)
  * @ingroup usbhcd
  *
  * Handle a SetPortFeature request on the port attached to the root hub.
- * @param feature	TODODOC
- * @return TODODOC
+ * @param feature	Enumeration of feature to set
+ * @return ::USB_STATUS_SUCCESS on successful request, ::USB_STATUS_UNSUPPORTED_REQUEST otherwise
  */
 static usb_status_t
 dwc_set_host_port_feature(enum usb_port_feature feature)
@@ -650,8 +650,8 @@ dwc_set_host_port_feature(enum usb_port_feature feature)
  * @ingroup usbhcd
  *
  * Handle a ClearPortFeature request on the port attached to the root hub.
- * @param feature	TODODOC
- * @return TODODOC
+ * @param feature	Enumeration of feature to set
+ * @return ::USB_STATUS_SUCCESS on successful request, ::USB_STATUS_UNSUPPORTED_REQUEST otherwise
  */
 static usb_status_t
 dwc_clear_host_port_feature(enum usb_port_feature feature)
@@ -769,8 +769,11 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
  * @ingroup usbhcd
  *
  * Fake a control transfer to or from the root hub.
- * @param req	TODODOC
- * @return TODODOC
+ * @param req	USB transfer to fake
+ * 
+ * @return ::USB_STATUS_SUCCESS if request successfully processed; otherwise
+ * 	another ::usb_status_t error code, such as
+ * 	::USB_STATUS_UNSUPPORTED_REQUEST.
  */
 static usb_status_t
 dwc_root_hub_control_msg(struct usb_xfer_request *req)
@@ -789,7 +792,7 @@ dwc_root_hub_control_msg(struct usb_xfer_request *req)
  * @ingroup usbhcd
  *
  * Fake a request to the root hub.
- * @param req	TODODOC
+ * @param req	USB transfer to fake
  */
 static void
 dwc_process_root_hub_request(struct usb_xfer_request *req)
@@ -1287,10 +1290,10 @@ enum dwc_intr_status {
  * @ingroup usbhcd
  *
  * Handle a channel halting with no apparent error.
- * @param req		TODODOC
- * @param chan		
- * @param interrupts	
- * @return TODODOC
+ * @param req		USB transfer to handle
+ * @param chan		Host channel halted
+ * @param interrupts	Channel interrupts received
+ * @return ::XFER_COMPLETE on success, otherwise return an error code such as ::XFER_NEEDS_RESTART
  */
 static enum dwc_intr_status
 dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
@@ -1871,7 +1874,7 @@ dwc_schedule_xfer_requests(void)
  * Initialize a bitmask and semaphore that keep track of the free/inuse status
  * of the host channels and a queue in which to place submitted USB transfer
  * requests, then start the USB transfer request scheduler thread.
- * @return TODODOC
+ * @return ::USB_STATUS_SUCCESS on successful initialization, otherwise return ::USB_STATUS_OUT_OF_MEMORY
  */
 static usb_status_t
 dwc_start_xfer_scheduler(void)
@@ -1910,7 +1913,7 @@ dwc_start_xfer_scheduler(void)
  * Implementation of hcd_start() for the DesignWare Hi-Speed USB 2.0 On-The-Go
  * Controller.  See usb_hcdi.h for the documentation of this interface of the
  * Host Controller Driver.  
- * @return TODODOC
+ * @return ::USB_STATUS_SUCCESS on successful intitialization of the HCD; otherwise, return ::USB_STATUS_HARDWARE_ERROR or ::USB_STATUS_OUT_OF_MEMORY
  */
 usb_status_t
 hcd_start(void)
@@ -1965,7 +1968,7 @@ hcd_stop(void)
  * Implementation of hcd_submit_xfer_request() for the DesignWare Hi-Speed USB
  * 2.0 On-The-Go Controller.  See usb_hcdi.h for the documentation of this
  * interface of the Host Controller Driver.  
- * @return TODODOC
+ * @return ::USB_STATUS_SUCCESS after successful sending of mailbox message, ::SYSERR if failure within mailboxSend()
  */
 /**
  * @details

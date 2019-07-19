@@ -12,8 +12,8 @@
  * @ingroup bcm2837
  *
  * Write to the specified channel of the mailbox.  
- * @param channel	TODODOC
- * @param value		
+ * @param channel	Mailbox channel to write to
+ * @param value		Value to write to the mailbox
  */
 void
 bcm2837_mailbox_write(uint channel, uint value)
@@ -28,8 +28,8 @@ bcm2837_mailbox_write(uint channel, uint value)
  * @ingroup bcm2837
  *
  * Read from the specified channel of the mailbox.  
- * @param channel	TODODOC
- * @return TODODOC
+ * @param channel	Mailbox channel to read from
+ * @return		Value read from the mailbox
  */
 uint
 bcm2837_mailbox_read(uint channel)
@@ -50,10 +50,9 @@ bcm2837_mailbox_read(uint channel)
  * @ingroup bcm2837
  *
  * Retrieve the bitmask of power on/off state.  
- * @return TODODOC
+ * @return Value held by the BCM2837's mailbox power management channel
  */
-static uint
-bcm2837_get_power_mask(void)
+static uint bcm2837_get_power_mask(void)
 {
     return (bcm2837_mailbox_read(MAILBOX_CHANNEL_POWER_MGMT) >> 4);
 }
@@ -62,7 +61,7 @@ bcm2837_get_power_mask(void)
  * @ingroup bcm2837
  *
  * Set the bitmask of power on/off state.  
- * @param mask	TODODOC
+ * @param mask	Bitmask to write to the channel
  */
 static void
 bcm2837_set_power_mask(uint mask)
