@@ -93,9 +93,7 @@ shellcmd xsh_test(int nargs, char *args[])
 
 	// TODO: Test your operating system!
 
-	device *devptr;
-	devptr = (device *)&devtab[SERIAL0];
-	c = kgetc(devptr);
+	c = getc(CONSOLE);
 	switch (c)
 	{
 		case '0':

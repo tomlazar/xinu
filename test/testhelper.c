@@ -45,7 +45,7 @@ void testPass(bool verbose, const char *msg)
 {
     if (TRUE == verbose)
     {
-        kprintf("\033[60G[\033[1;32mPASS\033[0;39m] %s\n", msg);
+        printf("\033[60G[\033[1;32mPASS\033[0;39m] %s\n", msg);
     }
 }
 
@@ -53,7 +53,7 @@ void testFail(bool verbose, const char *msg)
 {
     if (TRUE == verbose)
     {
-        kprintf("\033[60G[\033[1;31mFAIL\033[0;39m] %s\n", msg);
+        printf("\033[60G[\033[1;31mFAIL\033[0;39m] %s\n", msg);
     }
 }
 
@@ -61,7 +61,7 @@ void testSkip(bool verbose, const char *msg)
 {
     if (TRUE == verbose)
     {
-        kprintf("\033[60G[\033[1;33mSKIP\033[0;39m] %s\n", msg);
+        printf("\033[60G[\033[1;33mSKIP\033[0;39m] %s\n", msg);
     }
 }
 
@@ -69,6 +69,6 @@ void testPrint(bool verbose, const char *msg)
 {
     if (TRUE == verbose)
     {
-        kprintf("  %s", msg);
+        printf("  %s", msg);
     }
 }

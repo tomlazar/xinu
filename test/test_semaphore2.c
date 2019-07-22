@@ -66,12 +66,10 @@ thread test_semaphore2(bool verbose)
         && test_checkProcState(btid, THRWAIT)
         && test_checkSemCount(s, -4) && test_checkResult(testResult, 0))
     {
-    kprintf("\r\nSemCount (Pass): %d...", semcount(s));
         testPass(verbose, "");
     }
     else
     {
-    kprintf("\r\nSemCount (Fail): %d...", semcount(s));
         passed = FALSE;
     }
 
