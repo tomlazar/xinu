@@ -175,28 +175,23 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stderr = errdescrp;
 
     /* Print shell banner to framebuffer, if exists */
-#if defined(FRAMEBUF)
-    if (indescrp == FRAMEBUF)
-    {
+#if screen_initialized
+    //if (indescrp == FRAMEBUF)
+    //{
         foreground = CYAN;
         printf(SHELL_BANNER_PI3_NONVT100);
+	udelay(250);	// Temporarily wait for the hardware before changing colors
         foreground = LEAFGREEN;
         printf(SHELL_START);
-    }
-    else
+    //}
 #endif
-    {
-        foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
-	udelay(250);
-        foreground = LEAFGREEN;
+        printf(SHELL_BANNER_PI3);
         printf(SHELL_START);
-    }
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	#if defined(FRAMEBUF)
+	#if screen_initialized
 	    /* Print shell with colors over the frame buffer */
 	    foreground = RASPBERRY;
             printf(SHELL_PROMPT_FB);
@@ -208,18 +203,18 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
         if (NULL != hostptr)
         {
-#ifndef FRAMEBUF
-	    printf("@%s$ \033[0;39m", hostptr);
-#else
+#if screen_initialized
 	    printf("@%s$ ", hostptr);
+#else
+	    printf("@%s$ \033[0;39m", hostptr);
 #endif
 	}
         else
         {
-#ifndef FRAMEBUF
-	    printf("$ \033[0;39m");
-#else
+#if screen_initialized
             printf("$ ");
+#else
+	    printf("$ \033[0;39m");
 #endif
 	}
 
