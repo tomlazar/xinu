@@ -21,9 +21,10 @@
  * @param devptr	Pointer to ethernet device.
  * @param req		Request for determining the reason for control invocation
  * @param arg1		Argument to pass to a control function
+ * @param arg2		Argument to pass to a control function
  * @return		::OK on success, ::SYSERR otherwise
  */
-devcall etherControl(device *devptr, int req, long arg1)
+devcall etherControl(device *devptr, int req, long arg1, long arg2)
 {
     struct usb_device *udev;
     usb_status_t status;
