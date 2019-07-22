@@ -12,8 +12,8 @@ var searchData=
   ['initlinemap',['initlinemap',['../group__framebuffer.html#ga09da65be8be722fc8e0a30ecfa616818',1,'screenInit.c']]],
   ['insert',['insert',['../group__threads.html#gaeb1e855fcc190c3c30e8e64924939e4c',1,'insert.c']]],
   ['insertd',['insertd',['../group__threads.html#gad203c57d47eaf6798acae5d1a89d8e91',1,'insertd.c']]],
-  ['ioerr',['ioerr',['../group__devcalls.html#ga4477aa228b9044af2671ea7882c7d0df',1,'ioerr(void):&#160;ioerr.c'],['../group__devcalls.html#ga4477aa228b9044af2671ea7882c7d0df',1,'ioerr(void):&#160;ioerr.c']]],
-  ['ionull',['ionull',['../group__devcalls.html#gaad9596bdb25cbdcf08f76b1d3fa69c2b',1,'ionull(void):&#160;ionull.c'],['../group__devcalls.html#gaad9596bdb25cbdcf08f76b1d3fa69c2b',1,'ionull(void):&#160;ionull.c']]],
+  ['ioerr',['ioerr',['../group__devcalls.html#ga4477aa228b9044af2671ea7882c7d0df',1,'ioerr.c']]],
+  ['ionull',['ionull',['../group__devcalls.html#gaad9596bdb25cbdcf08f76b1d3fa69c2b',1,'ionull.c']]],
   ['ipv4recv',['ipv4Recv',['../group__ipv4.html#gadf2cbf4d3fa64e45e6a5da37ee0ab6e0',1,'ipv4Recv.c']]],
   ['ipv4send',['ipv4Send',['../group__ipv4.html#ga1b9759ea210530fd31b6d1e7febdc7a0',1,'ipv4Send.c']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['readme',['README',['../md_README.html',1,'']]],
   ['rand',['rand',['../group__libxc.html#gae23144bcbb8e3742b00eb687c36654d1',1,'rand.c']]],
   ['rand_2ec',['rand.c',['../rand_8c.html',1,'']]],
   ['raw_20packets',['Raw Packets',['../group__raw.html',1,'']]],

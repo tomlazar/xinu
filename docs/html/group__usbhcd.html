@@ -38,7 +38,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -117,7 +116,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Platform-dependent code to actually send and receive data over the USB. </p>
-<p>TODODOC.</p>
+<p>USB Host Controller Driver specifies protocols for USB transfers.</p>
 <p>This is a USB Host Controller Driver (HCD) that interfaces with the Synopsys DesignWare Hi-Speed USB 2.0 On-The-Go Controller, henceforth abbreviated as "DWC". This is the USB Host Controller used on the BCM2835 SoC used on the Raspberry Pi.</p>
 <p>Please note that there is no publicly available official documentation for this particular piece of hardware, and it uses its own custom host controller interface rather than a standard one such as EHCI. Therefore, this driver was written on a best-effort basis using several sources to gleam the necessary hardware details, including the extremely complicated and difficult to understand vendor-provided Linux driver.</p>
 <p>This file implements the Host Controller Driver Interface defined in usb_hcdi.h. Most importantly, it implements a function to power on and start the host controller (<a class="el" href="group__usbhcd.html#gaab6ab94dcc19ea7a80aed9af1c44ab7d">hcd_start()</a>) and a function to send and receive messages over the USB (<a class="el" href="group__usbhcd.html#ga72b7448515ed0c92480cb6737009e626">hcd_submit_xfer_request()</a>).</p>
@@ -155,7 +154,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Implementation of <a class="el" href="group__usbhcd.html#gaab6ab94dcc19ea7a80aed9af1c44ab7d">hcd_start()</a> for the DesignWare Hi-Speed USB 2.0 On-The-Go Controller. See usb_hcdi.h for the documentation of this interface of the Host Controller Driver. </p>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>::USB_STATUS_SUCCESS on successful intitialization of the HCD; otherwise, return ::USB_STATUS_HARDWARE_ERROR or ::USB_STATUS_OUT_OF_MEMORY </dd></dl>
 
 </div>
 </div>
@@ -190,7 +189,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Implementation of <a class="el" href="group__usbhcd.html#ga72b7448515ed0c92480cb6737009e626">hcd_submit_xfer_request()</a> for the DesignWare Hi-Speed USB 2.0 On-The-Go Controller. See usb_hcdi.h for the documentation of this interface of the Host Controller Driver. </p>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>::USB_STATUS_SUCCESS after successful sending of mailbox message, ::SYSERR if failure within <a class="el" href="group__mailbox.html#gab65abe313a4976eab021cd99258ff7e7">mailboxSend()</a></dd></dl>
 <p>This Host Controller Driver implements this interface asynchronously, as intended. Furthermore, it uses a simplistic scheduling algorithm where it places transfer requests into a single queue and executes them in the order they were submitted. Transfers that need to be retried, including periodic transfers that receive a NAK reply and split transactions that receive a NYET reply when doing the Complete Split transaction, are scheduled to be retried at an appropriate time by separate code that shortcuts the main queue when the timer expires.</p>
 <p>Jump to dwc_schedule_xfer_requests() to see what happens next. </p>
 

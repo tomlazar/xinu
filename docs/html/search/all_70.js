@@ -21,7 +21,6 @@ var searchData=
   ['postconfig',['postConfig',['../httpConfigPage_8c.html#a07168398590b19a70589ef2a58a05e86',1,'httpConfigPage.c']]],
   ['power',['power',['../group__framebuffer.html#ga06d83b3a8c4e7de105f0cbec05156ca8',1,'trig.c']]],
   ['powered',['powered',['../uniondwc__regs_1_1dwc__host__port__ctrlstatus.html#a01420294b4b933b9434613681a34cb6d',1,'dwc_regs::dwc_host_port_ctrlstatus']]],
-  ['printcpsr',['printcpsr',['../group__bcm2837.html#ga44b1f37b16e0bd98ccc986606f6cbebd',1,'unparkcore.c']]],
   ['printdate',['printDate',['../date_8c.html#a003aee0c3a463f9cef146154e167e258',1,'date.c']]],
   ['printdatetz',['printDateTZ',['../date_8c.html#a73e6fe80d787e4c98818ae4c138ddaf8',1,'date.c']]],
   ['printf',['printf',['../group__libxc.html#ga98631211a4a8aee62f572375d5b637be',1,'printf.c']]],

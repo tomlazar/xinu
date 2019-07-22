@@ -3,7 +3,7 @@
 }
 
 
-T\-O\-D\-O\-D\-O\-C.  
+The So\-C of the Raspberry Pi 3 Model B+ is the Broadcom B\-C\-M2837\-B0.  
 
 
 \subsection*{Functions}
@@ -41,13 +41,11 @@ void $\ast$ \hyperlink{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}{setup\
 
 \item 
 void \hyperlink{group__bcm2837_ga5587184e0769948d9924cad59ac83341}{createnullthread} (void)
-\item 
-void \hyperlink{group__bcm2837_ga44b1f37b16e0bd98ccc986606f6cbebd}{printcpsr} (void)
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-T\-O\-D\-O\-D\-O\-C. 
+The So\-C of the Raspberry Pi 3 Model B+ is the Broadcom B\-C\-M2837\-B0. While much of Embedded Xinu's port has been redesigned for the B\-C\-M2837\-B0 (bootloader, multicore capability, L1 cache, to name a few), there are remnants of the last port (B\-C\-M2835 Raspberry Pi 1) in this operating system as the entire wheel need not be reinvented. 
 
 \subsection{Function Documentation}
 \hypertarget{group__bcm2837_ga556fc5ad8b59adb57df58404e85efe8f}{\index{Bcm2837@{Bcm2837}!add\-\_\-mailbox\-\_\-tag@{add\-\_\-mailbox\-\_\-tag}}
@@ -63,15 +61,15 @@ T\-O\-D\-O\-D\-O\-C.
 )}}\label{group__bcm2837_ga556fc5ad8b59adb57df58404e85efe8f}
 Add a tag to the mailbox buffer. This step must be done before a mailbox request is built. 
 \begin{DoxyParams}{Parameters}
-{\em buffer} & T\-O\-D\-O\-D\-O\-C \\
+{\em buffer} & Mailbox buffer \\
 \hline
-{\em tag} & \\
+{\em tag} & Tag to pass \\
 \hline
-{\em buflen} & \\
+{\em buflen} & Buffer length \\
 \hline
-{\em len} & \\
+{\em len} & Length of data to be sent \\
 \hline
-{\em data} & \\
+{\em data} & Data to be sent \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-mailbox\-\_\-read@{bcm2837\-\_\-mailbox\-\_\-read}}
@@ -83,11 +81,11 @@ Add a tag to the mailbox buffer. This step must be done before a mailbox request
 )}}\label{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}
 Read from the specified channel of the mailbox. 
 \begin{DoxyParams}{Parameters}
-{\em channel} & T\-O\-D\-O\-D\-O\-C \\
+{\em channel} & Mailbox channel to read from \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Value read from the mailbox 
 \end{DoxyReturn}
 \hypertarget{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-mailbox\-\_\-write@{bcm2837\-\_\-mailbox\-\_\-write}}
 \index{bcm2837\-\_\-mailbox\-\_\-write@{bcm2837\-\_\-mailbox\-\_\-write}!Bcm2837@{Bcm2837}}
@@ -99,9 +97,9 @@ T\-O\-D\-O\-D\-O\-C
 )}}\label{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}
 Write to the specified channel of the mailbox. 
 \begin{DoxyParams}{Parameters}
-{\em channel} & T\-O\-D\-O\-D\-O\-C \\
+{\em channel} & Mailbox channel to write to \\
 \hline
-{\em value} & \\
+{\em value} & Value to write to the mailbox \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}}
@@ -140,7 +138,7 @@ Powers on or powers off B\-C\-M2837 hardware.
 )}}\label{group__bcm2837_ga3bdf72a46b4f0bdae32864267c39c2d8}
 Ready the buffer by initializing proper lengths, slots. 
 \begin{DoxyParams}{Parameters}
-{\em mailbuffer} & T\-O\-D\-O\-D\-O\-C \\
+{\em mailbuffer} & Mailbox buffer \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__bcm2837_ga5587184e0769948d9924cad59ac83341}{\index{Bcm2837@{Bcm2837}!createnullthread@{createnullthread}}
@@ -150,7 +148,7 @@ Ready the buffer by initializing proper lengths, slots.
 \item[{void}]{}
 \end{DoxyParamCaption}
 )}}\label{group__bcm2837_ga5587184e0769948d9924cad59ac83341}
-T\-O\-D\-O\-D\-O\-C description \hypertarget{group__bcm2837_ga2aa4bfcc808a4bb452a90c63426e2505}{\index{Bcm2837@{Bcm2837}!get\-\_\-mac\-\_\-mailbox@{get\-\_\-mac\-\_\-mailbox}}
+Create a null thread (for testing purposes -\/$>$ should be taken out) \hypertarget{group__bcm2837_ga2aa4bfcc808a4bb452a90c63426e2505}{\index{Bcm2837@{Bcm2837}!get\-\_\-mac\-\_\-mailbox@{get\-\_\-mac\-\_\-mailbox}}
 \index{get\-\_\-mac\-\_\-mailbox@{get\-\_\-mac\-\_\-mailbox}!Bcm2837@{Bcm2837}}
 \subsubsection[{get\-\_\-mac\-\_\-mailbox}]{\setlength{\rightskip}{0pt plus 5cm}void get\-\_\-mac\-\_\-mailbox (
 \begin{DoxyParamCaption}
@@ -201,17 +199,17 @@ Set G\-P\-I\-O pin 16 to O\-N \hypertarget{group__bcm2837_gabd7eba8cae99b9fb8468
 \item[{unsigned int}]{flags}
 \end{DoxyParamCaption}
 )}}\label{group__bcm2837_gaba27187e9e8c347b2f7e2f3d1eeafe83}
-code from Github user dwelch67 
+Mark a section of memory as cacheable, given flags 
 \begin{DoxyParams}{Parameters}
-{\em vadd} & T\-O\-D\-O\-D\-O\-C \\
+{\em vadd} & Virtual address \\
 \hline
-{\em padd} & \\
+{\em padd} & Physical address \\
 \hline
-{\em flags} & \\
+{\em flags} & Flag to mark the section \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Zero 
 \end{DoxyReturn}
 \hypertarget{group__bcm2837_gab8f68c443b71713640467ae1be1228f1}{\index{Bcm2837@{Bcm2837}!platforminit@{platforminit}}
 \index{platforminit@{platforminit}!Bcm2837@{Bcm2837}}
@@ -223,14 +221,7 @@ T\-O\-D\-O\-D\-O\-C
 Initializes platform specific information for the Raspberry Pi hardware. \begin{DoxyReturn}{Returns}
 O\-K 
 \end{DoxyReturn}
-\hypertarget{group__bcm2837_ga44b1f37b16e0bd98ccc986606f6cbebd}{\index{Bcm2837@{Bcm2837}!printcpsr@{printcpsr}}
-\index{printcpsr@{printcpsr}!Bcm2837@{Bcm2837}}
-\subsubsection[{printcpsr}]{\setlength{\rightskip}{0pt plus 5cm}void printcpsr (
-\begin{DoxyParamCaption}
-\item[{void}]{}
-\end{DoxyParamCaption}
-)}}\label{group__bcm2837_ga44b1f37b16e0bd98ccc986606f6cbebd}
-T\-O\-D\-O\-D\-O\-C description \hypertarget{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}{\index{Bcm2837@{Bcm2837}!setup\-Stack@{setup\-Stack}}
+\hypertarget{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}{\index{Bcm2837@{Bcm2837}!setup\-Stack@{setup\-Stack}}
 \index{setup\-Stack@{setup\-Stack}!Bcm2837@{Bcm2837}}
 \subsubsection[{setup\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ setup\-Stack (
 \begin{DoxyParamCaption}
@@ -243,11 +234,11 @@ T\-O\-D\-O\-D\-O\-C description \hypertarget{group__bcm2837_gabd29847cfed983d713
 )}}\label{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}
 Set up the context record and arguments on the stack for a new thread (A\-R\-M version) 
 \begin{DoxyParams}{Parameters}
-{\em stackaddr} & T\-O\-D\-O\-D\-O\-C \\
+{\em stackaddr} & Stack address \\
 \hline
-{\em procaddr} & \\
+{\em procaddr} & Process address \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Top of the stack 
 \end{DoxyReturn}

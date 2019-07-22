@@ -1,7 +1,10 @@
 /**
  * @file mmu.c
  *
- * TODODOC description and authors (optional)
+ * Define functions for enabling and configuring the MMU.
+ *
+ * @authors Rade Latinovich
+ * 	    Patrick J. McGee
  */
 /* Embedded Xinu, Copyright (C) 2009. All rights reserved */
 

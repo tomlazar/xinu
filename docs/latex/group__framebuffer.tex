@@ -84,11 +84,14 @@ Driver for the B\-C\-M2837\-B0 (Raspberry Pi 3 B+) framebuffer. This driver comm
 \item[{(aligned(16))}]{}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_ga8cc6c2c5dacb126c55b0c3aa9dd0e552}
-Make a mailbox call. Returns S\-Y\-S\-E\-R\-R on failure, non-\/zero on success 
+Make a mailbox call. 
 \begin{DoxyParams}{Parameters}
-{\em ch} & T\-O\-D\-O\-D\-O\-C \\
+{\em ch} & Mailbox channel \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R on failure, non-\/zero on success 
+\end{DoxyReturn}
 \hypertarget{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}{\index{Framebuffer@{Framebuffer}!cos@{cos}}
 \index{cos@{cos}!Framebuffer@{Framebuffer}}
 \subsubsection[{cos}]{\setlength{\rightskip}{0pt plus 5cm}double cos (
@@ -96,13 +99,13 @@ Make a mailbox call. Returns S\-Y\-S\-E\-R\-R on failure, non-\/zero on success
 \item[{int}]{x}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}
-T\-O\-D\-O\-D\-O\-C 
+Compute the cosine using the Taylor approximation as a helper function 
 \begin{DoxyParams}{Parameters}
-{\em x} & T\-O\-D\-O\-D\-O\-C \\
+{\em x} & Angle, in degrees \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Double-\/precision result of the computation 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}{\index{Framebuffer@{Framebuffer}!cosine\-\_\-taylor@{cosine\-\_\-taylor}}
 \index{cosine\-\_\-taylor@{cosine\-\_\-taylor}!Framebuffer@{Framebuffer}}
@@ -112,13 +115,13 @@ T\-O\-D\-O\-D\-O\-C
 \item[{int}]{terms}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}
-T\-O\-D\-O\-D\-O\-C  x T\-O\-D\-O\-D\-O\-C 
+Compute the Taylor series approximation of cosine using power and factorial  x Base value 
 \begin{DoxyParams}{Parameters}
-{\em terms} & \\
+{\em terms} & Terms of the sum \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Double-\/precision result of the cosine approximation 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_gac3a4b9c686abe9ca2eb5e6f14c60a62d}{\index{Framebuffer@{Framebuffer}!draw\-Body@{draw\-Body}}
 \index{draw\-Body@{draw\-Body}!Framebuffer@{Framebuffer}}
@@ -280,13 +283,13 @@ Modified draw\-Line specifically for turtle graphics
 \item[{int}]{num}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}
-T\-O\-D\-O\-D\-O\-C 
+Compute the factorial of an integer 
 \begin{DoxyParams}{Parameters}
-{\em num} & T\-O\-D\-O\-D\-O\-C \\
+{\em num} & Integer to compute factorial operation on \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-
+Long integer result of the factorial operation 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}{\index{Framebuffer@{Framebuffer}!fbgetc@{fbgetc}}
 \index{fbgetc@{fbgetc}!Framebuffer@{Framebuffer}}
@@ -435,7 +438,7 @@ Draws a filled in circle T\-O\-D\-O\-D\-C better description
 \item[{bool}]{gradient}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_ga4363c77931a2deda12d0300a7caa1897}
-Draws a filled in ractangle T\-O\-D\-O\-D\-O\-C better description 
+Draws a filled-\/in ractangle, given coordinates and colorization options 
 \begin{DoxyParams}{Parameters}
 {\em x1} & upper left hand corner x-\/coordinate \\
 \hline
@@ -457,8 +460,8 @@ Draws a filled in ractangle T\-O\-D\-O\-D\-O\-C better description
 {}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}
-Initializes the framebuffer used by the G\-P\-U. Returns O\-K on success; S\-Y\-S\-E\-R\-R on failure. \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C what returns when 
+Initializes the framebuffer used by the G\-P\-U via the framebuffer mailbox. \begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure. 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_ga09da65be8be722fc8e0a30ecfa616818}{\index{Framebuffer@{Framebuffer}!initlinemap@{initlinemap}}
 \index{initlinemap@{initlinemap}!Framebuffer@{Framebuffer}}
@@ -483,7 +486,7 @@ Read from mailbox one on channel one (G\-P\-U mailbox) Note\-: Data\-: first 28 
 )}}\label{group__framebuffer_ga4f8108da950b74ecf40e586187d5fa6e}
 Write to G\-P\-U mailbox. 
 \begin{DoxyParams}{Parameters}
-{\em data} & T\-O\-D\-O\-D\-O\-C param desc. \\
+{\em data} & Data to write to the mailbox \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}{\index{Framebuffer@{Framebuffer}!minishell\-Clear@{minishell\-Clear}}
@@ -495,7 +498,7 @@ Write to G\-P\-U mailbox.
 )}}\label{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}
 Clear the minishell window 
 \begin{DoxyParams}{Parameters}
-{\em color} & T\-O\-D\-O\-D\-O\-C \\
+{\em color} & Color to paint the window upon clear \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}{\index{Framebuffer@{Framebuffer}!phys\-To\-Bus@{phys\-To\-Bus}}
@@ -507,7 +510,7 @@ Clear the minishell window
 )}}\label{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}
 Converts A\-R\-M physical addresses to A\-R\-M bus addresses. Separate function for legibility's sake. Rev 1 board G\-P\-U required bus addresses. Now deprecated. 
 \begin{DoxyParams}{Parameters}
-{\em address} & T\-O\-D\-O\-D\-O\-C \\
+{\em address} & Physical address to convert \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}{\index{Framebuffer@{Framebuffer}!power@{power}}
@@ -518,15 +521,15 @@ Converts A\-R\-M physical addresses to A\-R\-M bus addresses. Separate function 
 \item[{int}]{exp}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}
-T\-O\-D\-O\-D\-O\-C description 
+Compute the double-\/precision result of a power operation 
 \begin{DoxyParams}{Parameters}
-{\em base} & T\-O\-D\-O\-D\-O\-C \\
+{\em base} & Double-\/precision base value of operation \\
 \hline
-{\em exp} & \\
+{\em exp} & Integer exponent to which the base is raised \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Double-\/precision result of the power operation 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}{\index{Framebuffer@{Framebuffer}!read\-M\-M\-I\-O@{read\-M\-M\-I\-O}}
 \index{read\-M\-M\-I\-O@{read\-M\-M\-I\-O}!Framebuffer@{Framebuffer}}
@@ -538,9 +541,9 @@ T\-O\-D\-O\-D\-O\-C
 )}}\label{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}
 To omit illegible lines of code, a helper function that reads from memory mapped I\-O registers. 
 \begin{DoxyParams}{Parameters}
-{\em base} & T\-O\-D\-O\-D\-O\-C param desc \\
+{\em base} & Register base \\
 \hline
-{\em reg} & T\-O\-D\-O\-D\-O\-C \\
+{\em reg} & M\-M\-I\-O register to read \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}{\index{Framebuffer@{Framebuffer}!screen\-Clear@{screen\-Clear}}
@@ -552,7 +555,7 @@ To omit illegible lines of code, a helper function that reads from memory mapped
 )}}\label{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}
 Very heavy handed clearing of the screen to a single color. 
 \begin{DoxyParams}{Parameters}
-{\em color} & T\-O\-D\-O\-D\-O\-C \\
+{\em color} & \\
 \hline
 \end{DoxyParams}
 \hypertarget{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}{\index{Framebuffer@{Framebuffer}!screen\-Init@{screen\-Init}}
@@ -562,7 +565,10 @@ Very heavy handed clearing of the screen to a single color.
 {}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}
-Calls \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuffer\-Init()} several times to ensure we successfully initialize, just in case. \hypertarget{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{\index{Framebuffer@{Framebuffer}!sine\-\_\-taylor@{sine\-\_\-taylor}}
+Calls \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuffer\-Init()} several times to ensure we successfully initialize, just in case. \begin{DoxyReturn}{Returns}
+Void upon completion. 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{\index{Framebuffer@{Framebuffer}!sine\-\_\-taylor@{sine\-\_\-taylor}}
 \index{sine\-\_\-taylor@{sine\-\_\-taylor}!Framebuffer@{Framebuffer}}
 \subsubsection[{sine\-\_\-taylor}]{\setlength{\rightskip}{0pt plus 5cm}double sine\-\_\-taylor (
 \begin{DoxyParamCaption}
@@ -570,15 +576,15 @@ Calls \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuf
 \item[{int}]{terms}
 \end{DoxyParamCaption}
 )}}\label{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}
-T\-O\-D\-O\-D\-O\-C 
+Compute the Taylor series approximation of sine 
 \begin{DoxyParams}{Parameters}
-{\em x} & T\-O\-D\-O\-D\-O\-C \\
+{\em x} & Base value \\
 \hline
-{\em terms} & \\
+{\em terms} & Terms of the sum \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+Double-\/precision result of the sine approximation 
 \end{DoxyReturn}
 \hypertarget{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}{\index{Framebuffer@{Framebuffer}!write\-M\-M\-I\-O@{write\-M\-M\-I\-O}}
 \index{write\-M\-M\-I\-O@{write\-M\-M\-I\-O}!Framebuffer@{Framebuffer}}
@@ -591,10 +597,10 @@ T\-O\-D\-O\-D\-O\-C
 )}}\label{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}
 The opposite of above. Write to M\-M\-I\-O. 
 \begin{DoxyParams}{Parameters}
-{\em base} & T\-O\-D\-O\-D\-C \\
+{\em base} & Register base \\
 \hline
-{\em reg} & \\
+{\em reg} & M\-M\-I\-O register to write to \\
 \hline
-{\em val} & \\
+{\em val} & Value to be written \\
 \hline
 \end{DoxyParams}

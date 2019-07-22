@@ -35,7 +35,7 @@ usb\-\_\-status\-\_\-t \hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e6
 
 
 \subsection{Detailed Description}
-Platform-\/dependent code to actually send and receive data over the U\-S\-B. T\-O\-D\-O\-D\-O\-C.
+Platform-\/dependent code to actually send and receive data over the U\-S\-B. U\-S\-B Host Controller Driver specifies protocols for U\-S\-B transfers.
 
 This is a U\-S\-B Host Controller Driver (H\-C\-D) that interfaces with the Synopsys Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller, henceforth abbreviated as \char`\"{}\-D\-W\-C\char`\"{}. This is the U\-S\-B Host Controller used on the B\-C\-M2835 So\-C used on the Raspberry Pi.
 
@@ -68,7 +68,7 @@ Internal transfer status codes used to simplify interrupt handling.
 \end{DoxyParamCaption}
 )}}\label{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}
 Implementation of \hyperlink{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{hcd\-\_\-start()} for the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. See usb\-\_\-hcdi.\-h for the documentation of this interface of the Host Controller Driver. \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C 
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on successful intitialization of the H\-C\-D; otherwise, return \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E\-\_\-\-E\-R\-R\-O\-R or \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y 
 \end{DoxyReturn}
 \hypertarget{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}!hcd\-\_\-stop@{hcd\-\_\-stop}}
 \index{hcd\-\_\-stop@{hcd\-\_\-stop}!USB Host Controller Driver@{U\-S\-B Host Controller Driver}}
@@ -85,7 +85,7 @@ Implementation of \hyperlink{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{h
 \end{DoxyParamCaption}
 )}}\label{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}
 Implementation of \hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request()} for the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. See usb\-\_\-hcdi.\-h for the documentation of this interface of the Host Controller Driver. \begin{DoxyReturn}{Returns}
-T\-O\-D\-O\-D\-O\-C
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S after successful sending of mailbox message, \-::\-S\-Y\-S\-E\-R\-R if failure within \hyperlink{group__mailbox_gab65abe313a4976eab021cd99258ff7e7}{mailbox\-Send()}
 \end{DoxyReturn}
 This Host Controller Driver implements this interface asynchronously, as intended. Furthermore, it uses a simplistic scheduling algorithm where it places transfer requests into a single queue and executes them in the order they were submitted. Transfers that need to be retried, including periodic transfers that receive a N\-A\-K reply and split transactions that receive a N\-Y\-E\-T reply when doing the Complete Split transaction, are scheduled to be retried at an appropriate time by separate code that shortcuts the main queue when the timer expires.
 

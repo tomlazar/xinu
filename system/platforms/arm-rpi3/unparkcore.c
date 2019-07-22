@@ -14,8 +14,6 @@ extern void CoreSetup(void) __attribute__((naked));
 typedef void (*fn)(void);
 extern void sev(void);
 
-void printcpsr(void);
-
 /* array for holding the address of the starting point for each core */
 void *corestart[4];
 
@@ -28,10 +26,11 @@ void *init_args[4];
 /**
  * @ingroup bcm2837
  *
- * TODODOC description
- * @param num		TODODOC
- * @param procaddr	
- * @param args		
+ * Send an event to a processor core, "unparking" it from the waiting state it starts into. This is done by loading a function into its mailbox. Note: this operation need only be completed once upon initialization, then it can context switch. See initialize.c for usage.
+ *
+ * @param num		Number of core to unpark
+ * @param procaddr	Address of the thread to begin
+ * @param args		Arguments to pass
  */
 void unparkcore(int num, void *procaddr, void *args) {
 	udelay(5);
@@ -40,8 +39,6 @@ void unparkcore(int num, void *procaddr, void *args) {
 		corestart[num] = (void *) procaddr;
 		init_args[num] = args;
 		sev();	// send event
-				// this takes the core out of its sleeping state and allows it to
-				// start running code
 		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = CoreSetup;
 	}
 }
@@ -49,7 +46,7 @@ void unparkcore(int num, void *procaddr, void *args) {
 /**
  * @ingroup bcm2837
  *
- * TODODOC description
+ * Create a null thread (for testing purposes -> should be taken out)
  */
 void createnullthread(void)
 {
@@ -58,28 +55,11 @@ void createnullthread(void)
 
 
 	/* enable interrupts */
-//	enable();
+//XXX	enable();
 
 	while(TRUE) 
 	{
 		kprintf("CORE %d IS RUNNING\r\n", cpuid);
 		udelay(250);
 	}
-}
-
-/**
- * @ingroup bcm2837
- *
- * TODODOC description
- */
-void printcpsr(void){
-	uint mode;
-	int i;
-	mode = getmode();
-
-	kprintf("Printing out CPSR:\r\n");
-	// print out bits of cpsr
-	for (i = 31; i >= 0; i--)
-		kprintf("%d", (mode >> i) & 1);
-
 }

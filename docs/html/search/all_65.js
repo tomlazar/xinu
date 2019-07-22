@@ -32,6 +32,5 @@ var searchData=
   ['ethloopread',['ethloopRead',['../group__ethloop.html#ga0f1d4566b0a867a5980752ab97249274',1,'ethloopRead.c']]],
   ['ethloopread_2ec',['ethloopRead.c',['../ethloopRead_8c.html',1,'']]],
   ['ethloopwrite',['ethloopWrite',['../group__ethloop.html#ga6a57120dafe68d0d0c2e97572bb5759c',1,'ethloopWrite.c']]],
-  ['ethloopwrite_2ec',['ethloopWrite.c',['../ethloopWrite_8c.html',1,'']]],
-  ['embedded_20xinu',['Embedded Xinu',['../md__users_home_pmcgee6_raxinu_19_ra_xinu_README.html',1,'']]]
+  ['ethloopwrite_2ec',['ethloopWrite.c',['../ethloopWrite_8c.html',1,'']]]
 ];

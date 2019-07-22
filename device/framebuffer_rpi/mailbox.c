@@ -29,7 +29,7 @@ ulong mailboxRead() {
  * @ingroup framebuffer
  *
  * Write to GPU mailbox. 
- * @param data	TODODOC param desc.
+ * @param data Data to write to the mailbox
  */
 void mailboxWrite(ulong data) {
 	ulong toWrite = MAILBOX_CHANNEL | (data & 0xFFFFFFF0);
@@ -43,8 +43,8 @@ void mailboxWrite(ulong data) {
  * 
  * To omit illegible lines of code, a helper function that reads from
  * memory mapped IO registers. 
- * @param base	TODODOC param desc
- * @param reg	TODODOC
+ * @param base	Register base
+ * @param reg	MMIO register to read
  */
 ulong readMMIO(ulong base, ulong reg)
 {
@@ -59,9 +59,9 @@ ulong readMMIO(ulong base, ulong reg)
  * @ingroup framebuffer
  * 
  * The opposite of above. Write to MMIO. 
- * @param base	TODODC
- * @param reg	
- * @param val	
+ * @param base	Register base
+ * @param reg	MMIO register to write to
+ * @param val	Value to be written
  */
 void writeMMIO(ulong base, ulong reg, ulong val)
 {
@@ -76,7 +76,7 @@ void writeMMIO(ulong base, ulong reg, ulong val)
  * Converts ARM physical addresses to ARM bus addresses.
  * Separate function for legibility's sake.
  * Rev 1 board GPU required bus addresses. Now deprecated. 
- * @param address	TODODOC
+ * @param address	Physical address to convert
  */
 ulong physToBus(void *address) {
 	return ((ulong)address) + 0xC0000000;

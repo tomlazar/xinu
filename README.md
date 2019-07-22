@@ -1,9 +1,8 @@
-@mainpage <!-- Main page tag for Doxygen to use as its main page upon generation -->
 # Embedded Xinu
 
-Embedded Xinu, Copyright (C) 2008, 2009, 2010.  All rights reserved.
+Embedded Xinu, Copyright (C) 2008, 2009, 2010, 2019.  All rights reserved.
 
-Version: 2.01
+Version: 3.01
 
 1.  What is Embedded Xinu?
 2.  Directory Structure

@@ -38,7 +38,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -168,13 +167,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Make a mailbox call. Returns SYSERR on failure, non-zero on success </p>
+<p>Make a mailbox call. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ch</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">ch</td><td>Mailbox channel </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>::SYSERR on failure, non-zero on success </dd></dl>
 
 </div>
 </div>
@@ -191,14 +191,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>TODODOC </p>
+<p>Compute the cosine using the Taylor approximation as a helper function </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">x</td><td>Angle, in degrees </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Double-precision result of the computation </dd></dl>
 
 </div>
 </div>
@@ -225,14 +225,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>TODODOC  x TODODOC </p>
+<p>Compute the Taylor series approximation of cosine using power and factorial  x Base value </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">terms</td><td></td></tr>
+    <tr><td class="paramname">terms</td><td>Terms of the sum </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Double-precision result of the cosine approximation </dd></dl>
 
 </div>
 </div>
@@ -599,14 +599,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>TODODOC </p>
+<p>Compute the factorial of an integer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">num</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">num</td><td>Integer to compute factorial operation on </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Long integer result of the factorial operation </dd></dl>
 
 </div>
 </div>
@@ -936,7 +936,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Draws a filled in ractangle TODODOC better description </p>
+<p>Draws a filled-in ractangle, given coordinates and colorization options </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x1</td><td>upper left hand corner x-coordinate </td></tr>
@@ -963,8 +963,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. </p>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC what returns when </dd></dl>
+<p>Initializes the framebuffer used by the GPU via the framebuffer mailbox. </p>
+<dl class="section return"><dt>Returns</dt><dd>::OK on success; ::SYSERR on failure. </dd></dl>
 
 </div>
 </div>
@@ -1016,7 +1016,7 @@ Functions</h2></td></tr>
 <p>Write to GPU mailbox. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>TODODOC param desc. </td></tr>
+    <tr><td class="paramname">data</td><td>Data to write to the mailbox </td></tr>
   </table>
   </dd>
 </dl>
@@ -1039,7 +1039,7 @@ Functions</h2></td></tr>
 <p>Clear the minishell window </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">color</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">color</td><td>Color to paint the window upon clear </td></tr>
   </table>
   </dd>
 </dl>
@@ -1062,7 +1062,7 @@ Functions</h2></td></tr>
 <p>Converts ARM physical addresses to ARM bus addresses. Separate function for legibility's sake. Rev 1 board GPU required bus addresses. Now deprecated. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">address</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">address</td><td>Physical address to convert </td></tr>
   </table>
   </dd>
 </dl>
@@ -1092,15 +1092,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>TODODOC description </p>
+<p>Compute the double-precision result of a power operation </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">base</td><td>TODODOC </td></tr>
-    <tr><td class="paramname">exp</td><td></td></tr>
+    <tr><td class="paramname">base</td><td>Double-precision base value of operation </td></tr>
+    <tr><td class="paramname">exp</td><td>Integer exponent to which the base is raised </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Double-precision result of the power operation </dd></dl>
 
 </div>
 </div>
@@ -1130,8 +1130,8 @@ Functions</h2></td></tr>
 <p>To omit illegible lines of code, a helper function that reads from memory mapped IO registers. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">base</td><td>TODODOC param desc </td></tr>
-    <tr><td class="paramname">reg</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">base</td><td>Register base </td></tr>
+    <tr><td class="paramname">reg</td><td>MMIO register to read </td></tr>
   </table>
   </dd>
 </dl>
@@ -1154,7 +1154,7 @@ Functions</h2></td></tr>
 <p>Very heavy handed clearing of the screen to a single color. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">color</td><td>TODODOC </td></tr>
+    <tr><td class="paramname">color</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -1174,6 +1174,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Calls <a class="el" href="group__framebuffer.html#ga56ef48c620ce51763b69d07f912aa73b">framebufferInit()</a> several times to ensure we successfully initialize, just in case. </p>
+<dl class="section return"><dt>Returns</dt><dd>Void upon completion. </dd></dl>
 
 </div>
 </div>
@@ -1200,15 +1201,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>TODODOC </p>
+<p>Compute the Taylor series approximation of sine </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>TODODOC </td></tr>
-    <tr><td class="paramname">terms</td><td></td></tr>
+    <tr><td class="paramname">x</td><td>Base value </td></tr>
+    <tr><td class="paramname">terms</td><td>Terms of the sum </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TODODOC </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Double-precision result of the sine approximation </dd></dl>
 
 </div>
 </div>
@@ -1244,9 +1245,9 @@ Functions</h2></td></tr>
 <p>The opposite of above. Write to MMIO. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">base</td><td>TODODC </td></tr>
-    <tr><td class="paramname">reg</td><td></td></tr>
-    <tr><td class="paramname">val</td><td></td></tr>
+    <tr><td class="paramname">base</td><td>Register base </td></tr>
+    <tr><td class="paramname">reg</td><td>MMIO register to write to </td></tr>
+    <tr><td class="paramname">val</td><td>Value to be written </td></tr>
   </table>
   </dd>
 </dl>
