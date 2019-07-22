@@ -33,11 +33,11 @@ int testmain(int argc, char **argv)
 {
 	uint cpuid = getcpuid();
 	int i = 0;
-	kprintf("\r\n********=======********\r\n");
-
+	printf("\r\n********=======********\r\n");
+	resched();
 	for (i = 0; i < 10; i++)
 	{
-		kprintf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
+		printf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
 		//resched();
@@ -83,29 +83,28 @@ shellcmd xsh_test(int nargs, char *args[])
 {
 	int c, pid;
 
-	kprintf("0) Test creation of one process\r\n");
-	kprintf("1) Test passing of many args\r\n");
-	kprintf("2) Create three processes and run them\r\n");
-	kprintf("3) Create three processes and run them on other cores\r\n");
+	printf("0) Test creation of one process\r\n");
+	printf("1) Test passing of many args\r\n");
+	printf("2) Create three processes and run them\r\n");
+	printf("3) Create three processes and run them on other cores\r\n");
+	printf("4) Priority scheduling on one core\r\n");
 
-	kprintf("===TEST BEGIN===\r\n");
+	printf("===TEST BEGIN===\r\n");
 
 	// TODO: Test your operating system!
 
-	device *devptr;
-	devptr = (device *)&devtab[SERIAL0];
-	c = kgetc(devptr);
+	c = getc(CONSOLE);
 	switch (c)
 	{
 		case '0':
 			// Process creation testcase
-			pid = create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL);
+			pid = create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL);
 			printpcb(pid);
 			break;
 
 		case '1':
 			// Many arguments testcase
-			//pid = create((void *)testbigargs, INITSTK, "MAIN1", 8,
+			//pid = create((void *)testbigargs, INITSTK, 2, "MAIN1", 8,
 			//             0x11111111, 0x22222222, 0x33333333, 0x44444444,
 			//             0x55555555, 0x66666666, 0x77777777, 0x88888888);
 			printpcb(pid);
@@ -115,18 +114,30 @@ shellcmd xsh_test(int nargs, char *args[])
 
 		case '2':
 			// Create three copies of a process, and let them play.
-			ready(create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL), RESCHED_NO , 0);
-			ready(create((void *)testmain, INITSTK, "MAIN2", 2, 0, NULL), RESCHED_NO , 0);
-			ready(create((void *)testmain, INITSTK, "MAIN3", 2, 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_YES, 0);
 			break;
 
 		case '3':
 			// Create 3 processes and ready them on cores 1, 2, 3
-			ready(create((void *)testmain, INITSTK, "MAIN1", 2, 0, NULL), RESCHED_NO, 1);
-			ready(create((void *)testmain, INITSTK, "MAIN2", 2, 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO, 2);
 			//break;
-			ready(create((void *)testmain, INITSTK, "MAIN3", 2, 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
 			break;
+		case '4':
+			//priority scheduling on single core
+			ready(create((void *)testmain, INITSTK, 1, "MAIN A", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN B", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 1);
+			break;
+		case '5':
+			ready(create((void *)testmain, INITSTK, 2, "MAIN A", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 1, "MAIN B", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN C", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 1, "MAIN D", 0, NULL), RESCHED_NO, 1);
 		default:
 			break;
 	}

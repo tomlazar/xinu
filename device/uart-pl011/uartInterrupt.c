@@ -73,9 +73,11 @@ interrupt uartInterrupt(void)
 				do
 				{
 					regptr->dr = uartptr->out[uartptr->ostart];
+					mutex_acquire(uartptr->olock);
 					uartptr->ostart = (uartptr->ostart + 1) % UART_OBLEN;
 					uartptr->ocount--;
 					count++;
+					mutex_release(uartptr->olock);
 				} while (!(regptr->fr & PL011_FR_TXFF) && (uartptr->ocount > 0));
 
 				/* One or more bytes were successfully removed from the output
@@ -116,10 +118,12 @@ interrupt uartInterrupt(void)
 				{
 					/* There is space for the byte in the input buffer, so add
 					 * it and tally one character received.  */
+					mutex_acquire(uartptr->olock);
 					uartptr->in[(uartptr->istart +
 							uartptr->icount) % UART_IBLEN] = c;
 					uartptr->icount++;
 					count++;
+					mutex_release(uartptr->olock);
 				}
 				else
 				{

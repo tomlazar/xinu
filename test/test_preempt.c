@@ -37,6 +37,14 @@ thread test_preempt(bool verbose)
     /* If this next line runs, we're good */
     kill(thrspin);
 
+    /* test on other cores one at a time */
+    ready(thrspin, RESCHED_YES, CORE_ONE);
+    kill(thrspin);
+    ready(thrspin, RESCHED_YES, CORE_TWO);
+    kill(thrspin);
+    ready(thrspin, RESCHED_YES, CORE_THREE);
+    kill(thrspin);
+
     /* always print out the overall tests status */
     if (passed)
     {
