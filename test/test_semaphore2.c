@@ -83,14 +83,85 @@ thread test_semaphore2(bool verbose)
         && test_checkProcState(dtid, THRWAIT)
         && test_checkSemCount(s, -3) && test_checkResult(testResult, 1))
     {
-		testPass(verbose, "");
+		testPass(verbose, "A 1");
 		signal(s);
+		testPrint(verbose, "Signal second semaphore: ");
 		if (test_checkProcState(ctid, THRFREE)
 			&& test_checkProcState(btid, THRWAIT)
 			&& test_checkProcState(dtid, THRWAIT)
 			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
 		{
-			testPass(verbose, "");
+			testPass(verbose, "C 2");
+			signal(s);
+			testPrint(verbose, "Signal third semaphore: ");
+			if (test_checkProcState(btid, THRFREE)
+				&& test_checkProcState(dtid, THRWAIT)
+				&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "B 3");
+				signal(s);
+				testPrint(verbose, "Signal fourth semaphore: ");
+				if (test_checkProcState(dtid, THRFREE)
+					&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+				{
+					testPass(verbose, "D 4"); /* runs A, C, B, D */
+				}	
+				else
+				{
+					passed = FALSE;
+				}
+			}
+			else if (test_checkProcState(dtid, THRFREE)
+				&& test_checkProcState(btid, THRWAIT)
+				&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "D 3");
+				signal(s);
+				testPrint(verbose, "Signal fourth semaphore: ");
+				if (test_checkProcState(btid, THRFREE)
+					&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+				{
+					testPass(verbose, "B 4"); /* runs A, C, D, B */
+				}
+				else
+				{
+					passed = FALSE;
+				}
+			}
+			else
+			{
+				passed = FALSE;
+			}
+		}
+		else if (test_checkProcState(btid, THRFREE)
+			&& test_checkProcState(ctid, THRWAIT)
+			&& test_checkProcState(dtid, THRWAIT)
+			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
+		{
+			testPass(verbose, "B 2");
+			signal(s);
+			testPrint(verbose, "Signal third semaphore: ");
+			if (test_checkProcState(ctid, THRFREE)
+			&& test_checkProcState(dtid, THRWAIT)
+			&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "C 3");
+			}
+			else 
+			{
+				passed = FALSE;
+			}
+			signal(s);
+			testPrint(verbose, "Signal fourth semaphore: ");
+			if (test_checkProcState(dtid, THRFREE)
+				&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+			{
+				testPass(verbose, "D 4"); /* runs A, B, C, D */
+			}
+			else
+			{
+				passed = FALSE;
+			}
 		}
 		else
 		{
@@ -103,55 +174,85 @@ thread test_semaphore2(bool verbose)
         && test_checkProcState(dtid, THRWAIT)
         && test_checkSemCount(s, -3) && test_checkResult(testResult, 1))
     {
-		testPass(verbose, "");
+		testPass(verbose, "C 1");
 		signal(s);
+		testPrint(verbose, "Signal second semaphore: ");
 		if (test_checkProcState(atid, THRFREE)
 			&& test_checkProcState(btid, THRWAIT)
 			&& test_checkProcState(dtid, THRWAIT)
 			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
 		{
-			testPass(verbose, "");
+			testPass(verbose, "A 2");
+			signal(s);
+			testPrint(verbose, "Signal third semaphore: ");
+			if (test_checkProcState(btid, THRFREE)
+				&& test_checkProcState(dtid, THRWAIT)
+				&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "B 3");
+				signal(s);
+				testPrint(verbose, "Signal fourth semaphore: ");
+				if (test_checkProcState(dtid, THRFREE)
+					&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+				{
+					testPass(verbose, "D 4"); /* runs C, A, B, D */
+				}	
+				else
+				{
+					passed = FALSE;
+				}
+			}
+			else if (test_checkProcState(dtid, THRFREE)
+				&& test_checkProcState(btid, THRWAIT)
+				&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "D 3");
+				signal(s);
+				testPrint(verbose, "Signal fourth semaphore: ");
+				if (test_checkProcState(btid, THRFREE)
+					&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+				{
+					testPass(verbose, "B 4"); /* runs C, A, D, B */
+				}
+				else
+				{
+					passed = FALSE;
+				}
+			}
+			else
+			{
+				passed = FALSE;
+			}
 		}
-		else
+		else if (test_checkProcState(dtid, THRFREE)
+			&& test_checkProcState(atid, THRWAIT)
+			&& test_checkProcState(btid, THRWAIT)
+			&& test_checkSemCount(s, -2) && test_checkResult(testResult, 2))
 		{
-			passed = FALSE;
-		}
-    }
-    else
-    {
-        passed = FALSE;
-    }
-
-    signal(s);
-
-    /* Process B and D waited next, so another signal should release one then the other. */
-    testPrint(verbose, "Signal second semaphore: ");
-    if (test_checkProcState(btid, THRFREE)
-		&& test_checkProcState(dtid, THRWAIT)
-        && test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
-    {
-        testPass(verbose, "");
-		signal(s);
-		if (test_checkProcState(dtid, THRFREE)
-			&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
-		{
-			testPass(verbose, "");
-		}
-		else
-		{
-			passed = FALSE;
-		}
-    }
-    else if (test_checkProcState(dtid, THRFREE)
-		&& test_checkProcState(btid, THRWAIT)
-        && test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
-    {
-        testPass(verbose, "");
-		signal(s);
-		if (test_checkProcState(btid, THRFREE)
-			&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
-		{
-			testPass(verbose, "");
+			testPass(verbose, "D 2");
+			signal(s);
+			testPrint(verbose, "Signal third semaphore: ");
+			if (test_checkProcState(atid, THRFREE)
+			&& test_checkProcState(btid, THRWAIT)
+			&& test_checkSemCount(s, -1) && test_checkResult(testResult, 3))
+			{
+				testPass(verbose, "A 3");
+			}
+			else 
+			{
+				passed = FALSE;
+			}
+			signal(s);
+			testPrint(verbose, "Signal fourth semaphore: ");
+			if (test_checkProcState(btid, THRFREE)
+				&& test_checkSemCount(s, 0) && test_checkResult(testResult, 4))
+			{
+				testPass(verbose, "B 4"); /* runs C, D, A, B */
+			}
+			else
+			{
+				passed = FALSE;
+			}
 		}
 		else
 		{
