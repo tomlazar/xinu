@@ -81,7 +81,7 @@ lan7800_bind_device(struct usb_device *udev)
 	udev->last_error = USB_STATUS_SUCCESS;
 
 	/* Set MAC address within ethernet struct */
-	lan7800_set_mac_address(udev, ethptr->devAddress);
+//	lan7800_set_mac_address(udev, ethptr->devAddress);
 
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
@@ -142,7 +142,7 @@ static void
 getEthAddr(uint8_t *addr)
 {
 	/* Initialize and clear the mailbox buffer */
-	uint32_t mailbuffer[MBOX_BUFLEN];
+	uint32_t mailbuffer[MBOX_BUFLEN / 4];
 	bzero(mailbuffer, 1024);
 
 	/* Fill the mailbox buffer with the MAC address.
@@ -186,7 +186,7 @@ getEthAddr(uint8_t *addr)
 	 * array @param addr does not contain the MAC address, but rather: 2:0:0:0:0:0. 
 	 * When kprintf is called here, then the MAC address is set successfully. */
 	ushort j;
-	for(j = 0; j < 6; j++)
+	for(j = 0; j < 25; j++)
 		kprintf("");
 }
 
@@ -241,6 +241,8 @@ devcall etherInit(device *devptr)
 	{
 		goto err_free_isema;
 	}
+
+	kprintf("in etherInit(): before getEthAddr()\r\n");
 	
 	/* Get the MAC address and store it into a global array called addr.. */
 	getEthAddr(ethptr->devAddress);

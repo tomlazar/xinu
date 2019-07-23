@@ -998,7 +998,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
          * destination is not word-aligned.  If the attempted transfer size
          * overflows this alternate buffer, cap it to the greatest number of
          * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan];
+        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
+/*
         if (transfer.size > sizeof(aligned_bufs[chan]))
         {
             transfer.size = sizeof(aligned_bufs[chan]) -
@@ -1006,10 +1007,12 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
                               characteristics.max_packet_size);
             req->short_attempt = 1;
         }
+*/
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
             memcpy(aligned_bufs[chan], data, transfer.size);
+  			_inval_area(aligned_bufs[chan]);
         }
     }
 
@@ -1253,6 +1256,7 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 //            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
 			if (1)
             {
+  				_inval_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
                 memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],

@@ -77,6 +77,13 @@ devcall etherOpen(device *devptr)
 	 * occurred.  */
 	udev->last_error = USB_STATUS_SUCCESS;
 
+	kprintf("ethptr->devAddress: ");
+	for (int i = 0; i < 5; i++)
+	{
+		kprintf("0x%02X ", ethptr->devAddress[i]);
+	}
+	kprintf("\r\n");
+
 	retval = lan7800_init(udev, &ethptr->devAddress[0]);
 	if (retval < 0) goto out_free_in_pool;
 

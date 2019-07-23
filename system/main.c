@@ -37,17 +37,20 @@ thread main(void)
 #if NETHER
 		struct ether *ethptr;
 		ushort i;
+		int result;
 		for (i = 0; i < NETHER; i++)
 		{
 			ethptr = &ethertab[ethertab[i].dev->minor];
-			if (SYSERR == open(ethertab[i].dev->num))
+			result = open(ethertab[i].dev->num);
+			kprintf("result = %d\r\n", result);
+			if (SYSERR == result)
 			{
 				kprintf("[\t\033[1;31mFAILED\033[0;39m\t]\tFailed to open device %s\r\n",
 						ethertab[i].dev->name);
 			}
 			else if(ETH_STATE_UP == ethptr->state)
 			{
-				printf("[\t\033[1;32mOK\033[0;39m\t]\tOpened device %s\r\n",
+				kprintf("[\t\033[1;32mOK\033[0;39m\t]\tOpened device %s\r\n",
 						ethertab[i].dev->name);
 			}
 		}
