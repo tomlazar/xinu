@@ -36,7 +36,7 @@ void lan7800_tx_complete(struct usb_xfer_request *req)
 	struct ether *ethptr = req->private;
 
 	ethptr->txirq++;
-	usb_dev_debug(req->dev, "LAN7800: Tx complete\n");
+	usb_dev_debug(req->dev, "\r\n\nLAN7800: Tx complete\n");
 	buffree(req);
 }
 
@@ -61,7 +61,7 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 {
 	struct ether *ethptr = req->private;
 
-	usb_dev_debug(req->dev, "LAN7800: Rx complete\n");
+	usb_dev_debug(req->dev, "\r\n\nLAN7800: Rx complete\n");
 	ethptr->rxirq++;
 	if (req->status == USB_STATUS_SUCCESS)
 	{
@@ -127,7 +127,7 @@ void lan7800_rx_complete(struct usb_xfer_request *req)
 	else
 	{
 		/* USB transfer failed for some reason.  */
-		usb_dev_debug(req->dev, "LAN78XX: USB Rx transfer failed\n");
+		usb_dev_debug(req->dev, "\r\n\nLAN78XX: USB Rx transfer failed\n");
 		ethptr->errors++;
 	}
 	usb_dev_debug(req->dev, "LAN78XX: Re-submitting USB Rx request\n");

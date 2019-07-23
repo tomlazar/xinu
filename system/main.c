@@ -42,7 +42,7 @@ thread main(void)
 		{
 			ethptr = &ethertab[ethertab[i].dev->minor];
 			result = open(ethertab[i].dev->num);
-			kprintf("result = %d\r\n", result);
+			kprintf("[main.c] Result of open = %d\r\n", result);
 			if (SYSERR == result)
 			{
 				kprintf("[\t\033[1;31mFAILED\033[0;39m\t]\tFailed to open device %s\r\n",

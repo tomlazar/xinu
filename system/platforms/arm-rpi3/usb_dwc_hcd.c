@@ -78,6 +78,7 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
+#include "mmu.h"
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -1012,7 +1013,10 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
             memcpy(aligned_bufs[chan], data, transfer.size);
-  			_inval_area(aligned_bufs[chan]);
+		    //kprintf("\r\n\n1 -->BEFORE first invalidation... Attached = %d\r\n=====================================\r\n", lan7800_isattached);
+  		if(!lan7800_isattached){	
+	    	    _inval_area(aligned_bufs[chan]);
+		}
         }
     }
 
@@ -1256,7 +1260,10 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 //            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
 			if (1)
             {
-  				_inval_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
+		    //kprintf("\r\n\n2 -->BEFORE second invalidation... Attached = %d\r\n=====================================\r\n", lan7800_isattached);
+  		if(!lan7800_isattached){
+			_inval_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
+		}
                 memcpy(req->cur_data_ptr,
                        &aligned_bufs[chan][req->attempted_size -
                                            req->attempted_bytes_remaining],

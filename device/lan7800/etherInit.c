@@ -20,6 +20,9 @@
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 #include <string.h>
 #include <kernel.h>
+#include "../system/platforms/arm-rpi3/bcm2837.h"
+
+bool lan7800_isattached = 0;
 
 /* Global table of Ethernet devices. */
 struct ether ethertab[NETHER];
@@ -148,13 +151,25 @@ getEthAddr(uint8_t *addr)
 	/* Fill the mailbox buffer with the MAC address.
 	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */
 	get_mac_mailbox(mailbuffer);
+	kprintf("\r\nGETETHADDR: mailbuffer val: %d\r\n", mailbuffer);
+
+	uint readbuf = bcm2837_mailbox_read(8);
+	kprintf("\r\nGETETHADDR: Read-back val: %d\r\n", readbuf);
 
 	ushort i;
 	for (i = 0; i < 2; ++i) {
 
 		/* Access the MAC value within the buffer */
+		/* mailbuffer[2 + 3 + i] */
 		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
+		//uint32_t value = (uint32_t) readbuf; Manually setting this to be the same as the "get mac mbox" value makes the MAC get set. But does not fix shell hang. Problem must be something else.
 
+		kprintf("\r\nValue: %d", value);
+		kprintf("\r\nPrinting low mac values:\r\n");
+		kprintf("%X ", (value >> 0)  & 0xff);
+		kprintf("%X ", (value >> 8)  & 0xff);
+		kprintf("%X ", (value >> 16)  & 0xff);
+		kprintf("%X", (value >> 24)  & 0xff);
 		/* Store the low MAC values */
 		if(i == 0){
 			addr[0] = (value >> 0)  & 0xff;
@@ -163,6 +178,9 @@ getEthAddr(uint8_t *addr)
 			addr[3] = (value >> 24) & 0xff;
 		}
 
+		kprintf("\r\nPrinting high mac values:\r\n");
+		kprintf("%d ", (value >> 0)  & 0xff);
+		kprintf("%d", (value >> 8)  & 0xff);
 		/* Store the remaining high MAC values */
 		if(i == 1){
 			addr[4] = (value >> 0)  & 0xff;
@@ -171,8 +189,8 @@ getEthAddr(uint8_t *addr)
 	}
 
 	/* Clear multicast bit and set locally assigned bit */
-//	addr[0] &= 0xFE;
-//	addr[0] |= 0x02;
+	//addr[0] &= 0xFE;
+	//addr[0] |= 0x02;
 
 	/* TODO: Figure out why this function fails if kprintf is not called here.
 	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 
@@ -186,7 +204,7 @@ getEthAddr(uint8_t *addr)
 	 * array @param addr does not contain the MAC address, but rather: 2:0:0:0:0:0. 
 	 * When kprintf is called here, then the MAC address is set successfully. */
 	ushort j;
-	for(j = 0; j < 25; j++)
+	for(j = 0; j < 6; j++)
 		kprintf("");
 }
 
@@ -204,6 +222,7 @@ lan7800_wait_device_attached(ushort minor)
 {
 	wait(lan7800_attached[minor]);
 	signal(lan7800_attached[minor]);
+	lan7800_isattached = 1;
 	return USB_STATUS_SUCCESS;
 }
 
