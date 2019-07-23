@@ -45,3 +45,32 @@ syscall dma_buf_init()
 
 	return OK;
 }
+
+static void *_geti(struct two_dim_array *this, int i)
+{
+	return (void *)(this->base + (i * this->sizei));
+}
+
+static void *_geto(struct two_dim_array *this, int i, int j)
+{
+	return (void *)(this->base + (i * this->sizei) + j);
+}
+
+static void _seti(struct two_dim_array *this, int i, int val)
+{
+}
+
+static void _seto(struct two_dim_array *this, int i, int j, int val)
+{
+}
+
+syscall two_dim_array_init(struct two_dim_array *p, void *base, int sizei, int sizej)
+{
+	p->base = base;
+	p->sizei = sizei;
+	p->sizej = sizej;
+	p->geti = _geti;
+	p->geto = _geto;
+	p->seti = _seti;
+	p->seto = _seto;
+}
