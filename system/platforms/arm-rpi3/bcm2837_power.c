@@ -31,9 +31,7 @@ bcm2837_mailbox_read(uint channel)
     do
     {
         value = mailbox_regs[MAILBOX_READ];
-	//_inval_area(mailbox_regs[MAILBOX_READ]);
     } while ((value & MAILBOX_CHANNEL_MASK) != channel);
-    kprintf("\r\nMBOX READ RETURNING: %d\r\n", (value & ~MAILBOX_CHANNEL_MASK));
     return (value & ~MAILBOX_CHANNEL_MASK);
 }
 

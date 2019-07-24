@@ -83,9 +83,6 @@ lan7800_bind_device(struct usb_device *udev)
 	 * occurred. */
 	udev->last_error = USB_STATUS_SUCCESS;
 
-	/* Set MAC address within ethernet struct */
-//	lan7800_set_mac_address(udev, ethptr->devAddress);
-
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
 	{
@@ -135,48 +132,24 @@ static const struct usb_device_driver lan7800_driver = {
  * Get the Pi 3 B+'s MAC address using its ARM->VideoCore (VC) mailbox
  * and assign corresponding values to a global array containing the MAC. 
  * This array is then assigned to the devAddress member of the ether structure.
- * 
- * TODO:
- * There exists a quirk in which the address does not get set unless kprintf is
- * called at the very end of this function. This quirk is not one that udelay()
- * solved, thus, I am led to believe there is some sort of dependency on UART
- * communication here. */
+ */
 static void
 getEthAddr(uint8_t *addr)
 {
-	kprintf("\r\n[GetEthAddr] ...");
-	/* Initialize and clear the mailbox buffer */
-	uint32_t *mailbuffer; //[MBOX_BUFLEN / 4];
-	//bzero(mailbuffer, 1024);
-
-	mailbuffer = mbox_buf_alloc(MBOX_BUFLEN / 4);
+	/* Initialize the mailbox buffer */
+	uint32_t *mailbuffer;
+	mailbuffer = dma_buf_alloc(MBOX_BUFLEN / 4);
 
 	/* Fill the mailbox buffer with the MAC address.
 	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */
 	get_mac_mailbox(mailbuffer);
-	kprintf("\r\nGETETHADDR: mailbuffer val: %d\r\n", mailbuffer);
-/*
-	uint readbuf = bcm2837_mailbox_read(8);
-	kprintf("\r\nGETETHADDR: Read-back val: %d\r\n", readbuf);
-
-	if(readbuf != realmacbuf){
-		getEthAddr(addr);
-	}*/
 
 	ushort i;
 	for (i = 0; i < 2; ++i) {
 
 		/* Access the MAC value within the buffer */
-		/* mailbuffer[2 + 3 + i] */
 		uint32_t value = mailbuffer[MBOX_HEADER_LENGTH + TAG_HEADER_LENGTH + i];
-		//uint32_t value = (uint32_t) readbuf; Manually setting this to be the same as the "get mac mbox" value makes the MAC get set. But does not fix shell hang. Problem must be something else.
 
-		kprintf("\r\nValue: %d", value);
-		kprintf("\r\nPrinting low mac values:\r\n");
-		kprintf("%X ", (value >> 0)  & 0xff);
-		kprintf("%X ", (value >> 8)  & 0xff);
-		kprintf("%X ", (value >> 16)  & 0xff);
-		kprintf("%X", (value >> 24)  & 0xff);
 		/* Store the low MAC values */
 		if(i == 0){
 			addr[0] = (value >> 0)  & 0xff;
@@ -185,34 +158,12 @@ getEthAddr(uint8_t *addr)
 			addr[3] = (value >> 24) & 0xff;
 		}
 
-		kprintf("\r\nPrinting high mac values:\r\n");
-		kprintf("%d ", (value >> 0)  & 0xff);
-		kprintf("%d", (value >> 8)  & 0xff);
 		/* Store the remaining high MAC values */
 		if(i == 1){
 			addr[4] = (value >> 0)  & 0xff;
 			addr[5] = (value >> 8)  & 0xff;
 		}
 	}
-
-	/* Clear multicast bit and set locally assigned bit */
-	//addr[0] &= 0xFE;
-	//addr[0] |= 0x02;
-
-	/* TODO: Figure out why this function fails if kprintf is not called here.
-	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 
-	 * However, seems like a timing issue that a delay can fix because if this for
-	 * loop iterates less than five times, the bug appears.
-	 * I discovered this "fix" after noticing that the devAddress values were incorrect,
-	 * 2:0:0:0:0:0, after storing the addr into the devAddress,
-	 * as if the MAC address was never being loaded. So I printed them here to debug.
-	 * Go figure, the print statement seemed to fix it. I pinched myself, was not dreaming.
-	 * --Behavior--: if kprintf is not called here at least five times, then the global
-	 * array @param addr does not contain the MAC address, but rather: 2:0:0:0:0:0. 
-	 * When kprintf is called here, then the MAC address is set successfully. */
-	ushort j;
-	for(j = 0; j < 6; j++)
-		kprintf("");
 }
 
 /**
@@ -268,14 +219,8 @@ devcall etherInit(device *devptr)
 		goto err_free_isema;
 	}
 
-	kprintf("in etherInit(): before getEthAddr()\r\n");
-	
-	/* Get the MAC address and store it into a global array called addr.. */
+	/* Get the MAC address and store it into addr[] */
 	getEthAddr(ethptr->devAddress);
-
-	/* Copy the MAC address array into the devAddress member of the
-	 * Ether structure. */
-	//memcpy(ethptr->devAddress, addr, sizeof(addr));
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);

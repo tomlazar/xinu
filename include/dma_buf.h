@@ -32,11 +32,4 @@ syscall dma_buf_init(void);
 void *dma_buf_alloc(uint);
 syscall dma_buf_free(void *, uint);
 
-extern uint8_t mbox_buf_space[];
-
-/* Mailbox buffer function prototypes */
-syscall mbox_buf_init(void);
-void *mbox_buf_alloc(uint);
-syscall mbox_buf_free(void *, uint);
-
 #endif	/* _DMA_BUF_H_ */

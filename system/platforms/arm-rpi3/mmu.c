@@ -40,8 +40,5 @@ void mmu_init()
 	// make dma buffer area non-cacheable
 	mmu_section(dma_buf_space, dma_buf_space, 0x0);
 
-	// make mailbox buffer area non-cacheable
-	mmu_section(mbox_buf_space, mbox_buf_space, 0x0);
-
 	start_mmu(MMUTABLEBASE);
 }

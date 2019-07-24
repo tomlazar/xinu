@@ -9,11 +9,8 @@
 #define SECTION_SIZE	0x00100000
 
 static int freespace_idx = 0;
-static int mfreespace_idx = 0;
 static int remaining_space = SECTION_SIZE;
-static int mremaining_space = SECTION_SIZE;
 static mutex_t dma_buf_mutex;
-static mutex_t mbox_buf_mutex;
 
 uint8_t dma_buf_space[SECTION_SIZE] __aligned(SECTION_SIZE);
 
@@ -45,40 +42,6 @@ syscall dma_buf_init()
 	freespace_idx = 0;
 	remaining_space = SECTION_SIZE;
 	dma_buf_mutex = mutex_create();
-
-	return OK;
-}
-
-uint8_t mbox_buf_space[SECTION_SIZE] __aligned(SECTION_SIZE);
-
-void *mbox_buf_alloc(uint size)
-{
-	void *retval;
-	retval = (void *)(mbox_buf_space + mfreespace_idx);
-
-	mutex_acquire(mbox_buf_mutex);	
-	mfreespace_idx += size;
-	mremaining_space -= size;
-	mutex_release(mbox_buf_mutex);
-
-	return retval;
-}
-
-syscall mbox_buf_free(void *ptr, uint size)
-{
-	mutex_acquire(mbox_buf_mutex);
-	mfreespace_idx -= size;
-	mremaining_space += size;
-	mutex_release(mbox_buf_mutex);
-
-	return OK;
-}
-
-syscall mbox_buf_init()
-{
-	mfreespace_idx = 0;
-	mremaining_space = SECTION_SIZE;
-	mbox_buf_mutex = mutex_create();
 
 	return OK;
 }
