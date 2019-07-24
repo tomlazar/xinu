@@ -144,17 +144,24 @@ static const struct usb_device_driver lan7800_driver = {
 static void
 getEthAddr(uint8_t *addr)
 {
+	kprintf("\r\n[GetEthAddr] ...");
 	/* Initialize and clear the mailbox buffer */
-	uint32_t mailbuffer[MBOX_BUFLEN / 4];
-	bzero(mailbuffer, 1024);
+	uint32_t *mailbuffer; //[MBOX_BUFLEN / 4];
+	//bzero(mailbuffer, 1024);
+
+	mailbuffer = mbox_buf_alloc(MBOX_BUFLEN / 4);
 
 	/* Fill the mailbox buffer with the MAC address.
 	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */
 	get_mac_mailbox(mailbuffer);
 	kprintf("\r\nGETETHADDR: mailbuffer val: %d\r\n", mailbuffer);
-
+/*
 	uint readbuf = bcm2837_mailbox_read(8);
 	kprintf("\r\nGETETHADDR: Read-back val: %d\r\n", readbuf);
+
+	if(readbuf != realmacbuf){
+		getEthAddr(addr);
+	}*/
 
 	ushort i;
 	for (i = 0; i < 2; ++i) {

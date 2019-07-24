@@ -393,7 +393,7 @@ usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 
 	kprintf("\r\n\nMAC before setting: %d\r\n\n", macaddress);
 	/* Set the MAC address on the device. */
-	//lan7800_set_mac_address(udev, macaddress);
+	lan7800_set_mac_address(udev, macaddress);
 
 	/* Respond to the IN token with a NAK */
 	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);

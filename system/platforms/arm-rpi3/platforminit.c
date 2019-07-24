@@ -150,6 +150,9 @@ int platforminit(void)
 	/* Initialize dma buffer space */
 	dma_buf_init();
 
+	/* Initialize mailbox buffer space */
+	mbox_buf_init();
+	
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
 

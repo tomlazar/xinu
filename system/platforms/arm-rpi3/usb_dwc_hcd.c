@@ -1015,17 +1015,8 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         /* For OUT endpoints, copy the data to send into the DMA buffer.  */
         if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
         {
-//            memcpy(aligned_bufs[chan], data, transfer.size);
 		memcpy(aligned_bufs.geti(&aligned_bufs, chan), data, transfer.size);
-	//kprintf("\r\n\n1 -->BEFORE first invalidation... Attached = %d\r\n=====================================\r\n", lan7800_isattached);
-//  		if(!lan7800_isattached){	
-	    	//kprintf("before _inval_area OUT\r\n");
-	    		
-//	    	_inval_area(aligned_bufs[chan]);
-		_inval_area(aligned_bufs.geti(&aligned_bufs, chan));
-		//_flush_area(aligned_bufs[chan]);
-		//kprintf("after _inval_area OUT\r\n");
-//		}
+		//_inval_area(aligned_bufs.geti(&aligned_bufs, chan));
         }
     }
 
@@ -1269,23 +1260,10 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 //            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
 			if (1)
             {
-		    //kprintf("\r\n\n2 -->BEFORE second invalidation... Attached = %d\r\n=====================================\r\n", lan7800_isattached);
-		//kprintf("before _inval_area IN\r\n");
-//  		if(!lan7800_isattached){
-		  	//_inval_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
-			_inval_area(aligned_bufs.geto(&aligned_bufs, chan, 
-					req->attempted_size - req->attempted_bytes_remaining));
-//		}
-		//kprintf("after _inval_area IN\r\n");
-                //memcpy(req->cur_data_ptr,
-                //       &aligned_bufs[chan][req->attempted_size -
-                //                           req->attempted_bytes_remaining],
-                //       bytes_transferred);
 		memcpy(req->cur_data_ptr,
 			aligned_bufs.geto(&aligned_bufs, chan,
 				req->attempted_size - req->attempted_bytes_remaining),
 			bytes_transferred);
-		//_flush_area(&aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining]);
 
             }
         }
@@ -1858,18 +1836,10 @@ hcd_start(void)
     	void *base = dma_buf_alloc(DWC_NUM_CHANNELS * (WORD_ALIGN(USB_MAX_PACKET_SIZE)));
 	two_dim_array_init(&aligned_bufs, base, DWC_NUM_CHANNELS, WORD_ALIGN(USB_MAX_PACKET_SIZE));
 
-#if 0
+#if 1
 	kprintf("DWC_NUM_CHANNELS * (WORD_ALIGN(USB_MAX_PACKET_SIZE)) = %d\r\n", 
 			DWC_NUM_CHANNELS * (WORD_ALIGN(USB_MAX_PACKET_SIZE)));
 	kprintf("aligned_bufs = 0x%08X\r\n", aligned_bufs);
-	for (int i = 0; i < DWC_NUM_CHANNELS; i++)
-	{
-		kprintf("aligned_bufs[%d] = 0x%08X\r\n", i, aligned_bufs[i]);
-	}
-	for (int i = 0; i < DWC_NUM_CHANNELS; i++)
-	{
-		kprintf("&aligned_bufs[%d] = 0x%08X\r\n", i, &aligned_bufs[i]);
-	}
 #endif
 
     status = dwc_power_on();

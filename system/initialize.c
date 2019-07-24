@@ -78,6 +78,8 @@ void nulluser(void)
 
 	kprintf("dma_buf_space:  0x%08X\r\n", dma_buf_space);
 	kprintf("&dma_buf_space: 0x%08X\r\n", &dma_buf_space);
+	kprintf("mbox_buf_space:  0x%08X\r\n", mbox_buf_space);
+	kprintf("&mbox_buf_space: 0x%08X\r\n", &mbox_buf_space);
 
 	/* Enable interrupts  */
 	enable();	

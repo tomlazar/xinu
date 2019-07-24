@@ -20,6 +20,7 @@
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 #include <string.h>
 #include <kernel.h>
+#include <dma_buf.h>
 
 /* Global table of Ethernet devices. */
 struct ether ethertab[NETHER];
@@ -142,8 +143,10 @@ static void
 getEthAddr(uint8_t *addr)
 {
 	/* Initialize and clear the mailbox buffer */
-	uint32_t mailbuffer[MBOX_BUFLEN];
-	bzero(mailbuffer, 1024);
+	uint32_t mailbuffer; //[MBOX_BUFLEN];
+	//bzero(mailbuffer, 1024);
+
+	mailbuffer = mbox_buf_alloc(MBOX_BUFLEN);
 
 	/* Fill the mailbox buffer with the MAC address.
 	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */

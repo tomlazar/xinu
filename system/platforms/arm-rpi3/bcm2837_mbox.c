@@ -49,10 +49,11 @@ void get_mac_mailbox(volatile uint32_t* mailbuffer){
 	add_mailbox_tag(mailbuffer, MBX_TAG_GET_MAC_ADDRESS, 8, 0, 0);
 	build_mailbox_request(mailbuffer);
 
+	kprintf("mailbuffer = 0x%08X\r\n", mailbuffer);
+	kprintf("&mailbuffer = 0x%08X\r\n", &mailbuffer);
 	kprintf("\r\nget_mac_mailbox buffer val b4 write: %d\r\n", mailbuffer);
 
 	/* Write the mailbox register */
 	bcm2837_mailbox_write(8, (uint32_t)mailbuffer);
-	kprintf("\r\nget_mac_mailbox buffer val after write: %d\r\n", mailbuffer);
-	//bcm2837_mailbox_read(8);
+	bcm2837_mailbox_read(8);
 }

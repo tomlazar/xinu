@@ -1,4 +1,4 @@
-#include <mmu.h>
+#include "mmu.h"
 #include <mutex.h>
 #include <dma_buf.h>
 
@@ -16,27 +16,6 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 	return 0;	
 }
 
-/* code from Github user dwelch67
- * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
-unsigned int mmu_small (unsigned int vadd, unsigned int padd, unsigned int flags, unsigned int mmubase)
-{
-	unsigned int ra;
-	unsigned int rb;
-	unsigned int rc;
-
-	ra=vadd>>20;
-	rb=MMUTABLEBASE|(ra<<2);
-	rc=(mmubase&0xFFFFFC00) | 1;
-	//hexstrings(rb); hexstring(rc);
-	PUT32(rb,rc); //first level descriptor
-	ra=(vadd>>12)&0xFF;
-	rb=(mmubase&0xFFFFFC00)|(ra<<2);
-	rc=(padd&0xFFFFF000)|(0xFF0)|flags|2;
-	//hexstrings(rb); hexstring(rc);
-	PUT32(rb,rc); //second level descriptor
-	return(0);
-}
-
 /* mmu_init() configures virtual address == physical address */
 /* also configures memory to be cacheable, except for peripheral portion */
 void mmu_init()
@@ -45,6 +24,7 @@ void mmu_init()
 	for (ra = 0; ; ra += 0x00100000)
 	{		
 		mmu_section(ra, ra, 0x15C06);
+		//mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra >= 0x3F000000)
 			break;
 	}
@@ -59,6 +39,9 @@ void mmu_init()
 
 	// make dma buffer area non-cacheable
 	mmu_section(dma_buf_space, dma_buf_space, 0x0);
+
+	// make mailbox buffer area non-cacheable
+	mmu_section(mbox_buf_space, mbox_buf_space, 0x0);
 
 	start_mmu(MMUTABLEBASE);
 }
