@@ -176,7 +176,7 @@ static struct usb_xfer_request *channel_pending_xfers[DWC_NUM_CHANNELS];
  * decision to adhere to only #2 above, and allocate a section in memory
  * for it that is uncached (see mmu.c).
  * */
-static struct two_dim_array aligned_bufs;
+static uint8_t *aligned_bufs[DWC_NUM_CHANNELS];
 
 /* Find index of first set bit in a nonzero word.  */
 static inline ulong first_set_bit(ulong word)
@@ -1008,12 +1008,12 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 
     /* Set up DMA buffer. The data must be OR'd with 0xC0000000 for conversion from
      * ARM physical address to VideoCore address */
-    chanptr->dma_address = (uint32_t)(aligned_bufs.geti(&aligned_bufs, chan)) | 0xC0000000;
-        
+    chanptr->dma_address = (uint32_t) aligned_bufs[chan] | 0xC0000000;    
+    
     /* For OUT endpoints, copy the data to send into the DMA buffer.  */
     if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
     {
-        memcpy(aligned_bufs.geti(&aligned_bufs, chan), data, transfer.size);
+        memcpy(aligned_bufs[chan], data, transfer.size);
     }
 
     /* Set pointer to start of next chunk of data to send/receive */
@@ -1251,10 +1251,9 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
                                 chanptr->transfer.size;
 
             /* Copy data from DMA buffer */
-	    memcpy(req->cur_data_ptr,
-	       	    aligned_bufs.geto(&aligned_bufs, chan,
-		    req->attempted_size - req->attempted_bytes_remaining),
-		    bytes_transferred);
+            memcpy(req->cur_data_ptr,
+                &aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining],
+                bytes_transferred);
         }
         else
         {
@@ -1819,11 +1818,14 @@ usb_status_t
 hcd_start(void)
 {
     usb_status_t status;
+    int i;
 
     /* Allocate an uncached area for the DMA buffer to use, avoiding
      * the need for cache maintenance operations. */
-    void *base = dma_buf_alloc(DWC_NUM_CHANNELS * (WORD_ALIGN(USB_MAX_PACKET_SIZE)));
-    two_dim_array_init(&aligned_bufs, base, DWC_NUM_CHANNELS, WORD_ALIGN(USB_MAX_PACKET_SIZE));
+    for (i = 0; i < DWC_NUM_CHANNELS; i++)
+    {
+        aligned_bufs[i] = dma_buf_alloc(WORD_ALIGN(USB_MAX_PACKET_SIZE));
+    }
 
     status = dwc_power_on();
     if (status != USB_STATUS_SUCCESS)
