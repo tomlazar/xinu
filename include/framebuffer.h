@@ -10,8 +10,8 @@
 #include <device.h>
 #include <stddef.h>
 
-//extern volatile unsigned int mbox[36];
-extern volatile unsigned int *mbox;
+extern volatile unsigned int mbox[36];
+//extern volatile unsigned int *mbox;
 int mbox_call(unsigned char);
 extern bool screen_initialized;
 

@@ -12,9 +12,13 @@
 #include <kernel.h>
 #include <dma_buf.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
+#include <platform.h>
+#include <stdint.h>
 
 #define QUAD_WORD_ALIGN(n) (((n) + 127 ) & ~(127))
-#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)(ptr) % 127 == 0)
+#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)ptr % 128 == 0)
+
+extern void _inval_area(void *);
 
 int rows;
 int cols;
@@ -27,8 +31,8 @@ bool minishell;
 ulong framebufferAddress;
 int pitch;
 bool screen_initialized;
-//volatile unsigned int  __attribute__((aligned(16))) mbox[36];
-volatile unsigned int *mbox;
+volatile unsigned int  __attribute__((aligned(16))) mbox[36];
+//volatile unsigned int *mbox;
 
 /* Make a mailbox call. Returns SYSERR on failure, non-zero on success */
 int mbox_call(unsigned char ch)
@@ -40,12 +44,15 @@ int mbox_call(unsigned char ch)
 	*MBOX_WRITE = r;
 	/* Wait for the response */
 	while(1) {
+		// LED on here... there is a response...
 		/* Is there a response? */
 		do{asm volatile("nop");}while(*MBOX_STATUS & MBOX_EMPTY);
 		/* Is it a response to our message? */
-		if(r == *MBOX_READ)
+		if(r == *MBOX_READ){
 			/* Is it a valid successful response? */
+			// LED on... apparently the response is successful
 			return mbox[1]==MBOX_RESPONSE;
+		}
 	}
 	return SYSERR;
 }
@@ -54,11 +61,18 @@ int mbox_call(unsigned char ch)
 void screenInit() {
 	int i = 0;
 
+	// LED turns on here...
+#if 0
 	mbox = dma_buf_alloc(QUAD_WORD_ALIGN(36 * 4));
+	kprintf("QUAD_WORD_ALIGN(%d) = %d\r\n", (36*4), QUAD_WORD_ALIGN(36*4));
+	kprintf("mbox = 0x%08X\r\n", mbox);
 	if (!IS_QUAD_WORD_ALIGNED(mbox))
 	{
-		mbox += 128 - ((ulong)mbox % 128);
+		kprintf("mbox is not quad word aligned.. correcting.\r\n");
+		mbox += 128 - ((int)mbox % 128);
+		kprintf("mbox = 0x%08X\r\n", mbox);
 	}
+#endif
 
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
@@ -75,6 +89,8 @@ void screenInit() {
 
 /* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
 int framebufferInit() {
+
+	// LED turns on here...
 
 	/* Build the mailbox buffer for the frame buffer */
 	/* Design is expanded for readability */
@@ -119,7 +135,13 @@ int framebufferInit() {
 	mbox[31] = 4;
 	mbox[34] = MBOX_TAG_LAST;
 
+	// LED turns on here...
+
 	if(mbox_call(MAILBOX_CH_PROPERTY) && mbox[20]==32 && mbox[28]!=0) {
+		
+		led_init();
+		led_on();
+
 		mbox[28]&=0x3FFFFFFF;
 		cols=mbox[5] / CHAR_WIDTH;
 		rows=mbox[6] / CHAR_HEIGHT;
@@ -144,8 +166,10 @@ void screenClear(ulong color) {
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
 	while (address != maxaddress) {
 		*address = color;
+		_inval_area(address);
 		address++;
 	}
+	_inval_area((void *)framebufferAddress);
 }
 
 /* Clear the minishell window */
@@ -156,6 +180,7 @@ void minishellClear(ulong color) {
 		*address = color;
 		address++;
 	}
+	_inval_area((void *)framebufferAddress);
 }
 
 /* Clear the "linemapping" array used to keep track of pixels we need to remember */

@@ -96,7 +96,7 @@ const struct centry commandtab[] = {
 #if NETHER
     {"timeserver", FALSE, xsh_timeserver},
 #endif
-#if (screen_initialized)
+#if FRAMEBUF
     {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
@@ -175,47 +175,52 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stderr = errdescrp;
 
     /* Print shell banner to framebuffer, if exists */
-#if screen_initialized
+    if (screen_initialized)
+    {
     //if (indescrp == FRAMEBUF)
     //{
         foreground = CYAN;
         printf(SHELL_BANNER_PI3_NONVT100);
 	udelay(250);	// Temporarily wait for the hardware before changing colors
-        foreground = LEAFGREEN;
+	foreground = LEAFGREEN;
         printf(SHELL_START);
     //}
-#endif
+    }
+    else
+    {
         printf(SHELL_BANNER_PI3);
         printf(SHELL_START);
+    }
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	#if screen_initialized
+	if (screen_initialized)
+	{
 	    /* Print shell with colors over the frame buffer */
 	    foreground = RASPBERRY;
             printf(SHELL_PROMPT_FB);
 	    foreground = WHITE;
-        #else
+	}
+	else
+	{
 	    /* Display prompt using standard ANSI terminal coloring */
             printf(SHELL_PROMPT);
-	#endif
+	}
 
         if (NULL != hostptr)
         {
-#if screen_initialized
+if (screen_initialized)
 	    printf("@%s$ ", hostptr);
-#else
+else
 	    printf("@%s$ \033[0;39m", hostptr);
-#endif
 	}
         else
         {
-#if screen_initialized
+if (screen_initialized)
             printf("$ ");
-#else
+else
 	    printf("$ \033[0;39m");
-#endif
 	}
 
         /* Setup proper tty modes for input and output */

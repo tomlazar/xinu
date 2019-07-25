@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+#include <framebuffer.h>
 
 /**
  * @ingroup shell
@@ -38,6 +39,12 @@ shellcmd xsh_clear(int nargs, char *args[])
         return 1;
     }
 
-    printf("\033[2J\033[H\n");
+    if (screen_initialized){
+	screenClear(background);
+	cursor_row = 0;
+    }
+    else{
+    	printf("\033[2J\033[H\n");
+    }
     return 0;
 }

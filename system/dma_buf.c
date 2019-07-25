@@ -1,6 +1,7 @@
 #include <dma_buf.h>
 #include <compiler.h>
 #include <mutex.h>
+#include <platform.h>
 
 // XXX: This code is really bad...
 // only being used as a proof-of-concept..
@@ -19,10 +20,14 @@ void *dma_buf_alloc(uint size)
 	void *retval;
 	retval = (void *)(dma_buf_space + freespace_idx);
 
-	mutex_acquire(dma_buf_mutex);	
+	// LED turns on before mutex acquire
+	//mutex_acquire(dma_buf_mutex);
+	// LED does NOT turn on after mutex acquire
+	//led_init();
+	//led_on(); // LED turns on if mutex acquire/release is commented out
 	freespace_idx += size;
 	remaining_space -= size;
-	mutex_release(dma_buf_mutex);
+	//mutex_release(dma_buf_mutex);
 
 	return retval;
 }
