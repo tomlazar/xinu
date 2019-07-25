@@ -10,7 +10,11 @@
 #include <stdlib.h>
 #include <shell.h> /* for banner */
 #include <kernel.h>
+#include <dma_buf.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
+
+#define QUAD_WORD_ALIGN(n) (((n) + 127 ) & ~(127))
+#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)(ptr) % 127 == 0)
 
 int rows;
 int cols;
@@ -23,7 +27,8 @@ bool minishell;
 ulong framebufferAddress;
 int pitch;
 bool screen_initialized;
-volatile unsigned int  __attribute__((aligned(16))) mbox[36];
+//volatile unsigned int  __attribute__((aligned(16))) mbox[36];
+volatile unsigned int *mbox;
 
 /* Make a mailbox call. Returns SYSERR on failure, non-zero on success */
 int mbox_call(unsigned char ch)
@@ -48,6 +53,13 @@ int mbox_call(unsigned char ch)
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
 	int i = 0;
+
+	mbox = dma_buf_alloc(QUAD_WORD_ALIGN(36 * 4));
+	if (!IS_QUAD_WORD_ALIGNED(mbox))
+	{
+		mbox += 128 - ((ulong)mbox % 128);
+	}
+
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
 			screen_initialized = FALSE;
