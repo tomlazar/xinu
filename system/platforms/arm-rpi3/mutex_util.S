@@ -30,16 +30,6 @@ loop:
 	cmp	r1, #MUTEX_LOCKED	/* IF already locked ,*/
 	beq	wait				/* THEN try again...*/
 
-//	mov		r1, #0
-	/* nop sled to wait for data the load into cache */
-//	cmp		r1, #250
-//	bge		continue
-//	nop
-//	add		r1, #1	
-
-
-	ldrex	r1, [r0]			/* Load the value of the lock from memory					*/
-
 	cmp		r1, #MUTEX_LOCKED	/* IF already locked ,										*/
 	beq		wait				/* THEN try again...										*/
 
