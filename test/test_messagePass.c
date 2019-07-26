@@ -6,6 +6,7 @@
 #include <clock.h>
 #include <interrupt.h>
 #include <thread.h>
+#include <core.h>
 
 static thread recvthread(bool);
 
@@ -94,7 +95,7 @@ thread test_messagePass(bool verbose)
     testPrint(verbose, "Receive timeout");
     recvtid = create((void *)recvthread, INITSTK, getprio(gettid()),
                      "recvthread", 1, verbose);
-    if ((SYSERR == recvtid) || (SYSERR == ready(recvtid, RESCHED_YES)))
+    if ((SYSERR == recvtid) || (SYSERR == ready(recvtid, RESCHED_YES, CORE_ZERO)))
     {
         passed = FALSE;
         testFail(verbose, "\nunable to create receiver thread");

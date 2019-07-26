@@ -39,7 +39,7 @@ ctxsw:
     str    sp, [r0]
     ldr    sp, [r1]
 
-    /* Load registers from respective places in stack.  Using x1 and x2, so these need to be pushed onto stack.*/
+    /* Load registers from respective places in stack. */
     /* Program counter must be loaded last, since program will jump.*/
     /* In this case, returning is same as loading the link register into the program counter*/
    

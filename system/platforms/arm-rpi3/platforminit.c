@@ -112,7 +112,6 @@ int platforminit(void)
 	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
 	strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
 	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
-//	platform.clkfreq = 1200000000;
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
@@ -122,7 +121,12 @@ int platforminit(void)
 	
 	/* Initialize the Memory Managament Unit */
 	mmu_init();
-//	mmu_initialize();	
+
+	/* Initialize the mutex table */
+	for(int i = 0; i < NMUTEX; i++){
+		muxtab[i].state = MUTEX_FREE;
+		muxtab[i].lock = MUTEX_UNLOCKED;
+	}
 
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
@@ -130,14 +134,18 @@ int platforminit(void)
 	/* Initialize the mutexes for global tables */
 	quetab_mutex = mutex_create();
 
-	for (int i = 0; i < NTHREAD; i++)
-	{
+	register struct thrent *thrptr;
+	for (int i = 0; i < NTHREAD; i++){
+		//kprintf("Thread mux\r\n");
 		thrtab_mutex[i] = mutex_create();
-		core_affinity[i] = -1;
+		thrptr = &thrtab[i];
+		thrptr->core_affinity = -1;
 	}
 
-	for (int i = 0; i < NSEM; i++)
+	for (int i = 0; i < NSEM; i++){
+		//kprintf("Sem mux\r\n");
 		semtab_mutex[i] = mutex_create();
+	}
 
 	return OK;
 }

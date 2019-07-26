@@ -1,11 +1,14 @@
 #include <mutex.h>
+#include <clock.h>
 
 struct muxent muxtab[NMUTEX];
 
 extern void _mutex_acquire(unsigned int *);
 extern void _mutex_release(unsigned int *);
+extern int _atomic_mutex_check(unsigned int *);
 static mutex_t mutex_alloc(void);
 
+/* Create and return an unlocked mutex */
 mutex_t mutex_create()
 {
 	mutex_t mux;
@@ -33,15 +36,11 @@ syscall mutex_free(mutex_t mux)
 syscall mutex_acquire(mutex_t mux)
 {
 	if (isbadmux(mux))
-	{
 		return SYSERR;
-	}
 	
 	if (MUTEX_FREE == muxtab[mux].state)
-	{
 		return SYSERR;
-	}
-
+	
 	_mutex_acquire(&(muxtab[mux].lock));
 	return OK;
 
@@ -61,16 +60,14 @@ syscall mutex_release(mutex_t mux)
 static mutex_t mutex_alloc(void)
 {
 	int i;
-	static unsigned int nextmux = 0;
 	
 	for (i = 0; i < NMUTEX; i++)
 	{
-		nextmux = (nextmux + 1) % NMUTEX;
-		if (MUTEX_FREE == muxtab[nextmux].state)
+		if (0 == _atomic_mutex_check((unsigned int *)&(muxtab[i].state)))
 		{
-			muxtab[nextmux].state = MUTEX_USED;
-			return nextmux;
+			muxtab[i].state = MUTEX_USED;
+			return i;
 		}
 	}
 	return SYSERR;
-};
+}

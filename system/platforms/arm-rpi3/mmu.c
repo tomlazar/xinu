@@ -14,43 +14,22 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 	return 0;	
 }
 
-unsigned int mmu_small(unsigned int vadd, unsigned int padd, unsigned int flags, 
-					unsigned int mmubase)
-{
-	unsigned int ra;
-	unsigned int rb;
-	unsigned int rc;
-
-	ra = vadd >> 20;
-	rb = MMUTABLEBASE | (ra << 2);
-	rc = (mmubase & 0xFFFFFC00) | 0x1;
-	PUT32(rb, rc);
-	
-	ra = (vadd >> 12) & 0xFF;
-	rb = (mmubase & 0xFFFFFC00) | (ra << 2);
-	rc = (padd & 0xFFFFF000) | 0xFF0 | flags | 2;
-	PUT32(rb, rc);
-
-	return 0;
-}
-
 /* mmu_init() configures virtual address == physical address */
 /* also configures memory to be cacheable, except for peripheral portion */
 void mmu_init()
 {
 	unsigned int ra;
 
+	/* Make memory cacheable */
 	for (ra = 0; ; ra += 0x00100000)
 	{
-		// XXX Changed flags back to 0x8... it fixed the issue with USB.
-		// not sure if that is how it is supposed to be..?
 		//mmu_section(ra, ra, 0x15C06);
 		mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra >= 0x3F000000)
-			break;	/* stop before IO peripherals, dont want cache on those... */
+			break; /* Stop before IO peripherals */
 	}
 
-	// peripherals
+	/* Peripherals not marked (use 0x0000) */
 	for ( ; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x0000);

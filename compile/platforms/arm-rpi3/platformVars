@@ -33,14 +33,13 @@ APPCOMPS :=		apps	\
 			mailbox \
 			shell   \
 			network \
-			#test	 \
+			test	 \
 
 # Embedded Xinu device drivers to build into the kernel image
 DEVICES  := uart-pl011      \
             tty	            \
             usb             \
             lan7800	    \
-	    raw		    \
 	    tcp		    \
 	    udp		    \
             framebuffer_rpi \

@@ -79,7 +79,6 @@ void nulluser(void)
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
-
 }
 
 /**
@@ -91,6 +90,10 @@ static int sysinit(void)
 	int i;
 	struct thrent *thrptr;      /* thread control block pointer  */
 	struct memblock *pmblock;   /* memory block pointer          */
+
+	/* Initialize serial lock */
+	serial_lock = mutex_create();
+	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */

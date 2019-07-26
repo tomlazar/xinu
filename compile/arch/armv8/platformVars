@@ -19,3 +19,10 @@ DEFS        += -D_XINU_ARCH_ARM_
 # Default build target. For ARM we just translate the kernel into a raw binary.
 $(BOOTIMAGE): xinu.elf
 	$(OBJCOPY) -O binary $^ $@
+#
+# Makefile definitions for Embedded Xinu shared between single-core ARM platforms.
+#
+
+# Objcopy flags, used for including data files in the resulting binary.
+OCFLAGS       := -I binary -O elf32-littlearm -B arm
+

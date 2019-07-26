@@ -29,7 +29,7 @@ syscall kprintf(const char *format, ...)
 {
     int retval;
     va_list ap;
-
+    
     va_start(ap, format);
 
     mutex_acquire(serial_lock);

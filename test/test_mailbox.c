@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <interrupt.h>
 #include <thread.h>
+#include <core.h>
 
 /* function prototypes */
 static int producer(mailbox);
@@ -207,7 +208,7 @@ thread test_mailbox(bool verbose)
     consumertid =
         create((void *)consumer, INITSTK, prio + 1, "consumer", 1,
                testbox1);
-    ready(consumertid, RESCHED_YES);
+    ready(consumertid, RESCHED_YES, CORE_ZERO);
 
     thrptr = &thrtab[consumertid];
 
@@ -233,7 +234,7 @@ thread test_mailbox(bool verbose)
         create((void *)producer, INITSTK, prio + 1, "producer", 1,
                testbox1);
 
-    ready(producertid, RESCHED_YES);
+    ready(producertid, RESCHED_YES, CORE_ZERO);
 
     thrptr = &thrtab[producertid];
 

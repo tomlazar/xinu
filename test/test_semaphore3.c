@@ -3,6 +3,7 @@
 #include <semaphore.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
 
 #if NSEM
 extern bool test_checkSemCount(semaphore s, short c);
@@ -42,10 +43,10 @@ thread test_semaphore3(bool verbose)
      * thread B before it is even able to wait on the semaphore.  */
     ready(atid =
           create((void *)test_semWaiter, INITSTK, 32,
-                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_NO);
+                 "SEMAPHORE-A", 3, s, 1, &testResult), RESCHED_NO, CORE_ZERO);
     ready(btid =
           create((void *)test_semWaiter, INITSTK, 31,
-                 "SEMAPHORE-B", 3, s, 1, &testResult), RESCHED_YES);
+                 "SEMAPHORE-B", 3, s, 1, &testResult), RESCHED_YES, CORE_ZERO);
 
     testPrint(verbose, "Wait on semaphore: ");
     /* Process A should be admitted, but B should wait. */
