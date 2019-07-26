@@ -78,6 +78,8 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
+#include "mmu.h"
+#include <dma_buf.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -108,7 +110,6 @@ static volatile struct dwc_regs * const regs = (void*)DWC_REGS_BASE;
  */
 #define XFER_SCHEDULER_THREAD_PRIORITY 60
 
-//
 /** Name of USB transfer request scheduler thread.  */
 #define XFER_SCHEDULER_THREAD_NAME "USB scheduler"
 
@@ -159,9 +160,23 @@ static semaphore chfree_sema;
  */
 static struct usb_xfer_request *channel_pending_xfers[DWC_NUM_CHANNELS];
 
-/** Aligned buffers for DMA.  */
-static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
-                                __aligned(4);
+/* Aligned buffers for DMA.
+ * In the conception of this driver in Embedded Xinu 2.01 (circa 2013),
+ * there existed two possibilities for DMA buffer:
+ * 	1. DMA over the hardware if the data is word-aligned
+ *	OR
+ *	2. DMA manually through a two-dimensional "aligned_bufs" buffer
+ *		and read/write using memcpy()
+ * 
+ * Because Embedded Xinu 3.0 (2019 port) enables L1 data cache to facilitate
+ * multicore atomic operations, DMA needs to be guarded to maintain
+ * cache coherency. ARM Cortex A-53 cache maintenance operations are 
+ * somewhat ambiguous. For example, the invalidate operation (DCIMVAC)
+ * may also "clean" (flush) the data cache line. Thus, it was an easier
+ * decision to adhere to only #2 above, and allocate a section in memory
+ * for it that is uncached (see mmu.c).
+ * */
+static uint8_t *aligned_bufs[DWC_NUM_CHANNELS];
 
 /* Find index of first set bit in a nonzero word.  */
 static inline ulong first_set_bit(ulong word)
@@ -252,10 +267,16 @@ dwc_soft_reset(void)
  * Set up the DWC OTG USB Host Controller for DMA (direct memory access).  This
  * makes it possible for the Host Controller to directly access in-memory
  * buffers when performing USB transfers.  Beware: all buffers accessed with DMA
- * must be 4-byte-aligned.  Furthermore, if the L1 data cache is enabled, then
+ * must be 4-byte-aligned.
+ *
+ * Furthermore, if the L1 data cache is enabled, then
  * it must be explicitly flushed to maintain cache coherency since it is
- * internal to the ARM processor.  (This is not currently handled by this driver
- * because Xinu does not enable the L1 data cache.)
+ * internal to the ARM processor. XinuPi3 (Embedded Xinu version 3.0 2019) has
+ * L1 data cache enabled to facilitate multicore atomic operations. Instead of
+ * setting up the MMU to mark all memory cacheable (except peripherals, of course),
+ * we flag a section of memory as uncacheable -- this uncached 1MB section
+ * is used for the DMA buffer (aligned_bufs) for USB, among other buffers
+ * (for instance, the LAN7800 mailbox buffer).
  */
 static void
 dwc_setup_dma_mode(void)
@@ -985,39 +1006,17 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         }
     }
 
-    /* Set up DMA buffer.  */
-    if (IS_WORD_ALIGNED(data))
+    /* Set up DMA buffer. The data must be OR'd with 0xC0000000 for conversion from
+     * ARM physical address to VideoCore address */
+    chanptr->dma_address = (uint32_t) aligned_bufs[chan] | 0xC0000000;    
+    
+    /* For OUT endpoints, copy the data to send into the DMA buffer.  */
+    if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
     {
-	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
-	 * convert the address from ARM to VC4. This is done both times which
-	 * the DMA address is stored.
-         * Can DMA directly from source or to destination if word-aligned.  */
-        chanptr->dma_address = (uint32_t)data | 0xC0000000;
-    }
-    else
-    {
-        /* Need to use alternate buffer for DMA, since the actual source or
-         * destination is not word-aligned.  If the attempted transfer size
-         * overflows this alternate buffer, cap it to the greatest number of
-         * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
-        if (transfer.size > sizeof(aligned_bufs[chan]))
-        {
-            transfer.size = sizeof(aligned_bufs[chan]) -
-                            (sizeof(aligned_bufs[chan]) %
-                              characteristics.max_packet_size);
-            req->short_attempt = 1;
-        }
-        /* For OUT endpoints, copy the data to send into the DMA buffer.  */
-        if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
-        {
-            memcpy(aligned_bufs[chan], data, transfer.size);
-        }
+        memcpy(aligned_bufs[chan], data, transfer.size);
     }
 
-    /* Set pointer to start of next chunk of data to send/receive (may be
-     * different from the actual DMA address to be used by the hardware if an
-     * alternate buffer was selected above).  */
+    /* Set pointer to start of next chunk of data to send/receive */
     req->cur_data_ptr = data;
 
     /* Calculate the number of packets being set up for this transfer.  */
@@ -1192,7 +1191,7 @@ defer_xfer(struct usb_xfer_request *req)
                                          DEFER_XFER_THREAD_PRIORITY,
                                          DEFER_XFER_THREAD_NAME,
                                          1, req);
-        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO))
+        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO, 0))
         {
             req->deferer_thread_tid = BADTID;
             usb_dev_error(req->dev,
@@ -1241,9 +1240,8 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         enum usb_direction dir = characteristics.endpoint_direction;
         enum usb_transfer_type type = characteristics.endpoint_type;
 
-        /* Calculate number of bytes transferred and copy data from DMA
-         * buffer if needed.  */
-
+        /* Calculate number of bytes transferred and
+	 * copy data from DMA buffer. */
         if (dir == USB_DIRECTION_IN)
         {
             /* The transfer.size field seems to be updated sanely for IN
@@ -1251,15 +1249,11 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
              * impossible to determine the length of short packets...)  */
             bytes_transferred = req->attempted_bytes_remaining -
                                 chanptr->transfer.size;
-            /* Copy data from DMA buffer if needed */
-            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
-            {
-	        usb_dev_debug(req->dev, "\r\n\n------------------------------\r\nCOPY FROM DMA BUFFER.\r\n\n----------------------------\r\n\n");
-                memcpy(req->cur_data_ptr,
-                       &aligned_bufs[chan][req->attempted_size -
-                                           req->attempted_bytes_remaining],
-                       bytes_transferred);
-            }
+
+            /* Copy data from DMA buffer */
+            memcpy(req->cur_data_ptr,
+                &aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining],
+                bytes_transferred);
         }
         else
         {
@@ -1484,7 +1478,6 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
-	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1809,7 +1802,7 @@ dwc_start_xfer_scheduler(void)
                                     XFER_SCHEDULER_THREAD_STACK_SIZE,
                                     XFER_SCHEDULER_THREAD_PRIORITY,
                                     XFER_SCHEDULER_THREAD_NAME, 0);
-    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO))
+    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO, 0))
     {
         semfree(chfree_sema);
         mailboxFree(hcd_xfer_mailbox);
@@ -1825,6 +1818,14 @@ usb_status_t
 hcd_start(void)
 {
     usb_status_t status;
+    int i;
+
+    /* Allocate an uncached area for the DMA buffer to use, avoiding
+     * the need for cache maintenance operations. */
+    for (i = 0; i < DWC_NUM_CHANNELS; i++)
+    {
+        aligned_bufs[i] = dma_buf_alloc(WORD_ALIGN(USB_MAX_PACKET_SIZE));
+    }
 
     status = dwc_power_on();
     if (status != USB_STATUS_SUCCESS)

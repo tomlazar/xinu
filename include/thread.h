@@ -34,11 +34,10 @@ extern unsigned int getcpuid(void);
 /* miscellaneous thread definitions                                     */
 #define TNMLEN      16          /**< length of thread "name"            */
 #define NULLTHREAD  0           /**< id of the null thread              */
-#define BADTID      (-1)        /**< used when invalid tid needed       */
-
 #define NULLTHREAD1 1		/**< id of secondary null threads 	*/
 #define NULLTHREAD2 2
 #define NULLTHREAD3 3
+#define BADTID      (-1)        /**< used when invalid tid needed       */
 
 /* thread initialization constants */
 #define INITSTK     65536       /**< initial thread stack size          */

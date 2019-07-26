@@ -16,6 +16,10 @@
 #include "../device/lan7800/lan7800.h"
 #endif
 
+#include "platforms/arm-rpi3/mmu.h"
+#include <dma_buf.h>
+#include <framebuffer.h>
+
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
@@ -93,7 +97,6 @@ static int sysinit(void)
 
 	/* Initialize serial lock */
 	serial_lock = mutex_create();
-	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
@@ -124,7 +127,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[0] = NULLTHREAD;
+	thrptr->core_affinity = CORE_ZERO;
+	thrcurrent[CORE_ZERO] = NULLTHREAD;
 
 	/* Core 1 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD1];
@@ -136,7 +140,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[1] = NULLTHREAD1;
+	thrptr->core_affinity = CORE_ONE;
+	thrcurrent[CORE_ONE] = NULLTHREAD1;
 
 	/* Core 2 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD2];
@@ -148,7 +153,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[2] = NULLTHREAD2;
+	thrptr->core_affinity = CORE_TWO;
+	thrcurrent[CORE_TWO] = NULLTHREAD2;
 
 	/* Core 3 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD3];
@@ -160,7 +166,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[3] = NULLTHREAD3;	
+	thrptr->core_affinity = CORE_THREE;
+	thrcurrent[CORE_THREE] = NULLTHREAD3;	
 
 	/* Initialize semaphores */
 	for (i = 0; i < NSEM; i++)

@@ -20,9 +20,7 @@
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 #include <string.h>
 #include <kernel.h>
-#include "../system/platforms/arm-rpi3/bcm2837.h"
-
-bool lan7800_isattached = 0;
+#include <dma_buf.h>
 
 /* Global table of Ethernet devices. */
 struct ether ethertab[NETHER];
@@ -62,8 +60,7 @@ lan7800_bind_device(struct usb_device *udev)
 		return USB_STATUS_DEVICE_UNSUPPORTED;
 	}
 
-	/* Make sure this driver isn't already bound to a LAN7800.
-	 *      * TODO: Support multiple devices of this type concurrently.  */
+	/* Make sure this driver isn't already bound to a LAN7800. */
 	ethptr = &ethertab[0];
 	STATIC_ASSERT(NETHER == 1);
 	if (ethptr->csr != NULL)
@@ -83,6 +80,9 @@ lan7800_bind_device(struct usb_device *udev)
 	 * occurred. */
 	udev->last_error = USB_STATUS_SUCCESS;
 
+	/* Set MAC address within ethernet struct */
+	lan7800_set_mac_address(udev, ethptr->devAddress);
+
 	/* Check for error and return.  */
 	if (udev->last_error != USB_STATUS_SUCCESS)
 	{
@@ -93,6 +93,7 @@ lan7800_bind_device(struct usb_device *udev)
 	udev->driver_private = ethptr;
 
 	signal(lan7800_attached[ethptr - ethertab]);
+	kprintf("\r\nReturning from bind device...\r\n");
 	
 	return USB_STATUS_SUCCESS;
 }
@@ -132,13 +133,20 @@ static const struct usb_device_driver lan7800_driver = {
  * Get the Pi 3 B+'s MAC address using its ARM->VideoCore (VC) mailbox
  * and assign corresponding values to a global array containing the MAC. 
  * This array is then assigned to the devAddress member of the ether structure.
- */
+ * 
+ * TODO:
+ * There exists a quirk in which the address does not get set unless kprintf is
+ * called at the very end of this function. This quirk is not one that udelay()
+ * solved, thus, I am led to believe there is some sort of dependency on UART
+ * communication here. */
 static void
 getEthAddr(uint8_t *addr)
 {
-	/* Initialize the mailbox buffer */
-	uint32_t *mailbuffer;
-	mailbuffer = dma_buf_alloc(MBOX_BUFLEN / 4);
+	/* Initialize and clear the mailbox buffer */
+	uint32_t mailbuffer; //[MBOX_BUFLEN];
+	//bzero(mailbuffer, 1024);
+
+	mailbuffer = mbox_buf_alloc(MBOX_BUFLEN);
 
 	/* Fill the mailbox buffer with the MAC address.
 	 * This function is defined in system/platforms/arm-rpi3/bcm2837_mbox.c */
@@ -164,6 +172,25 @@ getEthAddr(uint8_t *addr)
 			addr[5] = (value >> 8)  & 0xff;
 		}
 	}
+
+	/* Clear multicast bit and set locally assigned bit */
+//	addr[0] &= 0xFE;
+//	addr[0] |= 0x02;
+
+	/* TODO: Figure out why this function fails if kprintf is not called here.
+	 * Attempted udelay(1000+) instead, still fails. Seems dependent on UART comm. 
+	 * However, seems like a timing issue that a delay can fix because if this for
+	 * loop iterates less than five times, the bug appears.
+	 * I discovered this "fix" after noticing that the devAddress values were incorrect,
+	 * 2:0:0:0:0:0, after storing the addr into the devAddress,
+	 * as if the MAC address was never being loaded. Printed them here to debug.
+	 * Go figure, the print statement seemed to fix it.
+	 * --Behavior--: if kprintf is not called here at least six times, then the global
+	 * array @param addr does not contain the MAC address, but rather: 2:0:0:0:0:0. 
+	 * When kprintf is called here, then the MAC address is set successfully. */
+	ushort j;
+	for(j = 0; j < 25; j++)
+		kprintf("");
 }
 
 /**
@@ -180,7 +207,6 @@ lan7800_wait_device_attached(ushort minor)
 {
 	wait(lan7800_attached[minor]);
 	signal(lan7800_attached[minor]);
-	lan7800_isattached = 1;
 	return USB_STATUS_SUCCESS;
 }
 
@@ -218,9 +244,13 @@ devcall etherInit(device *devptr)
 	{
 		goto err_free_isema;
 	}
-
-	/* Get the MAC address and store it into addr[] */
+	
+	/* Get the MAC address and store it */
 	getEthAddr(ethptr->devAddress);
+
+	/* Copy the MAC address array into the devAddress member of the
+	 * Ether structure. */
+	//memcpy(ethptr->devAddress, addr, sizeof(addr));
 
 	/* Register this device driver with the USB core and return. */
 	status = usb_register_device_driver(&lan7800_driver);
@@ -229,6 +259,7 @@ devcall etherInit(device *devptr)
 		goto err_free_attached_sema;
 	}
 
+	kprintf("Ether device initialized\r\n");
 	return OK;
 
 err_free_attached_sema:

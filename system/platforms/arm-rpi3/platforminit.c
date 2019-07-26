@@ -15,6 +15,7 @@
 #include <queue.h>
 #include <thread.h>
 #include <semaphore.h>
+#include <dma_buf.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -109,12 +110,30 @@ void led_off(void)
  */
 int platforminit(void)
 {
-	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
-	strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
+	strlcpy(platform.family, "BCM2837B0", PLT_STRMAX);
+	strlcpy(platform.name, "Raspberry Pi 3 B+", PLT_STRMAX);
 	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
+	uint32_t cache_encoding = _getcacheinfo();	/* CCSIDR encoding of L1 cache size */
+	switch (cache_encoding){
+		case 0x7003E01A:
+			platform.dcache_size = 8; // 8 KB
+			break;
+		case 0x7007E01A:
+			platform.dcache_size = 16; // 16 KB
+			break;
+		case 0x700FE01A:
+			platform.dcache_size = 32; // 32 KB
+			break;
+		case 0x701FE01A:
+			platform.dcache_size = 64; // 64 KB
+			break;
+		default:
+			platform.dcache_size = 0;
+			break;
+	}
 
 	/* Initialize bcm2837 power */	
 	bcm2837_power_init(); 
@@ -128,6 +147,9 @@ int platforminit(void)
 		muxtab[i].lock = MUTEX_UNLOCKED;
 	}
 
+	/* Initialize dma buffer space */
+	dma_buf_init();
+
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
 
@@ -136,16 +158,13 @@ int platforminit(void)
 
 	register struct thrent *thrptr;
 	for (int i = 0; i < NTHREAD; i++){
-		//kprintf("Thread mux\r\n");
 		thrtab_mutex[i] = mutex_create();
 		thrptr = &thrtab[i];
 		thrptr->core_affinity = -1;
 	}
 
-	for (int i = 0; i < NSEM; i++){
-		//kprintf("Sem mux\r\n");
+	for (int i = 0; i < NSEM; i++)
 		semtab_mutex[i] = mutex_create();
-	}
 
 	return OK;
 }

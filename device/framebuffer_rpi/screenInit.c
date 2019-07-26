@@ -10,7 +10,15 @@
 #include <stdlib.h>
 #include <shell.h> /* for banner */
 #include <kernel.h>
+#include <dma_buf.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
+#include <platform.h>
+#include <stdint.h>
+
+#define QUAD_WORD_ALIGN(n) (((n) + 127 ) & ~(127))
+#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)ptr % 128 == 0)
+
+extern void _inval_area(void *);
 
 int rows;
 int cols;
@@ -24,6 +32,7 @@ ulong framebufferAddress;
 int pitch;
 bool screen_initialized;
 volatile unsigned int  __attribute__((aligned(16))) mbox[36];
+//volatile unsigned int *mbox;
 
 /* Make a mailbox call. Returns 0 on failure, non-zero on success */
 int mbox_call(unsigned char ch)
@@ -35,12 +44,15 @@ int mbox_call(unsigned char ch)
 	*MBOX_WRITE = r;
 	/* now wait for the response */
 	while(1) {
-		/* is there a response? */
+		// LED on here... there is a response...
+		/* Is there a response? */
 		do{asm volatile("nop");}while(*MBOX_STATUS & MBOX_EMPTY);
-		/* is it a response to our message? */
-		if(r == *MBOX_READ)
-			/* is it a valid successful response? */
+		/* Is it a response to our message? */
+		if(r == *MBOX_READ){
+			/* Is it a valid successful response? */
+			// LED on... apparently the response is successful
 			return mbox[1]==MBOX_RESPONSE;
+		}
 	}
 	return 0;
 }
@@ -48,6 +60,20 @@ int mbox_call(unsigned char ch)
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
 	int i = 0;
+
+	// LED turns on here...
+#if 0
+	mbox = dma_buf_alloc(QUAD_WORD_ALIGN(36 * 4));
+	kprintf("QUAD_WORD_ALIGN(%d) = %d\r\n", (36*4), QUAD_WORD_ALIGN(36*4));
+	kprintf("mbox = 0x%08X\r\n", mbox);
+	if (!IS_QUAD_WORD_ALIGNED(mbox))
+	{
+		kprintf("mbox is not quad word aligned.. correcting.\r\n");
+		mbox += 128 - ((int)mbox % 128);
+		kprintf("mbox = 0x%08X\r\n", mbox);
+	}
+#endif
+
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
 			screen_initialized = FALSE;
@@ -63,20 +89,8 @@ void screenInit() {
 
 /* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
 int framebufferInit() {
-	//GPU expects this struct to be 16 byte aligned
-	
-	struct framebuffer frame __attribute__((aligned (16)));
 
-	frame.width_p = DEFAULT_WIDTH; //must be less than 4096
-	frame.height_p = DEFAULT_HEIGHT; //must be less than 4096
-	frame.width_v = DEFAULT_WIDTH; //must be less than 4096
-	frame.height_v = DEFAULT_HEIGHT; //must be less than 4096
-	frame.pitch = 0; //no space between rows
-	frame.depth = BIT_DEPTH; //must be equal to or less than 32
-	frame.x = 0; //no x offset
-	frame.y = 0; //no y offset
-	frame.address = 0; //always initializes to 0x48006000
-	frame.size = 0;
+	// LED turns on here...
 
 	//XXXbcm2837_mailbox_write(MAILBOX_CH_PROPERTY, (uint)&frame);
 
@@ -123,14 +137,20 @@ int framebufferInit() {
 	mbox[31] = 4;
 	mbox[34] = MBOX_TAG_LAST;
 
+	// LED turns on here...
+
 	if(mbox_call(MAILBOX_CH_PROPERTY) && mbox[20]==32 && mbox[28]!=0) {
+		
+		led_init();
+		led_on();
+
 		mbox[28]&=0x3FFFFFFF;
 		cols=mbox[5];
 		rows=mbox[6];
 		pitch=mbox[33];
-		framebufferAddress=(void*)((unsigned long)mbox[28]);
-	} else {
-        	return;
+		framebufferAddress=(ulong)((unsigned long)mbox[28]);
+	} else {	// If mailbox call ends in error, return
+		return SYSERR;
 	}
 	
 	/* Error checking */
@@ -160,8 +180,10 @@ void screenClear(ulong color) {
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
 	while (address != maxaddress) {
 		*address = color;
+		_inval_area(address);
 		address++;
 	}
+	_inval_area((void *)framebufferAddress);
 }
 
 /* Clear the minishell window */
@@ -172,6 +194,7 @@ void minishellClear(ulong color) {
 		*address = color;
 		address++;
 	}
+	_inval_area((void *)framebufferAddress);
 }
 
 /* Clear the "linemapping" array used to keep track of pixels we need to remember */

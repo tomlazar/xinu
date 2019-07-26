@@ -9,10 +9,15 @@
 
 #include <stddef.h>
 #include <stdarg.h>
+#include <stdint.h>
 
 /** Maximum length of platform name and family strings, including the
  * null-terminator.  */
 #define PLT_STRMAX 18
+
+/* XXX Test functions for LED debugging */
+void led_init(void);
+void led_on(void);
 
 /**
  * Various platform-specific parameters filled in at boot time by
@@ -38,6 +43,11 @@ struct platform
     /** One byte past the last byte physically addressable by the CPU.  Must be
      * set by platforminit().  */
     void *maxaddr;
+
+    /** The ARM Cortex A53 is capable of up to 64KB in L1 data cache.
+     *  The Raspbery Pi 3 Model B+ has L1 cache enabled. This value is obtained
+     *  by platforminit() in reference to the Cortex A53 CCSIDR */
+    int dcache_size;
 
     /** Frequency of the system timer in cycles per second.  Must be set by
      * platforminit() if RTCLOCK is enabled.  This is the frequency at which the
