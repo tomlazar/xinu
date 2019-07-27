@@ -15,10 +15,6 @@
  * null-terminator.  */
 #define PLT_STRMAX 18
 
-/* XXX Test functions for LED debugging */
-void led_init(void);
-void led_on(void);
-
 /**
  * Various platform-specific parameters filled in at boot time by
  * platforminit().  When platforminit() is called this structure will initially

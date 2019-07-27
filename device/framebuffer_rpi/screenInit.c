@@ -15,9 +15,6 @@
 #include <platform.h>
 #include <stdint.h>
 
-#define QUAD_WORD_ALIGN(n) (((n) + 127 ) & ~(127))
-#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)ptr % 128 == 0)
-
 extern void _inval_area(void *);
 
 int rows;
@@ -32,7 +29,6 @@ ulong framebufferAddress;
 int pitch;
 bool screen_initialized;
 volatile unsigned int  __attribute__((aligned(16))) mbox[36];
-//volatile unsigned int *mbox;
 
 /* Make a mailbox call. Returns SYSERR on failure, non-zero on success */
 int mbox_call(unsigned char ch)
@@ -60,19 +56,6 @@ int mbox_call(unsigned char ch)
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
 	int i = 0;
-
-	// LED turns on here...
-#if 0
-	mbox = dma_buf_alloc(QUAD_WORD_ALIGN(36 * 4));
-	kprintf("QUAD_WORD_ALIGN(%d) = %d\r\n", (36*4), QUAD_WORD_ALIGN(36*4));
-	kprintf("mbox = 0x%08X\r\n", mbox);
-	if (!IS_QUAD_WORD_ALIGNED(mbox))
-	{
-		kprintf("mbox is not quad word aligned.. correcting.\r\n");
-		mbox += 128 - ((int)mbox % 128);
-		kprintf("mbox = 0x%08X\r\n", mbox);
-	}
-#endif
 
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
