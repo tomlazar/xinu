@@ -176,7 +176,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
     printf("\r\nscreen_initialized = %d\r\n", screen_initialized);
     /* Print shell banner to framebuffer, if exists */
-    if (screen_initialized)
+    if (indescrp == FRAMEBUF)
     {
         foreground = CYAN;
 	
@@ -229,33 +229,33 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	if (screen_initialized)
-	{
-	    /* Print shell with colors over the frame buffer */
-	    foreground = RASPBERRY;
+	    if (indescrp == FRAMEBUF)
+	    {
+	        /* Print shell with colors over the frame buffer */
+	        foreground = RASPBERRY;
             printf(SHELL_PROMPT_FB);
-	    foreground = WHITE;
-	}
-	else
-	{
-	    /* Display prompt using standard ANSI terminal coloring */
+	        foreground = WHITE;
+	    }
+	    else
+ 	    {
+	        /* Display prompt using standard ANSI terminal coloring */
             printf(SHELL_PROMPT);
-	}
+	    }
 
         if (NULL != hostptr)
         {
-if (screen_initialized)
-	    printf("@%s$ ", hostptr);
-else
-	    printf("@%s$ \033[0;39m", hostptr);
-	}
+            if (indescrp == FRAMEBUF)
+	            printf("@%s$ ", hostptr);
+            else
+	            printf("@%s$ \033[0;39m", hostptr);
+	    }
         else
         {
-if (screen_initialized)
-            printf("$ ");
-else
-	    printf("$ \033[0;39m");
-	}
+            if (indescrp == FRAMEBUF)
+                printf("$ ");
+            else
+	            printf("$ \033[0;39m");
+	    }
 
         /* Setup proper tty modes for input and output */
         control(stdin, TTY_CTRL_CLR_IFLAG, TTY_IRAW, NULL);
