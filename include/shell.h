@@ -23,6 +23,34 @@
 
 #define SHELL_BANNER_PI3_NONVT100 "\n                                                 _______.\n------------------------------------------------/_____./|------\n    ____  ___.__                 .___   .__    | ____ | |\n    \\   \\/  /|__| ____  __ __    |  _ \\ |__|   |/ /_| | |\n     \\     / |  |/    \\|  |  \\   | |_| ||  |     |__  | |\n     /     \\ |  |   |  \\  |  /   |  __/ |  |    /___| | .\n    /___/\\  \\|__|___|  /____/    | |    |__|   | ______/\n          \\_/        \\/          |/            |/   \n    2019                 			    v3.0 \n---------------------------------------------------------------\n"
 
+/* Judge the operating system by its shell banner, do you? */
+#if FRAMEBUF
+#define BANNER_PT1 "\n                                                 _______.\n"
+#define BANNER_PT2 "------------------------------------------------"
+#define BANNER_PT3 "/_____./|"
+#define BANNER_PT4 "------\n    ____  ___"
+#define BANNER_PT5 ".__   "
+#define BANNER_PT6 ".___  "
+#define BANNER_PT7 ".__  "
+#define BANNER_PT8 "| ____ | |"
+#define BANNER_PT9 "\n    \\   \\/  /"
+#define BANNER_PT10 "|__|"
+#define BANNER_PT11 "____  __ __    |  _ \\ "
+#define BANNER_PT12 "|__| "
+#define BANNER_PT13 "|/ /_| | |"
+#define BANNER_PT14 "\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   "
+#define BANNER_PT15 "|__  | |"
+#define BANNER_PT16 "\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  "
+#define BANNER_PT17 "/___| | ."
+#define BANNER_PT18 "\n    /___/\\  \\|__|___|  /____/    | |    |__| "
+#define BANNER_PT19 "| ______/"
+#define BANNER_PT20 "\n          \\_/        \\/          |/          "
+#define BANNER_PT21 "|/   "
+#define BANNER_PT22 "\n    2019                 			    v3.0 "
+#define BANNER_PT23 "\n---------------------------------------------------------------"
+#define BANNER_PT24 "\n"
+#endif
+
 #  define SHELL_BANNER		  SHELL_BANNER_PI3
 #  define SHELL_BANNER_NONVT100   SHELL_BANNER_PI3_NONVT100
 

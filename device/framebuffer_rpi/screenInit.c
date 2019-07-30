@@ -12,11 +12,10 @@
 #include <kernel.h>
 #include <dma_buf.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
+#include "../../system/platforms/arm-rpi3/bcm2837.h"
 #include <platform.h>
 #include <stdint.h>
-
-#define QUAD_WORD_ALIGN(n) (((n) + 127 ) & ~(127))
-#define IS_QUAD_WORD_ALIGNED(ptr) ((ulong)ptr % 128 == 0)
+#include <uart.h>
 
 extern void _inval_area(void *);
 
@@ -32,47 +31,10 @@ ulong framebufferAddress;
 int pitch;
 bool screen_initialized;
 volatile unsigned int  __attribute__((aligned(16))) mbox[36];
-//volatile unsigned int *mbox;
-
-/* Make a mailbox call. Returns SYSERR on failure, non-zero on success */
-int mbox_call(unsigned char ch)
-{
-	unsigned int r = (((unsigned int)((unsigned long)&mbox)&~0xF) | (ch&0xF));
-	/* Wait until we can write to the mailbox */
-	do{asm volatile("nop");}while(*MBOX_STATUS & MBOX_FULL);
-	/* Write the address of our message to the mailbox with channel identifier */
-	*MBOX_WRITE = r;
-	/* Wait for the response */
-	while(1) {
-		// LED on here... there is a response...
-		/* Is there a response? */
-		do{asm volatile("nop");}while(*MBOX_STATUS & MBOX_EMPTY);
-		/* Is it a response to our message? */
-		if(r == *MBOX_READ){
-			/* Is it a valid successful response? */
-			// LED on... apparently the response is successful
-			return mbox[1]==MBOX_RESPONSE;
-		}
-	}
-	return SYSERR;
-}
 
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
 	int i = 0;
-
-	// LED turns on here...
-#if 0
-	mbox = dma_buf_alloc(QUAD_WORD_ALIGN(36 * 4));
-	kprintf("QUAD_WORD_ALIGN(%d) = %d\r\n", (36*4), QUAD_WORD_ALIGN(36*4));
-	kprintf("mbox = 0x%08X\r\n", mbox);
-	if (!IS_QUAD_WORD_ALIGNED(mbox))
-	{
-		kprintf("mbox is not quad word aligned.. correcting.\r\n");
-		mbox += 128 - ((int)mbox % 128);
-		kprintf("mbox = 0x%08X\r\n", mbox);
-	}
-#endif
 
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
@@ -89,8 +51,6 @@ void screenInit() {
 
 /* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
 int framebufferInit() {
-
-	// LED turns on here...
 
 	/* Build the mailbox buffer for the frame buffer */
 	/* Design is expanded for readability */
@@ -128,27 +88,32 @@ int framebufferInit() {
 	mbox[25] = 0x40001; //get framebuffer, gets alignment on request
 	mbox[26] = 8;
 	mbox[27] = 8;
-	mbox[28] = 4096;    //FrameBufferInfo.pointer
+	mbox[28] = 0;    //FrameBufferInfo.pointer
 	mbox[29] = 0;       //FrameBufferInfo.size
 
 	mbox[30] = 0x40008; //get pitch
 	mbox[31] = 4;
 	mbox[34] = MBOX_TAG_LAST;
 
-	// LED turns on here...
-
-	if(mbox_call(MAILBOX_CH_PROPERTY) && mbox[20]==32 && mbox[28]!=0) {
-		
-		led_init();
-		led_on();
-
-		mbox[28]&=0x3FFFFFFF;
-		cols=mbox[5] / CHAR_WIDTH;
-		rows=mbox[6] / CHAR_HEIGHT;
-		pitch=mbox[33];
-		framebufferAddress=(ulong)((unsigned long)mbox[28]);
-	} else {	// If mailbox call ends in error, return
-		return SYSERR;
+	bcm2837_mailbox_write(8,((unsigned int)&mbox));
+	
+	/* Wait for a response to our mailbox message... */
+	while(1){
+		if(bcm2837_mailbox_read(8) == ((unsigned int)&mbox))
+		{
+			if(mbox[28] != 0) {
+				led_init();
+				led_on();
+				mbox[28]&=0x3FFFFFFF;
+				cols=mbox[5] / CHAR_WIDTH;
+				rows=mbox[6] / CHAR_HEIGHT;
+				pitch=mbox[33];
+				framebufferAddress=mbox[28];
+			} else {
+				return SYSERR;
+			}
+		break;
+		}
 	}
 
 	/* Initialize global variables */

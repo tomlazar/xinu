@@ -174,17 +174,51 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdout = outdescrp;
     stderr = errdescrp;
 
+    printf("\r\nscreen_initialized = %d\r\n", screen_initialized);
     /* Print shell banner to framebuffer, if exists */
     if (screen_initialized)
     {
-    //if (indescrp == FRAMEBUF)
-    //{
         foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
+	
+	printf(BANNER_PT1);
+	foreground = RED;
+	printf(BANNER_PT2);
+	foreground = CYAN;
+	printf(BANNER_PT3);
+	foreground = RED;
+	printf(BANNER_PT4);
+	printf(BANNER_PT5);
+	foreground = RED;
+	printf(BANNER_PT6);
+	printf(BANNER_PT7);
+	foreground = RED;
+	printf(BANNER_PT8);
+	printf(BANNER_PT9);
+	foreground = RED;
+	printf(BANNER_PT10);
+	foreground = CYAN;
+	printf(BANNER_PT11);
+	printf(BANNER_PT12);
+	foreground = CYAN;
+	printf(BANNER_PT13);
+	printf(BANNER_PT14);
+	printf(BANNER_PT15);
+	foreground = CYAN;
+	printf(BANNER_PT16);
+	printf(BANNER_PT17);
+	printf(BANNER_PT18);
+	printf(BANNER_PT19);
+	foreground = CYAN;
+	printf(BANNER_PT20);
+	printf(BANNER_PT21);
+	printf(BANNER_PT22);
+	foreground = CYAN;
+	printf(BANNER_PT23);
+	printf(BANNER_PT24);
+
 	udelay(250);	// Temporarily wait for the hardware before changing colors
 	foreground = LEAFGREEN;
         printf(SHELL_START);
-    //}
     }
     else
     {
