@@ -20,14 +20,10 @@ void *dma_buf_alloc(uint size)
 	void *retval;
 	retval = (void *)(dma_buf_space + freespace_idx);
 
-	// LED turns on before mutex acquire
-	//mutex_acquire(dma_buf_mutex);
-	// LED does NOT turn on after mutex acquire
-	//led_init();
-	//led_on(); // LED turns on if mutex acquire/release is commented out
+	mutex_acquire(dma_buf_mutex);
 	freespace_idx += size;
 	remaining_space -= size;
-	//mutex_release(dma_buf_mutex);
+	mutex_release(dma_buf_mutex);
 
 	return retval;
 }

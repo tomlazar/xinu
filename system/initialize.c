@@ -18,7 +18,6 @@
 
 #include "platforms/arm-rpi3/mmu.h"
 #include <dma_buf.h>
-#include <framebuffer.h>
 
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
