@@ -19,7 +19,7 @@
 /* Message constants: Updated by the Xinu Team, 2018
  * NONVT100: for platforms that do not support escape codes which provide color. */
 
-#define SHELL_BANNER_PI3 "\n\033[1;96m                                                 _______.\n\033[1;31m------------------------------------------------\033[1;96m/_____./|\033[1;31m------\n    ____  ___\033[1;32m.__   \033[1;31m              .___  \033[1;32m .__  \033[1;96m  | ____ | |\033[1;31m\n    \\   \\/  /\033[1;32m|__|\033[1;31m ____  __ __    |  _ \\ \033[1;32m|__| \033[1;96m  |/ /_| | |\033[1;31m\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   \033[1;96m  |__  | |\033[1;31m\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  \033[1;96m  /___| | .\033[1;31m\n    /___/\\  \\|__|___|  /____/    | |    |__| \033[1;96m  | ______/\033[1;31m\n          \\_/        \\/          |/          \033[1;96m  |/   \033[1;32m\n    2019                 			    v3.0 \033[1;31m\n---------------------------------------------------------------\033[0;39m\n"
+#define SHELL_BANNER_PI3 "\n\033[1;96m                                                 _______.\n\033[1;31m------------------------------------------------\033[1;96m/_____./|\033[1;31m------\n    ____  ___\033[1;32m.__   \033[1;31m              .___  \033[1;32m .__  \033[1;96m  | ____ | |\033[1;31m\n    \\   \\/  /\033[1;32m|__|\033[1;31m ____  __ __    |  _ \\ \033[1;32m|__| \033[1;96m  |/ /_| | |\033[1;31m\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   \033[1;96m  |__  | |\033[1;31m\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  \033[1;96m  /___| | .\033[1;31m\n    /___/\\  \\|__|___|  /____/    | |    |__| \033[1;96m  | ______/\033[1;31m\n          \\_/        \\/          |/          \033[1;96m  |/   \033[1;32m\n    2019                 			    v3.0 \033[1;31m\n---------------------------------------------------------------\033[1;39m\n"
 
 #define SHELL_BANNER_PI3_NONVT100 "\n                                                 _______.\n------------------------------------------------/_____./|------\n    ____  ___.__                 .___   .__    | ____ | |\n    \\   \\/  /|__| ____  __ __    |  _ \\ |__|   |/ /_| | |\n     \\     / |  |/    \\|  |  \\   | |_| ||  |     |__  | |\n     /     \\ |  |   |  \\  |  /   |  __/ |  |    /___| | .\n    /___/\\  \\|__|___|  /____/    | |    |__|   | ______/\n          \\_/        \\/          |/            |/   \n    2019                 			    v3.0 \n---------------------------------------------------------------\n"
 
@@ -29,23 +29,23 @@
 #define BANNER_PT2 "------------------------------------------------"
 #define BANNER_PT3 "/_____./|"
 #define BANNER_PT4 "------\n    ____  ___"
-#define BANNER_PT5 ".__   "
-#define BANNER_PT6 ".___  "
-#define BANNER_PT7 ".__  "
+#define BANNER_PT5 ".__                 "
+#define BANNER_PT6 ".___   "
+#define BANNER_PT7 ".__    "
 #define BANNER_PT8 "| ____ | |"
 #define BANNER_PT9 "\n    \\   \\/  /"
-#define BANNER_PT10 "|__|"
+#define BANNER_PT10 "|__| "
 #define BANNER_PT11 "____  __ __    |  _ \\ "
-#define BANNER_PT12 "|__| "
+#define BANNER_PT12 "|__|   "
 #define BANNER_PT13 "|/ /_| | |"
 #define BANNER_PT14 "\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   "
-#define BANNER_PT15 "|__  | |"
+#define BANNER_PT15 "  |__  | |"
 #define BANNER_PT16 "\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  "
-#define BANNER_PT17 "/___| | ."
+#define BANNER_PT17 "  /___| | ."
 #define BANNER_PT18 "\n    /___/\\  \\|__|___|  /____/    | |    |__| "
-#define BANNER_PT19 "| ______/"
+#define BANNER_PT19 "  | ______/"
 #define BANNER_PT20 "\n          \\_/        \\/          |/          "
-#define BANNER_PT21 "|/   "
+#define BANNER_PT21 "  |/   "
 #define BANNER_PT22 "\n    2019                 			    v3.0 "
 #define BANNER_PT23 "\n---------------------------------------------------------------"
 #define BANNER_PT24 "\n"
@@ -110,6 +110,7 @@ extern ulong ncommand;               /**< number of commands in table   */
 
 /* Function prototypes */
 thread shell(int, int, int);
+void color_fbprint(char *);
 short lexan(char *, ushort, char *, char *[]);
 shellcmd xsh_arp(int, char *[]);
 shellcmd xsh_clear(int, char *[]);

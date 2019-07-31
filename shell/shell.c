@@ -119,6 +119,64 @@ const struct centry commandtab[] = {
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
 
+
+void color_fbprint(char *msg){
+	uint len = strlen(msg);
+
+	foreground = WHITE;
+	printf("%d", len);
+
+#if 0
+	for (int i = 0; i < len; i++){
+		printf("%c", msg[i]);
+	}
+#else
+	// Parse the given string
+	for (int i = 0; i < len; i++){
+	
+		// If the terminal escape sequence is found...
+//		if (msg[i] == '\\' &&
+//		   msg[i+1] == '0' &&
+//		   msg[i+2] == '3' &&
+//		   msg[i+3] == '3')
+		if (msg[i] == 033)
+		{
+			// Skip the entire escape (color) sequence so it is not printed
+			// We temporarily save the color before printing the colored section
+			// This assumes the form: \033[n;XXm (10 char total)
+			// msg[i+7, and i+8] (XX) are the vital parts of the color code
+
+			// Convert the XX part to represent an integer value
+			uint ncolor = (msg[i+4] - '0') * 10 + (msg[i+5] - '0');
+			//printf("\nmsg[i+3]=%d, msg[i+4]=%d\nncolor=%d\n", msg[i+3] - '0', msg[i+4] - '0', ncolor);
+			i = i + 7;
+			switch (ncolor)
+			{
+			case 31: // Red
+				foreground = RED;
+				break;
+			case 32: // Green
+				foreground = GREEN;
+				break;
+			case 39: // Default (this function makes it white)
+				foreground = WHITE;
+				break;
+			case 96: // Cyan
+				foreground = CYAN;
+				break;
+			default:
+				break;
+			}
+
+		}
+		//udelay(10);	// Give the color time to change (necessary for good output)
+		printf("%c", msg[i]);
+		//putc(stdout, msg[i]);
+	}
+#endif
+    }
+
+
 /**
  * @ingroup shell
  *
@@ -174,53 +232,18 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdout = outdescrp;
     stderr = errdescrp;
 
-    printf("\r\nscreen_initialized = %d\r\n", screen_initialized);
     /* Print shell banner to framebuffer, if exists */
-    if (screen_initialized)
-    {
-        foreground = CYAN;
-	
-	printf(BANNER_PT1);
-	foreground = RED;
-	printf(BANNER_PT2);
-	foreground = CYAN;
-	printf(BANNER_PT3);
-	foreground = RED;
-	printf(BANNER_PT4);
-	printf(BANNER_PT5);
-	foreground = RED;
-	printf(BANNER_PT6);
-	printf(BANNER_PT7);
-	foreground = RED;
-	printf(BANNER_PT8);
-	printf(BANNER_PT9);
-	foreground = RED;
-	printf(BANNER_PT10);
-	foreground = CYAN;
-	printf(BANNER_PT11);
-	printf(BANNER_PT12);
-	foreground = CYAN;
-	printf(BANNER_PT13);
-	printf(BANNER_PT14);
-	printf(BANNER_PT15);
-	foreground = CYAN;
-	printf(BANNER_PT16);
-	printf(BANNER_PT17);
-	printf(BANNER_PT18);
-	printf(BANNER_PT19);
-	foreground = CYAN;
-	printf(BANNER_PT20);
-	printf(BANNER_PT21);
-	printf(BANNER_PT22);
-	foreground = CYAN;
-	printf(BANNER_PT23);
-	printf(BANNER_PT24);
 
-	udelay(250);	// Temporarily wait for the hardware before changing colors
+#if defined(FRAMEBUF)    
+    if (indescrp == TTY1)
+    {
+	//color_fbprint(SHELL_BANNER_PI3);
+	printf(SHELL_BANNER_PI3);
 	foreground = LEAFGREEN;
         printf(SHELL_START);
     }
     else
+#endif
     {
         printf(SHELL_BANNER_PI3);
         printf(SHELL_START);
@@ -229,7 +252,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	if (screen_initialized)
+	if (indescrp == TTY1)
 	{
 	    /* Print shell with colors over the frame buffer */
 	    foreground = RASPBERRY;
@@ -244,17 +267,17 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
         if (NULL != hostptr)
         {
-if (screen_initialized)
-	    printf("@%s$ ", hostptr);
-else
-	    printf("@%s$ \033[0;39m", hostptr);
+            if (indescrp == TTY1)
+                printf("@%s$ ", hostptr);
+            else
+                printf("@%s$ \033[0;39m", hostptr);
 	}
         else
         {
-if (screen_initialized)
-            printf("$ ");
-else
-	    printf("$ \033[0;39m");
+            if (indescrp == TTY1)
+                printf("$ ");
+            else
+                printf("$ \033[0;39m");
 	}
 
         /* Setup proper tty modes for input and output */
