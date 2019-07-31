@@ -257,13 +257,13 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 	    /* Print shell with colors over the frame buffer */
 	    foreground = RASPBERRY;
             printf(SHELL_PROMPT_FB);
-	    foreground = WHITE;
-	}
-	else
-	{
-	    /* Display prompt using standard ANSI terminal coloring */
+	        foreground = WHITE;
+	    }
+	    else
+ 	    {
+	        /* Display prompt using standard ANSI terminal coloring */
             printf(SHELL_PROMPT);
-	}
+	    }
 
         if (NULL != hostptr)
         {
