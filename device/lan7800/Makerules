@@ -12,6 +12,9 @@ C_FILES =		lan7800.c		\
 			etherRead.c		\
 			etherWrite.c		\
 			etherControl.c		\
+			etherStat.c		\
+			vlanStat.c		\
+			colon2mac.c		\
 
 S_FILES =
 

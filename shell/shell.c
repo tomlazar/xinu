@@ -28,9 +28,9 @@ const struct centry commandtab[] = {
 #if USE_TLB
     {"dumptlb", FALSE, xsh_dumptlb},
 #endif
-/*#if NETHER
+#if NETHER
     {"ethstat", FALSE, xsh_ethstat},
-#endif*/
+#endif
     {"exit", TRUE, xsh_exit},
 #if NFLASH
     {"flashstat", FALSE, xsh_flashstat},
@@ -63,7 +63,7 @@ const struct centry commandtab[] = {
     {"ps", FALSE, xsh_ps},
 #if NETHER
     {"ping", FALSE, xsh_ping},
-/*    {"pktgen", FALSE, xsh_pktgen},*/
+    {"pktgen", FALSE, xsh_pktgen},
 #endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
@@ -96,7 +96,7 @@ const struct centry commandtab[] = {
 #if NETHER
     {"timeserver", FALSE, xsh_timeserver},
 #endif
-#if FRAMEBUF
+#if TTY1
     {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
@@ -110,7 +110,7 @@ const struct centry commandtab[] = {
 #endif
 #if NETHER
     {"udpstat", FALSE, xsh_udpstat},
-/*    {"vlanstat", FALSE, xsh_vlanstat},*/
+    {"vlanstat", FALSE, xsh_vlanstat},
     {"voip", FALSE, xsh_voip},
     {"xweb", FALSE, xsh_xweb},
 #endif
@@ -119,63 +119,7 @@ const struct centry commandtab[] = {
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
 
-
-void color_fbprint(char *msg){
-	uint len = strlen(msg);
-
-	foreground = WHITE;
-	printf("%d", len);
-
-#if 0
-	for (int i = 0; i < len; i++){
-		printf("%c", msg[i]);
-	}
-#else
-	// Parse the given string
-	for (int i = 0; i < len; i++){
-	
-		// If the terminal escape sequence is found...
-//		if (msg[i] == '\\' &&
-//		   msg[i+1] == '0' &&
-//		   msg[i+2] == '3' &&
-//		   msg[i+3] == '3')
-		if (msg[i] == 033)
-		{
-			// Skip the entire escape (color) sequence so it is not printed
-			// We temporarily save the color before printing the colored section
-			// This assumes the form: \033[n;XXm (10 char total)
-			// msg[i+7, and i+8] (XX) are the vital parts of the color code
-
-			// Convert the XX part to represent an integer value
-			uint ncolor = (msg[i+4] - '0') * 10 + (msg[i+5] - '0');
-			//printf("\nmsg[i+3]=%d, msg[i+4]=%d\nncolor=%d\n", msg[i+3] - '0', msg[i+4] - '0', ncolor);
-			i = i + 7;
-			switch (ncolor)
-			{
-			case 31: // Red
-				foreground = RED;
-				break;
-			case 32: // Green
-				foreground = GREEN;
-				break;
-			case 39: // Default (this function makes it white)
-				foreground = WHITE;
-				break;
-			case 96: // Cyan
-				foreground = CYAN;
-				break;
-			default:
-				break;
-			}
-
-		}
-		//udelay(10);	// Give the color time to change (necessary for good output)
-		printf("%c", msg[i]);
-		//putc(stdout, msg[i]);
-	}
-#endif
-    }
-
+bool using_framebuf = FALSE;
 
 /**
  * @ingroup shell
@@ -232,51 +176,30 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdout = outdescrp;
     stderr = errdescrp;
 
-    /* Print shell banner to framebuffer, if exists */
+    if (indescrp == TTY1){
+	    led_init();
+	    led_on();
+	    using_framebuf = TRUE;
+    }
 
-#if defined(FRAMEBUF)    
-    if (indescrp == TTY1)
-    {
-	//color_fbprint(SHELL_BANNER_PI3);
-	printf(SHELL_BANNER_PI3);
-	foreground = LEAFGREEN;
-        printf(SHELL_START);
-    }
-    else
-#endif
-    {
-        printf(SHELL_BANNER_PI3);
-        printf(SHELL_START);
-    }
+    /* Print shell banner
+     * If the frame buffer is being used (TTY1) instead of the terminal (CONSOLE),
+     * fbPutc() will parse the ANSI color code and change the foregroud color accordingly. */
+    printf(SHELL_BANNER_PI3);
+    printf(SHELL_START);
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	if (indescrp == TTY1)
-	{
-	    /* Print shell with colors over the frame buffer */
-	    foreground = RASPBERRY;
-            printf(SHELL_PROMPT_FB);
-	        foreground = WHITE;
-	    }
-	    else
- 	    {
-	        /* Display prompt using standard ANSI terminal coloring */
-            printf(SHELL_PROMPT);
-	    }
+	/* Display prompt using standard ANSI terminal coloring */
+        printf(SHELL_PROMPT);
 
         if (NULL != hostptr)
         {
-            if (indescrp == TTY1)
-                printf("@%s$ ", hostptr);
-            else
                 printf("@%s$ \033[0;39m", hostptr);
 	}
         else
         {
-            if (indescrp == TTY1)
-                printf("$ ");
-            else
                 printf("$ \033[0;39m");
 	}
 

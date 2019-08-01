@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <framebuffer.h>
 #include <device.h>
+#include <platform.h>
 
 extern int rows;
 extern int cols;
@@ -15,10 +16,11 @@ extern int cursor_row;
 extern ulong foreground;
 extern ulong background;
 extern bool screen_initialized;
-uint fb_esc_color1;
-uint fb_esc_color2;
-uint fb_icolor;
-uint fb_state;
+uint fb_esc_color1 = 0;
+uint fb_esc_color2 = 0;
+uint fb_icolor = 0;
+uint fb_state = 0;
+uint ret_ct = 0;
 
 /**
  * @ingroup framebuffer
@@ -32,81 +34,67 @@ devcall fbPutc(device *devptr, char ch)
     if (screen_initialized)
     {
 
-	/* Handle special escape codes using states (for color code parsing)
-	 * =====================================================
-	 * Entire sequence looks like this: \033[1;32m
-	 * States (in order):
-	 * \033 is the escape sequence (ESCAPE state)
-	 * The opening bracket (BRKT)
-	 * The feature of the text to display, such as bold (FEATURE)
-	 * The semicolon (SEMI)
-	 * The first integer of the color to display (CL1)
-	 * The second integer of the color to display (CL2)
-	 * The graphics mode (MODE)
-	 *
-	 */
+	/* Handle ANSI escape codes using states (for color code parsing) */
 	if (ch == 033){
 		fb_state = ESCAPE;
 		return '\0';
 	}
 
-	if (fb_state == ESCAPE){
-		if (ch == '['){
-			fb_state = BRKT;
+	switch (fb_state){
+		case ESCAPE:
+		// Assume the escape sequence is a color code with the format mentioned above
+			// Return the null terminator 3 times to skip to the color code
+			if(ret_ct <= 2){
+				ret_ct++;
+				return '\0';
+			}
+			else{
+				ret_ct = 0;
+				fb_state = CL1;
+			}
+			// Don't break here because the current char is the first color digit (CL1)
+		case CL1:
+			fb_esc_color1 = (ch - '0') * 10;
+			fb_state = CL2;
 			return '\0';
-		}
-	}
-	else if (fb_state == BRKT){
-		if (ch == '1' || ch == '0'){
-			fb_state == FEATURE;
-			return '\0';
-		}
-	}
-	else if (fb_state == FEATURE){
-		if (ch == ';'){
-			fb_state == SEMI;
-			return '\0';
-		}
-	}
-	else if (fb_state == SEMI){
-		// Expecting a color to follow the semicolon
-		fb_state = CL1;
-		fb_esc_color1 = (ch - '0') * 10;
-		return '\0';
-	}
-	else if (fb_state == CL2){
-		fb_state = MODE;
-		fb_esc_color2 = (ch - '0');
-		return '\0';
-	}
-	else if (fb_state == MODE){
-		if (ch == ';'){
+			break;
+		case CL2: // Convert second color character to proper integer
+			fb_esc_color2 = (ch - '0');
 			fb_state = CHANGE_COLOR;
 			return '\0';
-		}
-	}
-	else if (fb_state == CHANGE_COLOR){
-		fb_icolor = fb_esc_color1 + fb_esc_color2;
-		switch (fb_icolor)
-		{
-		case 31: // Red
-			foreground = RED;
 			break;
-		case 32: // Green
-			foreground = GREEN;
-			break;
-		case 39: // Default (white)
-			foreground = WHITE;
-			break;
-		case 96: // Bright cyan
-			foreground = CYAN;
+		case CHANGE_COLOR:
+			// Get the final value of the color and change it accordingly
+			fb_icolor = fb_esc_color1 + fb_esc_color2;
+			switch (fb_icolor)
+			{
+			case 31: // Red
+				foreground = RED;
+				fb_state = STANDARD;
+				return '\0';
+				break;
+			case 32: // Green
+				foreground = GREEN;
+				fb_state = STANDARD;
+				return '\0';
+				break;
+			case 39: // Default (white)
+				foreground = WHITE;
+				fb_state = STANDARD;
+				return '\0';
+				break;
+			case 96: // Bright cyan
+				foreground = CYAN;
+				fb_state = STANDARD;	// Set back to standard before returning
+				return '\0';
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			break;
-		}
-		fb_state = STANDARD;
 	}
-
 
 	/* Standard character processing */
         if (ch == '\n')

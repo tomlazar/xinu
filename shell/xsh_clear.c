@@ -39,7 +39,7 @@ shellcmd xsh_clear(int nargs, char *args[])
         return 1;
     }
 
-    if (screen_initialized){
+    if (using_framebuf){
 	screenClear(background);
 	cursor_row = 0;
     }

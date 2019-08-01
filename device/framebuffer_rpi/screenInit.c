@@ -102,8 +102,6 @@ int framebufferInit() {
 		if(bcm2837_mailbox_read(8) == ((unsigned int)&mbox))
 		{
 			if(mbox[28] != 0) {
-				led_init();
-				led_on();
 				mbox[28]&=0x3FFFFFFF;
 				cols=mbox[5] / CHAR_WIDTH;
 				rows=mbox[6] / CHAR_HEIGHT;
