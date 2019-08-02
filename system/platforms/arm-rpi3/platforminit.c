@@ -10,7 +10,6 @@
 #include "../../../device/uart-pl011/pl011.h"
 #include <mmu.h>
 #include <random.h>
-
 #include <mutex.h>
 #include <queue.h>
 #include <thread.h>

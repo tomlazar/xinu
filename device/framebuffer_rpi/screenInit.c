@@ -34,15 +34,16 @@ volatile unsigned int  __attribute__((aligned(16))) mbox[36];
 
 /* screenInit(): Calls framebufferInit() several times to ensure we successfully initialize, just in case. */
 void screenInit() {
+	
+	// Note: boolean screen_initialized is true if there is no hardware error (e.g. mailbox failure)
+	// The boolean does not determine whether the screen is being used, as it it always initialized in start.S
 	int i = 0;
-
 	while (framebufferInit() == SYSERR) {
 		if ( (i++) == MAXRETRIES) {
 			screen_initialized = FALSE;
 			return;
 		}
 	}
-
 	// clear the screen to the background color.
 	screenClear(background);
 	initlinemap();
@@ -52,46 +53,51 @@ void screenInit() {
 /* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
 int framebufferInit() {
 
-	/* Build the mailbox buffer for the frame buffer */
-	/* Design is expanded for readability */
+	/* Build the mailbox buffer for the frame buffer
+	 * Mailbox 8 (ARM->VC PROPERTY mailbox) is used on the Pi 3 B+ 
+	 * because the frame buffer mailbox (1) does not seem to work. 
+	 * BCM2837 documentation is not available as of this writing 
+	 * This working implementation was obtained from an open source example by GitHub user
+	 * bztsrc: https://github.com/bztsrc/raspi3-tutorial/blob/master/09_framebuffer/lfb.c
+	 * */
 	mbox[0] = 35*4;
 	mbox[1] = MBOX_REQUEST;
 
-	mbox[2] = 0x48003;  //set phy wh
+	mbox[2] = 0x48003;  // set phy wh
 	mbox[3] = 8;
 	mbox[4] = 8;
-	mbox[5] = 1024;     //FrameBufferInfo.width
-	mbox[6] = 768;      //FrameBufferInfo.height
+	mbox[5] = 1024;     // width
+	mbox[6] = 768;      // height
 
-	mbox[7] = 0x48004;  //set virt wh
+	mbox[7] = 0x48004;  // Set virt wh
 	mbox[8] = 8;
 	mbox[9] = 8;
-	mbox[10] = 1024;    //FrameBufferInfo.virtual_width
-	mbox[11] = 768;     //FrameBufferInfo.virtual_height
+	mbox[10] = 1024;    // Virtual width
+	mbox[11] = 768;     // Virtual height
 
-	mbox[12] = 0x48009; //set virt offset
+	mbox[12] = 0x48009; // Set virt offset
 	mbox[13] = 8;
 	mbox[14] = 8;
-	mbox[15] = 0;       //FrameBufferInfo.x_offset
-	mbox[16] = 0;       //FrameBufferInfo.y.offset
+	mbox[15] = 0;       // x offset
+	mbox[16] = 0;       // y offset
 
-	mbox[17] = 0x48005; //set depth
+	mbox[17] = 0x48005; // Set depth
 	mbox[18] = 4;
 	mbox[19] = 4;
-	mbox[20] = 32;      //FrameBufferInfo.depth
+	mbox[20] = 32;      // Depth
 
-	mbox[21] = 0x48006; //set pixel order
+	mbox[21] = 0x48006; // Set pixel order
 	mbox[22] = 4;
 	mbox[23] = 4;
-	mbox[24] = 1;       //RGB, not BGR preferably
+	mbox[24] = 1;       // RGB, not BGR preferably
 
-	mbox[25] = 0x40001; //get framebuffer, gets alignment on request
+	mbox[25] = 0x40001; // Get framebuffer, gets alignment on request
 	mbox[26] = 8;
 	mbox[27] = 8;
-	mbox[28] = 0;    //FrameBufferInfo.pointer
-	mbox[29] = 0;       //FrameBufferInfo.size
+	mbox[28] = 0;       // Pointer
+	mbox[29] = 0;       // Size
 
-	mbox[30] = 0x40008; //get pitch
+	mbox[30] = 0x40008; // Get pitch
 	mbox[31] = 4;
 	mbox[34] = MBOX_TAG_LAST;
 

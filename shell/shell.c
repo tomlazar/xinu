@@ -119,8 +119,6 @@ const struct centry commandtab[] = {
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
 
-bool using_framebuf = FALSE;
-
 /**
  * @ingroup shell
  *
@@ -142,7 +140,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     ushort i, j;                /* temp variables           */
     irqmask im;                 /* interrupt mask state     */
     char *hostptr = NULL;       /* pointer to hostname      */
-
+    
     /* Setup buffer for string for nvramGet call for hostname */
 #if defined(ETH0) && NVRAM
     char hostnm[NET_HOSTNM_MAXLEN + 1]; /* hostname of backend      */
@@ -175,12 +173,6 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdin = indescrp;
     stdout = outdescrp;
     stderr = errdescrp;
-
-    if (indescrp == TTY1){
-	    led_init();
-	    led_on();
-	    using_framebuf = TRUE;
-    }
 
     /* Print shell banner
      * If the frame buffer is being used (TTY1) instead of the terminal (CONSOLE),

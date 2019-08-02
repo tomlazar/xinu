@@ -30,13 +30,7 @@
 #define SHELL_START     "Welcome to the wonderful world of Xinu!\n"
 #define SHELL_EXIT       "Shell closed.\n"  /* exit message            */
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#define SHELL_PROMPT     "\033[1;31mxsh"    /* prompt with terminal coloring   */
-#define SHELL_PROMPT_FB  "xsh"
-
-#else
-#define SHELL_PROMPT	 "xsh"
-#endif
+#define SHELL_PROMPT     "\033[1;31mxsh\033[0;39m"    /* prompt with terminal coloring   */
 
 #define MAX_PROMPT_LEN   32                 /**< basic prompt max length */
 #define SHELL_SYNTAXERR  "Syntax error.\n"  /**< syntax error            */

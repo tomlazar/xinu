@@ -13,10 +13,6 @@
 extern volatile unsigned int mbox[36];
 extern bool screen_initialized;
 
-/* Boolean for whether the frame buffer is being used (TTY1) 
- * Initialized in main.c */
-extern bool using_framebuf;
-
 /* Define states for color codes (escape sequence) */
 #define STANDARD	0
 #define ESCAPE		1
@@ -27,6 +23,8 @@ extern bool using_framebuf;
 #define CL2		6
 #define MODE		7
 #define CHANGE_COLOR	8
+#define TERM_CLEAR1	9
+#define START_CCHANGE	10
 
 extern uint fb_esc_color1;
 extern uint fb_esc_color2;

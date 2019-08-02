@@ -39,12 +39,7 @@ shellcmd xsh_clear(int nargs, char *args[])
         return 1;
     }
 
-    if (using_framebuf){
-	screenClear(background);
-	cursor_row = 0;
-    }
-    else{
-    	printf("\033[2J\033[H\n");
-    }
+    printf("\033[2J\033[H\n");
+    
     return 0;
 }
