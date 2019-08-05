@@ -87,3 +87,15 @@ void hexdump(void *buffer, ulong length, bool canon)
         fprintf(stdout, "\n");
     }
 }
+
+void _debug_util(const char *file, const char *func, int line, const char *format, ...)
+{
+	va_list args;
+	va_start(args, format);
+
+	kprintf("[DEBUG] %s: %s(), line %d: ", file, func, line);
+	kprintf(format, args);
+	kprintf("\r\n");
+
+	va_end(args);
+}

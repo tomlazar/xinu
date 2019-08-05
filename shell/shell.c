@@ -28,9 +28,9 @@ const struct centry commandtab[] = {
 #if USE_TLB
     {"dumptlb", FALSE, xsh_dumptlb},
 #endif
-/*#if NETHER
+#if NETHER
     {"ethstat", FALSE, xsh_ethstat},
-#endif*/
+#endif
     {"exit", TRUE, xsh_exit},
 #if NFLASH
     {"flashstat", FALSE, xsh_flashstat},
@@ -63,7 +63,7 @@ const struct centry commandtab[] = {
     {"ps", FALSE, xsh_ps},
 #if NETHER
     {"ping", FALSE, xsh_ping},
-/*    {"pktgen", FALSE, xsh_pktgen},*/
+    {"pktgen", FALSE, xsh_pktgen},
 #endif
 
 #ifdef _XINU_PLATFORM_ARM_RPI_3_
@@ -96,7 +96,7 @@ const struct centry commandtab[] = {
 #if NETHER
     {"timeserver", FALSE, xsh_timeserver},
 #endif
-#if (screen_initialized)
+#if TTY1
     {"turtle", FALSE, xsh_turtle},
 #endif
 #if NUART
@@ -110,7 +110,7 @@ const struct centry commandtab[] = {
 #endif
 #if NETHER
     {"udpstat", FALSE, xsh_udpstat},
-/*    {"vlanstat", FALSE, xsh_vlanstat},*/
+    {"vlanstat", FALSE, xsh_vlanstat},
     {"voip", FALSE, xsh_voip},
     {"xweb", FALSE, xsh_xweb},
 #endif
@@ -140,7 +140,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     ushort i, j;                /* temp variables           */
     irqmask im;                 /* interrupt mask state     */
     char *hostptr = NULL;       /* pointer to hostname      */
-
+    
     /* Setup buffer for string for nvramGet call for hostname */
 #if defined(ETH0) && NVRAM
     char hostnm[NET_HOSTNM_MAXLEN + 1]; /* hostname of backend      */
@@ -174,53 +174,25 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdout = outdescrp;
     stderr = errdescrp;
 
-    /* Print shell banner to framebuffer, if exists */
-#if defined(FRAMEBUF)
-    if (indescrp == FRAMEBUF)
-    {
-        foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
-        foreground = LEAFGREEN;
-        printf(SHELL_START);
-    }
-    else
-#endif
-    {
-        foreground = CYAN;
-        printf(SHELL_BANNER_PI3_NONVT100);
-	udelay(250);
-        foreground = LEAFGREEN;
-        printf(SHELL_START);
-    }
+    /* Print shell banner
+     * If the frame buffer is being used (TTY1) instead of the terminal (CONSOLE),
+     * fbPutc() will parse the ANSI color code and change the foregroud color accordingly. */
+    printf(SHELL_BANNER_PI3);
+    printf(SHELL_START);
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-	#if defined(FRAMEBUF)
-	    /* Print shell with colors over the frame buffer */
-	    foreground = RASPBERRY;
-            printf(SHELL_PROMPT_FB);
-	    foreground = WHITE;
-        #else
-	    /* Display prompt using standard ANSI terminal coloring */
-            printf(SHELL_PROMPT);
-	#endif
+	/* Display prompt using standard ANSI terminal coloring */
+        printf(SHELL_PROMPT);
 
         if (NULL != hostptr)
         {
-#ifndef FRAMEBUF
-	    printf("@%s$ \033[0;39m", hostptr);
-#else
-	    printf("@%s$ ", hostptr);
-#endif
+                printf("@%s$ \033[0;39m", hostptr);
 	}
         else
         {
-#ifndef FRAMEBUF
-	    printf("$ \033[0;39m");
-#else
-            printf("$ ");
-#endif
+                printf("$ \033[0;39m");
 	}
 
         /* Setup proper tty modes for input and output */

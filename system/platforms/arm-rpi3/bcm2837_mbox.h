@@ -41,8 +41,6 @@ static volatile uint *const mailbox_regs = (volatile uint*)MAILBOX_REGS_BASE;
  *   * being transferred  */
 #define MAILBOX_CHANNEL_MASK       0xf
 
-
-
 /* Length of mailbox buffer. */
 #define MBOX_BUFLEN 1024
 
