@@ -28,7 +28,6 @@ int ready(tid_typ tid, bool resch, uint core)
 
 	thrptr = &thrtab[tid];
 	thrptr->state = THRREADY;
-	thrptr->core_affinity = core;
 
 	/* if core affinity is not set,
 	 * set affinity to core currently running this code (most likely 0) */
@@ -36,7 +35,7 @@ int ready(tid_typ tid, bool resch, uint core)
 	cpuid = getcpuid();
 	if (-1 == thrptr->core_affinity)
 	{
-		thrptr->core_affinity = cpuid;
+		thrptr->core_affinity = core;
 	}
 
 	thrtab_release(tid);
