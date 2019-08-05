@@ -1,0 +1,39 @@
+\hypertarget{rtpRead_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Read.c File Reference}
+\label{rtpRead_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Read.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Read.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$ether.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$rtp.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{rtpRead_8c_a5ef60c955c6e69fa79dec97e7890a19a}{rtp\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{rtpRead_8c_a5ef60c955c6e69fa79dec97e7890a19a}{\index{rtp\-Read.\-c@{rtp\-Read.\-c}!rtp\-Read@{rtp\-Read}}
+\index{rtp\-Read@{rtp\-Read}!rtpRead.c@{rtp\-Read.\-c}}
+\subsubsection[{rtp\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall rtp\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{rtpRead_8c_a5ef60c955c6e69fa79dec97e7890a19a}
+Read a packet's data and put that data into the user buffer 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-T\-P device table entry \\
+\hline
+{\em buf} & User buffer \\
+\hline
+{\em len} & Length of data to be read and put into user buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if data read completes properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

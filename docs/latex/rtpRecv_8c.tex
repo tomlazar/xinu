@@ -1,0 +1,38 @@
+\hypertarget{rtpRecv_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Recv.c File Reference}
+\label{rtpRecv_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Recv.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Recv.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+{\ttfamily \#include $<$icmp.\-h$>$}\\*
+{\ttfamily \#include $<$rtp.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{rtpRecv_8c_af42db94abee037ddee30f803e94c44ff}{rtp\-Recv} (struct packet $\ast$pkt, struct netaddr $\ast$src, struct netaddr $\ast$dst)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{rtpRecv_8c_af42db94abee037ddee30f803e94c44ff}{\index{rtp\-Recv.\-c@{rtp\-Recv.\-c}!rtp\-Recv@{rtp\-Recv}}
+\index{rtp\-Recv@{rtp\-Recv}!rtpRecv.c@{rtp\-Recv.\-c}}
+\subsubsection[{rtp\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall rtp\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{rtpRecv_8c_af42db94abee037ddee30f803e94c44ff}
+Receive a R\-T\-P packet and place it in the R\-T\-P device's input buffer 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & Incoming R\-T\-P packet \\
+\hline
+{\em src} & Source address \\
+\hline
+{\em dst} & Destination address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if R\-T\-P packet is received properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

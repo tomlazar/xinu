@@ -28,8 +28,7 @@
  * Currently all this function has to do is return the buffer to its pool.  This
  * may wake up a thread in etherWrite() that is waiting for a free buffer.
  *
- * @param req
- *      USB bulk OUT transfer request that has completed.
+ * @param req	USB bulk OUT transfer request that has completed.
  */
 void lan7800_tx_complete(struct usb_xfer_request *req)
 {
@@ -54,8 +53,7 @@ void lan7800_tx_complete(struct usb_xfer_request *req)
  * new packets).  It then must re-submit the USB bulk transfer request so that
  * packets can continue to be received.
  *
- * @param req
- *      USB bulk IN transfer request that has completed.
+ * @param req	USB bulk IN transfer request that has completed.
  */
 void lan7800_rx_complete(struct usb_xfer_request *req)
 {

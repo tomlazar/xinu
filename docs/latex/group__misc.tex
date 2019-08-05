@@ -1,0 +1,147 @@
+\hypertarget{group__misc}{\section{Miscellaneous}
+\label{group__misc}\index{Miscellaneous@{Miscellaneous}}
+}
+
+
+Debugging, tar, and other miscellaneous functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__misc_ga5bc0d7c8691391445b85777874908adb}{hexdump} (void $\ast$buffer, ulong length, bool canon)
+\item 
+int \hyperlink{group__misc_ga5bfc2d506c06303b7d2d5ab0d8e1e4a3}{tar\-List\-Files} (struct tar $\ast$archive, char $\ast$filelist, int nentries)
+\item 
+struct tar $\ast$ \hyperlink{group__misc_gaac8d47f2f9843915c59f1bbd99995ba9}{tar\-Get\-File} (struct tar $\ast$archive, char $\ast$filename)
+\item 
+int \hyperlink{group__misc_ga39107e527d7aa1192e146494b3f5418f}{tar\-Get\-Filesize} (struct tar $\ast$file)
+\item 
+int \hyperlink{group__misc_ga31ab4c8036ca4560c0843ed4f1f822ff}{tar\-Get\-Data} (struct tar $\ast$file, char $\ast$buffer, uint size)
+\item 
+int \hyperlink{group__misc_ga0e59f38babb1deeb090451be341189f3}{tar\-Filesize} (char $\ast$octalsize)
+\item 
+void \hyperlink{group__misc_ga1660c9984ab15425f280b8649d318a53}{xdone} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Debugging, tar, and other miscellaneous functions. 
+
+\subsection{Function Documentation}
+\hypertarget{group__misc_ga5bc0d7c8691391445b85777874908adb}{\index{Miscellaneous@{Miscellaneous}!hexdump@{hexdump}}
+\index{hexdump@{hexdump}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{hexdump}]{\setlength{\rightskip}{0pt plus 5cm}void hexdump (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buffer, }
+\item[{ulong}]{length, }
+\item[{bool}]{canon}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga5bc0d7c8691391445b85777874908adb}
+Dump a buffer of given length to stdout. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$buffer} & buffer to print out data in \\
+\hline
+{\em length} & length of buffer to print \\
+\hline
+{\em canon} & canonical representation (hex+\-A\-S\-C\-I\-I) \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__misc_ga0e59f38babb1deeb090451be341189f3}{\index{Miscellaneous@{Miscellaneous}!tar\-Filesize@{tar\-Filesize}}
+\index{tar\-Filesize@{tar\-Filesize}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{tar\-Filesize}]{\setlength{\rightskip}{0pt plus 5cm}int tar\-Filesize (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{octalsize}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga0e59f38babb1deeb090451be341189f3}
+Decode the filesize of a tar file. Filesize is stored as an octal string. 
+\begin{DoxyParams}{Parameters}
+{\em octalsize} & string holding size stored in octal \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of file 
+\end{DoxyReturn}
+\hypertarget{group__misc_ga31ab4c8036ca4560c0843ed4f1f822ff}{\index{Miscellaneous@{Miscellaneous}!tar\-Get\-Data@{tar\-Get\-Data}}
+\index{tar\-Get\-Data@{tar\-Get\-Data}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{tar\-Get\-Data}]{\setlength{\rightskip}{0pt plus 5cm}int tar\-Get\-Data (
+\begin{DoxyParamCaption}
+\item[{struct tar $\ast$}]{file, }
+\item[{char $\ast$}]{buffer, }
+\item[{uint}]{size}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga31ab4c8036ca4560c0843ed4f1f822ff}
+Given a pointer to the tar header of a file, fill buffer with data stored in the file. 
+\begin{DoxyParams}{Parameters}
+{\em file} & pointer to tar header of file \\
+\hline
+{\em buffer} & buffer to store data in \\
+\hline
+{\em size} & size of buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes copied into buffer 
+\end{DoxyReturn}
+\hypertarget{group__misc_gaac8d47f2f9843915c59f1bbd99995ba9}{\index{Miscellaneous@{Miscellaneous}!tar\-Get\-File@{tar\-Get\-File}}
+\index{tar\-Get\-File@{tar\-Get\-File}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{tar\-Get\-File}]{\setlength{\rightskip}{0pt plus 5cm}struct tar$\ast$ tar\-Get\-File (
+\begin{DoxyParamCaption}
+\item[{struct tar $\ast$}]{archive, }
+\item[{char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}\label{group__misc_gaac8d47f2f9843915c59f1bbd99995ba9}
+Get a pointer to a specific file in a tar format file. 
+\begin{DoxyParams}{Parameters}
+{\em archive} & tar file to process \\
+\hline
+{\em filename} & name of file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to tar header of filename 
+\end{DoxyReturn}
+\hypertarget{group__misc_ga39107e527d7aa1192e146494b3f5418f}{\index{Miscellaneous@{Miscellaneous}!tar\-Get\-Filesize@{tar\-Get\-Filesize}}
+\index{tar\-Get\-Filesize@{tar\-Get\-Filesize}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{tar\-Get\-Filesize}]{\setlength{\rightskip}{0pt plus 5cm}int tar\-Get\-Filesize (
+\begin{DoxyParamCaption}
+\item[{struct tar $\ast$}]{file}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga39107e527d7aa1192e146494b3f5418f}
+Given a pointer to the tar header of a file, get the size of the file. 
+\begin{DoxyParams}{Parameters}
+{\em file} & pointer to tar header of file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size of file 
+\end{DoxyReturn}
+\hypertarget{group__misc_ga5bfc2d506c06303b7d2d5ab0d8e1e4a3}{\index{Miscellaneous@{Miscellaneous}!tar\-List\-Files@{tar\-List\-Files}}
+\index{tar\-List\-Files@{tar\-List\-Files}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{tar\-List\-Files}]{\setlength{\rightskip}{0pt plus 5cm}int tar\-List\-Files (
+\begin{DoxyParamCaption}
+\item[{struct tar $\ast$}]{archive, }
+\item[{char $\ast$}]{filelist, }
+\item[{int}]{nentries}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga5bfc2d506c06303b7d2d5ab0d8e1e4a3}
+Get a listing of filenames stored in a tar file. 
+\begin{DoxyParams}{Parameters}
+{\em archive} & pointer to archive data \\
+\hline
+{\em filelist} & pointer to string array for list of files \\
+\hline
+{\em nentries} & number of entries in filelist array \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of file entries found 
+\end{DoxyReturn}
+\hypertarget{group__misc_ga1660c9984ab15425f280b8649d318a53}{\index{Miscellaneous@{Miscellaneous}!xdone@{xdone}}
+\index{xdone@{xdone}!Miscellaneous@{Miscellaneous}}
+\subsubsection[{xdone}]{\setlength{\rightskip}{0pt plus 5cm}void xdone (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__misc_ga1660c9984ab15425f280b8649d318a53}
+Print system completion message as last thread exits. 

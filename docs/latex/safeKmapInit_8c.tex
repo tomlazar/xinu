@@ -1,0 +1,31 @@
+\hypertarget{safeKmapInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Kmap\-Init.c File Reference}
+\label{safeKmapInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Kmap\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Kmap\-Init.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$memory.\-h$>$}\\*
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+{\ttfamily \#include $<$platform.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$mips.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{safeKmapInit_8c_a8b67a6ff3f33fae9b3f1b142005c0bc2}{void {\bfseries \-\_\-start} (void)}\label{safeKmapInit_8c_a8b67a6ff3f33fae9b3f1b142005c0bc2}
+
+\item 
+void \hyperlink{safeKmapInit_8c_a50bb4921f9b23a333e0f12d75942df58}{safe\-Kmap\-Init} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialize kernel mappings. 
+
+\subsection{Function Documentation}
+\hypertarget{safeKmapInit_8c_a50bb4921f9b23a333e0f12d75942df58}{\index{safe\-Kmap\-Init.\-c@{safe\-Kmap\-Init.\-c}!safe\-Kmap\-Init@{safe\-Kmap\-Init}}
+\index{safe\-Kmap\-Init@{safe\-Kmap\-Init}!safeKmapInit.c@{safe\-Kmap\-Init.\-c}}
+\subsubsection[{safe\-Kmap\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void safe\-Kmap\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{safeKmapInit_8c_a50bb4921f9b23a333e0f12d75942df58}
+Initialize kernel mappings to include statically configured kernel memory. Includes kernel text, data, stack, memory region table, and page table table. 

@@ -1,0 +1,49 @@
+\hypertarget{kexec_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/kexec.c File Reference}
+\label{kexec_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/kexec.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/kexec.\-c}}
+}
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$kexec.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{kexec_8c_ae9775acb2f1533370d73c411260539c6}{\#define {\bfseries C\-O\-P\-Y\-\_\-\-K\-E\-R\-N\-E\-L\-\_\-\-A\-D\-D\-R}~((void$\ast$)(0x8000 -\/ sizeof(copy\-\_\-kernel)))}\label{kexec_8c_ae9775acb2f1533370d73c411260539c6}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{kexec_8c_ae911999e2a6c1ab660876fb312366059}{void {\bfseries stop\-\_\-mmu} (void)}\label{kexec_8c_ae911999e2a6c1ab660876fb312366059}
+
+\item 
+\hypertarget{kexec_8c_afbac5cae77fc50d50e563ea2843f915d}{void {\bfseries invalidate\-\_\-tlbs} (void)}\label{kexec_8c_afbac5cae77fc50d50e563ea2843f915d}
+
+\item 
+syscall \hyperlink{kexec_8c_a4ee99506995f8dec0eaf692021372dae}{kexec} (const void $\ast$kernel, uint size)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{kexec_8c_a4ee99506995f8dec0eaf692021372dae}{\index{kexec.\-c@{kexec.\-c}!kexec@{kexec}}
+\index{kexec@{kexec}!kexec.c@{kexec.\-c}}
+\subsubsection[{kexec}]{\setlength{\rightskip}{0pt plus 5cm}syscall kexec (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{kernel, }
+\item[{uint}]{size}
+\end{DoxyParamCaption}
+)}}\label{kexec_8c_a4ee99506995f8dec0eaf692021372dae}
+Kernel execute -\/ Transfer control to a new kernel.
+
+This is the Raspberry Pi implementation. In this implementation, the new kernel must be valid for the Raspberry Pi, including being linked to run at and having an entry point at address 0x8000.
+
+
+\begin{DoxyParams}{Parameters}
+{\em kernel} & Pointer to the new kernel image loaded anywhere in memory. \\
+\hline
+{\em size} & Size of the new kernel image in bytes.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This function never returns. If it somehow does, then something has gone horribly wrong. 
+\end{DoxyReturn}

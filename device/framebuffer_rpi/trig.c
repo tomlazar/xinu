@@ -11,6 +11,14 @@
 #include <stddef.h>
 #include <framebuffer.h>
 
+/**
+ * @ingroup framebuffer
+ *
+ * Compute the double-precision result of a power operation
+ * @param base	Double-precision base value of operation
+ * @param exp	Integer exponent to which the base is raised
+ * @return Double-precision result of the power operation
+ */
 double power(double base, int exp)
 {
     double result = 1.0;
@@ -22,6 +30,13 @@ double power(double base, int exp)
     return result;
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Compute the factorial of an integer
+ * @param num	Integer to compute factorial operation on
+ * @return	Long integer result of the factorial operation
+ */
 long factorial(int num)
 {
     if (num < 2)
@@ -29,6 +44,14 @@ long factorial(int num)
     return num*factorial(num-1);
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Compute the Taylor series approximation of cosine using power and factorial
+ * @oaram x	Base value
+ * @param terms	Terms of the sum
+ * @return Double-precision result of the cosine approximation
+ */
 double cosine_taylor(double x, int terms)
 {
     int i;
@@ -40,6 +63,13 @@ double cosine_taylor(double x, int terms)
     return result;
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Compute the cosine using the Taylor approximation as a helper function
+ * @param x	Angle, in degrees
+ * @return	Double-precision result of the computation
+ */
 double cos(int x)
 {
     double radx;
@@ -69,6 +99,14 @@ double cos(int x)
     }
 }
 
+/**
+ * @ingroup framebuffer
+ *
+ * Compute the Taylor series approximation of sine
+ * @param x	Base value
+ * @param terms	Terms of the sum
+ * @return Double-precision result of the sine approximation
+ */
 double sine_taylor(double x, int terms)
 {
     int i;
@@ -80,8 +118,15 @@ double sine_taylor(double x, int terms)
     return result;
 }
 
-/* Note: For graphics purposes, the sine must always be turned negative because
- * a monitor is technically in quadrant 4 instead of quadrant 1. */
+/**
+ * @ingroup framebuffers
+ *
+ * Compute the sine using the Taylor approximation as a helper function
+ * Note: For graphics purposes, the sine must always be turned negative because
+ * a monitor is technically in quadrant 4 instead of quadrant 1. 
+ * @param x	Angle, in degrees
+ * @return Double-precision result of the computation
+ */
 double sin(int x)
 {
     double radx;

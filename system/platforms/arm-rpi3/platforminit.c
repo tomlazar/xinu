@@ -82,7 +82,11 @@ extern void *_end;
 /**
  * This code is irrelevant to Embedded Xinu and is only used as a means of testing on the RPI 3 boards
  */
-/* Initialize GPIO pin 16 as an output */
+/**
+ * @ingroup bcm2837
+ *
+ * Initialize GPIO pin 16 as an output 
+ */
 void led_init(void)
 {
 	volatile struct rpi_gpio_regs *regptr;
@@ -90,13 +94,21 @@ void led_init(void)
 	regptr->gpfsel[1] &= ~(7 << 18);
 	regptr->gpfsel[1] |=  (1 << 18);	
 }
-/* Set GPIO pin 16 to ON */
+/**
+ * @ingroup bcm2837
+ *
+ * Set GPIO pin 16 to ON 
+ */
 void led_on(void)
 {	
 	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
 	regptr->gpset[0] = 1 << 16;
 }
-/* Set GPIO pin 16 to OFF */
+/**
+ * @ingroup bcm2837
+ *
+ * Set GPIO pin 16 to OFF 
+ */
 void led_off(void)
 {	
 	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
@@ -104,6 +116,8 @@ void led_off(void)
 }
 
 /**
+ * @ingroup bcm2837
+ *
  * Initializes platform specific information for the Raspberry Pi hardware.
  * @return OK
  */

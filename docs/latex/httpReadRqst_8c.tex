@@ -1,0 +1,28 @@
+\hypertarget{httpReadRqst_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Read\-Rqst.c File Reference}
+\label{httpReadRqst_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Read\-Rqst.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Read\-Rqst.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{httpReadRqst_8c_a40401c4ad053e6414865354895e3cae9}{http\-Read\-Rqst} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpReadRqst_8c_a40401c4ad053e6414865354895e3cae9}{\index{http\-Read\-Rqst.\-c@{http\-Read\-Rqst.\-c}!http\-Read\-Rqst@{http\-Read\-Rqst}}
+\index{http\-Read\-Rqst@{http\-Read\-Rqst}!httpReadRqst.c@{http\-Read\-Rqst.\-c}}
+\subsubsection[{http\-Read\-Rqst}]{\setlength{\rightskip}{0pt plus 5cm}int http\-Read\-Rqst (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{httpReadRqst_8c_a40401c4ad053e6414865354895e3cae9}
+Read an entire H\-T\-T\-P request into the H\-T\-T\-P read input buffer. 
+\begin{DoxyParams}{Parameters}
+{\em webptr} & pointer to the H\-T\-T\-P device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of headers if request is read in, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

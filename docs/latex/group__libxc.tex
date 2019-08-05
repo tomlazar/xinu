@@ -1,0 +1,888 @@
+\hypertarget{group__libxc}{\section{C library}
+\label{group__libxc}\index{C library@{C library}}
+}
+
+
+A simple C library supporting a number of standard functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__libxc_gaeb20b44c8437544e571a3cb9bb2cc37d}{abs} (int j)
+\item 
+int \hyperlink{group__libxc_gad228deceea1bac4d9f171f647c265059}{atoi} (const char $\ast$nptr)
+\item 
+long \hyperlink{group__libxc_ga185551efd32d058ef290ebe2d144219f}{atol} (const char $\ast$nptr)
+\item 
+void \hyperlink{group__libxc_ga59505af7f1c47ff01fdb944801642033}{bzero} (void $\ast$s, size\-\_\-t n)
+\item 
+int \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt} (const char $\ast$fmt, va\-\_\-list ap, int($\ast$putc\-\_\-func)(int, int), int putc\-\_\-arg)
+\item 
+int \hyperlink{group__libxc_ga166404d618b580eb27442b03d55004fd}{\-\_\-doscan} (const char $\ast$fmt, va\-\_\-list ap, int($\ast$getch)(int, int), int($\ast$ungetch)(int, int), int arg1, int arg2)
+\item 
+int \hyperlink{group__libxc_ga331dd7c56def5258f0385d1e5f9220c1}{fgetc} (int dev)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga573c8ad59f73c997adb58ea83a5a879a}{fgets} (char $\ast$s, int n, int dev)
+\item 
+int \hyperlink{group__libxc_ga4112ec293c0482854c66caaa708457c2}{fprintf} (int dev, const char $\ast$format,...)
+\item 
+int \hyperlink{group__libxc_ga32f19bdc96eb7c1eda177e01344f8c74}{fputc} (int c, int dev)
+\item 
+int \hyperlink{group__libxc_ga52df17ca21d792b6abb1559a77feaa13}{fputs} (const char $\ast$s, int dev)
+\item 
+void \hyperlink{group__libxc_gafbedc913aa4651b3c3b4b3aecd9b4711}{free} (void $\ast$ptr)
+\item 
+int \hyperlink{group__libxc_gaf9412bab60c15683f2cbf5397970bf38}{fscanf} (int dev, const char $\ast$format,...)
+\item 
+long \hyperlink{group__libxc_ga912277f2dbf3594e958d116ff2b35625}{labs} (long j)
+\item 
+void $\ast$ \hyperlink{group__libxc_ga7ac38fce3243a7dcf448301ee9ffd392}{malloc} (size\-\_\-t size)
+\item 
+void $\ast$ \hyperlink{group__libxc_ga16d6b0bd660cc3f9910924c6b6f4af8e}{memchr} (const void $\ast$s, int c, size\-\_\-t n)
+\item 
+int \hyperlink{group__libxc_ga9e6df54ee04e18a3772335580e2ed872}{memcmp} (const void $\ast$s1, const void $\ast$s2, size\-\_\-t n)
+\item 
+void $\ast$ \hyperlink{group__libxc_ga14938524dcbeb59d7117ba5e151ad1b1}{memcpy} (void $\ast$dest, const void $\ast$src, size\-\_\-t n)
+\item 
+void $\ast$ \hyperlink{group__libxc_gace6ee45c30e71865e6eb635200379db9}{memset} (void $\ast$s, int c, size\-\_\-t n)
+\item 
+int \hyperlink{group__libxc_ga98631211a4a8aee62f572375d5b637be}{printf} (const char $\ast$format,...)
+\item 
+void \hyperlink{group__libxc_ga216aaec88b41d3e2f8502a5b3365ea81}{qsort} (void $\ast$base, size\-\_\-t nmemb, size\-\_\-t size, int($\ast$compar)(const void $\ast$, const void $\ast$))
+\item 
+void \hyperlink{group__libxc_gaa76dd6cc9eff8b0475a781caf9782d73}{srand} (unsigned int x)
+\item 
+int \hyperlink{group__libxc_gae23144bcbb8e3742b00eb687c36654d1}{rand} (void)
+\item 
+int \hyperlink{group__libxc_ga3082155ec11e7229f7a20439b31a169e}{sprintf} (char $\ast$str, const char $\ast$format,...)
+\item 
+int \hyperlink{group__libxc_gaec1e54556dca3bd701d44395d34818dd}{sscanf} (const char $\ast$str, const char $\ast$format,...)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga12871ed234858ef0e363d2b8aa572fc1}{strchr} (const char $\ast$s, int c)
+\item 
+int \hyperlink{group__libxc_ga11bd144d7d44914099a3aeddf1c8567d}{strcmp} (const char $\ast$s1, const char $\ast$s2)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga7a82515b5d377be04817715c5465b647}{strcpy} (char $\ast$dest, const char $\ast$src)
+\item 
+size\-\_\-t \hyperlink{group__libxc_ga3e0c58f8ba41f9267161ffca2ea92558}{strlcpy} (char $\ast$dest, const char $\ast$src, size\-\_\-t destsize)
+\item 
+size\-\_\-t \hyperlink{group__libxc_gaa383452fe445bfae989358c9d7d96f4f}{strlen} (const char $\ast$s)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga0aee928c2844a269966e4832fd2255c5}{strncat} (char $\ast$dest, const char $\ast$src, size\-\_\-t n)
+\item 
+int \hyperlink{group__libxc_ga07f4a84c11c106e95c32b6ab509346ef}{strncmp} (const char $\ast$s1, const char $\ast$s2, size\-\_\-t n)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga47d54f24198df56da51078a6c540b9ed}{strncpy} (char $\ast$dest, const char $\ast$src, size\-\_\-t n)
+\item 
+size\-\_\-t \hyperlink{group__libxc_gafc92d2231e45d19988c7894aa2a07f0c}{strnlen} (const char $\ast$s, size\-\_\-t maxlen)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga0c05a458deff028ef4d4e64059098db4}{strrchr} (const char $\ast$s, int c)
+\item 
+char $\ast$ \hyperlink{group__libxc_ga4a710d86541afc6b7dafddcdb4b1c94f}{strstr} (const char $\ast$haystack, const char $\ast$needle)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A simple C library supporting a number of standard functions. 
+
+\subsection{Function Documentation}
+\hypertarget{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\index{C library@{C library}!\-\_\-doprnt@{\-\_\-doprnt}}
+\index{\-\_\-doprnt@{\-\_\-doprnt}!C library@{C library}}
+\subsubsection[{\-\_\-doprnt}]{\setlength{\rightskip}{0pt plus 5cm}int \-\_\-doprnt (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{va\-\_\-list}]{ap, }
+\item[{int($\ast$)(int, int)}]{putc\-\_\-func, }
+\item[{int}]{putc\-\_\-arg}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}
+Write formatted output.
+
+This is a simplified implementation, and not all standard conversion specifications are supported. A conversion specification (a sequence beginning with the {\ttfamily ''} character) is divided into 5 parts, the first four of which are optional. The following list explains the features supported by this implementation, broken down by part of the conversion specification\-:
+
+
+\begin{DoxyEnumerate}
+\item Flags\-: 0+ of the following\-:
+\begin{DoxyItemize}
+\item {\ttfamily \char`\"{}-\/\char`\"{}} to specify left-\/justification
+\item {\ttfamily \char`\"{}0\char`\"{}} to specify zero padding
+\end{DoxyItemize}
+\item Minimum field width\-: 0-\/1 of the following\-:
+\begin{DoxyItemize}
+\item A series of decimal digits not beginning with 0 that specifies the minimum field width as a non-\/negative integer
+\item {\ttfamily \char`\"{}$\ast$\char`\"{}}, indicating that the minimum field width is given as an {\ttfamily int} variadic argument
+\end{DoxyItemize}
+\item Precision\-: 0-\/1 of the following\-:
+\begin{DoxyItemize}
+\item {\ttfamily \char`\"{}.\-P\-R\-E\-C\char`\"{}}, where {\ttfamily P\-R\-E\-C} is a series of decimal digits that specifies the precision as a non-\/negative integer
+\item {\ttfamily \char`\"{}$\ast$\char`\"{}}, indicating that the precision is given as an {\ttfamily int} variadic argument
+\end{DoxyItemize}
+\item Length modifier for signed and unsigned integer conversions\-: 0-\/1 of the following\-:
+\begin{DoxyItemize}
+\item {\ttfamily \char`\"{}hh\char`\"{}} for {\ttfamily signed char} or {\ttfamily unsigned char}
+\item {\ttfamily \char`\"{}h\char`\"{}} for {\ttfamily signed short} or {\ttfamily unsigned short}
+\item {\ttfamily \char`\"{}l\char`\"{}} for {\ttfamily signed long} or {\ttfamily unsigned long}
+\end{DoxyItemize}
+\item Conversion specifier character\-: 1 of the following\-:
+\begin{DoxyItemize}
+\item {\ttfamily \char`\"{}\textbackslash{}\%d\char`\"{}} to format a signed integer in decimal (base 10)
+\item {\ttfamily \char`\"{}\textbackslash{}\%b\char`\"{}} to format an unsigned integer in binary (base 2)
+\item {\ttfamily \char`\"{}\textbackslash{}\%o\char`\"{}} to format an unsigned integer in octal (base 8)
+\item {\ttfamily \char`\"{}\textbackslash{}\%u\char`\"{}} to format an unsigned integer in decimal (base 10)
+\item {\ttfamily \char`\"{}\textbackslash{}\%x\char`\"{}} to format an unsigned integer in lower case hex (base 16)
+\item {\ttfamily \char`\"{}\textbackslash{}\%\-X\char`\"{}} to format an unsigned integer in upper case hex (base 16)
+\item {\ttfamily \char`\"{}\textbackslash{}\%c\char`\"{}} to format a single character
+\item {\ttfamily \char`\"{}\textbackslash{}\%s\char`\"{}} to format a null-\/terminated string, or \char`\"{}(null)\char`\"{} for a {\ttfamily N\-U\-L\-L} pointer
+\item {\ttfamily \char`\"{}\textbackslash{}\%\textbackslash{}\%\char`\"{}} to format a literal percent sign
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+If a feature is not mentioned above, assume it is not supported.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & Format string. \\
+\hline
+{\em ap} & Variable-\/length list of values that will be formatted. \\
+\hline
+{\em putc\-\_\-func} & Character output function. It is passed two arguments; the first will be the character to output, and the second will be {\ttfamily putc\-\_\-arg}. It is expected to return {\ttfamily E\-O\-F} on failure. \\
+\hline
+{\em putc\-\_\-arg} & Second argument to {\ttfamily putc\-\_\-func}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of characters written on success, or {\ttfamily E\-O\-F} on failure 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga166404d618b580eb27442b03d55004fd}{\index{C library@{C library}!\-\_\-doscan@{\-\_\-doscan}}
+\index{\-\_\-doscan@{\-\_\-doscan}!C library@{C library}}
+\subsubsection[{\-\_\-doscan}]{\setlength{\rightskip}{0pt plus 5cm}int \-\_\-doscan (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{fmt, }
+\item[{va\-\_\-list}]{ap, }
+\item[{int($\ast$)(int, int)}]{getch, }
+\item[{int($\ast$)(int, int)}]{ungetch, }
+\item[{int}]{arg1, }
+\item[{int}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga166404d618b580eb27442b03d55004fd}
+Scan and recognize input according to a format.
+
+This is a minimal implementation and not all standard features are supported. The supported conversion specifications include\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \%s} to scan a whitespace-\/delimited string
+\item {\ttfamily \%o} to scan an octal number ({\ttfamily \%O} for long)
+\item {\ttfamily \%x} to scan a hexideminal number ({\ttfamily \%X} for long)
+\item {\ttfamily \%c} to scan a sequence of characters
+\item {\ttfamily \%}\mbox{[} to scan a sequence of characters from the specified set
+\item {\ttfamily \%\%} to match a literal percent sign
+\item All other conversion specifiers, including {\ttfamily \%d} and {\ttfamily \%u}, are interpreted as specifying a decimal number.
+\item Whitespace to match any amount of whitespace in the input.
+\item Maximum length modifier
+\item {\ttfamily 'l'} type modifier to parse a long int rather than a normal int
+\item {\ttfamily 'h'} type modifier to parse a short int rather than a normal int
+\item {\ttfamily '$\ast$'} character to suppress assignment
+\end{DoxyItemize}
+
+If a feature is not mentioned above, assume it is not supported.
+
+
+\begin{DoxyParams}{Parameters}
+{\em fmt} & format string for the scan \\
+\hline
+{\em ap} & variable-\/length list of locations to store the scanned data \\
+\hline
+{\em getch} & Function to get a character. It is expected to return the character as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success, or {\ttfamily E\-O\-F} on end-\/of-\/file or read error. \\
+\hline
+{\em ungetch} & Function to unget a character. Unlike the standard ungetc(), this is not passed in an explicit character but instead uses the last read character, which will then be expected to be returned on the next getch() call. Only one character of putback needs to be supported. \\
+\hline
+{\em arg1} & First argument to {\ttfamily getch} and {\ttfamily ungetch}. \\
+\hline
+{\em arg2} & Second argument to {\ttfamily getch} and {\ttfamily ungetch}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of items successfully matched and assigned, which may be less than the number of format specifiers in the case of a matching failure; alternatively, if E\-O\-F or a read error occurs before any matches, E\-O\-F is returned. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gaeb20b44c8437544e571a3cb9bb2cc37d}{\index{C library@{C library}!abs@{abs}}
+\index{abs@{abs}!C library@{C library}}
+\subsubsection[{abs}]{\setlength{\rightskip}{0pt plus 5cm}int abs (
+\begin{DoxyParamCaption}
+\item[{int}]{j}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaeb20b44c8437544e571a3cb9bb2cc37d}
+Calculates the absolute value of an integer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em j} & The integer to get the absolute value of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The absolute value of {\ttfamily j}. As a special case, if {\ttfamily j} is {\ttfamily I\-N\-T\-\_\-\-M\-I\-N}, the return value will be undefined because {\ttfamily -\/\-I\-N\-T\-\_\-\-M\-I\-N} cannot be represented in an {\ttfamily int}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gad228deceea1bac4d9f171f647c265059}{\index{C library@{C library}!atoi@{atoi}}
+\index{atoi@{atoi}!C library@{C library}}
+\subsubsection[{atoi}]{\setlength{\rightskip}{0pt plus 5cm}int atoi (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{nptr}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gad228deceea1bac4d9f171f647c265059}
+Converts the initial portion of an A\-S\-C\-I\-I null-\/terminated string into an integer. Leading whitespace is skipped and an optional {\ttfamily +} or {\ttfamily -\/} character is allowed to indicate sign. Parsing otherwise stops once the first nondigit character is encountered. If no digits have been encountered at that point, 0 shall be returned.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nptr} & Pointer to the string to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting integer. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga185551efd32d058ef290ebe2d144219f}{\index{C library@{C library}!atol@{atol}}
+\index{atol@{atol}!C library@{C library}}
+\subsubsection[{atol}]{\setlength{\rightskip}{0pt plus 5cm}long atol (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{nptr}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga185551efd32d058ef290ebe2d144219f}
+Converts the initial portion of an A\-S\-C\-I\-I null-\/terminated string into a long integer. Leading whitespace is skipped and an optional {\ttfamily +} or {\ttfamily -\/} character is allowed to indicate sign. Parsing otherwise stops once the first nondigit character is encountered. If no digits have been encountered at that point, 0 shall be returned.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nptr} & Pointer to the string to convert.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting long integer. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga59505af7f1c47ff01fdb944801642033}{\index{C library@{C library}!bzero@{bzero}}
+\index{bzero@{bzero}!C library@{C library}}
+\subsubsection[{bzero}]{\setlength{\rightskip}{0pt plus 5cm}void bzero (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{s, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga59505af7f1c47ff01fdb944801642033}
+Zeroes a block of memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & Pointer to the start of the block of memory to zero. \\
+\hline
+{\em n} & Length of the block of memory, in bytes. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__libxc_ga331dd7c56def5258f0385d1e5f9220c1}{\index{C library@{C library}!fgetc@{fgetc}}
+\index{fgetc@{fgetc}!C library@{C library}}
+\subsubsection[{fgetc}]{\setlength{\rightskip}{0pt plus 5cm}int fgetc (
+\begin{DoxyParamCaption}
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga331dd7c56def5258f0385d1e5f9220c1}
+Reads a character from a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Index of device from which to read the character.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character read as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On read error, invalid device, or end-\/of file, returns {\ttfamily E\-O\-F}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga573c8ad59f73c997adb58ea83a5a879a}{\index{C library@{C library}!fgets@{fgets}}
+\index{fgets@{fgets}!C library@{C library}}
+\subsubsection[{fgets}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ fgets (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{s, }
+\item[{int}]{n, }
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga573c8ad59f73c997adb58ea83a5a879a}
+Reads a newline-\/terminated string from a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The buffer in which to place the resulting data. \\
+\hline
+{\em n} & One less than the maximum number of characters to read. \\
+\hline
+{\em dev} & The index of the device from which to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns a pointer to the buffer {\ttfamily s}. On {\ttfamily E\-O\-F} before any characters were read, read error, or invalid device, returns {\ttfamily N\-U\-L\-L}. On success, the resulting buffer will contain a null-\/terminated string that is the read data up until the first of the next newline, the end of the buffer, or the point at which {\ttfamily E\-O\-F} was reached on the device. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga4112ec293c0482854c66caaa708457c2}{\index{C library@{C library}!fprintf@{fprintf}}
+\index{fprintf@{fprintf}!C library@{C library}}
+\subsubsection[{fprintf}]{\setlength{\rightskip}{0pt plus 5cm}int fprintf (
+\begin{DoxyParamCaption}
+\item[{int}]{dev, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga4112ec293c0482854c66caaa708457c2}
+Writes a formatted message to the specified device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Index of the device to write to. \\
+\hline
+{\em format} & The format string. Not all standard conversion specifications are supported by this implementation. See \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt()} for a description of supported conversion specifications. \\
+\hline
+{\em ...} & Arguments matching those in the format string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of characters written. On write error, returns a negative value. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga32f19bdc96eb7c1eda177e01344f8c74}{\index{C library@{C library}!fputc@{fputc}}
+\index{fputc@{fputc}!C library@{C library}}
+\subsubsection[{fputc}]{\setlength{\rightskip}{0pt plus 5cm}int fputc (
+\begin{DoxyParamCaption}
+\item[{int}]{c, }
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga32f19bdc96eb7c1eda177e01344f8c74}
+Writes one character to a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & The character to write. \\
+\hline
+{\em dev} & Index of the device to which to write the character.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character written as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On write error or invalid device, returns {\ttfamily E\-O\-F}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga52df17ca21d792b6abb1559a77feaa13}{\index{C library@{C library}!fputs@{fputs}}
+\index{fputs@{fputs}!C library@{C library}}
+\subsubsection[{fputs}]{\setlength{\rightskip}{0pt plus 5cm}int fputs (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s, }
+\item[{int}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga52df17ca21d792b6abb1559a77feaa13}
+Writes a null-\/terminated string to a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The null terminated string to write. \\
+\hline
+{\em dev} & The device to write the string to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A non-\/negative number on success, or {\ttfamily E\-O\-F} on error. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gafbedc913aa4651b3c3b4b3aecd9b4711}{\index{C library@{C library}!free@{free}}
+\index{free@{free}!C library@{C library}}
+\subsubsection[{free}]{\setlength{\rightskip}{0pt plus 5cm}void free (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gafbedc913aa4651b3c3b4b3aecd9b4711}
+Attempt to free a block of memory based on \hyperlink{group__libxc_ga7ac38fce3243a7dcf448301ee9ffd392}{malloc()} accounting information stored in preceding two words.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & A pointer to the memory block to free. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__libxc_gaf9412bab60c15683f2cbf5397970bf38}{\index{C library@{C library}!fscanf@{fscanf}}
+\index{fscanf@{fscanf}!C library@{C library}}
+\subsubsection[{fscanf}]{\setlength{\rightskip}{0pt plus 5cm}int fscanf (
+\begin{DoxyParamCaption}
+\item[{int}]{dev, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaf9412bab60c15683f2cbf5397970bf38}
+Scan input from a device according to the specified format string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Index of the device from which to scan input. \\
+\hline
+{\em format} & Format string. Not all standard format specifiers are supported by this implementation. See \hyperlink{group__libxc_ga166404d618b580eb27442b03d55004fd}{\-\_\-doscan()} for a description of supported conversion specifications.\\
+\hline
+{\em ...} & Additional arguments that match those specified in the format string. Generally these need to be a {\itshape pointer} to the corresponding argument so that the value can be set; for example, a {\ttfamily \%d} conversion specifier needs to be matched with an {\ttfamily int $\ast$}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of items successfully matched and assigned. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga912277f2dbf3594e958d116ff2b35625}{\index{C library@{C library}!labs@{labs}}
+\index{labs@{labs}!C library@{C library}}
+\subsubsection[{labs}]{\setlength{\rightskip}{0pt plus 5cm}long labs (
+\begin{DoxyParamCaption}
+\item[{long}]{j}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga912277f2dbf3594e958d116ff2b35625}
+Calculates the absolute value of a long integer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em j} & The long integer to get the absolute value of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The absolute value of {\ttfamily j}. As a special case, if {\ttfamily j} is {\ttfamily L\-O\-N\-G\-\_\-\-M\-I\-N}, the return value will be undefined because {\ttfamily -\/\-L\-O\-N\-G\-\_\-\-M\-I\-N} cannot be represented in a {\ttfamily long}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga7ac38fce3243a7dcf448301ee9ffd392}{\index{C library@{C library}!malloc@{malloc}}
+\index{malloc@{malloc}!C library@{C library}}
+\subsubsection[{malloc}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ malloc (
+\begin{DoxyParamCaption}
+\item[{size\-\_\-t}]{size}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga7ac38fce3243a7dcf448301ee9ffd392}
+Request heap storage, record accounting information, returning pointer to assigned memory region.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & number of bytes requested\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to region on success, or {\ttfamily N\-U\-L\-L} on failure 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga16d6b0bd660cc3f9910924c6b6f4af8e}{\index{C library@{C library}!memchr@{memchr}}
+\index{memchr@{memchr}!C library@{C library}}
+\subsubsection[{memchr}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memchr (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{s, }
+\item[{int}]{c, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga16d6b0bd660cc3f9910924c6b6f4af8e}
+Returns a pointer to the first location in a region of memory at which a particular byte appears.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & A pointer to the memory region to search. \\
+\hline
+{\em c} & The byte to locate. \\
+\hline
+{\em n} & The maximum number of bytes to search.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the first occurrence of {\ttfamily c} in the memory region, or {\ttfamily N\-U\-L\-L} if {\ttfamily c} was not found in the memory region. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga9e6df54ee04e18a3772335580e2ed872}{\index{C library@{C library}!memcmp@{memcmp}}
+\index{memcmp@{memcmp}!C library@{C library}}
+\subsubsection[{memcmp}]{\setlength{\rightskip}{0pt plus 5cm}int memcmp (
+\begin{DoxyParamCaption}
+\item[{const void $\ast$}]{s1, }
+\item[{const void $\ast$}]{s2, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga9e6df54ee04e18a3772335580e2ed872}
+Compares two memory regions of a specified length.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & Pointer to the first memory location. \\
+\hline
+{\em s2} & Pointer to the second memory location. \\
+\hline
+{\em n} & Length, in bytes, to compare.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A negative value, 0, or a positive value if the {\ttfamily s1} region of memory is less than, equal to, or greater than the {\ttfamily s2} region of memory, respectively. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga14938524dcbeb59d7117ba5e151ad1b1}{\index{C library@{C library}!memcpy@{memcpy}}
+\index{memcpy@{memcpy}!C library@{C library}}
+\subsubsection[{memcpy}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memcpy (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{dest, }
+\item[{const void $\ast$}]{src, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga14938524dcbeb59d7117ba5e151ad1b1}
+Copy the specified number of bytes of memory to another location. The memory locations must not overlap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to the destination memory. \\
+\hline
+{\em src} & Pointer to the source memory. \\
+\hline
+{\em n} & The amount of data (in bytes) to copy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily dest} 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gace6ee45c30e71865e6eb635200379db9}{\index{C library@{C library}!memset@{memset}}
+\index{memset@{memset}!C library@{C library}}
+\subsubsection[{memset}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memset (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{s, }
+\item[{int}]{c, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gace6ee45c30e71865e6eb635200379db9}
+Fills a region of memory with a byte.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & pointer to the memory to place byte into \\
+\hline
+{\em c} & byte to place \\
+\hline
+{\em n} & length of region to fill, in bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily s} 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga98631211a4a8aee62f572375d5b637be}{\index{C library@{C library}!printf@{printf}}
+\index{printf@{printf}!C library@{C library}}
+\subsubsection[{printf}]{\setlength{\rightskip}{0pt plus 5cm}int printf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga98631211a4a8aee62f572375d5b637be}
+Print a formatted message to standard output.
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string. Not all standard format specifiers are supported by this implementation. See \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt()} for a description of supported conversion specifications. \\
+\hline
+{\em ...} & Arguments matching those in the format string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of characters written. On write error, returns a negative value. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga216aaec88b41d3e2f8502a5b3365ea81}{\index{C library@{C library}!qsort@{qsort}}
+\index{qsort@{qsort}!C library@{C library}}
+\subsubsection[{qsort}]{\setlength{\rightskip}{0pt plus 5cm}void qsort (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{base, }
+\item[{size\-\_\-t}]{nmemb, }
+\item[{size\-\_\-t}]{size, }
+\item[{int($\ast$)(const void $\ast$, const void $\ast$)}]{compar}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga216aaec88b41d3e2f8502a5b3365ea81}
+Sorts an array of data using quicksort. The average-\/case running time is O(n log n) but the worst case running time is O(n$^\wedge$2).
+
+
+\begin{DoxyParams}{Parameters}
+{\em base} & Pointer to the array of data to sort. \\
+\hline
+{\em nmemb} & Number of elements in the array. \\
+\hline
+{\em size} & Size of each element in the array, in bytes. \\
+\hline
+{\em compar} & Comparison callback function that is passed pointers to two elements in the array. It must return a negative value, 0, or a positive value if the first element is less than, equal to, or greater than the second element, respectively. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__libxc_gae23144bcbb8e3742b00eb687c36654d1}{\index{C library@{C library}!rand@{rand}}
+\index{rand@{rand}!C library@{C library}}
+\subsubsection[{rand}]{\setlength{\rightskip}{0pt plus 5cm}int rand (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gae23144bcbb8e3742b00eb687c36654d1}
+Generates a pseudorandom integer in the range \mbox{[}0, R\-A\-N\-D\-\_\-\-M\-A\-X\mbox{]}. Beware\-: this is not re-\/entrant.
+
+\begin{DoxyReturn}{Returns}
+the random integer 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga3082155ec11e7229f7a20439b31a169e}{\index{C library@{C library}!sprintf@{sprintf}}
+\index{sprintf@{sprintf}!C library@{C library}}
+\subsubsection[{sprintf}]{\setlength{\rightskip}{0pt plus 5cm}int sprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga3082155ec11e7229f7a20439b31a169e}
+Write a formatted message to a null-\/terminated string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The output string, which must be large enough to store the formatted result, including the null terminator. \\
+\hline
+{\em format} & The format string. Not all standard conversion specifications are supported by this implementation. See \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt()} for a description of supported conversion specifications. \\
+\hline
+{\em ...} & Arguments matching those in the format string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of characters written, excluding the null terminator. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gaa76dd6cc9eff8b0475a781caf9782d73}{\index{C library@{C library}!srand@{srand}}
+\index{srand@{srand}!C library@{C library}}
+\subsubsection[{srand}]{\setlength{\rightskip}{0pt plus 5cm}void srand (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{x}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaa76dd6cc9eff8b0475a781caf9782d73}
+Sets the random seed that will be used in future calls to \hyperlink{group__libxc_gae23144bcbb8e3742b00eb687c36654d1}{rand()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & the random seed to set \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__libxc_gaec1e54556dca3bd701d44395d34818dd}{\index{C library@{C library}!sscanf@{sscanf}}
+\index{sscanf@{sscanf}!C library@{C library}}
+\subsubsection[{sscanf}]{\setlength{\rightskip}{0pt plus 5cm}int sscanf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaec1e54556dca3bd701d44395d34818dd}
+Scan values from a string according to the specified format.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String from which to read input. \\
+\hline
+{\em format} & Format string. Not all standard format specifiers are supported by this implementation. See \hyperlink{group__libxc_ga166404d618b580eb27442b03d55004fd}{\-\_\-doscan()} for a description of supported conversion specifications. \\
+\hline
+{\em ...} & Additional arguments that match those specified in the format string. Generally these need to be a {\itshape pointer} to the corresponding argument so that the value can be set; for example, a {\ttfamily \%d} conversion specifier needs to be matched with an {\ttfamily int $\ast$}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of items successfully matched. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga12871ed234858ef0e363d2b8aa572fc1}{\index{C library@{C library}!strchr@{strchr}}
+\index{strchr@{strchr}!C library@{C library}}
+\subsubsection[{strchr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strchr (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s, }
+\item[{int}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga12871ed234858ef0e363d2b8aa572fc1}
+Returns a pointer to the first location in a null-\/terminated string at which a particular character appears.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string to search. \\
+\hline
+{\em c} & The character to locate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer in the string, or {\ttfamily N\-U\-L\-L} if the character was not found. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga11bd144d7d44914099a3aeddf1c8567d}{\index{C library@{C library}!strcmp@{strcmp}}
+\index{strcmp@{strcmp}!C library@{C library}}
+\subsubsection[{strcmp}]{\setlength{\rightskip}{0pt plus 5cm}int strcmp (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s1, }
+\item[{const char $\ast$}]{s2}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga11bd144d7d44914099a3aeddf1c8567d}
+Compare two null-\/terminated strings.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & Pointer to the first string. \\
+\hline
+{\em s2} & Pointer to the second string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A negative value, 0, or a positive value if the {\ttfamily s1} string is less than, equal to, or greater than the {\ttfamily s2} string, respectively. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga7a82515b5d377be04817715c5465b647}{\index{C library@{C library}!strcpy@{strcpy}}
+\index{strcpy@{strcpy}!C library@{C library}}
+\subsubsection[{strcpy}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strcpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dest, }
+\item[{const char $\ast$}]{src}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga7a82515b5d377be04817715c5465b647}
+Copies a a null-\/terminated string to the specified location. The source and destination strings may not overlap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to the memory to which to copy the string. It must have room for at least the number of characters in the {\ttfamily src} string, including the null terminator. \\
+\hline
+{\em src} & Pointer to the string to copy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to {\ttfamily dest}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga3e0c58f8ba41f9267161ffca2ea92558}{\index{C library@{C library}!strlcpy@{strlcpy}}
+\index{strlcpy@{strlcpy}!C library@{C library}}
+\subsubsection[{strlcpy}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t strlcpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dest, }
+\item[{const char $\ast$}]{src, }
+\item[{size\-\_\-t}]{destsize}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga3e0c58f8ba41f9267161ffca2ea92558}
+Copy a null-\/terminated string into a fixed-\/size buffer. Unlike \hyperlink{group__libxc_ga47d54f24198df56da51078a6c540b9ed}{strncpy()}, this will perform truncation as expected, and the resulting destination string is guaranteed to be null-\/terminated (unless {\ttfamily destsize} was 0).
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to the buffer into which to copy the string. \\
+\hline
+{\em src} & Pointer to the null-\/terminated string to copy. \\
+\hline
+{\em destsize} & Size of the {\ttfamily dest} buffer.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Length of the {\ttfamily src} string. This can be tested to detect whether truncation was performed. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gaa383452fe445bfae989358c9d7d96f4f}{\index{C library@{C library}!strlen@{strlen}}
+\index{strlen@{strlen}!C library@{C library}}
+\subsubsection[{strlen}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t strlen (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gaa383452fe445bfae989358c9d7d96f4f}
+Calculates the length of a null-\/terminated string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String to calculate the length of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Length of the string in bytes, not including the null terminator. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga0aee928c2844a269966e4832fd2255c5}{\index{C library@{C library}!strncat@{strncat}}
+\index{strncat@{strncat}!C library@{C library}}
+\subsubsection[{strncat}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strncat (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dest, }
+\item[{const char $\ast$}]{src, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga0aee928c2844a269966e4832fd2255c5}
+Concatenate at most the specified number of characters from a possibly null-\/terminated string to another null-\/terminated string, always null-\/terminating the result. The strings may not overlap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to the null-\/terminated string to which to concatenate the additional string or characters. \\
+\hline
+{\em src} & Pointer to the source string.\\
+\hline
+{\em n} & Maximum number of bytes of the {\ttfamily src} string to concatenate, excluding the null terminator that will be appended.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily dest} 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga07f4a84c11c106e95c32b6ab509346ef}{\index{C library@{C library}!strncmp@{strncmp}}
+\index{strncmp@{strncmp}!C library@{C library}}
+\subsubsection[{strncmp}]{\setlength{\rightskip}{0pt plus 5cm}int strncmp (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s1, }
+\item[{const char $\ast$}]{s2, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga07f4a84c11c106e95c32b6ab509346ef}
+Compare two null-\/terminated strings, examining at most the specified number of bytes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s1} & Pointer to the first string. \\
+\hline
+{\em s2} & Pointer to the second string. \\
+\hline
+{\em n} & Maximum number of bytes to compare before returning 0.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A negative value, 0, or a positive value if the {\ttfamily s1} string is less than, equal to, or greater than the {\ttfamily s2} string, respectively. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga47d54f24198df56da51078a6c540b9ed}{\index{C library@{C library}!strncpy@{strncpy}}
+\index{strncpy@{strncpy}!C library@{C library}}
+\subsubsection[{strncpy}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strncpy (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{dest, }
+\item[{const char $\ast$}]{src, }
+\item[{size\-\_\-t}]{n}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga47d54f24198df56da51078a6c540b9ed}
+Copies at most {\ttfamily n} bytes of a string to a new location. The source string may or may not be null-\/terminated, but if it is and the null terminator is present in the first {\ttfamily n} bytes, then copying will stop early when it is reached. If less than {\ttfamily n} bytes were copied, then the remaining bytes in the destination will be set to null characters until {\ttfamily n} bytes total have been written.
+
+{\bfseries Beware\-: if the source string does not contain a null terminator in its first {\ttfamily n} bytes, the destination will not be null-\/terminated. To correctly write a null-\/terminated string into a fixed-\/size buffer with truncation as expected, consider using \hyperlink{group__libxc_ga3e0c58f8ba41f9267161ffca2ea92558}{strlcpy()} instead.}
+
+
+\begin{DoxyParams}{Parameters}
+{\em dest} & Pointer to the memory to which to copy the string. \\
+\hline
+{\em src} & Pointer to the string to copy. \\
+\hline
+{\em n} & Number of bytes to fill (see above description).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to {\ttfamily dest}. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_gafc92d2231e45d19988c7894aa2a07f0c}{\index{C library@{C library}!strnlen@{strnlen}}
+\index{strnlen@{strnlen}!C library@{C library}}
+\subsubsection[{strnlen}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t strnlen (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s, }
+\item[{size\-\_\-t}]{maxlen}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_gafc92d2231e45d19988c7894aa2a07f0c}
+Returns the length of a null-\/terminated string, but not more than the specified length.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & String to calculate the length of.\\
+\hline
+{\em maxlen} & Maximum length to return.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Length of the string up to but not including the null terminator, or {\ttfamily maxlen} if the string is longer than {\ttfamily maxlen} bytes. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga0c05a458deff028ef4d4e64059098db4}{\index{C library@{C library}!strrchr@{strrchr}}
+\index{strrchr@{strrchr}!C library@{C library}}
+\subsubsection[{strrchr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strrchr (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{s, }
+\item[{int}]{c}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga0c05a458deff028ef4d4e64059098db4}
+Returns a pointer to the last location in a null-\/terminated string at which a particular character appears.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & The string to search. \\
+\hline
+{\em c} & The character to locate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer in the string, or {\ttfamily N\-U\-L\-L} if the character was not found. 
+\end{DoxyReturn}
+\hypertarget{group__libxc_ga4a710d86541afc6b7dafddcdb4b1c94f}{\index{C library@{C library}!strstr@{strstr}}
+\index{strstr@{strstr}!C library@{C library}}
+\subsubsection[{strstr}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ strstr (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{haystack, }
+\item[{const char $\ast$}]{needle}
+\end{DoxyParamCaption}
+)}}\label{group__libxc_ga4a710d86541afc6b7dafddcdb4b1c94f}
+Returns a pointer to the first location in a null-\/terminated string at which a particular substring appears.
+
+
+\begin{DoxyParams}{Parameters}
+{\em haystack} & The string to search. \\
+\hline
+{\em needle} & The string to locate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer in the string, or {\ttfamily N\-U\-L\-L} if the string was not found. 
+\end{DoxyReturn}

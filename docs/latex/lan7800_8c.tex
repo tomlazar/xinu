@@ -1,0 +1,57 @@
+\hypertarget{lan7800_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.c File Reference}
+\label{lan7800_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.\-c}}
+}
+{\ttfamily \#include \char`\"{}lan7800.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+{\ttfamily \#include $<$clock.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac5a2ec33aa01163f97cfe029dab945d9}{lan7800\-\_\-write\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaa07a9c41cdf666a27e67905ed9121e23}{lan7800\-\_\-read\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t $\ast$data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga2283a3790e3b0874e957b9c10ef44998}{lan7800\-\_\-modify\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t mask, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}{lan7800\-\_\-set\-\_\-reg\-\_\-bits} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}{lan7800\-\_\-set\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, const uint8\-\_\-t $\ast$macaddr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga835efd429fb96b942474c163a03f1b82}{lan7800\-\_\-get\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, uint8\-\_\-t $\ast$macaddr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit} (struct usb\-\_\-device $\ast$udev, const uint32\-\_\-t reg, const uint32\-\_\-t mask, const bool set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gadfe8a9f28bc2ce5929b585baed8fc407}{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy} (struct usb\-\_\-device $\ast$udev)
+\item 
+\hypertarget{lan7800_8c_ac310490442b88821a975a337e80e371b}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-eeprom\-\_\-confirm\-\_\-not\-\_\-busy} (struct usb\-\_\-device $\ast$udev)}\label{lan7800_8c_ac310490442b88821a975a337e80e371b}
+
+\item 
+\hypertarget{lan7800_8c_a3ae8a583f5fd0280abe0a294013a523b}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-wait\-\_\-eeprom} (struct usb\-\_\-device $\ast$udev)}\label{lan7800_8c_a3ae8a583f5fd0280abe0a294013a523b}
+
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga03a05fda47e55dbcddeabc9980d1b671}{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t offset, uint32\-\_\-t length, uint8\-\_\-t $\ast$data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga659c3aa68aab22ca75556617c216f5bd}{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length} (struct usb\-\_\-device $\ast$udev, int size)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac6d5ce65cf6384620c04e13e67690259}{lan7800\-\_\-set\-\_\-features} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga57b4e0f7b1ef285aa099af22280d4f07}{lan7800\-\_\-init} (struct usb\-\_\-device $\ast$udev, uint8\-\_\-t $\ast$macaddress)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Authors}
+Rade Latinovich Patrick J. Mc\-Gee
+\end{DoxyAuthor}
+This file provides various functions needed by the Microchip L\-A\-N7800 U\-S\-B Ethernet Driver, equipped on the Raspberry Pi 3 Model B+.
+
+These functions are based on those of the L\-A\-N78\-X\-X drivers found in\-:
+\begin{DoxyItemize}
+\item The Linux Kernel (\href{https://github.com/torvalds/linux/blob/master/drivers/net/usb/lan78xx.c}{\tt https\-://github.\-com/torvalds/linux/blob/master/drivers/net/usb/lan78xx.\-c})
+\end{DoxyItemize}
+
+U-\/\-Boot (\href{https://github.com/u-boot/u-boot/blob/af15946aa081dbcd0bec7d507a2b2db4e6b6cda5/drivers/usb/eth/lan78xx.c}{\tt https\-://github.\-com/u-\/boot/u-\/boot/blob/af15946aa081dbcd0bec7d507a2b2db4e6b6cda5/drivers/usb/eth/lan78xx.\-c})
+
+Embedded Xinu, Copyright (C) 2018. All rights reserved. 

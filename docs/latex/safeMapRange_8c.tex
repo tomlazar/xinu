@@ -1,0 +1,36 @@
+\hypertarget{safeMapRange_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map\-Range.c File Reference}
+\label{safeMapRange_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map\-Range.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map\-Range.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{safeMapRange_8c_aa0323822e2d3455b6ccc8d3e9914f332}{safe\-Map\-Range} (void $\ast$start, uint length, short attr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Map a range of pages to a page table. 
+
+\subsection{Function Documentation}
+\hypertarget{safeMapRange_8c_aa0323822e2d3455b6ccc8d3e9914f332}{\index{safe\-Map\-Range.\-c@{safe\-Map\-Range.\-c}!safe\-Map\-Range@{safe\-Map\-Range}}
+\index{safe\-Map\-Range@{safe\-Map\-Range}!safeMapRange.c@{safe\-Map\-Range.\-c}}
+\subsubsection[{safe\-Map\-Range}]{\setlength{\rightskip}{0pt plus 5cm}int safe\-Map\-Range (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{start, }
+\item[{uint}]{length, }
+\item[{short}]{attr}
+\end{DoxyParamCaption}
+)}}\label{safeMapRange_8c_aa0323822e2d3455b6ccc8d3e9914f332}
+Map a range of pages to a page table starting at start, ending at start+length. 
+\begin{DoxyParams}{Parameters}
+{\em start} & beginning page address to map. \\
+\hline
+{\em length} & length of memory range to map. \\
+\hline
+{\em attr} & attributes to apply to page table entries. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/zero value on failure. 
+\end{DoxyReturn}

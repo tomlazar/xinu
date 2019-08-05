@@ -1,0 +1,35 @@
+\hypertarget{rtpWrite_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Write.c File Reference}
+\label{rtpWrite_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Write.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Write.\-c}}
+}
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$rtp.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{rtpWrite_8c_ab3eb9a2773b801ce288e8c0f6c2b8139}{rtp\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{rtpWrite_8c_ab3eb9a2773b801ce288e8c0f6c2b8139}{\index{rtp\-Write.\-c@{rtp\-Write.\-c}!rtp\-Write@{rtp\-Write}}
+\index{rtp\-Write@{rtp\-Write}!rtpWrite.c@{rtp\-Write.\-c}}
+\subsubsection[{rtp\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall rtp\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{rtpWrite_8c_ab3eb9a2773b801ce288e8c0f6c2b8139}
+Tell a R\-T\-P device to send a packet with the specified data 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-T\-P device table entry \\
+\hline
+{\em buf} & Buffer of data to be sent \\
+\hline
+{\em len} & Length of data to be sent \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if the packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

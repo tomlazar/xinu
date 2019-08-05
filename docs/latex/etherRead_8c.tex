@@ -1,0 +1,49 @@
+\hypertarget{etherRead_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/ether\-Read.c File Reference}
+\label{etherRead_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/ether\-Read.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/ether\-Read.\-c}}
+}
+{\ttfamily \#include $<$bufpool.\-h$>$}\\*
+{\ttfamily \#include $<$ether.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{etherRead_8c_a2eb3ea6098a5891d3e2bddc2cfd3b9e2}{\#define {\bfseries A\-L\-L\-O\-C\-\_\-\-C\-A\-C\-H\-E\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R}(type, name, size)~A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R(type, name, size, A\-R\-C\-H\-\_\-\-D\-M\-A\-\_\-\-M\-I\-N\-A\-L\-I\-G\-N)}\label{etherRead_8c_a2eb3ea6098a5891d3e2bddc2cfd3b9e2}
+
+\item 
+\hypertarget{etherRead_8c_a3bcd3c0a98bc47cbfc148e1fcfe60b07}{\#define {\bfseries A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R}(type, name, size, align)~A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D(type, name, size, align, 1)}\label{etherRead_8c_a3bcd3c0a98bc47cbfc148e1fcfe60b07}
+
+\item 
+\#define {\bfseries A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D}(type, name, size, align, pad)
+\item 
+\hypertarget{etherRead_8c_a2a758fa45be3c5af0ca229420479485a}{\#define {\bfseries P\-A\-D\-\_\-\-S\-I\-Z\-E}(s, pad)~(P\-A\-D\-\_\-\-C\-O\-U\-N\-T(s, pad) $\ast$ pad)}\label{etherRead_8c_a2a758fa45be3c5af0ca229420479485a}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{etherRead_8c_ad4b51c1457f9a9fd686fc4f725493825}{devcall {\bfseries ether\-Read} (device $\ast$devptr, void $\ast$buf, uint len)}\label{etherRead_8c_ad4b51c1457f9a9fd686fc4f725493825}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Authors\-: Patrick J. Mc\-Gee Rade Latinovich 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{etherRead_8c_a9757bead1bdb39c05e74f53dea244008}{\index{ether\-Read.\-c@{ether\-Read.\-c}!A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D@{A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D}}
+\index{A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D@{A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D}!etherRead.c@{ether\-Read.\-c}}
+\subsubsection[{A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define A\-L\-L\-O\-C\-\_\-\-A\-L\-I\-G\-N\-\_\-\-B\-U\-F\-F\-E\-R\-\_\-\-P\-A\-D(
+\begin{DoxyParamCaption}
+\item[{}]{type, }
+\item[{}]{name, }
+\item[{}]{size, }
+\item[{}]{align, }
+\item[{}]{pad}
+\end{DoxyParamCaption}
+)}}\label{etherRead_8c_a9757bead1bdb39c05e74f53dea244008}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+\textcolor{keywordtype}{char} \_\_##name[ROUND(PAD\_SIZE((size) * \textcolor{keyword}{sizeof}(type), pad), align)  \(\backslash\)
+                      + (align - 1)];
+\end{DoxyCode}

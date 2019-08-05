@@ -1,0 +1,159 @@
+\section*{Embedded Xinu}
+
+Embedded Xinu, Copyright (C) 2008, 2009, 2010, 2019. All rights reserved.
+
+Version\-: 3.\-0
+
+
+\begin{DoxyEnumerate}
+\item What is Embedded Xinu?
+\item Directory Structure
+\item Prerequisites
+\item Installation Instructions
+\begin{DoxyEnumerate}
+\item Build Embedded Xinu
+\item Make serial and network connections
+\item Enter Common Firmware Environment prompt
+\item Set I\-P address
+\item Load image over T\-F\-T\-P
+\end{DoxyEnumerate}
+\item Supported Platforms
+\item Links
+\end{DoxyEnumerate}
+
+\subsection*{1. What is Embedded Xinu?}
+
+Xinu (\char`\"{}\-Xinu is not unix\char`\"{}, a recursive acronym) is a U\-N\-I\-X-\/like operating system originally developed by Douglas Comer for instructional purposes at Purdue University in the 1980s.
+
+Embedded Xinu is a reimplementation of the original Xinu operating system on the M\-I\-P\-S processor which is able to run on inexpensive wireless routers and is suitable for courses and research in the areas of Operating Systems, Hardware Systems, Embedded Systems, Networking, and Compilers.
+
+\subsection*{2. Directory Structure}
+
+Once you have downloaded and extracted the xinu tarball, you will see a basic directory structure\-: \begin{DoxyVerb}AUTHORS   device/   lib/     mem/      loader/   README  system/
+compile/  include/  LICENSE  mailbox/  network/  shell/  test/
+\end{DoxyVerb}
+
+
+
+\begin{DoxyItemize}
+\item {\ttfamily A\-U\-T\-H\-O\-R\-S} a brief history of contributors to the Xinu operating system in it's varying iterations.
+\item {\ttfamily compile/} contains the Makefile and other necessities for building the Xinu system once you have a cross-\/compiler.
+\item {\ttfamily device/} contains directories with source for all device drivers in Xinu.
+\item {\ttfamily include/} contains all the header files used by Xinu.
+\item {\ttfamily lib/} contains library folders (e.\-g., {\ttfamily libxc/}) with a Makefile and source for the library
+\item {\ttfamily L\-I\-C\-E\-N\-S\-E} the license under which this project falls.
+\item {\ttfamily loader/} contains assembly files and is where the bootloader will begin execution of O/\-S code.
+\item {\ttfamily mailbox/} contains source for the mailbox message queuing system.
+\item {\ttfamily mem/} contains source for page-\/based memory protection.
+\item {\ttfamily network/} contains code for the T\-C\-P/\-I\-P networking stack.
+\item {\ttfamily R\-E\-A\-D\-M\-E} this document.
+\item {\ttfamily R\-E\-L\-E\-A\-S\-E} release notes for the current version.
+\item {\ttfamily shell/} contains the source for all Xinu shell related functions.
+\item {\ttfamily system/} contains the source for all Xinu system functions such as the nulluser process ({\ttfamily \hyperlink{initialize_8c}{initialize.\-c}}) as well as code to set up a C environment ({\ttfamily startup.\-S}).
+\item {\ttfamily test/} contains a number of testcases (which can be run using the shell command {\ttfamily testsuite}).
+\end{DoxyItemize}
+
+\subsection*{3. Prerequisites}
+
+\subsubsection*{3.\-1 Supported platform with hardware modification}
+
+To run Embedded Xinu you need a supported router or virtual machine. Currently, Embedded Xinu supports Linksys W\-R\-T54\-G\-L, Linksys W\-R\-T160\-N\-L, and the Qemu-\/mipsel virtual machine. For an updated list of supported platforms, visit\-:
+
+\href{http://xinu.mscs.mu.edu/List_of_supported_platforms}{\tt http\-://xinu.\-mscs.\-mu.\-edu/\-List\-\_\-of\-\_\-supported\-\_\-platforms}
+
+In order to communicate with the router, you need to perform a hardware modification that will expose the serial port that exists on the P\-C\-B. For more information on this process, see\-:
+
+\href{http://xinu.mscs.mu.edu/Modify_the_Linksys_hardware}{\tt http\-://xinu.\-mscs.\-mu.\-edu/\-Modify\-\_\-the\-\_\-\-Linksys\-\_\-hardware}
+
+\subsubsection*{3.\-2 Cross-\/compiler}
+
+To build Embedded Xinu you will need a cross-\/compiler from your host computer's architecture to M\-I\-P\-S\-E\-L (little endian M\-I\-P\-S for the 54\-G\-L router) or M\-I\-P\-S (big endian for the 160\-N\-L router). Instructions on how to do this can be found here\-:
+
+\href{http://xinu.mscs.mu.edu/Build_Xinu#Cross-Compiler}{\tt http\-://xinu.\-mscs.\-mu.\-edu/\-Build\-\_\-\-Xinu\#\-Cross-\/\-Compiler}
+
+\subsubsection*{3.\-3 Serial communication software}
+
+Any serial communication software will do. The Xinu Console Tools include a program called tty-\/connect which can serve the purpose for a U\-N\-I\-X environment. More information about the Xinu Console Tools can be found at\-:
+
+\href{http://xinu.mscs.mu.edu/Console_Tools#Xinu_Console_Tools}{\tt http\-://xinu.\-mscs.\-mu.\-edu/\-Console\-\_\-\-Tools\#\-Xinu\-\_\-\-Console\-\_\-\-Tools}
+
+\subsubsection*{3.\-4 T\-F\-T\-P server software}
+
+A T\-F\-T\-P server will provide the router with the ability to download and run the compiled Embedded Xinu image.
+
+\subsection*{4. Installation Instructions}
+
+\subsubsection*{4.\-1 Build Embedded Xinu}
+
+Update the {\ttfamily M\-I\-P\-S\-\_\-\-R\-O\-O\-T} and {\ttfamily M\-I\-P\-S\-\_\-\-P\-R\-E\-F\-I\-X} variables in compile/mips\-Vars to correctly point to the cross-\/compiler on your machine.
+
+Then, from the compile directory, simply run make, which should leave you with a xinu.\-boot file. This is the binary image you need to transfer to your router for it to run Embedded Xinu. The default build is for the W\-R\-T54\-G\-L router; change the compile/\-Makefile {\ttfamily P\-L\-A\-T\-F\-O\-R\-M} variable for other builds. See the compile/platforms directory for supported configurations.
+
+\subsubsection*{4.\-2 Make serial and network connections}
+
+After creating the {\ttfamily xinu.\-boot} image you can connect the router's serial port to your computer and open up a connection using the following settings\-:
+
+
+\begin{DoxyItemize}
+\item 8 data bits, no parity bit, and 1 stop bit (8\-N1)
+\item 115200 bps
+\end{DoxyItemize}
+
+\subsubsection*{4.\-3 Enter Common Firmware Environment prompt}
+
+With the serial connection open, power on the router and immediately start sending breaks (Control-\/\-C) to the device, if your luck holds you will be greeted with a C\-F\-E prompt. \begin{DoxyVerb}CFE>
+\end{DoxyVerb}
+
+
+If the router seems to start booting up, you can powercycle and try again.
+
+\subsubsection*{4.\-4 Set I\-P address}
+
+By default, the router will have a static I\-P address of 192.\-168.\-1.\-1. If you need to set a different address for your network, run one of the following commands\-: \begin{DoxyVerb}ifconfig eth0 -auto                      if you are using a DHCP server
+ifconfig eth0 -addr=*.*.*.*              for a static IP address
+\end{DoxyVerb}
+
+
+\subsubsection*{4.\-5 Load image over T\-F\-T\-P}
+
+On a computer that is network accessible from the router, start your T\-F\-T\-P server and place the xinu.\-boot image in the root directory that the server makes available.
+
+Then, on the router type the command\-: \begin{DoxyVerb}CFE> boot -elf [TFTP server IP]:xinu.boot
+\end{DoxyVerb}
+
+
+If all has gone correctly the router you will be greeted with the Xinu Shell ({\ttfamily xsh\$}), which means you are now running Embedded Xinu!
+
+\subsection*{5. \href{http://xinu.mscs.mu.edu/List_of_supported_platforms}{\tt Supported Platforms}}
+
+\begin{TabularC}{3}
+\hline
+\rowcolor{lightgray}{\bf Platforms }&{\bf Status }&{\bf Comments  }\\\cline{1-3}
+\href{http://www.linksys.com/servlet/Satellite?c=L_Product_C2&childpagename=US%2FLayout&cid=1149562300349&pagename=Linksys%2FCommon%2FVisitorWrapper}{\tt Linksys W\-R\-T54\-G v8} &Supported &Tested and running at the Embedded Xinu Lab. \\\cline{1-3}
+\href{http://www.linksys.com/servlet/Satellite?c=L_Product_C2&childpagename=US%2FLayout&cid=1133202177241&pagename=Linksys%2FCommon%2FVisitorWrapper}{\tt Linksys W\-R\-T54\-G\-L} &Supported &This is our primary development platform, on which Xinu has been tested thoroughly. \\\cline{1-3}
+\href{http://www.linksys.com/servlet/Satellite?c=L_Product_C2&childpagename=US%2FLayout&cid=1149562300349&pagename=Linksys%2FCommon%2FVisitorWrapper}{\tt Linksys W\-R\-T54\-G v4} &Probably Supported &The v4 is apparently the version on which W\-R\-T54\-G\-L is based, and so although the Embedded Xinu Lab has not explicitly tested it, it probably works. \\\cline{1-3}
+\href{http://www.linksys.com/servlet/satellite?c=l_product_c2&childpagename=us%2flayout&cid=1162354643512&pagename=linksys%2fcommon%2fvisitorwrapper}{\tt Linksys W\-R\-T350\-N} &Under Development &Currently the synchronous U\-A\-R\-T Driver works. \\\cline{1-3}
+\href{http://www.linksys.com/servlet/satellite?c=l_product_c2&childpagename=us%2flayout&cid=1149562300349&pagename=linksys%2fcommon%2fvisitorwrapper}{\tt Linksys W\-R\-T160\-N\-L} &Supported &Newer model of router. Full O/\-S teaching core functioning, including wired network interface. \\\cline{1-3}
+\href{http://www.qemu.org/}{\tt mipsel-\/qemu} &Supported &Full O/\-S teaching core functioning, network support in progress. \\\cline{1-3}
+\href{http://www.raspberrypi.org}{\tt Raspberry Pi} &Under Development &Core operating system including wired networking is functional. Some new features are still being worked on, and the full documentation (e.\-g. for a laboratory setup) hasn't been completed yet. \\\cline{1-3}
+\href{http://www.raspberrypi.org}{\tt Raspberry Pi 3} &Under development &Work has been started remaking the low level systems to operate on the aarch64 architecture. \\\cline{1-3}
+\end{TabularC}
+\subsection*{6. Links}
+
+\subsubsection*{Embedded Xinu documentation.}
+
+Home of the most up to date documentation about new and upcoming projects.
+
+\href{http://embedded-xinu.readthedocs.io/en/latest/}{\tt http\-://embedded-\/xinu.\-readthedocs.\-io/en/latest/}
+
+\subsubsection*{The Embedded Xinu Wiki}
+
+The home of the Embedded Xinu project
+
+\href{http://xinu.mscs.mu.edu/}{\tt http\-://xinu.\-mscs.\-mu.\-edu/}
+
+\subsubsection*{Dr. Brylow's Embedded Xinu Lab Infrastructure Page}
+
+More information about the Embedded Xinu Lab at Marquette University
+
+\href{http://www.mscs.mu.edu/~brylow/xinu/}{\tt http\-://www.\-mscs.\-mu.\-edu/$\sim$brylow/xinu/} 

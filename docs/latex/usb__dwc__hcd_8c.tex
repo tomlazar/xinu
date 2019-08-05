@@ -1,0 +1,115 @@
+\hypertarget{usb__dwc__hcd_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-hcd.c File Reference}
+\label{usb__dwc__hcd_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-hcd.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/usb\-\_\-dwc\-\_\-hcd.\-c}}
+}
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$mailbox.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hcdi.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-hub\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-std\-\_\-defs.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$core.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_af6dfee4ecca73bea0a2589bab602845a}{W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N}(n)~(((n) + sizeof(ulong) -\/ 1) \& $\sim$(sizeof(ulong) -\/ 1))
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_acdbabb90a10036db9f48b0af00047e52}{I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D}(ptr)~((ulong)(ptr) \% sizeof(ulong) == 0)
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_a1061617fcc4b7108f42be51e60260bce}{U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E}~1024
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_af9cd86f4df1ac19124dae51558690643}{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}~4096
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_a186d9546be16f92d5b8c3d5e370d1567}{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}~60
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_aefe5b2a6b809ef462d672b8171423894}{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}~\char`\"{}U\-S\-B scheduler\char`\"{}
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_a1e308b7e3a4f37b1ede79bb0a96b40e7}{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}~4096
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_a6dd0894b3615e9208de25abf03e5f708}{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}~100
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_aef5c319c9ccd141416f473e0b92ac62a}{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}~\char`\"{}U\-S\-B defer xfer\char`\"{}
+\item 
+\#define \hyperlink{usb__dwc__hcd_8c_acabf0c7483cacc05289e3a87e4c5832a}{S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F}~1
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{usb__dwc__hcd_8c_a636c325dbaf124cfa4c527196827972d}{dwc\-\_\-usb\-\_\-pid} \{ {\bfseries D\-W\-C\-\_\-\-U\-S\-B\-\_\-\-P\-I\-D\-\_\-\-D\-A\-T\-A0} = 0, 
+{\bfseries D\-W\-C\-\_\-\-U\-S\-B\-\_\-\-P\-I\-D\-\_\-\-D\-A\-T\-A1} = 2, 
+{\bfseries D\-W\-C\-\_\-\-U\-S\-B\-\_\-\-P\-I\-D\-\_\-\-D\-A\-T\-A2} = 1, 
+{\bfseries D\-W\-C\-\_\-\-U\-S\-B\-\_\-\-P\-I\-D\-\_\-\-S\-E\-T\-U\-P} = 3
+ \}
+\item 
+enum \hyperlink{group__usbhcd_ga7b5f13b20e154376312b7514f9dbcb81}{dwc\-\_\-intr\-\_\-status} \{ \\*
+{\bfseries X\-F\-E\-R\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E} = 0, 
+{\bfseries X\-F\-E\-R\-\_\-\-F\-A\-I\-L\-E\-D} = 1, 
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-D\-E\-F\-E\-R\-R\-A\-L} = 2, 
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-R\-E\-S\-T\-A\-R\-T} = 3, 
+\\*
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-T\-R\-A\-N\-S\-\_\-\-R\-E\-S\-T\-A\-R\-T} = 4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{hcd\-\_\-start} (void)
+\item 
+void \hyperlink{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{hcd\-\_\-stop} (void)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains a U\-S\-B Host Controller Driver for the Synopsys Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{usb__dwc__hcd_8c_aef5c319c9ccd141416f473e0b92ac62a}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}}
+\index{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E~\char`\"{}U\-S\-B defer xfer\char`\"{}}}\label{usb__dwc__hcd_8c_aef5c319c9ccd141416f473e0b92ac62a}
+Name of U\-S\-B defer transfer threads. Note\-: including the null-\/terminator this should be at most T\-N\-M\-L\-E\-N, otherwise it will be truncated. \hypertarget{usb__dwc__hcd_8c_a6dd0894b3615e9208de25abf03e5f708}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}}
+\index{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y~100}}\label{usb__dwc__hcd_8c_a6dd0894b3615e9208de25abf03e5f708}
+Priority of U\-S\-B deferred transfer threads (should be very high since these threads are used for the necessary software polling of interrupt endpoints, which are supposed to have guaranteed bandwidth). \hypertarget{usb__dwc__hcd_8c_a1e308b7e3a4f37b1ede79bb0a96b40e7}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}}
+\index{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\-E\-F\-E\-R\-\_\-\-X\-F\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E~4096}}\label{usb__dwc__hcd_8c_a1e308b7e3a4f37b1ede79bb0a96b40e7}
+Stack size of U\-S\-B deferred transfer threads (can be fairly small). \hypertarget{usb__dwc__hcd_8c_acdbabb90a10036db9f48b0af00047e52}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D@{I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D}}
+\index{I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D@{I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\-S\-\_\-\-W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N\-E\-D(
+\begin{DoxyParamCaption}
+\item[{}]{ptr}
+\end{DoxyParamCaption}
+)~((ulong)(ptr) \% sizeof(ulong) == 0)}}\label{usb__dwc__hcd_8c_acdbabb90a10036db9f48b0af00047e52}
+Determines whether a pointer is word-\/aligned or not. \hypertarget{usb__dwc__hcd_8c_acabf0c7483cacc05289e3a87e4c5832a}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F@{S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F}}
+\index{S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F@{S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\-T\-A\-R\-T\-\_\-\-S\-P\-L\-I\-T\-\_\-\-I\-N\-T\-R\-\_\-\-T\-R\-A\-N\-S\-F\-E\-R\-S\-\_\-\-O\-N\-\_\-\-S\-O\-F~1}}\label{usb__dwc__hcd_8c_acabf0c7483cacc05289e3a87e4c5832a}
+T\-O\-D\-O\-: remove this if appropriate \hypertarget{usb__dwc__hcd_8c_a1061617fcc4b7108f42be51e60260bce}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E@{U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E}}
+\index{U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E@{U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define U\-S\-B\-\_\-\-M\-A\-X\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-S\-I\-Z\-E~1024}}\label{usb__dwc__hcd_8c_a1061617fcc4b7108f42be51e60260bce}
+Maximum packet size of any U\-S\-B endpoint. 1024 is the maximum allowed by U\-S\-B 2.\-0. Most endpoints will provide maximum packet sizes much smaller than this. \hypertarget{usb__dwc__hcd_8c_af6dfee4ecca73bea0a2589bab602845a}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N@{W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N}}
+\index{W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N@{W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define W\-O\-R\-D\-\_\-\-A\-L\-I\-G\-N(
+\begin{DoxyParamCaption}
+\item[{}]{n}
+\end{DoxyParamCaption}
+)~(((n) + sizeof(ulong) -\/ 1) \& $\sim$(sizeof(ulong) -\/ 1))}}\label{usb__dwc__hcd_8c_af6dfee4ecca73bea0a2589bab602845a}
+Round a number up to the next multiple of the word size. \hypertarget{usb__dwc__hcd_8c_aefe5b2a6b809ef462d672b8171423894}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}}
+\index{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-N\-A\-M\-E~\char`\"{}U\-S\-B scheduler\char`\"{}}}\label{usb__dwc__hcd_8c_aefe5b2a6b809ef462d672b8171423894}
+Name of U\-S\-B transfer request scheduler thread. \hypertarget{usb__dwc__hcd_8c_a186d9546be16f92d5b8c3d5e370d1567}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}}
+\index{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-P\-R\-I\-O\-R\-I\-T\-Y~60}}\label{usb__dwc__hcd_8c_a186d9546be16f92d5b8c3d5e370d1567}
+Priority of U\-S\-B transfer request scheduler thread (should be fairly high so that U\-S\-B transfers can be started as soon as possible). \hypertarget{usb__dwc__hcd_8c_af9cd86f4df1ac19124dae51558690643}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}}
+\index{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E@{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define X\-F\-E\-R\-\_\-\-S\-C\-H\-E\-D\-U\-L\-E\-R\-\_\-\-T\-H\-R\-E\-A\-D\-\_\-\-S\-T\-A\-C\-K\-\_\-\-S\-I\-Z\-E~4096}}\label{usb__dwc__hcd_8c_af9cd86f4df1ac19124dae51558690643}
+Stack size of U\-S\-B transfer request scheduler thread (can be fairly small). 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{usb__dwc__hcd_8c_a636c325dbaf124cfa4c527196827972d}{\index{usb\-\_\-dwc\-\_\-hcd.\-c@{usb\-\_\-dwc\-\_\-hcd.\-c}!dwc\-\_\-usb\-\_\-pid@{dwc\-\_\-usb\-\_\-pid}}
+\index{dwc\-\_\-usb\-\_\-pid@{dwc\-\_\-usb\-\_\-pid}!usb_dwc_hcd.c@{usb\-\_\-dwc\-\_\-hcd.\-c}}
+\subsubsection[{dwc\-\_\-usb\-\_\-pid}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dwc\-\_\-usb\-\_\-pid}}}\label{usb__dwc__hcd_8c_a636c325dbaf124cfa4c527196827972d}
+U\-S\-B packet I\-D constants recognized by the D\-W\-C hardware. 

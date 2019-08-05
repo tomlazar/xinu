@@ -1,0 +1,39 @@
+\hypertarget{dhcpSendRequest_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Send\-Request.c File Reference}
+\label{dhcpSendRequest_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Send\-Request.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Send\-Request.\-c}}
+}
+{\ttfamily \#include $<$clock.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}dhcp.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$ethernet.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$udp.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{dhcpSendRequest_8c_ab22a3ba0687b921d8b5ddfee00651629}{dhcp\-Send\-Request} (int descrp, struct dhcp\-Data $\ast$data)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{dhcpSendRequest_8c_ab22a3ba0687b921d8b5ddfee00651629}{\index{dhcp\-Send\-Request.\-c@{dhcp\-Send\-Request.\-c}!dhcp\-Send\-Request@{dhcp\-Send\-Request}}
+\index{dhcp\-Send\-Request@{dhcp\-Send\-Request}!dhcpSendRequest.c@{dhcp\-Send\-Request.\-c}}
+\subsubsection[{dhcp\-Send\-Request}]{\setlength{\rightskip}{0pt plus 5cm}syscall dhcp\-Send\-Request (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{struct dhcp\-Data $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{dhcpSendRequest_8c_ab22a3ba0687b921d8b5ddfee00651629}
+Send a D\-H\-C\-P\-D\-I\-S\-C\-O\-V\-E\-R or D\-H\-C\-P\-R\-E\-Q\-U\-E\-S\-T packet, depending on the current state of the D\-H\-C\-P client (D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T or D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G, respectively).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em descrp} & Network device on which to send the D\-H\-C\-P packet. \\
+\hline
+\mbox{\tt in,out}  & {\em data} & D\-H\-C\-P transfer data that has been filled in appropriately for D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T or D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was successfully sent; S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}

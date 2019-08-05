@@ -1,0 +1,69 @@
+\hypertarget{platforminit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/platforminit.c File Reference}
+\label{platforminit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/platforminit.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/platforminit.\-c}}
+}
+{\ttfamily \#include $<$platform.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$bcm2837.\-h$>$}\\*
+{\ttfamily \#include $<$rpi\-\_\-gpio.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}../../../device/uart-\/pl011/pl011.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$mmu.\-h$>$}\\*
+{\ttfamily \#include $<$random.\-h$>$}\\*
+{\ttfamily \#include $<$mutex.\-h$>$}\\*
+{\ttfamily \#include $<$queue.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$semaphore.\-h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structatag__header}{atag\-\_\-header}
+\item 
+struct \hyperlink{structatag__mem}{atag\-\_\-mem}
+\item 
+struct \hyperlink{structatag__serialnr}{atag\-\_\-serialnr}
+\item 
+struct \hyperlink{structatag}{atag}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+{\bfseries A\-T\-A\-G\-\_\-\-N\-O\-N\-E} = 0x00000000, 
+{\bfseries A\-T\-A\-G\-\_\-\-C\-O\-R\-E} = 0x54410001, 
+{\bfseries A\-T\-A\-G\-\_\-\-M\-E\-M} = 0x54410002, 
+{\bfseries A\-T\-A\-G\-\_\-\-V\-I\-D\-E\-O\-T\-E\-X\-T} = 0x54410003, 
+\\*
+{\bfseries A\-T\-A\-G\-\_\-\-R\-A\-M\-D\-I\-S\-K} = 0x54410004, 
+{\bfseries A\-T\-A\-G\-\_\-\-I\-N\-I\-T\-R\-D2} = 0x54410005, 
+{\bfseries A\-T\-A\-G\-\_\-\-S\-E\-R\-I\-A\-L} = 0x54410006, 
+{\bfseries A\-T\-A\-G\-\_\-\-R\-E\-V\-I\-S\-I\-O\-N} = 0x54410007, 
+\\*
+{\bfseries A\-T\-A\-G\-\_\-\-V\-I\-D\-E\-O\-L\-F\-B} = 0x54410008, 
+{\bfseries A\-T\-A\-G\-\_\-\-C\-M\-D\-L\-I\-N\-E} = 0x54410009
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__bcm2837_ga7eb4d382bdd4b42c57dbb7154d03ac66}{led\-\_\-init} (void)
+\item 
+void \hyperlink{group__bcm2837_ga801936b261245054eb570e040642818a}{led\-\_\-on} (void)
+\item 
+void \hyperlink{group__bcm2837_ga429f05b7eac928971c19e37ddc7079be}{led\-\_\-off} (void)
+\item 
+int \hyperlink{group__bcm2837_gab8f68c443b71713640467ae1be1228f1}{platforminit} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structatag}{atag} $\ast$ \hyperlink{platforminit_8c_a23b53feb3da219f0b3f3b33a62f71beb}{atags\-\_\-ptr} = (void$\ast$)-\/1
+\item 
+\hypertarget{platforminit_8c_a106c3c813a0abdd4feae9a62ee00f826}{void $\ast$ {\bfseries \-\_\-end}}\label{platforminit_8c_a106c3c813a0abdd4feae9a62ee00f826}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{platforminit_8c_a23b53feb3da219f0b3f3b33a62f71beb}{\index{platforminit.\-c@{platforminit.\-c}!atags\-\_\-ptr@{atags\-\_\-ptr}}
+\index{atags\-\_\-ptr@{atags\-\_\-ptr}!platforminit.c@{platforminit.\-c}}
+\subsubsection[{atags\-\_\-ptr}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf atag}$\ast$ atags\-\_\-ptr = (void$\ast$)-\/1}}\label{platforminit_8c_a23b53feb3da219f0b3f3b33a62f71beb}
+Physical memory address at which the bootloader placed the A\-R\-M boot tags. tagata This is set by the code in start.\-S. Here, initialize it to a dummy value to prevent it from being placed in .bss. 

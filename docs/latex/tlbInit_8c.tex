@@ -1,0 +1,32 @@
+\hypertarget{tlbInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Init.c File Reference}
+\label{tlbInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/tlb\-Init.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$tlb.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{tlbInit_8c_a2b034b4e362ea2f47af86a88c9935985}{interrupt {\bfseries tlb\-Miss} (void)}\label{tlbInit_8c_a2b034b4e362ea2f47af86a88c9935985}
+
+\item 
+\hypertarget{tlbInit_8c_a6f34b807a6ae153a587de5c2604f62d3}{interrupt {\bfseries tlb\-Miss\-Long} (void)}\label{tlbInit_8c_a6f34b807a6ae153a587de5c2604f62d3}
+
+\item 
+void \hyperlink{tlbInit_8c_aff30b72f985dd481c383cb8998d8df13}{tlb\-Init} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initialize the Translation lookaside buffer. 
+
+\subsection{Function Documentation}
+\hypertarget{tlbInit_8c_aff30b72f985dd481c383cb8998d8df13}{\index{tlb\-Init.\-c@{tlb\-Init.\-c}!tlb\-Init@{tlb\-Init}}
+\index{tlb\-Init@{tlb\-Init}!tlbInit.c@{tlb\-Init.\-c}}
+\subsubsection[{tlb\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void tlb\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tlbInit_8c_aff30b72f985dd481c383cb8998d8df13}
+Initialize the T\-L\-B. This function is called at startup. Installs handler for both T\-L\-B load and store operations in normal exception\-Vector table, also copies the handler to the quick tlb\-Miss memory 0x80000000. 

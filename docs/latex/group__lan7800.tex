@@ -1,0 +1,319 @@
+\hypertarget{group__lan7800}{\section{L\-A\-N7800}
+\label{group__lan7800}\index{L\-A\-N7800@{L\-A\-N7800}}
+}
+
+
+Driver for the Microchip L\-A\-N7800 Ethernet device.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{lan7800_8c}{lan7800.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga332faebc17d841f5faeae06562624624}{lan7800\-\_\-wait\-\_\-device\-\_\-attached} (ushort minor)
+\item 
+devcall \hyperlink{group__lan7800_gabebfba028b4cb811de75d2beabfd1669}{ether\-Init} (device $\ast$devptr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac5a2ec33aa01163f97cfe029dab945d9}{lan7800\-\_\-write\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaa07a9c41cdf666a27e67905ed9121e23}{lan7800\-\_\-read\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t $\ast$data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga2283a3790e3b0874e957b9c10ef44998}{lan7800\-\_\-modify\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t mask, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}{lan7800\-\_\-set\-\_\-reg\-\_\-bits} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}{lan7800\-\_\-set\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, const uint8\-\_\-t $\ast$macaddr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga835efd429fb96b942474c163a03f1b82}{lan7800\-\_\-get\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, uint8\-\_\-t $\ast$macaddr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit} (struct usb\-\_\-device $\ast$udev, const uint32\-\_\-t reg, const uint32\-\_\-t mask, const bool set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gadfe8a9f28bc2ce5929b585baed8fc407}{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy} (struct usb\-\_\-device $\ast$udev)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga03a05fda47e55dbcddeabc9980d1b671}{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t offset, uint32\-\_\-t length, uint8\-\_\-t $\ast$data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga659c3aa68aab22ca75556617c216f5bd}{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length} (struct usb\-\_\-device $\ast$udev, int size)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac6d5ce65cf6384620c04e13e67690259}{lan7800\-\_\-set\-\_\-features} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga57b4e0f7b1ef285aa099af22280d4f07}{lan7800\-\_\-init} (struct usb\-\_\-device $\ast$udev, uint8\-\_\-t $\ast$macaddress)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Driver for the Microchip L\-A\-N7800 Ethernet device. This module presents a driver implementation for the Raspberry Pi 3 B+ Ethernet device.
+
+\begin{DoxyAuthor}{Authors}
+Rade Latinovich Patrick J. Mc\-Gee
+\end{DoxyAuthor}
+Initialization for the L\-A\-N7800 U\-S\-B Ethernet Adapter 
+
+\subsection{Function Documentation}
+\hypertarget{group__lan7800_gabebfba028b4cb811de75d2beabfd1669}{\index{L\-A\-N7800@{L\-A\-N7800}!ether\-Init@{ether\-Init}}
+\index{ether\-Init@{ether\-Init}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{ether\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall ether\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gabebfba028b4cb811de75d2beabfd1669}
+Implementation of \hyperlink{group__lan7800_gabebfba028b4cb811de75d2beabfd1669}{ether\-Init()} for lan7800; documentation in ether.\-h 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to ethernet device. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on successful initialization, \-::\-S\-Y\-S\-E\-R\-R otherwise.
+\end{DoxyReturn}
+L\-A\-N7800-\/specific notes\-: This function returns \-::\-O\-K if the Ethernet Driver was successfully registered with the U\-S\-B core, otherwise \-::\-S\-Y\-S\-E\-R\-R. This is a work-\/around to use U\-S\-B's dynamic device model at the same time as Xinu's static device model, and there is no guarantee that the device actually exists when the function returns. \hypertarget{group__lan7800_ga835efd429fb96b942474c163a03f1b82}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-get\-\_\-mac\-\_\-address@{lan7800\-\_\-get\-\_\-mac\-\_\-address}}
+\index{lan7800\-\_\-get\-\_\-mac\-\_\-address@{lan7800\-\_\-get\-\_\-mac\-\_\-address}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-get\-\_\-mac\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-get\-\_\-mac\-\_\-address (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint8\-\_\-t $\ast$}]{macaddr}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga835efd429fb96b942474c163a03f1b82}
+Reads the M\-A\-C address of the M\-I\-C\-R\-O\-C\-H\-I\-P L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em macaddr} & Pointer into which to write the M\-A\-C address (6 bytes long) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga57b4e0f7b1ef285aa099af22280d4f07}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-init@{lan7800\-\_\-init}}
+\index{lan7800\-\_\-init@{lan7800\-\_\-init}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint8\-\_\-t $\ast$}]{macaddress}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga57b4e0f7b1ef285aa099af22280d4f07}
+Initialize various functions for the Microchip L\-A\-N7800 Ethernet device. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em macaddress} & M\-A\-C address to be set on the device (obtained from the B\-C\-M2837\-B0 mailbox) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit@{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit}}
+\index{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit@{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{const uint32\-\_\-t}]{reg, }
+\item[{const uint32\-\_\-t}]{mask, }
+\item[{const bool}]{set}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}
+Wait for a bit value to change on the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em reg} & Register to change \\
+\hline
+{\em mask} & Mask value for register \\
+\hline
+{\em set} & Value of register bit to apply \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S after value is applied 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga2283a3790e3b0874e957b9c10ef44998}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-modify\-\_\-reg@{lan7800\-\_\-modify\-\_\-reg}}
+\index{lan7800\-\_\-modify\-\_\-reg@{lan7800\-\_\-modify\-\_\-reg}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-modify\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-modify\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{index, }
+\item[{uint32\-\_\-t}]{mask, }
+\item[{uint32\-\_\-t}]{set}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga2283a3790e3b0874e957b9c10ef44998}
+Modify the value contained in a register on the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em index} & Index of the register to modify \\
+\hline
+{\em mask} & Mask that contains 1 for the bits where the old value in the register will be kept rather than cleared (unless those bits also appear in {\ttfamily set}, in which case they will still be set). \\
+\hline
+{\em set} & Mask of bits to set in the register. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_gadfe8a9f28bc2ce5929b585baed8fc407}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy@{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy}}
+\index{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy@{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-phy\-\_\-wait\-\_\-not\-\_\-busy (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gadfe8a9f28bc2ce5929b585baed8fc407}
+Waits for P\-H\-Y to be free. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga03a05fda47e55dbcddeabc9980d1b671}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-read\-\_\-raw\-\_\-eeprom@{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom}}
+\index{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom@{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-read\-\_\-raw\-\_\-eeprom (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{offset, }
+\item[{uint32\-\_\-t}]{length, }
+\item[{uint8\-\_\-t $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga03a05fda47e55dbcddeabc9980d1b671}
+Read raw E\-E\-P\-R\-O\-M from the Microchip L\-A\-N7800 Ethernet device. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_gaa07a9c41cdf666a27e67905ed9121e23}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-read\-\_\-reg@{lan7800\-\_\-read\-\_\-reg}}
+\index{lan7800\-\_\-read\-\_\-reg@{lan7800\-\_\-read\-\_\-reg}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-read\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-read\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{index, }
+\item[{uint32\-\_\-t $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gaa07a9c41cdf666a27e67905ed9121e23}
+Read from a register on the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em index} & Index of the register to read \\
+\hline
+{\em data} & Pointer into which to write the register's value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_gac6d5ce65cf6384620c04e13e67690259}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-set\-\_\-features@{lan7800\-\_\-set\-\_\-features}}
+\index{lan7800\-\_\-set\-\_\-features@{lan7800\-\_\-set\-\_\-features}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-set\-\_\-features}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-set\-\_\-features (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{set}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gac6d5ce65cf6384620c04e13e67690259}
+Enable or disable Rx checksum offload engine for the Microchip L\-A\-N7800 Ethernet device. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em set} & Bit (whether to enable or disable) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-set\-\_\-mac\-\_\-address@{lan7800\-\_\-set\-\_\-mac\-\_\-address}}
+\index{lan7800\-\_\-set\-\_\-mac\-\_\-address@{lan7800\-\_\-set\-\_\-mac\-\_\-address}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-set\-\_\-mac\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-set\-\_\-mac\-\_\-address (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{const uint8\-\_\-t $\ast$}]{macaddr}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}
+Change the M\-A\-C address of the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter on the actual hardware by writing to its registers. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em macaddr} & New M\-A\-C address to set (6 bytes long) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. On failure the existing M\-A\-C address may have been partially modified. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-set\-\_\-reg\-\_\-bits@{lan7800\-\_\-set\-\_\-reg\-\_\-bits}}
+\index{lan7800\-\_\-set\-\_\-reg\-\_\-bits@{lan7800\-\_\-set\-\_\-reg\-\_\-bits}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-set\-\_\-reg\-\_\-bits}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-set\-\_\-reg\-\_\-bits (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{index, }
+\item[{uint32\-\_\-t}]{set}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}
+Set bits in a register on the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B Device for the adapter \\
+\hline
+{\em index} & Index of the register to modify \\
+\hline
+{\em set} & Bits to set in the register. At positions where the is a 0, the old value in the register will be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga659c3aa68aab22ca75556617c216f5bd}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length@{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length}}
+\index{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length@{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga659c3aa68aab22ca75556617c216f5bd}
+Set max R\-X frame length for the Microchip L\-A\-N7800 Ethernet device. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em size} & Size of max R\-X frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_ga332faebc17d841f5faeae06562624624}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-wait\-\_\-device\-\_\-attached@{lan7800\-\_\-wait\-\_\-device\-\_\-attached}}
+\index{lan7800\-\_\-wait\-\_\-device\-\_\-attached@{lan7800\-\_\-wait\-\_\-device\-\_\-attached}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-wait\-\_\-device\-\_\-attached}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-wait\-\_\-device\-\_\-attached (
+\begin{DoxyParamCaption}
+\item[{ushort}]{minor}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_ga332faebc17d841f5faeae06562624624}
+Wait until the specified Ethernet device has been attached. This is necessary because U\-S\-B is a dynamic bus, but Xinu expects static devices. 
+\begin{DoxyParams}{Parameters}
+{\em minor} & Minor number of the Ethernet device to wait for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Currently \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S. 
+\end{DoxyReturn}
+\hypertarget{group__lan7800_gac5a2ec33aa01163f97cfe029dab945d9}{\index{L\-A\-N7800@{L\-A\-N7800}!lan7800\-\_\-write\-\_\-reg@{lan7800\-\_\-write\-\_\-reg}}
+\index{lan7800\-\_\-write\-\_\-reg@{lan7800\-\_\-write\-\_\-reg}!LAN7800@{L\-A\-N7800}}
+\subsubsection[{lan7800\-\_\-write\-\_\-reg}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t lan7800\-\_\-write\-\_\-reg (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{udev, }
+\item[{uint32\-\_\-t}]{index, }
+\item[{uint32\-\_\-t}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__lan7800_gac5a2ec33aa01163f97cfe029dab945d9}
+Write to a register on the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter. 
+\begin{DoxyParams}{Parameters}
+{\em udev} & U\-S\-B device for the adapter \\
+\hline
+{\em index} & Index of the register to write \\
+\hline
+{\em data} & Value to write to the register \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on success; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}

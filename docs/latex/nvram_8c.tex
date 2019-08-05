@@ -1,0 +1,107 @@
+\hypertarget{nvram_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/nvram.c File Reference}
+\label{nvram_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/nvram.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/nvram.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$memory.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$nvram.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$debug.\-h$>$}\\*
+{\ttfamily \#include $<$stdio.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{nvram_8c_a3d8be6736ac9c7bb779ccc75efd1142a}{nvram\-Init} (void)
+\item 
+char $\ast$ \hyperlink{nvram_8c_aecab63f78c57deb2cddddb278e017a14}{nvram\-Get} (char $\ast$name)
+\item 
+devcall \hyperlink{nvram_8c_a4117eed6fde78a4102a62386311987a9}{nvram\-Set} (char $\ast$name, char $\ast$value)
+\item 
+devcall \hyperlink{nvram_8c_abbf807936ba6bcd20c9f3bad8ae70426}{nvram\-Unset} (char $\ast$name)
+\item 
+devcall \hyperlink{nvram_8c_ac5da9ab1ffb64e66f210198475786c30}{nvram\-Commit} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{nvram_8c_a2527f6f737fc96331a2d8b3d1443d252}{struct nvram\-\_\-header $\ast$ {\bfseries nvram\-\_\-header} = N\-U\-L\-L}\label{nvram_8c_a2527f6f737fc96331a2d8b3d1443d252}
+
+\item 
+\hypertarget{nvram_8c_aa29de042ad8943f46b14d3d4670db935}{struct nvram\-\_\-tuple $\ast$ {\bfseries nvram\-\_\-tuples} \mbox{[}N\-V\-R\-A\-M\-\_\-\-N\-H\-A\-S\-H\mbox{]}}\label{nvram_8c_aa29de042ad8943f46b14d3d4670db935}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions to access the nvram settings from kernel space. 
+
+\subsection{Function Documentation}
+\hypertarget{nvram_8c_ac5da9ab1ffb64e66f210198475786c30}{\index{nvram.\-c@{nvram.\-c}!nvram\-Commit@{nvram\-Commit}}
+\index{nvram\-Commit@{nvram\-Commit}!nvram.c@{nvram.\-c}}
+\subsubsection[{nvram\-Commit}]{\setlength{\rightskip}{0pt plus 5cm}devcall nvram\-Commit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{nvram_8c_ac5da9ab1ffb64e66f210198475786c30}
+Commit nvram settings to memory. Due to the nature of nvram settings writing to memory everytime would greatly reduce the life of flash, so after making changes you must commit them to memory. \begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{nvram_8c_aecab63f78c57deb2cddddb278e017a14}{\index{nvram.\-c@{nvram.\-c}!nvram\-Get@{nvram\-Get}}
+\index{nvram\-Get@{nvram\-Get}!nvram.c@{nvram.\-c}}
+\subsubsection[{nvram\-Get}]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ nvram\-Get (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{nvram_8c_aecab63f78c57deb2cddddb278e017a14}
+Find the value of a variable. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$name} & name of variable to find \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to requested tuple struct 
+\end{DoxyReturn}
+\hypertarget{nvram_8c_a3d8be6736ac9c7bb779ccc75efd1142a}{\index{nvram.\-c@{nvram.\-c}!nvram\-Init@{nvram\-Init}}
+\index{nvram\-Init@{nvram\-Init}!nvram.c@{nvram.\-c}}
+\subsubsection[{nvram\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall nvram\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{nvram_8c_a3d8be6736ac9c7bb779ccc75efd1142a}
+Initialize the nvram variable structures for editing \begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{nvram_8c_a4117eed6fde78a4102a62386311987a9}{\index{nvram.\-c@{nvram.\-c}!nvram\-Set@{nvram\-Set}}
+\index{nvram\-Set@{nvram\-Set}!nvram.c@{nvram.\-c}}
+\subsubsection[{nvram\-Set}]{\setlength{\rightskip}{0pt plus 5cm}devcall nvram\-Set (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name, }
+\item[{char $\ast$}]{value}
+\end{DoxyParamCaption}
+)}}\label{nvram_8c_a4117eed6fde78a4102a62386311987a9}
+Change the variable name to value. If name does not exist, create it, otherwise replace the old value with the new. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$name} & name to modify \\
+\hline
+{\em $\ast$value} & value to set name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on successful change, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{nvram_8c_abbf807936ba6bcd20c9f3bad8ae70426}{\index{nvram.\-c@{nvram.\-c}!nvram\-Unset@{nvram\-Unset}}
+\index{nvram\-Unset@{nvram\-Unset}!nvram.c@{nvram.\-c}}
+\subsubsection[{nvram\-Unset}]{\setlength{\rightskip}{0pt plus 5cm}devcall nvram\-Unset (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{name}
+\end{DoxyParamCaption}
+)}}\label{nvram_8c_abbf807936ba6bcd20c9f3bad8ae70426}
+Remove a setting from nvram. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$name} & name to remove from nvram settings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

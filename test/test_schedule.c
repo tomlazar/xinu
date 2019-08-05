@@ -19,11 +19,13 @@ static void t4(int times, uchar *testArray, int *shared)
      * But regardless of which one does, they should alternate back and forth.
      * */
     disable();
-
+    int cpuid = getcpuid();
     for (i = 0; i < times; i++)
     {
-        testArray[*shared] = thrcurrent;
-        *shared = *shared + 1;
+	resched();
+	cpuid = getcpuid();
+	testArray[*shared] = thrcurrent[cpuid];
+	*shared = *shared + 1;
         yield();
     }
 }
@@ -85,6 +87,192 @@ thread test_schedule(bool verbose)
     {
 	kprintf("\r");
 	kprintf("\r\nExpectedResults[%d]: %d (%s), TestResults[%d]: %d", i, expectedResults[i], thrtab[i].name, i, testArray[i]);
+        if (expectedResults[i] != testArray[i])
+        {
+            passed = FALSE;
+            sprintf(str,
+                    "Expected testArray[%d] == %d, not %d\n",
+                    i, expectedResults[i], testArray[i]);
+            testFail(verbose, str);
+        }
+    }
+
+    /* reset processes */
+    kill(atid);
+    kill(btid);
+    kill(ctid);
+    kill(dtid);
+    shared = 0;
+
+    /* run test on core 1 */
+    ready(atid = create((void *)t4, INITSTK, 31, "PRIORITY-A",
+                        3, TIMES, testArray, &shared), 0, CORE_ONE);
+    ready(btid = create((void *)t4, INITSTK, 32, "PRIORITY-B",
+                        3, TIMES, testArray, &shared), 0, CORE_ONE);
+    ready(ctid = create((void *)t4, INITSTK, 34, "PRIORITY-C",
+                        3, TIMES, testArray, &shared), 0, CORE_ONE);
+    ready(dtid = create((void *)t4, INITSTK, 32, "PRIORITY-D",
+                        3, TIMES, testArray, &shared), 0, CORE_ONE);
+
+    /* Run the tests by yielding the processor */
+    yield();
+
+    /* Generate expected results and compare */
+
+    for (i = 0; i < TIMES; i++)
+    {
+        expectedResults[i] = ctid;
+    }
+
+    /* Since threads may be rescheduled before they can disable interrupts, the
+     * exact order than threads B and D, which have equal priority, execute in
+     * is unpredictable.  To avoid spurious test failures, we accept them
+     * executing in any order.  */
+    btid_remaining = TIMES;
+    dtid_remaining = TIMES;
+    udelay(9);
+    for (i = TIMES; i < 3 * TIMES; i++)
+    {
+        if (testArray[i] == btid && btid_remaining > 0) {
+            expectedResults[i] = btid;
+            btid_remaining--;
+        } else {
+            expectedResults[i] = dtid;
+            dtid_remaining--;
+        }
+    }
+
+    for (i = 3 * TIMES; i < 4 * TIMES; i++)
+    {
+        expectedResults[i] = atid;
+    }
+
+    for (i = 0; i < 4 * TIMES; i++)
+    {
+        if (expectedResults[i] != testArray[i])
+        {
+            passed = FALSE;
+            sprintf(str,
+                    "Expected testArray[%d] == %d, not %d\n",
+                    i, expectedResults[i], testArray[i]);
+            testFail(verbose, str);
+        }
+    }
+
+    /* reset processes */
+    kill(atid);
+    kill(btid);
+    kill(ctid);
+    kill(dtid);
+    shared = 0;
+
+    /* run test on core 2 */
+    ready(atid = create((void *)t4, INITSTK, 31, "PRIORITY-A",
+                        3, TIMES, testArray, &shared), 0, CORE_TWO);
+    ready(btid = create((void *)t4, INITSTK, 32, "PRIORITY-B",
+                        3, TIMES, testArray, &shared), 0, CORE_TWO);
+    ready(ctid = create((void *)t4, INITSTK, 34, "PRIORITY-C",
+                        3, TIMES, testArray, &shared), 0, CORE_TWO);
+    ready(dtid = create((void *)t4, INITSTK, 32, "PRIORITY-D",
+                        3, TIMES, testArray, &shared), 0, CORE_TWO);
+
+    /* Run the tests by yielding the processor */
+    yield();
+
+    /* Generate expected results and compare */
+
+    for (i = 0; i < TIMES; i++)
+    {
+        expectedResults[i] = ctid;
+    }
+
+    /* Since threads may be rescheduled before they can disable interrupts, the
+     * exact order than threads B and D, which have equal priority, execute in
+     * is unpredictable.  To avoid spurious test failures, we accept them
+     * executing in any order.  */
+    btid_remaining = TIMES;
+    dtid_remaining = TIMES;
+    udelay(9);
+    for (i = TIMES; i < 3 * TIMES; i++)
+    {
+        if (testArray[i] == btid && btid_remaining > 0) {
+            expectedResults[i] = btid;
+            btid_remaining--;
+        } else {
+            expectedResults[i] = dtid;
+            dtid_remaining--;
+        }
+    }
+
+    for (i = 3 * TIMES; i < 4 * TIMES; i++)
+    {
+        expectedResults[i] = atid;
+    }
+
+    for (i = 0; i < 4 * TIMES; i++)
+    {
+        if (expectedResults[i] != testArray[i])
+        {
+            passed = FALSE;
+            sprintf(str,
+                    "Expected testArray[%d] == %d, not %d\n",
+                    i, expectedResults[i], testArray[i]);
+            testFail(verbose, str);
+        }
+    }
+
+    /* reset processes */
+    kill(atid);
+    kill(btid);
+    kill(ctid);
+    kill(dtid);
+    shared = 0;
+
+    /* run test on core 3 */
+    ready(atid = create((void *)t4, INITSTK, 31, "PRIORITY-A",
+                        3, TIMES, testArray, &shared), 0, CORE_THREE);
+    ready(btid = create((void *)t4, INITSTK, 32, "PRIORITY-B",
+                        3, TIMES, testArray, &shared), 0, CORE_THREE);
+    ready(ctid = create((void *)t4, INITSTK, 34, "PRIORITY-C",
+                        3, TIMES, testArray, &shared), 0, CORE_THREE);
+    ready(dtid = create((void *)t4, INITSTK, 32, "PRIORITY-D",
+                        3, TIMES, testArray, &shared), 0, CORE_THREE);
+
+    /* Run the tests by yielding the processor */
+    yield();
+
+    /* Generate expected results and compare */
+
+    for (i = 0; i < TIMES; i++)
+    {
+        expectedResults[i] = ctid;
+    }
+
+    /* Since threads may be rescheduled before they can disable interrupts, the
+     * exact order than threads B and D, which have equal priority, execute in
+     * is unpredictable.  To avoid spurious test failures, we accept them
+     * executing in any order.  */
+    btid_remaining = TIMES;
+    dtid_remaining = TIMES;
+    udelay(9);
+    for (i = TIMES; i < 3 * TIMES; i++)
+    {
+        if (testArray[i] == btid && btid_remaining > 0) {
+            expectedResults[i] = btid;
+            btid_remaining--;
+        } else {
+            expectedResults[i] = dtid;
+            dtid_remaining--;
+        }
+    }
+
+    for (i = 3 * TIMES; i < 4 * TIMES; i++)
+    {
+        expectedResults[i] = atid;
+    }
+
+    for (i = 0; i < 4 * TIMES; i++)
+    {
         if (expectedResults[i] != testArray[i])
         {
             passed = FALSE;

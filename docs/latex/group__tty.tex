@@ -1,0 +1,180 @@
+\hypertarget{group__tty}{\section{T\-T\-Y}
+\label{group__tty}\index{T\-T\-Y@{T\-T\-Y}}
+}
+
+
+T\-T\-Y device driver.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{group__tty_gabf86c9bbae4a364609afd5ef956e85a4}{tty\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tty_gae0e31c01429500c6299f417368ba62b8}{tty\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__tty_ga47e9e2910ea6b118ff1537993e22fa83}{tty\-Getc} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tty_ga8ab0537c72209e88cc3f75e430bdd5a8}{tty\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__tty_ga107c21ddcbf646b45da719997a92a34e}{tty\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__tty_gac5f57186307659fac143ac33ec58f0ac}{tty\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__tty_gada4e82772e7feab714f1bfe3a5cf013b}{tty\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+devcall \hyperlink{group__tty_ga82e48cd04d4948c729b4a96e4e028bde}{tty\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+T\-T\-Y device driver. This is the T\-T\-Y device driver. It is responsible for wrapping around a raw character input/output device to provide line-\/editing and other useful features. 
+
+\subsection{Function Documentation}
+\hypertarget{group__tty_gabf86c9bbae4a364609afd5ef956e85a4}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Close@{tty\-Close}}
+\index{tty\-Close@{tty\-Close}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tty_gabf86c9bbae4a364609afd5ef956e85a4}
+Close a T\-T\-Y device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-T\-Y is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tty_gae0e31c01429500c6299f417368ba62b8}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Control@{tty\-Control}}
+\index{tty\-Control@{tty\-Control}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__tty_gae0e31c01429500c6299f417368ba62b8}
+Control function for T\-T\-Y pseudo devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__tty_ga47e9e2910ea6b118ff1537993e22fa83}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Getc@{tty\-Getc}}
+\index{tty\-Getc@{tty\-Getc}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tty_ga47e9e2910ea6b118ff1537993e22fa83}
+Read a single character from a T\-T\-Y. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+character read from T\-T\-Y, or E\-O\-F 
+\end{DoxyReturn}
+\hypertarget{group__tty_ga8ab0537c72209e88cc3f75e430bdd5a8}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Init@{tty\-Init}}
+\index{tty\-Init@{tty\-Init}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__tty_ga8ab0537c72209e88cc3f75e430bdd5a8}
+Initialize T\-T\-Y structures. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if device is initialized 
+\end{DoxyReturn}
+\hypertarget{group__tty_ga107c21ddcbf646b45da719997a92a34e}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Open@{tty\-Open}}
+\index{tty\-Open@{tty\-Open}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__tty_ga107c21ddcbf646b45da719997a92a34e}
+Associate a T\-T\-Y with a hardware device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+{\em ap} & 2nd argument is the device number for the hardware device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if T\-T\-Y is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tty_gac5f57186307659fac143ac33ec58f0ac}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Putc@{tty\-Putc}}
+\index{tty\-Putc@{tty\-Putc}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__tty_gac5f57186307659fac143ac33ec58f0ac}
+Write a single character to a T\-T\-Y. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+{\em ch} & character to output \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if character was written successfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__tty_gada4e82772e7feab714f1bfe3a5cf013b}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Read@{tty\-Read}}
+\index{tty\-Read@{tty\-Read}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__tty_gada4e82772e7feab714f1bfe3a5cf013b}
+Read characters from a tty. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to tty device \\
+\hline
+{\em buf} & buffer for read characters \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of characters read, E\-O\-F if end of file was reached 
+\end{DoxyReturn}
+\hypertarget{group__tty_ga82e48cd04d4948c729b4a96e4e028bde}{\index{T\-T\-Y@{T\-T\-Y}!tty\-Write@{tty\-Write}}
+\index{tty\-Write@{tty\-Write}!TTY@{T\-T\-Y}}
+\subsubsection[{tty\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall tty\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__tty_ga82e48cd04d4948c729b4a96e4e028bde}
+Write a buffer to a tty 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & T\-T\-Y device table entry \\
+\hline
+{\em buf} & buffer of characters to output \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+count of characters output 
+\end{DoxyReturn}

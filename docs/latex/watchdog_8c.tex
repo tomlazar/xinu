@@ -1,0 +1,57 @@
+\hypertarget{watchdog_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/watchdog.c File Reference}
+\label{watchdog_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/watchdog.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/watchdog.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{watchdog_8c_a98092ed350272fb745036bc1c3a9918d}{\#define {\bfseries P\-M\-\_\-\-R\-S\-T\-C}~(P\-M\-\_\-\-R\-E\-G\-S\-\_\-\-B\-A\-S\-E + 0x1c)}\label{watchdog_8c_a98092ed350272fb745036bc1c3a9918d}
+
+\item 
+\hypertarget{watchdog_8c_a4f3838069d126bc098913319aa049f4e}{\#define {\bfseries P\-M\-\_\-\-W\-D\-O\-G}~(P\-M\-\_\-\-R\-E\-G\-S\-\_\-\-B\-A\-S\-E + 0x24)}\label{watchdog_8c_a4f3838069d126bc098913319aa049f4e}
+
+\item 
+\hypertarget{watchdog_8c_a866f69b6d1527d5822d8cd628fe51e5d}{\#define {\bfseries P\-M\-\_\-\-P\-A\-S\-S\-W\-O\-R\-D}~0x5a000000}\label{watchdog_8c_a866f69b6d1527d5822d8cd628fe51e5d}
+
+\item 
+\hypertarget{watchdog_8c_a4b1c91681cf787beb27e960b05cc85e4}{\#define {\bfseries P\-M\-\_\-\-R\-S\-T\-C\-\_\-\-W\-R\-C\-F\-G\-\_\-\-C\-L\-R}~0xffffffcf}\label{watchdog_8c_a4b1c91681cf787beb27e960b05cc85e4}
+
+\item 
+\hypertarget{watchdog_8c_af144c1ae720ada4c62ea4dff08294f13}{\#define {\bfseries P\-M\-\_\-\-R\-S\-T\-C\-\_\-\-W\-R\-C\-F\-G\-\_\-\-F\-U\-L\-L\-\_\-\-R\-E\-S\-E\-T}~0x00000020}\label{watchdog_8c_af144c1ae720ada4c62ea4dff08294f13}
+
+\item 
+\hypertarget{watchdog_8c_acf08c476a50f27a37583dcdf0286f99d}{\#define {\bfseries P\-M\-\_\-\-W\-D\-O\-G\-\_\-\-U\-N\-I\-T\-S\-\_\-\-P\-E\-R\-\_\-\-S\-E\-C\-O\-N\-D}~(1 $<$$<$ 16)}\label{watchdog_8c_acf08c476a50f27a37583dcdf0286f99d}
+
+\item 
+\hypertarget{watchdog_8c_a7257f235c9a1c32ab3504bc799807fe6}{\#define {\bfseries P\-M\-\_\-\-W\-D\-O\-G\-\_\-\-U\-N\-I\-T\-S\-\_\-\-P\-E\-R\-\_\-\-M\-I\-L\-L\-I\-S\-E\-C\-O\-N\-D}~(P\-M\-\_\-\-W\-D\-O\-G\-\_\-\-U\-N\-I\-T\-S\-\_\-\-P\-E\-R\-\_\-\-S\-E\-C\-O\-N\-D / 1000)}\label{watchdog_8c_a7257f235c9a1c32ab3504bc799807fe6}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{watchdog_8c_a3c44b812644070d9f1bb3f144eae49cb}{watchdogset} (uint msecs)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains code to set the Watchdog Timer on the B\-C\-M2835 So\-C used on the Raspberry Pi. When enabled, the Watchdog Timer must be refreshed before it expires, otherwise the system resets itself. 
+
+\subsection{Function Documentation}
+\hypertarget{watchdog_8c_a3c44b812644070d9f1bb3f144eae49cb}{\index{watchdog.\-c@{watchdog.\-c}!watchdogset@{watchdogset}}
+\index{watchdogset@{watchdogset}!watchdog.c@{watchdog.\-c}}
+\subsubsection[{watchdogset}]{\setlength{\rightskip}{0pt plus 5cm}syscall watchdogset (
+\begin{DoxyParamCaption}
+\item[{uint}]{msecs}
+\end{DoxyParamCaption}
+)}}\label{watchdog_8c_a3c44b812644070d9f1bb3f144eae49cb}
+Set the watchdog timer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msecs} & Milliseconds to wait until the system resets itself.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}

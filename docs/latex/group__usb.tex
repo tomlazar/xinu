@@ -1,0 +1,64 @@
+\hypertarget{group__usb}{\section{U\-S\-B}
+\label{group__usb}\index{U\-S\-B@{U\-S\-B}}
+}
+
+
+Universal Serial Bus 2.\-0 subsystem.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__usbcore}{U\-S\-B Core Driver}
+\begin{DoxyCompactList}\small\item\em U\-S\-B device model and A\-P\-I for U\-S\-B device drivers. \end{DoxyCompactList}\item 
+\hyperlink{group__usbhcd}{U\-S\-B Host Controller Driver}
+\begin{DoxyCompactList}\small\item\em Platform-\/dependent code to actually send and receive data over the U\-S\-B. \end{DoxyCompactList}\item 
+\hyperlink{group__usbhub}{U\-S\-B Hub Driver}
+\begin{DoxyCompactList}\small\item\em Driver for U\-S\-B hub devices. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{usbcore_8c}{usbcore.\-c}
+\item 
+file \hyperlink{usbdebug_8c}{usbdebug.\-c}
+\item 
+file \hyperlink{usbhub_8c}{usbhub.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}{usbinit} (void)
+\item 
+syscall \hyperlink{group__usb_ga264444ef6b00c2562ca7b0d897d34025}{usbinfo} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Universal Serial Bus 2.\-0 subsystem. \hypertarget{group__usb_usb_support}{}\subsection{U\-S\-B support}\label{group__usb_usb_support}
+
+
+\subsection{Function Documentation}
+\hypertarget{group__usb_ga264444ef6b00c2562ca7b0d897d34025}{\index{U\-S\-B@{U\-S\-B}!usbinfo@{usbinfo}}
+\index{usbinfo@{usbinfo}!USB@{U\-S\-B}}
+\subsubsection[{usbinfo}]{\setlength{\rightskip}{0pt plus 5cm}syscall usbinfo (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usb_ga264444ef6b00c2562ca7b0d897d34025}
+Print information about all devices attached to the U\-S\-B. This uses \hyperlink{group__libxc_ga98631211a4a8aee62f572375d5b637be}{printf()} and therefore should be called with interrupts enabled (e.\-g. by the shell).
+
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R if U\-S\-B subsystem is not initialized; \-::\-O\-K otherwise. 
+\end{DoxyReturn}
+\hypertarget{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}{\index{U\-S\-B@{U\-S\-B}!usbinit@{usbinit}}
+\index{usbinit@{usbinit}!USB@{U\-S\-B}}
+\subsubsection[{usbinit}]{\setlength{\rightskip}{0pt plus 5cm}syscall usbinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}
+Initializes the U\-S\-B subsystem and corresponding U\-S\-B and begins the U\-S\-B device enumeration process. Since U\-S\-B is a dynamic bus, the enumeration process proceeds in an interrupt-\/driven manner and continues after this function returns. Thus, there is no guarantee that any given device will be enumerated at any specific time, even after this function returns; this is necessary by the design of U\-S\-B itself. U\-S\-B device drivers will be bound to devices as they are found; use \hyperlink{group__usbcore_ga33403372a738979110884fd1b3f4c474}{usb\-\_\-register\-\_\-device\-\_\-driver()} to register a device driver, which can be done at any time (either before or after calling this function).
+
+\begin{DoxyReturn}{Returns}
+O\-K on success; S\-Y\-S\-E\-R\-R if the U\-S\-B subsystem was not successfully initialized. 
+\end{DoxyReturn}

@@ -1,0 +1,32 @@
+\hypertarget{memRegionAlloc_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Alloc.c File Reference}
+\label{memRegionAlloc_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Alloc.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Alloc.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct memregion $\ast$ \hyperlink{memRegionAlloc_8c_a46b55603edef91f539c2fba986f9ec66}{mem\-Region\-Alloc} (uint nbytes)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+User/kernel agnostic memory allocator. Simply provides a pointer to memory that belongs to the current thread. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionAlloc_8c_a46b55603edef91f539c2fba986f9ec66}{\index{mem\-Region\-Alloc.\-c@{mem\-Region\-Alloc.\-c}!mem\-Region\-Alloc@{mem\-Region\-Alloc}}
+\index{mem\-Region\-Alloc@{mem\-Region\-Alloc}!memRegionAlloc.c@{mem\-Region\-Alloc.\-c}}
+\subsubsection[{mem\-Region\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}struct memregion$\ast$ mem\-Region\-Alloc (
+\begin{DoxyParamCaption}
+\item[{uint}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{memRegionAlloc_8c_a46b55603edef91f539c2fba986f9ec66}
+Attempt to allocate a region of at least nbytes to the current thread. 
+\begin{DoxyParams}{Parameters}
+{\em nbytes} & number of byte to allocate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to allocated memory 
+\end{DoxyReturn}

@@ -1,0 +1,503 @@
+\hypertarget{group__usbcore}{\section{U\-S\-B Core Driver}
+\label{group__usbcore}\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}}
+}
+
+
+U\-S\-B device model and A\-P\-I for U\-S\-B device drivers.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{usbcore_8c}{usbcore.\-c}
+\item 
+file \hyperlink{usbdebug_8c}{usbdebug.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__usbcore_ga04500240d93eaedb734240929e5a06be}{usb\-\_\-init\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+struct usb\-\_\-xfer\-\_\-request $\ast$ \hyperlink{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}{usb\-\_\-alloc\-\_\-xfer\-\_\-request} (uint bufsize)
+\item 
+void \hyperlink{group__usbcore_ga4ef47c1a9b0707276d121214cdd461d0}{usb\-\_\-free\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga873be6d448b1c95c51cb5600a197cf64}{usb\-\_\-submit\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+void \hyperlink{group__usbcore_gabf82a9972b273a0e842212e2d638272b}{usb\-\_\-complete\-\_\-xfer} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg} (struct usb\-\_\-device $\ast$dev, const struct usb\-\_\-endpoint\-\_\-descriptor $\ast$endpoint\-\_\-desc, uint8\-\_\-t b\-Request, uint8\-\_\-t bm\-Request\-Type, uint16\-\_\-t w\-Value, uint16\-\_\-t w\-Index, void $\ast$data, uint16\-\_\-t w\-Length)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga421272b0f3799410bc7089f29b822c8c}{usb\-\_\-get\-\_\-descriptor} (struct usb\-\_\-device $\ast$dev, uint8\-\_\-t b\-Request, uint8\-\_\-t bm\-Request\-Type, uint16\-\_\-t w\-Value, uint16\-\_\-t w\-Index, void $\ast$buf, uint16\-\_\-t buflen)
+\item 
+struct usb\-\_\-device $\ast$ \hyperlink{group__usbcore_gaf176c490fcac1b9ec676669f1d235dae}{usb\-\_\-alloc\-\_\-device} (struct usb\-\_\-device $\ast$parent)
+\item 
+void \hyperlink{group__usbcore_ga1276a0bdafec25f3313ecd6839c51e25}{usb\-\_\-free\-\_\-device} (struct usb\-\_\-device $\ast$dev)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga42564b27159fcf3073738ad16e9aa287}{usb\-\_\-attach\-\_\-device} (struct usb\-\_\-device $\ast$dev)
+\item 
+void \hyperlink{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}{usb\-\_\-lock\-\_\-bus} (void)
+\item 
+void \hyperlink{group__usbcore_gaf957391ad00401a906dbeb919183f56c}{usb\-\_\-unlock\-\_\-bus} (void)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga33403372a738979110884fd1b3f4c474}{usb\-\_\-register\-\_\-device\-\_\-driver} (const struct usb\-\_\-device\-\_\-driver $\ast$drv)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gafe97aa2be2cc2aba482c64309cd7f88d}{usb\-\_\-status\-\_\-string} (usb\-\_\-status\-\_\-t status)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga3609ee36c2101d9179594f7cfef176e9}{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string} (enum usb\-\_\-class\-\_\-code class\-\_\-code)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga3fe8839660a728bd1bc378acd5e54ad6}{usb\-\_\-speed\-\_\-to\-\_\-string} (enum usb\-\_\-speed speed)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_ga799108acda1af1559339b779bf11d201}{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string} (enum usb\-\_\-transfer\-\_\-type type)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gac86b850733f589f1d2c9443934cdaf8f}{usb\-\_\-direction\-\_\-to\-\_\-string} (enum usb\-\_\-direction dir)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga46b81024db6dce7812618f41e288c1df}{usb\-\_\-get\-\_\-string\-\_\-descriptor} (struct usb\-\_\-device $\ast$dev, uint8\-\_\-t index, uint16\-\_\-t lang\-\_\-id, struct usb\-\_\-string\-\_\-descriptor $\ast$buf, uint16\-\_\-t buflen)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbcore_ga10ec2ced3150725518a49629137e68c7}{usb\-\_\-get\-\_\-ascii\-\_\-string} (struct usb\-\_\-device $\ast$dev, uint32\-\_\-t i\-String, char $\ast$strbuf, uint32\-\_\-t strbufsize)
+\item 
+const char $\ast$ \hyperlink{group__usbcore_gae30f9b5d46f045da04d6150e8d662763}{usb\-\_\-device\-\_\-description} (const struct usb\-\_\-device $\ast$dev)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+U\-S\-B device model and A\-P\-I for U\-S\-B device drivers. This is the U\-S\-B Core Driver. It implements the U\-S\-B system software that does not depend on the specific host controller hardware and is not specific to any single U\-S\-B device or platform.
+
+Features and limitations\-:
+
+
+\begin{DoxyItemize}
+\item This driver is written to be compatible with U\-S\-B 2.\-0. U\-S\-B 3.\-0 devices are untested.
+\item Not all U\-S\-B transfer types and speeds are necessarily supported. This depends on the Host Controller Driver; see \hyperlink{group__usbcore_ga873be6d448b1c95c51cb5600a197cf64}{usb\-\_\-submit\-\_\-xfer\-\_\-request()}.
+\item This driver does not attempt to do any intelligent power management, bandwidth allocation, or transfer scheduling. Devices are always set to their first listed configuration regardless of power requirements. Transfer requests are simply passed to the Host Controller Driver in the order submitted; thus, the Host Controller Driver is responsible for doing any more intelligent scheduling if desired.
+\item This driver is assumed to drive a single U\-S\-B (bus). Multiple U\-S\-Bs are not supported.
+\item This driver does not support multiple configurations per U\-S\-B device. If a device happens to have multiple configurations, the first one will be assigned.
+\item This driver is currently written to support binding drivers to U\-S\-B devices rather than U\-S\-B interfaces.
+\item By design, it is possible to implement a host controller driver for different host controller hardware without changing any of this code, as long as the host controller driver provides the functions declared in usb\-\_\-hcdi.\-h.
+\item By design, this driver has a hard-\/coded dependency on the U\-S\-B hub driver because U\-S\-B is useless without hubs.
+\end{DoxyItemize}
+
+To initialize this core U\-S\-B driver, \hyperlink{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}{usbinit()} must be called by the system startup code. See that function for details.
+
+The other functions exported by this core U\-S\-B driver are mostly intended to be used by U\-S\-B device drivers.
+
+Debugging messages in this driver and in the rest of the U\-S\-B code can be enabled by changing the definitions of the minimum, initial, and/or background log priorities in usb\-\_\-util.\-h. 
+
+\subsection{Function Documentation}
+\hypertarget{group__usbcore_gaf176c490fcac1b9ec676669f1d235dae}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-alloc\-\_\-device@{usb\-\_\-alloc\-\_\-device}}
+\index{usb\-\_\-alloc\-\_\-device@{usb\-\_\-alloc\-\_\-device}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-alloc\-\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device$\ast$ usb\-\_\-alloc\-\_\-device (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gaf176c490fcac1b9ec676669f1d235dae}
+Allocate a U\-S\-B device structure from the pool of available device structures.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & Pointer to the U\-S\-B device structure for the parent hub, or {\ttfamily N\-U\-L\-L} if the device being allocated is the root hub.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to an initialized U\-S\-B device structure, or {\ttfamily N\-U\-L\-L} if no more U\-S\-B device structures are available. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-alloc\-\_\-xfer\-\_\-request@{usb\-\_\-alloc\-\_\-xfer\-\_\-request}}
+\index{usb\-\_\-alloc\-\_\-xfer\-\_\-request@{usb\-\_\-alloc\-\_\-xfer\-\_\-request}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-alloc\-\_\-xfer\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-xfer\-\_\-request$\ast$ usb\-\_\-alloc\-\_\-xfer\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{uint}]{bufsize}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}
+Dynamically allocates a struct usb\-\_\-xfer\-\_\-request, including a data buffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bufsize} & Length of the data buffer for sending and/or receiving.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the resulting struct usb\-\_\-xfer\-\_\-request, or N\-U\-L\-L if out of memory. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga42564b27159fcf3073738ad16e9aa287}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-attach\-\_\-device@{usb\-\_\-attach\-\_\-device}}
+\index{usb\-\_\-attach\-\_\-device@{usb\-\_\-attach\-\_\-device}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-attach\-\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-attach\-\_\-device (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga42564b27159fcf3073738ad16e9aa287}
+Configure and initialize, or \char`\"{}enumerate\char`\"{}, a newly allocated U\-S\-B device. The physical device is initially assumed to be non-\/addressed and non-\/configured and therefore accessible by sending control messages to the default address of 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & New U\-S\-B device to configure and initialize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S if successful; another \-::usb\-\_\-status\-\_\-t error code otherwise. Note that after a succesful return, the newly attached device may or may not have been bound to an actual device driver. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga3609ee36c2101d9179594f7cfef176e9}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string@{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string}}
+\index{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string@{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-class\-\_\-code\-\_\-to\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{enum usb\-\_\-class\-\_\-code}]{class\-\_\-code}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga3609ee36c2101d9179594f7cfef176e9}
+Translates a U\-S\-B class code into a string describing it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em class\-\_\-code} & A U\-S\-B class code constant. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A constant string describing the U\-S\-B class, or \char`\"{}\-Unknown\char`\"{} if the class code was not recognized. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_gabf82a9972b273a0e842212e2d638272b}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-complete\-\_\-xfer@{usb\-\_\-complete\-\_\-xfer}}
+\index{usb\-\_\-complete\-\_\-xfer@{usb\-\_\-complete\-\_\-xfer}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-complete\-\_\-xfer}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-complete\-\_\-xfer (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gabf82a9972b273a0e842212e2d638272b}
+Signal the device driver that a U\-S\-B transfer has successfully completed or has encountered an error. Intended to be called by Host Controller Drivers only.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & U\-S\-B transfer to signal completion on. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-control\-\_\-msg@{usb\-\_\-control\-\_\-msg}}
+\index{usb\-\_\-control\-\_\-msg@{usb\-\_\-control\-\_\-msg}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-control\-\_\-msg}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-control\-\_\-msg (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev, }
+\item[{const struct usb\-\_\-endpoint\-\_\-descriptor $\ast$}]{endpoint\-\_\-desc, }
+\item[{uint8\-\_\-t}]{b\-Request, }
+\item[{uint8\-\_\-t}]{bm\-Request\-Type, }
+\item[{uint16\-\_\-t}]{w\-Value, }
+\item[{uint16\-\_\-t}]{w\-Index, }
+\item[{void $\ast$}]{data, }
+\item[{uint16\-\_\-t}]{w\-Length}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}
+Synchronously performs a control transfer to or from a U\-S\-B device. Control messages are one of the four fundamental transfer types of U\-S\-B and are documented in various places in the U\-S\-B 2.\-0 specification.
+
+This is a synchronous interface, so the thread will be blocked until the control transfer has completed, timed out, or encountered another error. Currently the request timeout is chosen by the Host Controller Driver and cannot be passed as a parameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Pointer to the U\-S\-B device to which to submit the control message. \\
+\hline
+{\em endpoint\-\_\-desc} & Pointer to the endpoint descriptor for the endpoint to which to submit the control transfer, or N\-U\-L\-L to specify the default control endpoint (which has no endpoint descriptor). \\
+\hline
+{\em b\-Request} & Request to make. Standard device requests are documented in Section 9.\-4 of the U\-S\-B 2.\-0 specification; in this code they are the enum \-::usb\-\_\-device\-\_\-request values. Other values, such as class-\/specific requests, can also be used for this parameter. \\
+\hline
+{\em bm\-Request\-Type} & Type of the request to make. Standard types are documented in Section 9.\-3.\-1 of the U\-S\-B 2.\-0 specification; in this code they are the enum \-::usb\-\_\-bm\-Request\-Type\-\_\-fields values. \\
+\hline
+{\em w\-Value} & Request-\/specific data. \\
+\hline
+{\em w\-Index} & Request-\/specific data. \\
+\hline
+{\em data} & Pointer to a buffer that, depending on the request, either contains the additional data to be sent as part of the message, or receives the additional data that will be received from the U\-S\-B device. This parameter is ignored if {\ttfamily w\-Length} is 0. \\
+\hline
+{\em w\-Length} & Length of the {\ttfamily data} buffer. This is interpreted as the exact number of additional bytes of data that must be transferred. This can be 0 if no additional data needs to be transferred to satisfy the request; for example, a Set\-Address request passes information in w\-Value but uses no additional data buffer.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Status of the transfer. The possible return values include\-:
+\end{DoxyReturn}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S} & The transfer completed successfully with exactly the amount of data specified by {\ttfamily w\-Length}. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y} & Failed to allocate memory or create a semaphore. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-D\-A\-T\-A} & The transfer completed, but not with the exact amount of data specified. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-U\-N\-S\-U\-P\-P\-O\-R\-T\-E\-D\-\_\-\-R\-E\-Q\-U\-E\-S\-T} & The transfer was to the root hub, but the request was not implemented. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E\-\_\-\-E\-R\-R\-O\-R} & A hardware error occurred. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-D\-E\-V\-I\-C\-E\-\_\-\-D\-E\-T\-A\-C\-H\-E\-D} & The U\-S\-B device was detached. \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__usbcore_gae30f9b5d46f045da04d6150e8d662763}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-device\-\_\-description@{usb\-\_\-device\-\_\-description}}
+\index{usb\-\_\-device\-\_\-description@{usb\-\_\-device\-\_\-description}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-device\-\_\-description}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-device\-\_\-description (
+\begin{DoxyParamCaption}
+\item[{const struct usb\-\_\-device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gae30f9b5d46f045da04d6150e8d662763}
+Returns a fairly detailed, human-\/readable description of a U\-S\-B device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & U\-S\-B device to get a description of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string describing the device. The returned string is statically allocated and will be changed on the next call to this function. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_gac86b850733f589f1d2c9443934cdaf8f}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-direction\-\_\-to\-\_\-string@{usb\-\_\-direction\-\_\-to\-\_\-string}}
+\index{usb\-\_\-direction\-\_\-to\-\_\-string@{usb\-\_\-direction\-\_\-to\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-direction\-\_\-to\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-direction\-\_\-to\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{enum usb\-\_\-direction}]{dir}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gac86b850733f589f1d2c9443934cdaf8f}
+Translates a U\-S\-B direction constant into a string describing it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dir} & A U\-S\-B direction constant.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\char`\"{}\-O\-U\-T\char`\"{}, \char`\"{}\-I\-N\char`\"{}, or \char`\"{}\-Unknown\char`\"{}. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga1276a0bdafec25f3313ecd6839c51e25}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-free\-\_\-device@{usb\-\_\-free\-\_\-device}}
+\index{usb\-\_\-free\-\_\-device@{usb\-\_\-free\-\_\-device}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-free\-\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-free\-\_\-device (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga1276a0bdafec25f3313ecd6839c51e25}
+Detaches and frees a U\-S\-B device. This unbinds the device driver, if one is bound, and returns the U\-S\-B device structure to the pool of available device structures. Only the hub driver should need to call this function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Pointer to the U\-S\-B device structure to detach. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__usbcore_ga4ef47c1a9b0707276d121214cdd461d0}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-free\-\_\-xfer\-\_\-request@{usb\-\_\-free\-\_\-xfer\-\_\-request}}
+\index{usb\-\_\-free\-\_\-xfer\-\_\-request@{usb\-\_\-free\-\_\-xfer\-\_\-request}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-free\-\_\-xfer\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-free\-\_\-xfer\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga4ef47c1a9b0707276d121214cdd461d0}
+Frees a struct usb\-\_\-xfer\-\_\-request allocated by \hyperlink{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}{usb\-\_\-alloc\-\_\-xfer\-\_\-request()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & A pointer to the struct usb\-\_\-xfer\-\_\-request to free. It must not be currently pending. N\-U\-L\-L can be passed as a no-\/op. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__usbcore_ga10ec2ced3150725518a49629137e68c7}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-get\-\_\-ascii\-\_\-string@{usb\-\_\-get\-\_\-ascii\-\_\-string}}
+\index{usb\-\_\-get\-\_\-ascii\-\_\-string@{usb\-\_\-get\-\_\-ascii\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-get\-\_\-ascii\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-get\-\_\-ascii\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev, }
+\item[{uint32\-\_\-t}]{i\-String, }
+\item[{char $\ast$}]{strbuf, }
+\item[{uint32\-\_\-t}]{strbufsize}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga10ec2ced3150725518a49629137e68c7}
+Retrieves the English version (if any) of a U\-S\-B string descriptor and \char`\"{}translates\char`\"{} it from U\-T\-F-\/16\-L\-E to A\-S\-C\-I\-I. The resulting string is null-\/terminated. U\-T\-F-\/16\-L\-E codepoints outside the A\-S\-C\-I\-I range are simply replaced with question marks.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Pointer to the U\-S\-B device structure for the device from which to read the string descriptor. \\
+\hline
+{\em i\-String} & Index of the string descriptor to read. \\
+\hline
+{\em strbuf} & Buffer in which to place the A\-S\-C\-I\-I string. \\
+\hline
+{\em strbufsize} & Length of the {\ttfamily strbuf} buffer.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Any value that can be returned by \hyperlink{group__usbcore_ga46b81024db6dce7812618f41e288c1df}{usb\-\_\-get\-\_\-string\-\_\-descriptor()}, plus \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-D\-A\-T\-A if the list of available language I\-Ds is empty. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga421272b0f3799410bc7089f29b822c8c}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-get\-\_\-descriptor@{usb\-\_\-get\-\_\-descriptor}}
+\index{usb\-\_\-get\-\_\-descriptor@{usb\-\_\-get\-\_\-descriptor}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-get\-\_\-descriptor}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-get\-\_\-descriptor (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev, }
+\item[{uint8\-\_\-t}]{b\-Request, }
+\item[{uint8\-\_\-t}]{bm\-Request\-Type, }
+\item[{uint16\-\_\-t}]{w\-Value, }
+\item[{uint16\-\_\-t}]{w\-Index, }
+\item[{void $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{buflen}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga421272b0f3799410bc7089f29b822c8c}
+Reads a descriptor from a U\-S\-B device. This is a wrapper around \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()} that automatically handles reading the descriptor header and requesting the appropriate length.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & U\-S\-B device from which to read the descriptor. \\
+\hline
+{\em b\-Request} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}. \\
+\hline
+{\em bm\-Request\-Type} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}. \\
+\hline
+{\em w\-Value} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}. \\
+\hline
+{\em w\-Index} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}. \\
+\hline
+{\em buf} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}. \\
+\hline
+{\em buflen} & See \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Same possible return values as \hyperlink{group__usbcore_ga0b4d0b3195ae857828f75b9c3f084ff9}{usb\-\_\-control\-\_\-msg()}, or \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-D\-A\-T\-A if the b\-Length field in the descriptor header is less than the size of the descriptor header itself. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga46b81024db6dce7812618f41e288c1df}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-get\-\_\-string\-\_\-descriptor@{usb\-\_\-get\-\_\-string\-\_\-descriptor}}
+\index{usb\-\_\-get\-\_\-string\-\_\-descriptor@{usb\-\_\-get\-\_\-string\-\_\-descriptor}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-get\-\_\-string\-\_\-descriptor}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-get\-\_\-string\-\_\-descriptor (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev, }
+\item[{uint8\-\_\-t}]{index, }
+\item[{uint16\-\_\-t}]{lang\-\_\-id, }
+\item[{struct usb\-\_\-string\-\_\-descriptor $\ast$}]{buf, }
+\item[{uint16\-\_\-t}]{buflen}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga46b81024db6dce7812618f41e288c1df}
+Reads a U\-S\-B string descriptor from a device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Pointer to the U\-S\-B device structure for the device from which to read the string descriptor. \\
+\hline
+{\em index} & Index of the string descriptor to read. For example, the i\-Product member of the device descriptor specifies the index of the string descriptor that contains the product name. \\
+\hline
+{\em lang\-\_\-id} & Language I\-D of the language to request. Note\-: the available language I\-Ds can be retrieved by requesting the string descriptor of index 0 with any language I\-D. \\
+\hline
+{\em buf} & Buffer in which to place the string descriptor. \\
+\hline
+{\em buflen} & Maximum length in bytes to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+See \hyperlink{group__usbcore_ga421272b0f3799410bc7089f29b822c8c}{usb\-\_\-get\-\_\-descriptor()}. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga04500240d93eaedb734240929e5a06be}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-init\-\_\-xfer\-\_\-request@{usb\-\_\-init\-\_\-xfer\-\_\-request}}
+\index{usb\-\_\-init\-\_\-xfer\-\_\-request@{usb\-\_\-init\-\_\-xfer\-\_\-request}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-init\-\_\-xfer\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-init\-\_\-xfer\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga04500240d93eaedb734240929e5a06be}
+Performs one-\/time initialization on a U\-S\-B transfer request allocated by the device driver in some way other than by \hyperlink{group__usbcore_ga7daf3baaa97a513d71f323d0f9391fb9}{usb\-\_\-alloc\-\_\-xfer\-\_\-request()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & Pointer to the U\-S\-B transfer request to initialize. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-lock\-\_\-bus@{usb\-\_\-lock\-\_\-bus}}
+\index{usb\-\_\-lock\-\_\-bus@{usb\-\_\-lock\-\_\-bus}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-lock\-\_\-bus}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-lock\-\_\-bus (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}
+Prevent devices from being attached or detached to/from the U\-S\-B. This does not prevent U\-S\-B transfers from being issued on the bus. \hypertarget{group__usbcore_ga33403372a738979110884fd1b3f4c474}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-register\-\_\-device\-\_\-driver@{usb\-\_\-register\-\_\-device\-\_\-driver}}
+\index{usb\-\_\-register\-\_\-device\-\_\-driver@{usb\-\_\-register\-\_\-device\-\_\-driver}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-register\-\_\-device\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-register\-\_\-device\-\_\-driver (
+\begin{DoxyParamCaption}
+\item[{const struct usb\-\_\-device\-\_\-driver $\ast$}]{drv}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga33403372a738979110884fd1b3f4c474}
+Registers a U\-S\-B device driver with the U\-S\-B core. At any time after this is called, the U\-S\-B core may execute the bind\-\_\-device callback to try to bind the device driver to a U\-S\-B device.
+
+This currently can safely be called before \hyperlink{group__usb_ga44a089d3d6c6297f5880f14eeb1d6397}{usbinit()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em drv} & Pointer to the U\-S\-B device driver structure to register.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S if the driver was successfully registered or was already registered; otherwise another \-::usb\-\_\-status\-\_\-t error code. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga3fe8839660a728bd1bc378acd5e54ad6}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-speed\-\_\-to\-\_\-string@{usb\-\_\-speed\-\_\-to\-\_\-string}}
+\index{usb\-\_\-speed\-\_\-to\-\_\-string@{usb\-\_\-speed\-\_\-to\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-speed\-\_\-to\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-speed\-\_\-to\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{enum usb\-\_\-speed}]{speed}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga3fe8839660a728bd1bc378acd5e54ad6}
+Translates a U\-S\-B speed constant into a string describing it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em speed} & A U\-S\-B speed constant.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\char`\"{}high\char`\"{}, \char`\"{}full\char`\"{}, \char`\"{}low\char`\"{}, or \char`\"{}unknown\char`\"{}. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_gafe97aa2be2cc2aba482c64309cd7f88d}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-status\-\_\-string@{usb\-\_\-status\-\_\-string}}
+\index{usb\-\_\-status\-\_\-string@{usb\-\_\-status\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-status\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-status\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{usb\-\_\-status\-\_\-t}]{status}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gafe97aa2be2cc2aba482c64309cd7f88d}
+Translates a \-::usb\-\_\-status\-\_\-t into a string describing it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em status} & A \-::usb\-\_\-status\-\_\-t error code returned by one of the functions in Xinu's U\-S\-B subsystem.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A constant string describing the error, or \char`\"{}unknown error\char`\"{} if the error code is not recognized. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_ga873be6d448b1c95c51cb5600a197cf64}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-submit\-\_\-xfer\-\_\-request@{usb\-\_\-submit\-\_\-xfer\-\_\-request}}
+\index{usb\-\_\-submit\-\_\-xfer\-\_\-request@{usb\-\_\-submit\-\_\-xfer\-\_\-request}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-submit\-\_\-xfer\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t usb\-\_\-submit\-\_\-xfer\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga873be6d448b1c95c51cb5600a197cf64}
+Submit a U\-S\-B transfer request to be completed.
+
+This is intended to be an asynchronous interface where the transfer request is queued for later processing by the Host Controller. This function should immediately return and the transfer request should be asynchronously completed at some later time, making use of interrupts between the C\-P\-U and host controller to accomplish this efficiently. However, exactly how the transfer request is completed is ultimately up to the Host Controller Driver. Synchronous completion is possible, although not recommended.
+
+When the transfer has been completed or has failed, the completion\-\_\-cb\-\_\-func function of the {\ttfamily req} will be called. This callback function should process the completed or failed request and either free its memory or re-\/submit it to start another transfer.
+
+Not all U\-S\-B transfer types and speeds are necessarily supported. This depends on the Host Controller Driver, which is expected to make sure each request is supported when passed it and return \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-P\-A\-R\-A\-M\-E\-T\-E\-R if not. Currently, the Host Controller Driver for the Synopsys Design\-Ware High-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller (the one on the Raspberry Pi) is intended to support control, bulk, and interrupt transfers at low, full, and high speeds; however, not all combinations of transfers and speeds have actually been tested yet.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & Pointer to the U\-S\-B transfer request to submit. Its members documented as input must have been filled in.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S} & The request was submitted successfully. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-I\-N\-V\-A\-L\-I\-D\-\_\-\-P\-A\-R\-A\-M\-E\-T\-E\-R} & {\ttfamily req} was not filled in correctly. \\
+\hline
+{\em \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-D\-E\-V\-I\-C\-E\-\_\-\-D\-E\-T\-A\-C\-H\-E\-D} & The device has been detached. \\
+\hline
+\end{DoxyRetVals}
+\hypertarget{group__usbcore_ga799108acda1af1559339b779bf11d201}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string@{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string}}
+\index{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string@{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ usb\-\_\-transfer\-\_\-type\-\_\-to\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{enum usb\-\_\-transfer\-\_\-type}]{type}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_ga799108acda1af1559339b779bf11d201}
+Translates a U\-S\-B transfer type constant into a string describing it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & A U\-S\-B transfer type constant.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\char`\"{}\-Control\char`\"{}, \char`\"{}\-Isochronous\char`\"{}, \char`\"{}\-Bulk\char`\"{}, \char`\"{}\-Interrupt\char`\"{}, or \char`\"{}\-Unknown\char`\"{}. 
+\end{DoxyReturn}
+\hypertarget{group__usbcore_gaf957391ad00401a906dbeb919183f56c}{\index{U\-S\-B Core Driver@{U\-S\-B Core Driver}!usb\-\_\-unlock\-\_\-bus@{usb\-\_\-unlock\-\_\-bus}}
+\index{usb\-\_\-unlock\-\_\-bus@{usb\-\_\-unlock\-\_\-bus}!USB Core Driver@{U\-S\-B Core Driver}}
+\subsubsection[{usb\-\_\-unlock\-\_\-bus}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-unlock\-\_\-bus (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usbcore_gaf957391ad00401a906dbeb919183f56c}
+Undo \hyperlink{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}{usb\-\_\-lock\-\_\-bus()}, allowing devices to be attached or detached to/from the U\-S\-B. 

@@ -14,8 +14,8 @@
  * @ingroup framebuffer
  *
  * perform a synchronous character write
- * @param *devptr pointer to device on which to write character
- * @param c character to write
+ * @param *devptr	pointer to device on which to write character
+ * @param c		character to write
  * @return c on success, SYSERR on failure
  */
 syscall fbputc(uchar c, device *devptr)
@@ -28,7 +28,7 @@ syscall fbputc(uchar c, device *devptr)
  * @ingroup framebuffer
  *
  * perform a synchronous kernel read
- * @param *devptr pointer to device on which to write character
+ * @param *devptr	pointer to device on which to write character
  * @return character read on success, SYSERR on failure
  */
 syscall fbgetc(device *devptr)
@@ -42,7 +42,7 @@ syscall fbgetc(device *devptr)
  * kernel printf: formatted, unbuffered output to framebuffer
  * Akin to "kprintf" for the serial driver.
  * Alternate: fprintf(FRAMEBUF, "string");
- * @param *fmt pointer to string being printed
+ * @param	*fmt pointer to string being printed
  * @return OK on success
  */
 syscall fbprintf(char *fmt, ...)

@@ -1,0 +1,77 @@
+\hypertarget{interrupt_8h}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/interrupt.h File Reference}
+\label{interrupt_8h}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/interrupt.\-h@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/interrupt.\-h}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{interrupt_8h_af16eca99ccb067fe524490b3476c7f1b}{typedef interrupt($\ast$ {\bfseries interrupt\-\_\-handler\-\_\-t} )(void)}\label{interrupt_8h_af16eca99ccb067fe524490b3476c7f1b}
+
+\item 
+typedef unsigned long \hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{interrupt_8h_a2b7e6a8f249525ea5757043414baed29}{void {\bfseries enable} (void)}\label{interrupt_8h_a2b7e6a8f249525ea5757043414baed29}
+
+\item 
+\hypertarget{interrupt_8h_a8894ca63f114dc4ca563a766bb9f6d20}{\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask} {\bfseries disable} (void)}\label{interrupt_8h_a8894ca63f114dc4ca563a766bb9f6d20}
+
+\item 
+\hypertarget{interrupt_8h_a788c504f232554ee112db67844009276}{\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask} {\bfseries restore} (\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask})}\label{interrupt_8h_a788c504f232554ee112db67844009276}
+
+\item 
+void \hyperlink{interrupt_8h_a9ec5250cbf50f202c0845cc25de89f4b}{enable\-\_\-irq} (\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask})
+\item 
+void \hyperlink{interrupt_8h_a77e8e2919e3a7b0ab6254a6ef9da263f}{disable\-\_\-irq} (\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask})
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+interrupt\-\_\-handler\-\_\-t \hyperlink{interrupt_8h_a4638fe570e1135915dc66845e1e720d2}{interrupt\-Vector} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Constants and declarations associated with interrupt handling. 
+
+\subsection{Typedef Documentation}
+\hypertarget{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{\index{interrupt.\-h@{interrupt.\-h}!irqmask@{irqmask}}
+\index{irqmask@{irqmask}!interrupt.h@{interrupt.\-h}}
+\subsubsection[{irqmask}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf irqmask}}}\label{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}
+machine status for disable/restore 
+
+\subsection{Function Documentation}
+\hypertarget{interrupt_8h_a77e8e2919e3a7b0ab6254a6ef9da263f}{\index{interrupt.\-h@{interrupt.\-h}!disable\-\_\-irq@{disable\-\_\-irq}}
+\index{disable\-\_\-irq@{disable\-\_\-irq}!interrupt.h@{interrupt.\-h}}
+\subsubsection[{disable\-\_\-irq}]{\setlength{\rightskip}{0pt plus 5cm}void disable\-\_\-irq (
+\begin{DoxyParamCaption}
+\item[{{\bf irqmask}}]{irq\-\_\-num}
+\end{DoxyParamCaption}
+)}}\label{interrupt_8h_a77e8e2919e3a7b0ab6254a6ef9da263f}
+Disable an interrupt request line. 
+\begin{DoxyParams}{Parameters}
+{\em irq\-\_\-num} & index of the interrupt to disable, which must be valid on the current platform. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interrupt_8h_a9ec5250cbf50f202c0845cc25de89f4b}{\index{interrupt.\-h@{interrupt.\-h}!enable\-\_\-irq@{enable\-\_\-irq}}
+\index{enable\-\_\-irq@{enable\-\_\-irq}!interrupt.h@{interrupt.\-h}}
+\subsubsection[{enable\-\_\-irq}]{\setlength{\rightskip}{0pt plus 5cm}void enable\-\_\-irq (
+\begin{DoxyParamCaption}
+\item[{{\bf irqmask}}]{irq\-\_\-num}
+\end{DoxyParamCaption}
+)}}\label{interrupt_8h_a9ec5250cbf50f202c0845cc25de89f4b}
+Enable an interrupt request line. 
+\begin{DoxyParams}{Parameters}
+{\em irq\-\_\-num} & index of the interrupt to enable, which must be valid on the current platform. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{interrupt_8h_a4638fe570e1135915dc66845e1e720d2}{\index{interrupt.\-h@{interrupt.\-h}!interrupt\-Vector@{interrupt\-Vector}}
+\index{interrupt\-Vector@{interrupt\-Vector}!interrupt.h@{interrupt.\-h}}
+\subsubsection[{interrupt\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}interrupt\-\_\-handler\-\_\-t interrupt\-Vector\mbox{[}$\,$\mbox{]}}}\label{interrupt_8h_a4638fe570e1135915dc66845e1e720d2}
+Table of Xinu's interrupt handler functions. This is an array mapping I\-R\-Q numbers to handler functions. 

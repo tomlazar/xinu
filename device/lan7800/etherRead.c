@@ -24,8 +24,16 @@
 
 #define PAD_SIZE(s, pad) (PAD_COUNT(s, pad) * pad)
 
-/* Implementation of etherRead() for the MicroChip LAN7800; see the documentation for
- * this function in ether.h.  */
+/* 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherRead() for the MicroChip LAN7800; see the documentation for
+ * this function in ether.h.  
+ * @param devptr	Pointer to ethernet device to read from. 
+ * @param buf		Pointer to packet buffer
+ * @param len		Amount of bytes to be read
+ * @return		Length of packet received
+ */
 devcall etherRead(device *devptr, void *buf, uint len)
 {
     irqmask im;

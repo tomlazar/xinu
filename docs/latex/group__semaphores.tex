@@ -1,0 +1,140 @@
+\hypertarget{group__semaphores}{\section{Semaphores}
+\label{group__semaphores}\index{Semaphores@{Semaphores}}
+}
+
+
+Semaphore creation, waiting, signaling, and freeing.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__semaphores_ga7353c66e82358853d0238e51219fd21d}{semcount} (semaphore sem)
+\item 
+semaphore \hyperlink{group__semaphores_gaf089bbb787625a42d499d88682ae25e4}{semcreate} (int count)
+\item 
+syscall \hyperlink{group__semaphores_ga084394f443d9d10f8a77b31826612fa9}{semfree} (semaphore sem)
+\item 
+syscall \hyperlink{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}{signal} (semaphore sem)
+\item 
+syscall \hyperlink{group__semaphores_gadb3860be8fffb140e38eba0638c88188}{signaln} (semaphore sem, int count)
+\item 
+syscall \hyperlink{group__semaphores_gafdb60e3fbb4db9eceeaaa03bca2a261b}{wait} (semaphore sem)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Semaphore creation, waiting, signaling, and freeing. 
+
+\subsection{Function Documentation}
+\hypertarget{group__semaphores_ga7353c66e82358853d0238e51219fd21d}{\index{Semaphores@{Semaphores}!semcount@{semcount}}
+\index{semcount@{semcount}!Semaphores@{Semaphores}}
+\subsubsection[{semcount}]{\setlength{\rightskip}{0pt plus 5cm}syscall semcount (
+\begin{DoxyParamCaption}
+\item[{semaphore}]{sem}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_ga7353c66e82358853d0238e51219fd21d}
+Retrieve a semaphore's count.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Semaphore to get the count of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the semaphore's count; otherwise returns \-::\-S\-Y\-S\-E\-R\-R. This function can only fail if {\ttfamily sem} did not specify a valid semaphore. 
+\end{DoxyReturn}
+\hypertarget{group__semaphores_gaf089bbb787625a42d499d88682ae25e4}{\index{Semaphores@{Semaphores}!semcreate@{semcreate}}
+\index{semcreate@{semcreate}!Semaphores@{Semaphores}}
+\subsubsection[{semcreate}]{\setlength{\rightskip}{0pt plus 5cm}semaphore semcreate (
+\begin{DoxyParamCaption}
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_gaf089bbb787625a42d499d88682ae25e4}
+Creates a semaphore that initially has the specified count.
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & Initial count of the semaphore (often the number of some resource that is available). Must be non-\/negative.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the new semaphore; otherwise returns \-::\-S\-Y\-S\-E\-R\-R. The new semaphore must be freed with \hyperlink{group__semaphores_ga084394f443d9d10f8a77b31826612fa9}{semfree()} when no longer needed. This function can only fail if the system is out of semaphores or if {\ttfamily count} was negative. 
+\end{DoxyReturn}
+\hypertarget{group__semaphores_ga084394f443d9d10f8a77b31826612fa9}{\index{Semaphores@{Semaphores}!semfree@{semfree}}
+\index{semfree@{semfree}!Semaphores@{Semaphores}}
+\subsubsection[{semfree}]{\setlength{\rightskip}{0pt plus 5cm}syscall semfree (
+\begin{DoxyParamCaption}
+\item[{semaphore}]{sem}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_ga084394f443d9d10f8a77b31826612fa9}
+Frees a semaphore. This can be done even if threads are waiting on it, in which case they will be released and able to run. However, be careful, since such threads will return from \hyperlink{group__semaphores_gafdb60e3fbb4db9eceeaaa03bca2a261b}{wait()}ing on a semaphore that no longer exists and there may be assumptions that no longer hold.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Semaphore to free (allocated by \hyperlink{group__semaphores_gaf089bbb787625a42d499d88682ae25e4}{semcreate()}).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R if {\ttfamily sem} did not specify a valid semaphore; otherwise \-::\-O\-K. 
+\end{DoxyReturn}
+\hypertarget{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}{\index{Semaphores@{Semaphores}!signal@{signal}}
+\index{signal@{signal}!Semaphores@{Semaphores}}
+\subsubsection[{signal}]{\setlength{\rightskip}{0pt plus 5cm}syscall signal (
+\begin{DoxyParamCaption}
+\item[{semaphore}]{sem}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}
+Signal a semaphore, releasing up to one waiting thread.
+
+\hyperlink{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}{signal()} may reschedule the currently running thread. As a result, \hyperlink{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}{signal()} should not be called from non-\/reentrant interrupt handlers unless \-::resdefer is set to a positive value at the start of the interrupt handler.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Semaphore to signal.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success, \-::\-S\-Y\-S\-E\-R\-R on failure. This function can only fail if {\ttfamily sem} did not specify a valid semaphore. 
+\end{DoxyReturn}
+\hypertarget{group__semaphores_gadb3860be8fffb140e38eba0638c88188}{\index{Semaphores@{Semaphores}!signaln@{signaln}}
+\index{signaln@{signaln}!Semaphores@{Semaphores}}
+\subsubsection[{signaln}]{\setlength{\rightskip}{0pt plus 5cm}syscall signaln (
+\begin{DoxyParamCaption}
+\item[{semaphore}]{sem, }
+\item[{int}]{count}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_gadb3860be8fffb140e38eba0638c88188}
+Signal a semaphore {\ttfamily count} times, releasing {\ttfamily count} waiting threads.
+
+\hyperlink{group__semaphores_gadb3860be8fffb140e38eba0638c88188}{signaln()} may reschedule the currently running thread. As a result, \hyperlink{group__semaphores_gadb3860be8fffb140e38eba0638c88188}{signaln()} should not be called from non-\/reentrant interrupt handlers unless \-::resdefer is set to a positive value at the start of the interrupt handler.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Semaphore to signal. \\
+\hline
+{\em count} & Number of times to signal, which must be positive.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success, \-::\-S\-Y\-S\-E\-R\-R on failure. This function can only fail if {\ttfamily sem} did not specify a valid semaphore of if {\ttfamily count} was not positive. 
+\end{DoxyReturn}
+\hypertarget{group__semaphores_gafdb60e3fbb4db9eceeaaa03bca2a261b}{\index{Semaphores@{Semaphores}!wait@{wait}}
+\index{wait@{wait}!Semaphores@{Semaphores}}
+\subsubsection[{wait}]{\setlength{\rightskip}{0pt plus 5cm}syscall wait (
+\begin{DoxyParamCaption}
+\item[{semaphore}]{sem}
+\end{DoxyParamCaption}
+)}}\label{group__semaphores_gafdb60e3fbb4db9eceeaaa03bca2a261b}
+Wait on a semaphore.
+
+If the semaphore's count is positive, it will be decremented and this function will return immediately. Otherwise, the currently running thread will be put to sleep until the semaphore is signaled with \hyperlink{group__semaphores_gaabc21774105aef3974d6a4dcb0fe1387}{signal()} or \hyperlink{group__semaphores_gadb3860be8fffb140e38eba0638c88188}{signaln()}, or freed with \hyperlink{group__semaphores_ga084394f443d9d10f8a77b31826612fa9}{semfree()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Semaphore to wait on.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure. This function can only fail if {\ttfamily sem} did not specify a valid semaphore. 
+\end{DoxyReturn}

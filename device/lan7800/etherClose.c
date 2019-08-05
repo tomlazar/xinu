@@ -10,8 +10,13 @@
 
 #include <ether.h>
 
-/* Implementation of etherClose() for the smsc9512; see the documentation for
- *  * this function in ether.h.  */
+/* 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherClose() for the lan7800
+ * @param devptr	Pointer to ethernet device to close
+ * @return		::SYSERR, the device is never closed
+ */
 devcall etherClose(device *devptr)
 {
     /* TODO: need to handle canceling all the outstanding USB requests, etc. */

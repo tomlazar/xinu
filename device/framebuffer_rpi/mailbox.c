@@ -9,8 +9,12 @@
 #include <framebuffer.h>
 #include "../../system/platforms/arm-rpi3/bcm2837_mbox.h"
 
-/* Read from mailbox one on channel one (GPU mailbox) */
-/* Note: Data: first 28 bits. Channel: last 4 bits.   */
+/**
+ * @ingroup framebuffer 
+ * 
+ * Read from mailbox one on channel one (GPU mailbox) 
+ * Note: Data: first 28 bits. Channel: last 4 bits.   
+ */
 ulong mailboxRead() {
 	ulong result = 0;
 	while ((result & 0xF) != MAILBOX_CHANNEL) {
@@ -21,7 +25,12 @@ ulong mailboxRead() {
 	return result & 0xFFFFFFF0; //account for offset
 }
 
-/* Write to GPU mailbox. */
+/**
+ * @ingroup framebuffer
+ *
+ * Write to GPU mailbox. 
+ * @param data Data to write to the mailbox
+ */
 void mailboxWrite(ulong data) {
 	ulong toWrite = MAILBOX_CHANNEL | (data & 0xFFFFFFF0);
 	while (readMMIO(MAILBOX_BASE, MAILBOX_STATUS) & MAILBOX_FULL)
@@ -29,8 +38,14 @@ void mailboxWrite(ulong data) {
 	writeMMIO(MAILBOX_BASE, MAILBOX_WRITE, toWrite);
 }
 
-/* To omit illegible lines of code, a helper function that reads from
- * memory mapped IO registers. */
+/**
+ * @ingroup framebuffer
+ * 
+ * To omit illegible lines of code, a helper function that reads from
+ * memory mapped IO registers. 
+ * @param base	Register base
+ * @param reg	MMIO register to read
+ */
 ulong readMMIO(ulong base, ulong reg)
 {
 	ulong n;
@@ -40,7 +55,14 @@ ulong readMMIO(ulong base, ulong reg)
 	return n;
 }
 
-/* The opposite of above. Write to MMIO. */
+/**
+ * @ingroup framebuffer
+ * 
+ * The opposite of above. Write to MMIO. 
+ * @param base	Register base
+ * @param reg	MMIO register to write to
+ * @param val	Value to be written
+ */
 void writeMMIO(ulong base, ulong reg, ulong val)
 {
 	pre_peripheral_write_mb();
@@ -48,9 +70,14 @@ void writeMMIO(ulong base, ulong reg, ulong val)
 	//post_peripheral_write_mb();
 }
 
-/* Converts ARM physical addresses to ARM bus addresses.
+/**
+ * @ingroup framebuffer
+ *
+ * Converts ARM physical addresses to ARM bus addresses.
  * Separate function for legibility's sake.
- * Rev 1 board GPU required bus addresses. Now deprecated. */
+ * Rev 1 board GPU required bus addresses. Now deprecated. 
+ * @param address	Physical address to convert
+ */
 ulong physToBus(void *address) {
 	return ((ulong)address) + 0xC0000000;
 }

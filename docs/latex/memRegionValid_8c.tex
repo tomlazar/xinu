@@ -1,0 +1,30 @@
+\hypertarget{memRegionValid_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Valid.c File Reference}
+\label{memRegionValid_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Valid.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Valid.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct memregion $\ast$ \hyperlink{memRegionValid_8c_abb1140d4cc3e24777e7aa86f3316e789}{mem\-Region\-Valid} (void $\ast$start)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Determine if and address is within an allocated region. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionValid_8c_abb1140d4cc3e24777e7aa86f3316e789}{\index{mem\-Region\-Valid.\-c@{mem\-Region\-Valid.\-c}!mem\-Region\-Valid@{mem\-Region\-Valid}}
+\index{mem\-Region\-Valid@{mem\-Region\-Valid}!memRegionValid.c@{mem\-Region\-Valid.\-c}}
+\subsubsection[{mem\-Region\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}struct memregion$\ast$ mem\-Region\-Valid (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{start}
+\end{DoxyParamCaption}
+)}}\label{memRegionValid_8c_abb1140d4cc3e24777e7aa86f3316e789}
+Determine if the address in memory is in an allocated memory region. 
+\begin{DoxyParams}{Parameters}
+{\em start} & address of memory to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+memory region belonging to start, S\-Y\-S\-E\-R\-R if not found. 
+\end{DoxyReturn}

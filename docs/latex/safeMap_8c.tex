@@ -1,0 +1,36 @@
+\hypertarget{safeMap_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map.c File Reference}
+\label{safeMap_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Map.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+{\ttfamily \#include $<$mips.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{safeMap_8c_a7c6d7c5d994f089bde8d06d6029df9f4}{safe\-Map} (void $\ast$page, short attr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Map a page of memory to the page table. 
+
+\subsection{Function Documentation}
+\hypertarget{safeMap_8c_a7c6d7c5d994f089bde8d06d6029df9f4}{\index{safe\-Map.\-c@{safe\-Map.\-c}!safe\-Map@{safe\-Map}}
+\index{safe\-Map@{safe\-Map}!safeMap.c@{safe\-Map.\-c}}
+\subsubsection[{safe\-Map}]{\setlength{\rightskip}{0pt plus 5cm}int safe\-Map (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{page, }
+\item[{short}]{attr}
+\end{DoxyParamCaption}
+)}}\label{safeMap_8c_a7c6d7c5d994f089bde8d06d6029df9f4}
+Map a page of memory to the page table record with attributes. 
+\begin{DoxyParams}{Parameters}
+{\em page} & page to insert into page table. \\
+\hline
+{\em attr} & attributes to apply to page. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/zero value on failure. 
+\end{DoxyReturn}

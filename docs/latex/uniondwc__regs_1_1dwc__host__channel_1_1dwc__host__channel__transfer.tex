@@ -1,0 +1,65 @@
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-channel\-:\-:dwc\-\_\-host\-\_\-channel\-\_\-transfer Union Reference}
+\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a52f25a6cd94d5164f5dac57aba47e52e}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a52f25a6cd94d5164f5dac57aba47e52e}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a5c173edb315c1a5aae0f687d0fc4c3e3}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0e1440f67db061c82a011660549d373a}{size}: 19\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_ab49dd416024ced5f78321eeebea56b86}{packet\_count}: 10\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0fe8970fe597df296700b5c38a29a2a5}{packet\_id}: 2\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a52b9cb0efb209bf308329bb76cb2a378}{do\_ping}: 1\\
+\}; }\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a5c173edb315c1a5aae0f687d0fc4c3e3}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Channel Transfer Register\-:
+
+Used to store additional information about the transfer. This must be programmed before beginning the transfer. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a52b9cb0efb209bf308329bb76cb2a378}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}!do\-\_\-ping@{do\-\_\-ping}}
+\index{do\-\_\-ping@{do\-\_\-ping}!dwc_regs::dwc_host_channel::dwc_host_channel_transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}}
+\subsubsection[{do\-\_\-ping}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer\-::do\-\_\-ping}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a52b9cb0efb209bf308329bb76cb2a378}
+T\-O\-D\-O \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_ab49dd416024ced5f78321eeebea56b86}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}!packet\-\_\-count@{packet\-\_\-count}}
+\index{packet\-\_\-count@{packet\-\_\-count}!dwc_regs::dwc_host_channel::dwc_host_channel_transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}}
+\subsubsection[{packet\-\_\-count}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer\-::packet\-\_\-count}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_ab49dd416024ced5f78321eeebea56b86}
+Number of packets left to transmit or maximum number of packets left to receive. Software must program this before beginning the transfer. The packet count is calculated as the size divided by the maximum packet size, rounded up to the nearest whole packet. As a special case, if the transfer size is 0 bytes, the packet count must be set to 1.
+
+The hardware will decrement this register when a packet is successfully sent or received. In the case of split transactions, this happens after the Complete Split rather than after the Start Split. If the final received packet of an I\-N transfer is short, it is still counted. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0fe8970fe597df296700b5c38a29a2a5}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}!packet\-\_\-id@{packet\-\_\-id}}
+\index{packet\-\_\-id@{packet\-\_\-id}!dwc_regs::dwc_host_channel::dwc_host_channel_transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}}
+\subsubsection[{packet\-\_\-id}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer\-::packet\-\_\-id}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0fe8970fe597df296700b5c38a29a2a5}
+High 2 bits of the Packet I\-D used in the U\-S\-B protocol.
+
+When performing the S\-E\-T\-U\-P phase of a control transfer, specify 0x3 here to generate the needed S\-E\-T\-U\-P token.
+
+When performing the D\-A\-T\-A phase of a control transfer, initially specify 0x2 here to begin the D\-A\-T\-A packets with the needed D\-A\-T\-A1 Packet I\-D.
+
+When performing the S\-T\-A\-T\-U\-S phase of a control transfer, specify 0x2 here to generate the neeed D\-A\-T\-A1 Packet I\-D.
+
+When starting a bulk, isochronous, or interrupt transfer, specify 0x0 here to generate the needed D\-A\-T\-A0 Packet I\-D.
+
+In the case of a transfer consisting of multiple D\-A\-T\-A packets, the hardware will update this field with the Packet I\-D to use for the next packet. This field therefore only needs to be re-\/programmed if the transfer is moved to a different channel or the channel is re-\/used before the transfer is complete. When doing so, software must save this field so that it can be re-\/programmed correctly. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0e1440f67db061c82a011660549d373a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}!size@{size}}
+\index{size@{size}!dwc_regs::dwc_host_channel::dwc_host_channel_transfer@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-transfer\-::size}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__transfer_a0e1440f67db061c82a011660549d373a}
+Size of the data to send or receive, in bytes. Software must program this before beginning the transfer. This can be greater than the maximum packet length.
+
+For I\-N transfers, the hardware decrements this field for each packet received by the number of bytes received. For split transactions, the decrement happens after the Complete Split rather than the Start Split. Software can subtract this field from the original transfer size in order to determine the number of bytes received at any given point, including when the transfer has encountered an error or has completed with either the full size or a short size.
+
+For O\-U\-T transfers, the hardware does not update this field as expected. It will not be decremented when data is transmitted, at least not in every case; hence, software cannot rely on its value to indicate how many bytes of data have been transmitted so far. Instead, software must inspect the packet\-\_\-count field and assume that all data was transmitted if packet\-\_\-count is 0, or that the amount of data transmitted is equal to the endpoint's maximum packet size times \mbox{[}the original packet count minus packet\-\_\-count\mbox{]} if packet\-\_\-count is nonzero. 
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

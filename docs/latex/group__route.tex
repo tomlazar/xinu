@@ -1,0 +1,144 @@
+\hypertarget{group__route}{\section{Routing}
+\label{group__route}\index{Routing@{Routing}}
+}
+
+
+I\-Pv4 routing support.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__route_gad348910a2738a2ca30993ff80b827ab4}{syscall {\bfseries rt\-Add} (const struct netaddr $\ast$dst, const struct netaddr $\ast$gate, const struct netaddr $\ast$mask, struct netif $\ast$nif)}\label{group__route_gad348910a2738a2ca30993ff80b827ab4}
+
+\item 
+struct rt\-Entry $\ast$ \hyperlink{group__route_ga26315014ba6d7fad7b8a8269883fd739}{rt\-Alloc} (void)
+\item 
+syscall \hyperlink{group__route_gaef6ef2733013310153fb0f411f7ca484}{rt\-Clear} (struct netif $\ast$nif)
+\item 
+thread \hyperlink{group__route_ga0e9fb2f9786ebb4480a14a7d2093e42b}{rt\-Daemon} (void)
+\item 
+syscall \hyperlink{group__route_gadf87830e6f85b4123e2e4e966903f545}{rt\-Default} (const struct netaddr $\ast$gate, struct netif $\ast$nif)
+\item 
+syscall \hyperlink{group__route_gac078a09e86b39ea1a7a371a0f6df220d}{rt\-Init} (void)
+\item 
+struct rt\-Entry $\ast$ \hyperlink{group__route_gab76f7d53028b4526bf2f53fc91c3be11}{rt\-Lookup} (const struct netaddr $\ast$addr)
+\item 
+\hypertarget{group__route_ga1a30ae6d86be9258f5945bb8e405f859}{syscall {\bfseries rt\-Recv} (struct packet $\ast$pkt)}\label{group__route_ga1a30ae6d86be9258f5945bb8e405f859}
+
+\item 
+syscall \hyperlink{group__route_ga0077b85fb29ad23488f9fc98bd7ac8ac}{rt\-Remove} (const struct netaddr $\ast$dst)
+\item 
+syscall \hyperlink{group__route_gadf7133a34e4fbe8d1f4f4ea013d8fa77}{rt\-Send} (struct packet $\ast$pkt)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+I\-Pv4 routing support. 
+
+\subsection{Function Documentation}
+\hypertarget{group__route_ga26315014ba6d7fad7b8a8269883fd739}{\index{Routing@{Routing}!rt\-Alloc@{rt\-Alloc}}
+\index{rt\-Alloc@{rt\-Alloc}!Routing@{Routing}}
+\subsubsection[{rt\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}struct rt\-Entry$\ast$ rt\-Alloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__route_ga26315014ba6d7fad7b8a8269883fd739}
+Allocates an entry from the route table. \begin{DoxyReturn}{Returns}
+entry in route table, N\-U\-L\-L if all used, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__route_gaef6ef2733013310153fb0f411f7ca484}{\index{Routing@{Routing}!rt\-Clear@{rt\-Clear}}
+\index{rt\-Clear@{rt\-Clear}!Routing@{Routing}}
+\subsubsection[{rt\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}syscall rt\-Clear (
+\begin{DoxyParamCaption}
+\item[{struct netif $\ast$}]{nif}
+\end{DoxyParamCaption}
+)}}\label{group__route_gaef6ef2733013310153fb0f411f7ca484}
+Removes all entries for a network interface from the routing table. 
+\begin{DoxyParams}{Parameters}
+{\em nif} & network interface \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if entries are removed successfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__route_ga0e9fb2f9786ebb4480a14a7d2093e42b}{\index{Routing@{Routing}!rt\-Daemon@{rt\-Daemon}}
+\index{rt\-Daemon@{rt\-Daemon}!Routing@{Routing}}
+\subsubsection[{rt\-Daemon}]{\setlength{\rightskip}{0pt plus 5cm}thread rt\-Daemon (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__route_ga0e9fb2f9786ebb4480a14a7d2093e42b}
+Route dameon to route packets \hypertarget{group__route_gadf87830e6f85b4123e2e4e966903f545}{\index{Routing@{Routing}!rt\-Default@{rt\-Default}}
+\index{rt\-Default@{rt\-Default}!Routing@{Routing}}
+\subsubsection[{rt\-Default}]{\setlength{\rightskip}{0pt plus 5cm}syscall rt\-Default (
+\begin{DoxyParamCaption}
+\item[{const struct netaddr $\ast$}]{gate, }
+\item[{struct netif $\ast$}]{nif}
+\end{DoxyParamCaption}
+)}}\label{group__route_gadf87830e6f85b4123e2e4e966903f545}
+Set the default route. 
+\begin{DoxyParams}{Parameters}
+{\em gate} & gateway for default route \\
+\hline
+{\em nif} & network interface for default route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if added/updated successfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__route_gac078a09e86b39ea1a7a371a0f6df220d}{\index{Routing@{Routing}!rt\-Init@{rt\-Init}}
+\index{rt\-Init@{rt\-Init}!Routing@{Routing}}
+\subsubsection[{rt\-Init}]{\setlength{\rightskip}{0pt plus 5cm}syscall rt\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__route_gac078a09e86b39ea1a7a371a0f6df220d}
+Initialize the route table and route daemon. \begin{DoxyReturn}{Returns}
+O\-K if initialization is successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__route_gab76f7d53028b4526bf2f53fc91c3be11}{\index{Routing@{Routing}!rt\-Lookup@{rt\-Lookup}}
+\index{rt\-Lookup@{rt\-Lookup}!Routing@{Routing}}
+\subsubsection[{rt\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}struct rt\-Entry$\ast$ rt\-Lookup (
+\begin{DoxyParamCaption}
+\item[{const struct netaddr $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group__route_gab76f7d53028b4526bf2f53fc91c3be11}
+Looks up an entry in the routing table 
+\begin{DoxyParams}{Parameters}
+{\em addr} & the I\-P address that needs routing \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a route table entry, N\-U\-L\-L if none matches, S\-Y\-S\-E\-R\-R on error 
+\end{DoxyReturn}
+\hypertarget{group__route_ga0077b85fb29ad23488f9fc98bd7ac8ac}{\index{Routing@{Routing}!rt\-Remove@{rt\-Remove}}
+\index{rt\-Remove@{rt\-Remove}!Routing@{Routing}}
+\subsubsection[{rt\-Remove}]{\setlength{\rightskip}{0pt plus 5cm}syscall rt\-Remove (
+\begin{DoxyParamCaption}
+\item[{const struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__route_ga0077b85fb29ad23488f9fc98bd7ac8ac}
+Removes any entry based on its destination. 
+\begin{DoxyParams}{Parameters}
+{\em dst} & destination I\-P address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if the entry is removed successfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__route_gadf7133a34e4fbe8d1f4f4ea013d8fa77}{\index{Routing@{Routing}!rt\-Send@{rt\-Send}}
+\index{rt\-Send@{rt\-Send}!Routing@{Routing}}
+\subsubsection[{rt\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall rt\-Send (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__route_gadf7133a34e4fbe8d1f4f4ea013d8fa77}
+Attempt to route a packet. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & incoming packet to route \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet is routed successfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

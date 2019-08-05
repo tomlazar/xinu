@@ -1,0 +1,208 @@
+\hypertarget{group__snoop}{\section{Packet snooping}
+\label{group__snoop}\index{Packet snooping@{Packet snooping}}
+}
+
+
+View the data of packets being send and received over a network interface.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__snoop_ga1bcdee28f29ef9b2e790d0e39871fdd3}{snoop\-Capture} (struct snoop $\ast$cap, struct packet $\ast$pkt)
+\item 
+int \hyperlink{group__snoop_ga691f48c82b34dc4f0031b093b4227dc8}{snoop\-Close} (struct snoop $\ast$cap)
+\item 
+bool \hyperlink{group__snoop_gad3d7bd692fbd57fac6dc2deb61e5a4a8}{snoop\-Filter} (struct snoop $\ast$s, struct packet $\ast$pkt)
+\item 
+int \hyperlink{group__snoop_ga171423235279a08ae66ef9202d8b67d0}{snoop\-Open} (struct snoop $\ast$cap, char $\ast$devname)
+\item 
+int \hyperlink{group__snoop_ga7b1e800cd9ce296ebed79dfa63c819cd}{snoop\-Print} (struct packet $\ast$pkt, char dump, char verbose)
+\item 
+int \hyperlink{group__snoop_ga3fc174d739bc0773bd97032abfa3b1bd}{snoop\-Print\-Arp} (struct arp\-Pkt $\ast$arp, char verbose)
+\item 
+int \hyperlink{group__snoop_ga01d53f2ea61edda428b3308039d212b6}{snoop\-Print\-Ethernet} (struct ether\-Pkt $\ast$ether, char verbose)
+\item 
+int \hyperlink{group__snoop_gad2dd7ae5fa180f1cf7cb76c6ebea729a}{snoop\-Print\-Ipv4} (struct ipv4\-Pkt $\ast$ip, char verbose)
+\item 
+int \hyperlink{group__snoop_ga7e33d8bb0e58d1b89c1380867b781d87}{snoop\-Print\-Tcp} (struct tcp\-Pkt $\ast$tcp, char verbose)
+\item 
+int \hyperlink{group__snoop_ga425009cf908f5daf889d43e081f03d50}{snoop\-Print\-Udp} (struct udp\-Pkt $\ast$udp, char verbose)
+\item 
+struct packet $\ast$ \hyperlink{group__snoop_ga22815031f9bd75ab791f17e5ccb922c8}{snoop\-Read} (struct snoop $\ast$cap)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+View the data of packets being send and received over a network interface. 
+
+\subsection{Function Documentation}
+\hypertarget{group__snoop_ga1bcdee28f29ef9b2e790d0e39871fdd3}{\index{Packet snooping@{Packet snooping}!snoop\-Capture@{snoop\-Capture}}
+\index{snoop\-Capture@{snoop\-Capture}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Capture}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Capture (
+\begin{DoxyParamCaption}
+\item[{struct snoop $\ast$}]{cap, }
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga1bcdee28f29ef9b2e790d0e39871fdd3}
+Captures a network packet from a network interface. \begin{DoxyReturn}{Returns}
+O\-K if capture was successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga691f48c82b34dc4f0031b093b4227dc8}{\index{Packet snooping@{Packet snooping}!snoop\-Close@{snoop\-Close}}
+\index{snoop\-Close@{snoop\-Close}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Close}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Close (
+\begin{DoxyParamCaption}
+\item[{struct snoop $\ast$}]{cap}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga691f48c82b34dc4f0031b093b4227dc8}
+Closes a capture from a network device or file. 
+\begin{DoxyParams}{Parameters}
+{\em cap} & pointer to capture structure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if close was successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__snoop_gad3d7bd692fbd57fac6dc2deb61e5a4a8}{\index{Packet snooping@{Packet snooping}!snoop\-Filter@{snoop\-Filter}}
+\index{snoop\-Filter@{snoop\-Filter}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Filter}]{\setlength{\rightskip}{0pt plus 5cm}bool snoop\-Filter (
+\begin{DoxyParamCaption}
+\item[{struct snoop $\ast$}]{s, }
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_gad3d7bd692fbd57fac6dc2deb61e5a4a8}
+Determine if a packet matches the filter. \begin{DoxyReturn}{Returns}
+T\-R\-U\-E if packet matches filter, otherwise F\-A\-L\-S\-E 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga171423235279a08ae66ef9202d8b67d0}{\index{Packet snooping@{Packet snooping}!snoop\-Open@{snoop\-Open}}
+\index{snoop\-Open@{snoop\-Open}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Open}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Open (
+\begin{DoxyParamCaption}
+\item[{struct snoop $\ast$}]{cap, }
+\item[{char $\ast$}]{devname}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga171423235279a08ae66ef9202d8b67d0}
+Opens a capture from a network device. 
+\begin{DoxyParams}{Parameters}
+{\em cap} & pointer to capture structure \\
+\hline
+{\em name} & of underlying device, A\-L\-L for all network devices \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if open was successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition filter settings should already be setup in cap 
+\end{DoxyPrecond}
+\hypertarget{group__snoop_ga7b1e800cd9ce296ebed79dfa63c819cd}{\index{Packet snooping@{Packet snooping}!snoop\-Print@{snoop\-Print}}
+\index{snoop\-Print@{snoop\-Print}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{char}]{dump, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga7b1e800cd9ce296ebed79dfa63c819cd}
+Outputs snoop information for a packet. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & packet \\
+\hline
+{\em dump} & dump level \\
+\hline
+{\em verbose} & verbosity level \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga3fc174d739bc0773bd97032abfa3b1bd}{\index{Packet snooping@{Packet snooping}!snoop\-Print\-Arp@{snoop\-Print\-Arp}}
+\index{snoop\-Print\-Arp@{snoop\-Print\-Arp}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print\-Arp}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print\-Arp (
+\begin{DoxyParamCaption}
+\item[{struct arp\-Pkt $\ast$}]{arp, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga3fc174d739bc0773bd97032abfa3b1bd}
+Print contents of A\-R\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em arp} & A\-R\-P packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if print successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga01d53f2ea61edda428b3308039d212b6}{\index{Packet snooping@{Packet snooping}!snoop\-Print\-Ethernet@{snoop\-Print\-Ethernet}}
+\index{snoop\-Print\-Ethernet@{snoop\-Print\-Ethernet}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print\-Ethernet}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print\-Ethernet (
+\begin{DoxyParamCaption}
+\item[{struct ether\-Pkt $\ast$}]{ether, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga01d53f2ea61edda428b3308039d212b6}
+Print contents of Ethernet packet 
+\begin{DoxyParams}{Parameters}
+{\em ether} & Ethernet packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if print successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_gad2dd7ae5fa180f1cf7cb76c6ebea729a}{\index{Packet snooping@{Packet snooping}!snoop\-Print\-Ipv4@{snoop\-Print\-Ipv4}}
+\index{snoop\-Print\-Ipv4@{snoop\-Print\-Ipv4}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print\-Ipv4}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print\-Ipv4 (
+\begin{DoxyParamCaption}
+\item[{struct ipv4\-Pkt $\ast$}]{ip, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_gad2dd7ae5fa180f1cf7cb76c6ebea729a}
+Print contents of an I\-Pv4 packet 
+\begin{DoxyParams}{Parameters}
+{\em ip} & I\-Pv4 packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if print successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga7e33d8bb0e58d1b89c1380867b781d87}{\index{Packet snooping@{Packet snooping}!snoop\-Print\-Tcp@{snoop\-Print\-Tcp}}
+\index{snoop\-Print\-Tcp@{snoop\-Print\-Tcp}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print\-Tcp}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print\-Tcp (
+\begin{DoxyParamCaption}
+\item[{struct tcp\-Pkt $\ast$}]{tcp, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga7e33d8bb0e58d1b89c1380867b781d87}
+Print contents of an T\-C\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em tcp} & T\-C\-P packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if print successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga425009cf908f5daf889d43e081f03d50}{\index{Packet snooping@{Packet snooping}!snoop\-Print\-Udp@{snoop\-Print\-Udp}}
+\index{snoop\-Print\-Udp@{snoop\-Print\-Udp}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Print\-Udp}]{\setlength{\rightskip}{0pt plus 5cm}int snoop\-Print\-Udp (
+\begin{DoxyParamCaption}
+\item[{struct udp\-Pkt $\ast$}]{udp, }
+\item[{char}]{verbose}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga425009cf908f5daf889d43e081f03d50}
+Print contents of an U\-D\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & the packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if print successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\hypertarget{group__snoop_ga22815031f9bd75ab791f17e5ccb922c8}{\index{Packet snooping@{Packet snooping}!snoop\-Read@{snoop\-Read}}
+\index{snoop\-Read@{snoop\-Read}!Packet snooping@{Packet snooping}}
+\subsubsection[{snoop\-Read}]{\setlength{\rightskip}{0pt plus 5cm}struct packet$\ast$ snoop\-Read (
+\begin{DoxyParamCaption}
+\item[{struct snoop $\ast$}]{cap}
+\end{DoxyParamCaption}
+)}}\label{group__snoop_ga22815031f9bd75ab791f17e5ccb922c8}
+Returns a packet captured from a network interface. \begin{DoxyReturn}{Returns}
+a packet if read was successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

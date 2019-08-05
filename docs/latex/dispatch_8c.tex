@@ -1,0 +1,88 @@
+\hypertarget{dispatch_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/dispatch.c File Reference}
+\label{dispatch_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/dispatch.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/dispatch.\-c}}
+}
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structbcm2835__interrupt__registers}{bcm2835\-\_\-interrupt\-\_\-registers}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{dispatch_8c_ad1c5572d7feea2a569497b2d21607b32}{\#define {\bfseries B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-G\-P\-U\-\_\-\-S\-H\-A\-R\-E\-D\-\_\-\-I\-R\-Q\-S}~64}\label{dispatch_8c_ad1c5572d7feea2a569497b2d21607b32}
+
+\item 
+\hypertarget{dispatch_8c_a171df998e827480292bdda9c5e445717}{\#define {\bfseries B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-A\-R\-M\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-I\-R\-Q\-S}~8}\label{dispatch_8c_a171df998e827480292bdda9c5e445717}
+
+\item 
+\hypertarget{dispatch_8c_a6ada7011cd5a6be822f3b76907df16cc}{\#define {\bfseries B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-I\-R\-Q\-S}~(B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-G\-P\-U\-\_\-\-S\-H\-A\-R\-E\-D\-\_\-\-I\-R\-Q\-S + B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-A\-R\-M\-\_\-\-S\-P\-E\-C\-I\-F\-I\-C\-\_\-\-I\-R\-Q\-S)}\label{dispatch_8c_a6ada7011cd5a6be822f3b76907df16cc}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{dispatch_8c_a5a8202b5bdbea569e111fdc4cc904aee}{dispatch} (void)
+\item 
+void \hyperlink{dispatch_8c_ab409006c03cfe09494316778c2b538ed}{enable\-\_\-irq} (\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask} irq\-\_\-num)
+\item 
+void \hyperlink{dispatch_8c_a07b6e8ae109b493635c12e473ed9a63e}{disable\-\_\-irq} (\hyperlink{interrupt_8h_ad7c42ea8d9d5ba42ea29c509b1c067b0}{irqmask} irq\-\_\-num)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+interrupt\-\_\-handler\-\_\-t \hyperlink{dispatch_8c_a8ed67d28988ccfb36642333a246e3279}{interrupt\-Vector} \mbox{[}B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-I\-R\-Q\-S\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This file contains code that interfaces with the interrupt controller of the B\-C\-M2835 So\-C used in the Raspberry Pi.
+
+This \char`\"{}interrupt controller\char`\"{} is, more specifically, the interrupt controller used by the A\-R\-M processor on the B\-C\-M2835. That is, this interrupt controller controls which I\-R\-Qs the A\-R\-M receives. The Video\-Core co-\/processor likely has its own (undocumented) way to control I\-R\-Qs to itself.
+
+See \href{http://xinu-os.org/BCM2835_Interrupt_Controller}{\tt http\-://xinu-\/os.\-org/\-B\-C\-M2835\-\_\-\-Interrupt\-\_\-\-Controller} for additional information. 
+
+\subsection{Function Documentation}
+\hypertarget{dispatch_8c_a07b6e8ae109b493635c12e473ed9a63e}{\index{dispatch.\-c@{dispatch.\-c}!disable\-\_\-irq@{disable\-\_\-irq}}
+\index{disable\-\_\-irq@{disable\-\_\-irq}!dispatch.c@{dispatch.\-c}}
+\subsubsection[{disable\-\_\-irq}]{\setlength{\rightskip}{0pt plus 5cm}void disable\-\_\-irq (
+\begin{DoxyParamCaption}
+\item[{{\bf irqmask}}]{irq\-\_\-num}
+\end{DoxyParamCaption}
+)}}\label{dispatch_8c_a07b6e8ae109b493635c12e473ed9a63e}
+Disable an interrupt request line. 
+\begin{DoxyParams}{Parameters}
+{\em irq\-\_\-num} & index of the interrupt to disable, which must be valid on the current platform. \\
+\hline
+\end{DoxyParams}
+\hypertarget{dispatch_8c_a5a8202b5bdbea569e111fdc4cc904aee}{\index{dispatch.\-c@{dispatch.\-c}!dispatch@{dispatch}}
+\index{dispatch@{dispatch}!dispatch.c@{dispatch.\-c}}
+\subsubsection[{dispatch}]{\setlength{\rightskip}{0pt plus 5cm}void dispatch (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{dispatch_8c_a5a8202b5bdbea569e111fdc4cc904aee}
+Processes all pending interrupt requests.
+
+On the B\-C\-M2837 (Raspberry Pi3), this done by iterating through all registered interrupts on the A\-R\-M and checking whether each one is pending. This is not necessarily the fastest way to do it, but this should minimize problems with the poorly-\/documented hardware and conflicts with the G\-P\-U. \hypertarget{dispatch_8c_ab409006c03cfe09494316778c2b538ed}{\index{dispatch.\-c@{dispatch.\-c}!enable\-\_\-irq@{enable\-\_\-irq}}
+\index{enable\-\_\-irq@{enable\-\_\-irq}!dispatch.c@{dispatch.\-c}}
+\subsubsection[{enable\-\_\-irq}]{\setlength{\rightskip}{0pt plus 5cm}void enable\-\_\-irq (
+\begin{DoxyParamCaption}
+\item[{{\bf irqmask}}]{irq\-\_\-num}
+\end{DoxyParamCaption}
+)}}\label{dispatch_8c_ab409006c03cfe09494316778c2b538ed}
+Enable an interrupt request line. 
+\begin{DoxyParams}{Parameters}
+{\em irq\-\_\-num} & index of the interrupt to enable, which must be valid on the current platform. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{dispatch_8c_a8ed67d28988ccfb36642333a246e3279}{\index{dispatch.\-c@{dispatch.\-c}!interrupt\-Vector@{interrupt\-Vector}}
+\index{interrupt\-Vector@{interrupt\-Vector}!dispatch.c@{dispatch.\-c}}
+\subsubsection[{interrupt\-Vector}]{\setlength{\rightskip}{0pt plus 5cm}interrupt\-\_\-handler\-\_\-t interrupt\-Vector\mbox{[}B\-C\-M2835\-\_\-\-N\-U\-M\-\_\-\-I\-R\-Q\-S\mbox{]}}}\label{dispatch_8c_a8ed67d28988ccfb36642333a246e3279}
+Table of Xinu's interrupt handler functions. This is an array mapping I\-R\-Q numbers to handler functions. 

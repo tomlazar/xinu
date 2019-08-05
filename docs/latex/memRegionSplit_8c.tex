@@ -1,0 +1,34 @@
+\hypertarget{memRegionSplit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Split.c File Reference}
+\label{memRegionSplit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Split.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Split.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+{\ttfamily \#include $<$mips.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct memregion $\ast$ \hyperlink{memRegionSplit_8c_afc5f5d2b8aca6ada8d6ea9724f503e7c}{mem\-Region\-Split} (struct memregion $\ast$region, uint length)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Split a region of memory into two parts. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionSplit_8c_afc5f5d2b8aca6ada8d6ea9724f503e7c}{\index{mem\-Region\-Split.\-c@{mem\-Region\-Split.\-c}!mem\-Region\-Split@{mem\-Region\-Split}}
+\index{mem\-Region\-Split@{mem\-Region\-Split}!memRegionSplit.c@{mem\-Region\-Split.\-c}}
+\subsubsection[{mem\-Region\-Split}]{\setlength{\rightskip}{0pt plus 5cm}struct memregion$\ast$ mem\-Region\-Split (
+\begin{DoxyParamCaption}
+\item[{struct memregion $\ast$}]{region, }
+\item[{uint}]{length}
+\end{DoxyParamCaption}
+)}}\label{memRegionSplit_8c_afc5f5d2b8aca6ada8d6ea9724f503e7c}
+Given a region, split into two separate chunks. Passed region will be of size length and remainder will be returned. 
+\begin{DoxyParams}{Parameters}
+{\em region} & region to split \\
+\hline
+{\em length} & length of region after split \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+remainder of original region after split 
+\end{DoxyReturn}

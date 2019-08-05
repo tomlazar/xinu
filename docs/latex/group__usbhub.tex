@@ -1,0 +1,69 @@
+\hypertarget{group__usbhub}{\section{U\-S\-B Hub Driver}
+\label{group__usbhub}\index{U\-S\-B Hub Driver@{U\-S\-B Hub Driver}}
+}
+
+
+Driver for U\-S\-B hub devices.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{usbhub_8c}{usbhub.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__usbhub_ga3ca1e7a532628e72cf71eb3e02248e09}{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree} (struct usb\-\_\-device $\ast$dev, usb\-\_\-status\-\_\-t($\ast$callback)(struct usb\-\_\-device $\ast$))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct usb\-\_\-device\-\_\-driver \hyperlink{group__usbhub_ga45355fca9db05572ff83be5f5ba710ec}{usb\-\_\-hub\-\_\-driver}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Driver for U\-S\-B hub devices. This is the U\-S\-B Hub driver. Hubs are one of the fundamental devices in U\-S\-B and are used to provide connection points (ports) for additional devices. Note that even if no \char`\"{}external\char`\"{} hub is plugged in, the U\-S\-B still will have at least one logical hub (the root hub) and usually additional \char`\"{}internal\char`\"{} hubs. That is, a U\-S\-B is a tree of devices where the root node and all non-\/leaf nodes are hubs. A port on a U\-S\-B hub may correspond to a port you can physically plug a device into or may correspond to an internal port.
+
+This hub driver is an example of a U\-S\-B device driver, but it is somewhat special as it mandatory to include this driver if U\-S\-B is supported at all. This is because it would be impossible to access any U\-S\-B devices if a hub driver were not available. This hub driver also uses some interfaces in the core driver, such as \hyperlink{group__usbcore_ga42564b27159fcf3073738ad16e9aa287}{usb\-\_\-attach\-\_\-device()}, that are not useful to any other U\-S\-B device driver.
+
+The initial entry point of this U\-S\-B hub driver is hub\-\_\-bind\-\_\-device(), which is called when the U\-S\-B core has configured a newly attached U\-S\-B device that may be a hub. hub\-\_\-bind\-\_\-device() is responsible for checking if the device is a hub, and if so, then doing hub-\/specific setup, including one-\/time driver initialization, reading the hub descriptor, powering on the ports, and submitting an asynchronous U\-S\-B interrupt transfer request to the hub's status change endpoint.
+
+Everything else this hub driver does happens asynchronously as a response to a status change request being completed. Every U\-S\-B hub has exactly one I\-N interrupt endpoint called the \char`\"{}status change endpoint\char`\"{}. The hub responds on this endpoint whenever the status of the hub or one of the hub's ports has changed--- for example, when a U\-S\-B device has been connected or disconnected from a port.
+
+At the hardware level, when a hub has data to send on its status change endpoint, an interrupt will come in from the U\-S\-B host controller. This eventually will result in the status change transfer being completed and hub\-\_\-status\-\_\-changed() being called. Thus, the detection of status changes is interrupt-\/driven and is not implemented by polling at the software level. (At the hardware level, U\-S\-B is still a polled bus, but the host controller hardware handles that for us.) Upon detecting a status change on one or more ports on a hub, the hub driver then must submit one or more control messages to the hub to determine exactly what changed on the affected ports. However, we defer this work by passing it to a separate thread in order to avoid doing too much synchronous work in interrupt handlers. 
+
+\subsection{Function Documentation}
+\hypertarget{group__usbhub_ga3ca1e7a532628e72cf71eb3e02248e09}{\index{U\-S\-B Hub Driver@{U\-S\-B Hub Driver}!usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree@{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree}}
+\index{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree@{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree}!USB Hub Driver@{U\-S\-B Hub Driver}}
+\subsubsection[{usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-\_\-hub\-\_\-for\-\_\-device\-\_\-in\-\_\-tree (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-device $\ast$}]{dev, }
+\item[{usb\-\_\-status\-\_\-t($\ast$)(struct usb\-\_\-device $\ast$)}]{callback}
+\end{DoxyParamCaption}
+)}}\label{group__usbhub_ga3ca1e7a532628e72cf71eb3e02248e09}
+Call a function on each U\-S\-B device in the tree. This can be used to iterate through every device on the U\-S\-B. The calling code is responsible for making sure devices cannot be detached from the U\-S\-B while this is executing (e.\-g. by executing with interrupts disabled or by calling \hyperlink{group__usbcore_ga6b99d5980034f7f1f183218e609c801f}{usb\-\_\-lock\-\_\-bus()}).
+
+
+\begin{DoxyParams}{Parameters}
+{\em dev} & Root of the U\-S\-B device tree at which to do the iteration. \\
+\hline
+{\em callback} & Callback function to execute on each device. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__usbhub_ga45355fca9db05572ff83be5f5ba710ec}{\index{U\-S\-B Hub Driver@{U\-S\-B Hub Driver}!usb\-\_\-hub\-\_\-driver@{usb\-\_\-hub\-\_\-driver}}
+\index{usb\-\_\-hub\-\_\-driver@{usb\-\_\-hub\-\_\-driver}!USB Hub Driver@{U\-S\-B Hub Driver}}
+\subsubsection[{usb\-\_\-hub\-\_\-driver}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device\-\_\-driver usb\-\_\-hub\-\_\-driver}}\label{group__usbhub_ga45355fca9db05572ff83be5f5ba710ec}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{
+    .name          = \textcolor{stringliteral}{"USB Hub Driver"},
+    .bind\_device   = hub\_bind\_device,
+    .unbind\_device = hub\_unbind\_device,
+\}
+\end{DoxyCode}
+Declaration of the U\-S\-B hub device driver. 

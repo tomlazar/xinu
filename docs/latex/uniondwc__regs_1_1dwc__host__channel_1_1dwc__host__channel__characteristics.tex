@@ -1,0 +1,76 @@
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-channel\-:\-:dwc\-\_\-host\-\_\-channel\-\_\-characteristics Union Reference}
+\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ad38ad7f424e70732b42fd5588b96c94b}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ad38ad7f424e70732b42fd5588b96c94b}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a0eaa27d541984214e663dc0f8b9d69c2}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ada8166e0970492a9eb61b1473d5679c2}{max\_packet\_size}: 11\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adf26b4829cf4b1db1ee280287f64448b}{endpoint\_number}: 4\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a5996dcb8a515c135ea3144390cea5646}{endpoint\_direction}: 1\\
+\>uint32\_t {\bfseries reserved}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adbb8153fd463b5f254e88a01776c7eec}{low\_speed}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae70c9d4461e7c2286b3f7726654ee46f}{endpoint\_type}: 2\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a74dfed4f8cc9be91b6fb45d51f7958ab}{packets\_per\_frame}: 2\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_afdbfb9552ec600db3b1593bc779333f4}{device\_address}: 7\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a928208e73042373f7d273ff33fc5f69d}{odd\_frame}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a4e988854338720d604bc23d118da2c2f}{channel\_disable}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae91ab39a4ea7d70775720382d1550b0a}{channel\_enable}: 1\\
+\}; }\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a0eaa27d541984214e663dc0f8b9d69c2}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Channel Characteristics Register -\/
+
+Contains various fields that must be set to prepare this channel for a transfer to or from a particular endpoint on a particular U\-S\-B device.
+
+This register only needs to be programmed one time when doing a transfer, regardless of how many packets it consists of, unless the channel is re-\/programmed for a different transfer or the transfer is moved to a different channel. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a4e988854338720d604bc23d118da2c2f}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!channel\-\_\-disable@{channel\-\_\-disable}}
+\index{channel\-\_\-disable@{channel\-\_\-disable}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{channel\-\_\-disable}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::channel\-\_\-disable}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a4e988854338720d604bc23d118da2c2f}
+Software can set this to 1 to halt the channel. Not needed during normal operation as the channel halts automatically when a transaction completes or an error occurs. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae91ab39a4ea7d70775720382d1550b0a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!channel\-\_\-enable@{channel\-\_\-enable}}
+\index{channel\-\_\-enable@{channel\-\_\-enable}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{channel\-\_\-enable}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::channel\-\_\-enable}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae91ab39a4ea7d70775720382d1550b0a}
+Software can set this to 1 to enable the channel, thereby actually starting the transaction on the U\-S\-B. This must only be done after the characteristics, split\-\_\-control, and transfer registers, and possibly other registers (depending on the transfer) have been programmed. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_afdbfb9552ec600db3b1593bc779333f4}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!device\-\_\-address@{device\-\_\-address}}
+\index{device\-\_\-address@{device\-\_\-address}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{device\-\_\-address}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::device\-\_\-address}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_afdbfb9552ec600db3b1593bc779333f4}
+U\-S\-B device address of the device on which the endpoint is located. Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a5996dcb8a515c135ea3144390cea5646}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!endpoint\-\_\-direction@{endpoint\-\_\-direction}}
+\index{endpoint\-\_\-direction@{endpoint\-\_\-direction}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{endpoint\-\_\-direction}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::endpoint\-\_\-direction}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a5996dcb8a515c135ea3144390cea5646}
+Endpoint direction (high bit of b\-Endpoint\-Address). Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adf26b4829cf4b1db1ee280287f64448b}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!endpoint\-\_\-number@{endpoint\-\_\-number}}
+\index{endpoint\-\_\-number@{endpoint\-\_\-number}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{endpoint\-\_\-number}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::endpoint\-\_\-number}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adf26b4829cf4b1db1ee280287f64448b}
+Endpoint number (low 4 bits of b\-Endpoint\-Address). Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae70c9d4461e7c2286b3f7726654ee46f}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!endpoint\-\_\-type@{endpoint\-\_\-type}}
+\index{endpoint\-\_\-type@{endpoint\-\_\-type}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{endpoint\-\_\-type}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::endpoint\-\_\-type}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ae70c9d4461e7c2286b3f7726654ee46f}
+Endpoint type (low 2 bits of bm\-Attributes). Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adbb8153fd463b5f254e88a01776c7eec}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!low\-\_\-speed@{low\-\_\-speed}}
+\index{low\-\_\-speed@{low\-\_\-speed}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{low\-\_\-speed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::low\-\_\-speed}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_adbb8153fd463b5f254e88a01776c7eec}
+1 when the device being communicated with is attached at low speed; 0 otherwise. Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ada8166e0970492a9eb61b1473d5679c2}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!max\-\_\-packet\-\_\-size@{max\-\_\-packet\-\_\-size}}
+\index{max\-\_\-packet\-\_\-size@{max\-\_\-packet\-\_\-size}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{max\-\_\-packet\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::max\-\_\-packet\-\_\-size}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_ada8166e0970492a9eb61b1473d5679c2}
+Maximum packet size the endpoint is capable of sending or receiving. Must be programmed by software before starting the transfer. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a928208e73042373f7d273ff33fc5f69d}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!odd\-\_\-frame@{odd\-\_\-frame}}
+\index{odd\-\_\-frame@{odd\-\_\-frame}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{odd\-\_\-frame}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::odd\-\_\-frame}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a928208e73042373f7d273ff33fc5f69d}
+Just before enabling the channel (for all transactions), software needs to set this to the opposite of the low bit of the host\-\_\-frame\-\_\-number register. Otherwise the hardware will issue frame overrun errors on some transactions. T\-O\-D\-O\-: what exactly does this do? \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a74dfed4f8cc9be91b6fb45d51f7958ab}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}!packets\-\_\-per\-\_\-frame@{packets\-\_\-per\-\_\-frame}}
+\index{packets\-\_\-per\-\_\-frame@{packets\-\_\-per\-\_\-frame}!dwc_regs::dwc_host_channel::dwc_host_channel_characteristics@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics}}
+\subsubsection[{packets\-\_\-per\-\_\-frame}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-characteristics\-::packets\-\_\-per\-\_\-frame}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__characteristics_a74dfed4f8cc9be91b6fb45d51f7958ab}
+Maximum number of transactions that can be executed per microframe as part of this transfer. Normally 1, but should be set to 1 + (bits 11 and 12 of w\-Max\-Packet\-Size) for high-\/speed interrupt and isochronous endpoints. Must be programmed by software before starting the transfer. 
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

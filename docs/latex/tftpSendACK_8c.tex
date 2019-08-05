@@ -1,0 +1,33 @@
+\hypertarget{tftpSendACK_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-A\-C\-K.c File Reference}
+\label{tftpSendACK_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-A\-C\-K.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-A\-C\-K.\-c}}
+}
+{\ttfamily \#include $<$tftp.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{tftpSendACK_8c_a8620b92926ee9a175c7eb83d9bce04f4}{tftp\-Send\-A\-C\-K} (int udpdev, ushort block\-\_\-number)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tftpSendACK_8c_a8620b92926ee9a175c7eb83d9bce04f4}{\index{tftp\-Send\-A\-C\-K.\-c@{tftp\-Send\-A\-C\-K.\-c}!tftp\-Send\-A\-C\-K@{tftp\-Send\-A\-C\-K}}
+\index{tftp\-Send\-A\-C\-K@{tftp\-Send\-A\-C\-K}!tftpSendACK.c@{tftp\-Send\-A\-C\-K.\-c}}
+\subsubsection[{tftp\-Send\-A\-C\-K}]{\setlength{\rightskip}{0pt plus 5cm}syscall tftp\-Send\-A\-C\-K (
+\begin{DoxyParamCaption}
+\item[{int}]{udpdev, }
+\item[{ushort}]{block\-\_\-number}
+\end{DoxyParamCaption}
+)}}\label{tftpSendACK_8c_a8620b92926ee9a175c7eb83d9bce04f4}
+Send a T\-F\-T\-P A\-C\-K (Acknowledge) packet over a U\-D\-P connection to the T\-F\-T\-P server. For T\-F\-T\-P Get transfers, this informs the T\-F\-T\-P server that a given data packet (having a specific block number) has been received. Not intended to be used outside of the T\-F\-T\-P code.
+
+
+\begin{DoxyParams}{Parameters}
+{\em udpdev} & Device descriptor for the open U\-D\-P device. \\
+\hline
+{\em block\-\_\-number} & Block number to acknowledge.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet sent successfully; S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}

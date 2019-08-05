@@ -1,0 +1,119 @@
+\hypertarget{group__netemu}{\section{Network Emulation}
+\label{group__netemu}\index{Network Emulation@{Network Emulation}}
+}
+
+
+Automatically drop and corrupt packets for testing.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__netemu_ga9ef29c8409defba3de25097dfbcbc494}{emu\-Corrupt} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__netemu_ga359a941b04b0c3f0464f7309b07f9aef}{emu\-Delay} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__netemu_ga94997b23c2ec67ca99bbab49250ca174}{emu\-Drop} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__netemu_ga63275952784ca47843b0415c7c3a537a}{emu\-Duplicate} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__netemu_ga25c67cf36119d7df8af818b9c31bfd6b}{emu\-Reorder} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__netemu_ga2d205d821bc09c94522da6cb7c1e5bca}{netemu} (struct packet $\ast$pkt)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Automatically drop and corrupt packets for testing. 
+
+\subsection{Function Documentation}
+\hypertarget{group__netemu_ga9ef29c8409defba3de25097dfbcbc494}{\index{Network Emulation@{Network Emulation}!emu\-Corrupt@{emu\-Corrupt}}
+\index{emu\-Corrupt@{emu\-Corrupt}!Network Emulation@{Network Emulation}}
+\subsubsection[{emu\-Corrupt}]{\setlength{\rightskip}{0pt plus 5cm}syscall emu\-Corrupt (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga9ef29c8409defba3de25097dfbcbc494}
+Corrupts packets as specified by user 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__netemu_ga359a941b04b0c3f0464f7309b07f9aef}{\index{Network Emulation@{Network Emulation}!emu\-Delay@{emu\-Delay}}
+\index{emu\-Delay@{emu\-Delay}!Network Emulation@{Network Emulation}}
+\subsubsection[{emu\-Delay}]{\setlength{\rightskip}{0pt plus 5cm}syscall emu\-Delay (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga359a941b04b0c3f0464f7309b07f9aef}
+Delay packets as specified by user 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__netemu_ga94997b23c2ec67ca99bbab49250ca174}{\index{Network Emulation@{Network Emulation}!emu\-Drop@{emu\-Drop}}
+\index{emu\-Drop@{emu\-Drop}!Network Emulation@{Network Emulation}}
+\subsubsection[{emu\-Drop}]{\setlength{\rightskip}{0pt plus 5cm}syscall emu\-Drop (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga94997b23c2ec67ca99bbab49250ca174}
+Drop packets based on user settings 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__netemu_ga63275952784ca47843b0415c7c3a537a}{\index{Network Emulation@{Network Emulation}!emu\-Duplicate@{emu\-Duplicate}}
+\index{emu\-Duplicate@{emu\-Duplicate}!Network Emulation@{Network Emulation}}
+\subsubsection[{emu\-Duplicate}]{\setlength{\rightskip}{0pt plus 5cm}syscall emu\-Duplicate (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga63275952784ca47843b0415c7c3a537a}
+Duplicate packets as specified by user 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__netemu_ga25c67cf36119d7df8af818b9c31bfd6b}{\index{Network Emulation@{Network Emulation}!emu\-Reorder@{emu\-Reorder}}
+\index{emu\-Reorder@{emu\-Reorder}!Network Emulation@{Network Emulation}}
+\subsubsection[{emu\-Reorder}]{\setlength{\rightskip}{0pt plus 5cm}syscall emu\-Reorder (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga25c67cf36119d7df8af818b9c31bfd6b}
+Reorder packets as specified by the user 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__netemu_ga2d205d821bc09c94522da6cb7c1e5bca}{\index{Network Emulation@{Network Emulation}!netemu@{netemu}}
+\index{netemu@{netemu}!Network Emulation@{Network Emulation}}
+\subsubsection[{netemu}]{\setlength{\rightskip}{0pt plus 5cm}syscall netemu (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__netemu_ga2d205d821bc09c94522da6cb7c1e5bca}
+Process a packet through the network emulator 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

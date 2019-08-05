@@ -1,0 +1,81 @@
+\hypertarget{logical_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/logical.c File Reference}
+\label{logical_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/logical.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/logical.\-c}}
+}
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$memory.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{logical_8c_a2105af4237641a967c1499930c48f3db}{logical\-Read} (struct flash $\ast$flash, uchar $\ast$buffer, ulong block)
+\item 
+devcall \hyperlink{logical_8c_a0a64d0c25c01af994e5a67e0868bff6e}{logical\-Write} (struct flash $\ast$flash, uchar $\ast$buffer, ulong block)
+\item 
+struct flash\-\_\-block \hyperlink{logical_8c_a49f7b5633e709e8dea716b543b30bc9e}{logical\-Map} (struct flash $\ast$flash, ulong block)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This provides a more proper interface between driver calls and the physical layer of flash. It is possible to split the entire flash device into logical blocks of n bytes and this file provides the mappings from physical address to logical block. 
+
+\subsection{Function Documentation}
+\hypertarget{logical_8c_a49f7b5633e709e8dea716b543b30bc9e}{\index{logical.\-c@{logical.\-c}!logical\-Map@{logical\-Map}}
+\index{logical\-Map@{logical\-Map}!logical.c@{logical.\-c}}
+\subsubsection[{logical\-Map}]{\setlength{\rightskip}{0pt plus 5cm}struct flash\-\_\-block logical\-Map (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{logical_8c_a49f7b5633e709e8dea716b543b30bc9e}
+Given a flash structure and a logical block, this method will discover the physical erase-\/block (and region) of that block. Once the physical mapping is found it will return an incomplete flash\-\_\-block structure with the region and erase-\/block filled in. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to discover on. \\
+\hline
+{\em block} & logical block to find. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+flash\-\_\-block structure with start\-\_\-pos and size 
+\end{DoxyReturn}
+\hypertarget{logical_8c_a2105af4237641a967c1499930c48f3db}{\index{logical.\-c@{logical.\-c}!logical\-Read@{logical\-Read}}
+\index{logical\-Read@{logical\-Read}!logical.c@{logical.\-c}}
+\subsubsection[{logical\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall logical\-Read (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{uchar $\ast$}]{buffer, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{logical_8c_a2105af4237641a967c1499930c48f3db}
+With a logical block address, read in the contents of the block into the buffer. This will check if the erase-\/block is already in memory and if so simply read from the cached copy, if it is not read it into memory and read the specified block. If there is no more room in memory to store an erase-\/block it will automatically write to the oldest erase-\/block to flash and read in the requested block. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to read on. \\
+\hline
+{\em $\ast$buffer} & buffer to read into. \\
+\hline
+{\em block} & block to read on device. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes read or S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{logical_8c_a0a64d0c25c01af994e5a67e0868bff6e}{\index{logical.\-c@{logical.\-c}!logical\-Write@{logical\-Write}}
+\index{logical\-Write@{logical\-Write}!logical.c@{logical.\-c}}
+\subsubsection[{logical\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall logical\-Write (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{uchar $\ast$}]{buffer, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{logical_8c_a0a64d0c25c01af994e5a67e0868bff6e}
+Translate a logical block number to a physical portion of flash and write the data. This function will check if the erase-\/block is in memory and store changes to the memory location to prevent too many writes to flash. If no more room is available it will evict the oldest erase-\/block and write it to flash. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to write to \\
+\hline
+{\em $\ast$buffer} & buffer holding new data \\
+\hline
+{\em block} & block to write to device \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes written or S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

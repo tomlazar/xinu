@@ -1,0 +1,92 @@
+\hypertarget{group__usbhcd}{\section{U\-S\-B Host Controller Driver}
+\label{group__usbhcd}\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}}
+}
+
+
+Platform-\/dependent code to actually send and receive data over the U\-S\-B.  
+
+
+\subsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file \hyperlink{usb__dwc__hcd_8c}{usb\-\_\-dwc\-\_\-hcd.\-c}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{group__usbhcd_ga7b5f13b20e154376312b7514f9dbcb81}{dwc\-\_\-intr\-\_\-status} \{ \\*
+{\bfseries X\-F\-E\-R\-\_\-\-C\-O\-M\-P\-L\-E\-T\-E} = 0, 
+{\bfseries X\-F\-E\-R\-\_\-\-F\-A\-I\-L\-E\-D} = 1, 
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-D\-E\-F\-E\-R\-R\-A\-L} = 2, 
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-R\-E\-S\-T\-A\-R\-T} = 3, 
+\\*
+{\bfseries X\-F\-E\-R\-\_\-\-N\-E\-E\-D\-S\-\_\-\-T\-R\-A\-N\-S\-\_\-\-R\-E\-S\-T\-A\-R\-T} = 4
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{hcd\-\_\-start} (void)
+\item 
+void \hyperlink{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{hcd\-\_\-stop} (void)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Platform-\/dependent code to actually send and receive data over the U\-S\-B. U\-S\-B Host Controller Driver specifies protocols for U\-S\-B transfers.
+
+This is a U\-S\-B Host Controller Driver (H\-C\-D) that interfaces with the Synopsys Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller, henceforth abbreviated as \char`\"{}\-D\-W\-C\char`\"{}. This is the U\-S\-B Host Controller used on the B\-C\-M2835 So\-C used on the Raspberry Pi.
+
+Please note that there is no publicly available official documentation for this particular piece of hardware, and it uses its own custom host controller interface rather than a standard one such as E\-H\-C\-I. Therefore, this driver was written on a best-\/effort basis using several sources to gleam the necessary hardware details, including the extremely complicated and difficult to understand vendor-\/provided Linux driver.
+
+This file implements the Host Controller Driver Interface defined in usb\-\_\-hcdi.\-h. Most importantly, it implements a function to power on and start the host controller (\hyperlink{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{hcd\-\_\-start()}) and a function to send and receive messages over the U\-S\-B (\hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request()}).
+
+The D\-W\-C is controlled by reading and writing to/from memory-\/mapped registers. The most important registers are the host channel registers. On this particular hardware, a \char`\"{}host channel\char`\"{}, or simply \char`\"{}channel\char`\"{}, is a set of registers to which software can read and write to cause transactions to take place on the U\-S\-B. A fixed number of host channels exist; on the Raspberry Pi there are 8. From the software's perspective, transactions using different host channels can be executed at the same time.
+
+Some of the host channel registers, as well as other registers, deal with interrupts. This driver makes use heavy of these and performs all U\-S\-B transfers in an interrupt-\/driven manner. However, due to design flaws in this hardware and in U\-S\-B 2.\-0 itself, \char`\"{}interrupt\char`\"{} and \char`\"{}isochronous\char`\"{} transfers still need to make use of software polling when checking for new data, even though each individual transfer is itself interrupt-\/driven. This means that, for example, if your U\-S\-B mouse specifies a polling rate of 100 times per second, then it will, unfortunately, be polled 100 times per second in software. For more detail about how interrupts can be controlled on this particular hardware, see the comment above dwc\-\_\-setup\-\_\-interrupts().
+
+Another important concept is the idea of \char`\"{}packets\char`\"{}, \char`\"{}transactions\char`\"{}, and \char`\"{}transfers\char`\"{}. A U\-S\-B transfer, such as a single control message or bulk request, may need to be split into multiple packets if it exceeds the endpoint's maximum packet size. Unfortunately, this has to be dealt with explicitly in this code, as this hardware doesn't do it for us. But at least, from the viewpoint of this software, a \char`\"{}transaction\char`\"{} is essentially the same as a \char`\"{}packet\char`\"{}.
+
+The \char`\"{}\-On-\/\-The-\/\-Go\char`\"{} in the name of this hardware means that it supports the U\-S\-B On-\/\-The-\/\-Go protocol, which allows it to act either as a host or a device. However, we only are concerned with it acting as a host, which simplifies our driver.
+
+To simplify the U\-S\-B core software, a useful design technique (as recommended by the U\-S\-B 2.\-0 standard and used in other implementations such as Linux's) is to have the H\-C\-D present the root hub as a standard U\-S\-B hub, even if the root hub is integrated with the host controller and does not appear as a standard hub at the hardware level. This is the case with the D\-W\-C, and we implement this design. Therefore, some code in this file deals with faking requests sent to the root hub. 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{group__usbhcd_ga7b5f13b20e154376312b7514f9dbcb81}{\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}!dwc\-\_\-intr\-\_\-status@{dwc\-\_\-intr\-\_\-status}}
+\index{dwc\-\_\-intr\-\_\-status@{dwc\-\_\-intr\-\_\-status}!USB Host Controller Driver@{U\-S\-B Host Controller Driver}}
+\subsubsection[{dwc\-\_\-intr\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf dwc\-\_\-intr\-\_\-status}}}\label{group__usbhcd_ga7b5f13b20e154376312b7514f9dbcb81}
+Internal transfer status codes used to simplify interrupt handling. 
+
+\subsection{Function Documentation}
+\hypertarget{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}!hcd\-\_\-start@{hcd\-\_\-start}}
+\index{hcd\-\_\-start@{hcd\-\_\-start}!USB Host Controller Driver@{U\-S\-B Host Controller Driver}}
+\subsubsection[{hcd\-\_\-start}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t hcd\-\_\-start (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}
+Implementation of \hyperlink{group__usbhcd_gaab6ab94dcc19ea7a80aed9af1c44ab7d}{hcd\-\_\-start()} for the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. See usb\-\_\-hcdi.\-h for the documentation of this interface of the Host Controller Driver. \begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S on successful intitialization of the H\-C\-D; otherwise, return \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-H\-A\-R\-D\-W\-A\-R\-E\-\_\-\-E\-R\-R\-O\-R or \-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-O\-U\-T\-\_\-\-O\-F\-\_\-\-M\-E\-M\-O\-R\-Y 
+\end{DoxyReturn}
+\hypertarget{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}!hcd\-\_\-stop@{hcd\-\_\-stop}}
+\index{hcd\-\_\-stop@{hcd\-\_\-stop}!USB Host Controller Driver@{U\-S\-B Host Controller Driver}}
+\subsubsection[{hcd\-\_\-stop}]{\setlength{\rightskip}{0pt plus 5cm}void hcd\-\_\-stop (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}
+Implementation of \hyperlink{group__usbhcd_ga058fc081836262ad2376911fcf7cf14b}{hcd\-\_\-stop()} for the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. See usb\-\_\-hcdi.\-h for the documentation of this interface of the Host Controller Driver. \hypertarget{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{\index{U\-S\-B Host Controller Driver@{U\-S\-B Host Controller Driver}!hcd\-\_\-submit\-\_\-xfer\-\_\-request@{hcd\-\_\-submit\-\_\-xfer\-\_\-request}}
+\index{hcd\-\_\-submit\-\_\-xfer\-\_\-request@{hcd\-\_\-submit\-\_\-xfer\-\_\-request}!USB Host Controller Driver@{U\-S\-B Host Controller Driver}}
+\subsubsection[{hcd\-\_\-submit\-\_\-xfer\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}usb\-\_\-status\-\_\-t hcd\-\_\-submit\-\_\-xfer\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}
+Implementation of \hyperlink{group__usbhcd_ga72b7448515ed0c92480cb6737009e626}{hcd\-\_\-submit\-\_\-xfer\-\_\-request()} for the Design\-Ware Hi-\/\-Speed U\-S\-B 2.\-0 On-\/\-The-\/\-Go Controller. See usb\-\_\-hcdi.\-h for the documentation of this interface of the Host Controller Driver. \begin{DoxyReturn}{Returns}
+\-::\-U\-S\-B\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-S\-U\-C\-C\-E\-S\-S after successful sending of mailbox message, \-::\-S\-Y\-S\-E\-R\-R if failure within \hyperlink{group__mailbox_gab65abe313a4976eab021cd99258ff7e7}{mailbox\-Send()}
+\end{DoxyReturn}
+This Host Controller Driver implements this interface asynchronously, as intended. Furthermore, it uses a simplistic scheduling algorithm where it places transfer requests into a single queue and executes them in the order they were submitted. Transfers that need to be retried, including periodic transfers that receive a N\-A\-K reply and split transactions that receive a N\-Y\-E\-T reply when doing the Complete Split transaction, are scheduled to be retried at an appropriate time by separate code that shortcuts the main queue when the timer expires.
+
+Jump to dwc\-\_\-schedule\-\_\-xfer\-\_\-requests() to see what happens next. 

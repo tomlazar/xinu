@@ -1,0 +1,32 @@
+\hypertarget{icmpEchoReply_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/icmp/icmp\-Echo\-Reply.c File Reference}
+\label{icmpEchoReply_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/icmp/icmp\-Echo\-Reply.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/icmp/icmp\-Echo\-Reply.\-c}}
+}
+{\ttfamily \#include $<$icmp.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{icmpEchoReply_8c_a13cdb830c63896dc40b898ee53db78a2}{icmp\-Echo\-Reply} (struct packet $\ast$pkt)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{icmpEchoReply_8c_a13cdb830c63896dc40b898ee53db78a2}{\index{icmp\-Echo\-Reply.\-c@{icmp\-Echo\-Reply.\-c}!icmp\-Echo\-Reply@{icmp\-Echo\-Reply}}
+\index{icmp\-Echo\-Reply@{icmp\-Echo\-Reply}!icmpEchoReply.c@{icmp\-Echo\-Reply.\-c}}
+\subsubsection[{icmp\-Echo\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Echo\-Reply (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{icmpEchoReply_8c_a13cdb830c63896dc40b898ee53db78a2}
+Send an I\-C\-M\-P Echo Reply in response to the specified I\-C\-M\-P Echo Request.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pkt} & Pointer to the packet for an I\-C\-M\-P echo request. This packet buffer is re-\/used for sending the reply. pkt-\/$>$curr must point to the beginning of the the I\-C\-M\-P header, whereas pkt-\/$>$len must be the length of the entire packet including link-\/level header. These members will be updated by this function, and the I\-C\-M\-P type field and checksum will be modified; however, ownership of the packet is not taken and it still must be freed by the caller.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if packet was successfully sent; otherwise \-::\-S\-Y\-S\-E\-R\-R or another error code returned by \hyperlink{group__icmp_ga9daa5ef5db7661f44e78aff72b5b76d4}{icmp\-Send()}. 
+\end{DoxyReturn}

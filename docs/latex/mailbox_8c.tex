@@ -1,0 +1,23 @@
+\hypertarget{mailbox_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/mailbox.c File Reference}
+\label{mailbox_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/mailbox.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/mailbox.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$framebuffer.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}../../system/platforms/arm-\/rpi3/bcm2837\-\_\-mbox.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ulong \hyperlink{group__framebuffer_ga71d1bd833737d965d0223b5da02b6311}{mailbox\-Read} ()
+\item 
+void \hyperlink{group__framebuffer_ga4f8108da950b74ecf40e586187d5fa6e}{mailbox\-Write} (ulong data)
+\item 
+ulong \hyperlink{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}{read\-M\-M\-I\-O} (ulong base, ulong reg)
+\item 
+void \hyperlink{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}{write\-M\-M\-I\-O} (ulong base, ulong reg, ulong val)
+\item 
+ulong \hyperlink{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}{phys\-To\-Bus} (void $\ast$address)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides communication channels between V\-C and A\-R\-M. 

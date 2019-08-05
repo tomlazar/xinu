@@ -1,0 +1,64 @@
+\hypertarget{screenInit_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/screen\-Init.c File Reference}
+\label{screenInit_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/screen\-Init.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/screen\-Init.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$framebuffer.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$shell.\-h$>$}\\*
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}../../system/platforms/arm-\/rpi3/bcm2837\-\_\-mbox.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+volatile unsigned int \hyperlink{group__framebuffer_ga8cc6c2c5dacb126c55b0c3aa9dd0e552}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(16)))
+\item 
+void \hyperlink{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}{screen\-Init} ()
+\item 
+int \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuffer\-Init} ()
+\item 
+void \hyperlink{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}{screen\-Clear} (ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}{minishell\-Clear} (ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga09da65be8be722fc8e0a30ecfa616818}{initlinemap} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{screenInit_8c_a061459acc9e078fa4699e0e349887215}{int {\bfseries rows}}\label{screenInit_8c_a061459acc9e078fa4699e0e349887215}
+
+\item 
+\hypertarget{screenInit_8c_a4407a60bc4387adae24cee658711f2d9}{int {\bfseries cols}}\label{screenInit_8c_a4407a60bc4387adae24cee658711f2d9}
+
+\item 
+\hypertarget{screenInit_8c_ab36cd9897a401a5866a0ee1ccbf994a2}{int {\bfseries cursor\-\_\-row}}\label{screenInit_8c_ab36cd9897a401a5866a0ee1ccbf994a2}
+
+\item 
+\hypertarget{screenInit_8c_a30439dd97f00bf6e1d4a9d9dfafb7a6d}{int {\bfseries cursor\-\_\-col}}\label{screenInit_8c_a30439dd97f00bf6e1d4a9d9dfafb7a6d}
+
+\item 
+\hypertarget{screenInit_8c_ab4fae44261c15a0221fb8aca429c7231}{ulong {\bfseries background}}\label{screenInit_8c_ab4fae44261c15a0221fb8aca429c7231}
+
+\item 
+\hypertarget{screenInit_8c_affd46eb0d2986f9449c868dc364f08d2}{ulong {\bfseries foreground}}\label{screenInit_8c_affd46eb0d2986f9449c868dc364f08d2}
+
+\item 
+\hypertarget{screenInit_8c_a3de9608e895f3b97654766e80bc10485}{ulong {\bfseries linemap} \mbox{[}M\-A\-P\-S\-I\-Z\-E\mbox{]}}\label{screenInit_8c_a3de9608e895f3b97654766e80bc10485}
+
+\item 
+\hypertarget{screenInit_8c_ad3eb8452224d94bdbcb0a36e34336f8e}{bool {\bfseries minishell}}\label{screenInit_8c_ad3eb8452224d94bdbcb0a36e34336f8e}
+
+\item 
+\hypertarget{screenInit_8c_ac19a0ed4e188b413d00459d381ba02bd}{ulong {\bfseries framebuffer\-Address}}\label{screenInit_8c_ac19a0ed4e188b413d00459d381ba02bd}
+
+\item 
+\hypertarget{screenInit_8c_a05c8b22d2905f7a52fa31b13f85c70f3}{int {\bfseries pitch}}\label{screenInit_8c_a05c8b22d2905f7a52fa31b13f85c70f3}
+
+\item 
+\hypertarget{screenInit_8c_a4922f0312ccc851dfbccad056f0e48ef}{bool {\bfseries screen\-\_\-initialized}}\label{screenInit_8c_a4922f0312ccc851dfbccad056f0e48ef}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Initializes communication channels between V\-C and A\-R\-M. 

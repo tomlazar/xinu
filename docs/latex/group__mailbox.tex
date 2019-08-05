@@ -1,0 +1,129 @@
+\hypertarget{group__mailbox}{\section{Mailboxes}
+\label{group__mailbox}\index{Mailboxes@{Mailboxes}}
+}
+
+
+Xinu's mailbox subsystem allows threads to send and receive messages to each other.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__mailbox_gafdd316e9699736dbc419dec3f184f871}{mailbox\-Alloc} (uint count)
+\item 
+syscall \hyperlink{group__mailbox_ga69d54e94b019fea5d88effa62f896990}{mailbox\-Count} (mailbox box)
+\item 
+syscall \hyperlink{group__mailbox_gadf45aced5b2e6ee5872c33b7c1aeac60}{mailbox\-Free} (mailbox box)
+\item 
+syscall \hyperlink{group__mailbox_gafe82be41a15227ba94a84e362866419e}{mailbox\-Init} (void)
+\item 
+syscall \hyperlink{group__mailbox_ga23c8d5c37de470fb6e92de57e53b40e0}{mailbox\-Receive} (mailbox box)
+\item 
+syscall \hyperlink{group__mailbox_gab65abe313a4976eab021cd99258ff7e7}{mailbox\-Send} (mailbox box, int mailmsg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Xinu's mailbox subsystem allows threads to send and receive messages to each other. 
+
+\subsection{Function Documentation}
+\hypertarget{group__mailbox_gafdd316e9699736dbc419dec3f184f871}{\index{Mailboxes@{Mailboxes}!mailbox\-Alloc@{mailbox\-Alloc}}
+\index{mailbox\-Alloc@{mailbox\-Alloc}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Alloc (
+\begin{DoxyParamCaption}
+\item[{uint}]{count}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_gafdd316e9699736dbc419dec3f184f871}
+Allocate a mailbox that allows up to the specified number of outstanding messages.
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & Maximum number of messages allowed for the mailbox.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The index of the newly allocated mailbox, or \-::\-S\-Y\-S\-E\-R\-R if all mailboxes are already in use or other resources could not be allocated. 
+\end{DoxyReturn}
+\hypertarget{group__mailbox_ga69d54e94b019fea5d88effa62f896990}{\index{Mailboxes@{Mailboxes}!mailbox\-Count@{mailbox\-Count}}
+\index{mailbox\-Count@{mailbox\-Count}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Count}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Count (
+\begin{DoxyParamCaption}
+\item[{mailbox}]{box}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_ga69d54e94b019fea5d88effa62f896990}
+Retrieve the number of outstanding messages in the specified mailbox.
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & The index of the mailbox for which to retrieve the number of outstanding messages.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of messages in the mailbox, or \-::\-S\-Y\-S\-E\-R\-R if {\ttfamily box} did not specify a valid allocated mailbox. 
+\end{DoxyReturn}
+\hypertarget{group__mailbox_gadf45aced5b2e6ee5872c33b7c1aeac60}{\index{Mailboxes@{Mailboxes}!mailbox\-Free@{mailbox\-Free}}
+\index{mailbox\-Free@{mailbox\-Free}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Free}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Free (
+\begin{DoxyParamCaption}
+\item[{mailbox}]{box}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_gadf45aced5b2e6ee5872c33b7c1aeac60}
+Free the specified mailbox.
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & The index of the mailbox to free.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the mailbox was successfully freed, or \-::\-S\-Y\-S\-E\-R\-R if {\ttfamily box} did not specify a valid allocated mailbox. 
+\end{DoxyReturn}
+\hypertarget{group__mailbox_gafe82be41a15227ba94a84e362866419e}{\index{Mailboxes@{Mailboxes}!mailbox\-Init@{mailbox\-Init}}
+\index{mailbox\-Init@{mailbox\-Init}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Init}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_gafe82be41a15227ba94a84e362866419e}
+Initialize mailbox structures.
+
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if all mailboxes were initialized successfully, otherwise \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__mailbox_ga23c8d5c37de470fb6e92de57e53b40e0}{\index{Mailboxes@{Mailboxes}!mailbox\-Receive@{mailbox\-Receive}}
+\index{mailbox\-Receive@{mailbox\-Receive}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Receive}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Receive (
+\begin{DoxyParamCaption}
+\item[{mailbox}]{box}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_ga23c8d5c37de470fb6e92de57e53b40e0}
+Receive a message from the specified mailbox.
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & The index of the mailbox to receive the message from.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the message that was dequeued; on failure ({\ttfamily box} did not specify an allocated mailbox, or the mailbox was freed while waiting for a message) returns \-::\-S\-Y\-S\-E\-R\-R. Note that it may be impossible to disambiguate \-::\-S\-Y\-S\-E\-R\-R from a successful return value. 
+\end{DoxyReturn}
+\hypertarget{group__mailbox_gab65abe313a4976eab021cd99258ff7e7}{\index{Mailboxes@{Mailboxes}!mailbox\-Send@{mailbox\-Send}}
+\index{mailbox\-Send@{mailbox\-Send}!Mailboxes@{Mailboxes}}
+\subsubsection[{mailbox\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall mailbox\-Send (
+\begin{DoxyParamCaption}
+\item[{mailbox}]{box, }
+\item[{int}]{mailmsg}
+\end{DoxyParamCaption}
+)}}\label{group__mailbox_gab65abe313a4976eab021cd99258ff7e7}
+Send a message to the specified mailbox.
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & The index of the mailbox to send the message to.\\
+\hline
+{\em mailmsg} & The message to send.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the message was successfully enqueued, otherwise \-::\-S\-Y\-S\-E\-R\-R. \-::\-S\-Y\-S\-E\-R\-R is returned only if {\ttfamily box} did not specify a valid allocated mailbox or if the mailbox was freed while waiting for room in the queue. 
+\end{DoxyReturn}

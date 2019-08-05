@@ -174,6 +174,7 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stdout = outdescrp;
     stderr = errdescrp;
 
+
     /* Print shell banner
      * If the frame buffer is being used (TTY1) instead of the terminal (CONSOLE),
      * fbPutc() will parse the ANSI color code and change the foregroud color accordingly. */

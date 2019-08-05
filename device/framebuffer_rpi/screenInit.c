@@ -50,7 +50,12 @@ void screenInit() {
 	screen_initialized = TRUE;
 }
 
-/* Initializes the framebuffer used by the GPU. Returns OK on success; SYSERR on failure. */
+/**
+ * @ingroup framebuffer
+ *
+ * Initializes the framebuffer used by the GPU via the framebuffer mailbox.
+ * @return ::OK on success; ::SYSERR on failure. 
+ */
 int framebufferInit() {
 
 	/* Build the mailbox buffer for the frame buffer
@@ -129,7 +134,12 @@ int framebufferInit() {
 	return OK;
 }
 
-/* Very heavy handed clearing of the screen to a single color. */
+/** 
+ * @ingroup framebuffer
+ *
+ * Very heavy handed clearing of the screen to a single color. 
+ * @param color	
+ */
 void screenClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress);
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
@@ -141,7 +151,12 @@ void screenClear(ulong color) {
 	_inval_area((void *)framebufferAddress);
 }
 
-/* Clear the minishell window */
+/** 
+ * @ingroup framebuffer
+ *
+ * Clear the minishell window
+ * @param color	Color to paint the window upon clear
+ */
 void minishellClear(ulong color) {
 	ulong *address = (ulong *)(framebufferAddress + (pitch * (DEFAULT_HEIGHT - (MINISHELLMINROW * CHAR_HEIGHT))) +  (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
 	ulong *maxaddress = (ulong *)(framebufferAddress + (DEFAULT_HEIGHT * pitch) + (DEFAULT_WIDTH * (BIT_DEPTH / 8)));
@@ -152,7 +167,11 @@ void minishellClear(ulong color) {
 	_inval_area((void *)framebufferAddress);
 }
 
-/* Clear the "linemapping" array used to keep track of pixels we need to remember */
+/** 
+ * @ingroup framebuffer
+ *
+ * Clear the "linemapping" array used to keep track of pixels we need to remember 
+ */
 void initlinemap() {
 	int i = MAPSIZE;
 	while (i != 0) {

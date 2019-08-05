@@ -1,0 +1,36 @@
+\hypertarget{flashOpen_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Open.c File Reference}
+\label{flashOpen_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Open.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Open.\-c}}
+}
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{flashOpen_8c_a4e1e77ad8eb05a4ac22e9e43460da151}{devcall {\bfseries superblock\-Open} (ushort)}\label{flashOpen_8c_a4e1e77ad8eb05a4ac22e9e43460da151}
+
+\item 
+devcall \hyperlink{flashOpen_8c_a11eb9197955077d3c5c3c46d341c1e8f}{flash\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Open a flash device for reading and writing. 
+
+\subsection{Function Documentation}
+\hypertarget{flashOpen_8c_a11eb9197955077d3c5c3c46d341c1e8f}{\index{flash\-Open.\-c@{flash\-Open.\-c}!flash\-Open@{flash\-Open}}
+\index{flash\-Open@{flash\-Open}!flashOpen.c@{flash\-Open.\-c}}
+\subsubsection[{flash\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{flashOpen_8c_a11eb9197955077d3c5c3c46d341c1e8f}
+This will open the flash device for read/write access. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & device to open \\
+\hline
+{\em ap} & list or arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

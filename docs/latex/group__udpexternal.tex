@@ -1,0 +1,179 @@
+\hypertarget{group__udpexternal}{\section{U\-D\-P standard functions}
+\label{group__udpexternal}\index{U\-D\-P standard functions@{U\-D\-P standard functions}}
+}
+
+
+Primary U\-D\-P A\-P\-I, including functions compliant with Xinu's device model.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ushort \hyperlink{group__udpexternal_gabcbf39c9ecabbf6066fff987c50c7db1}{udp\-Alloc} (void)
+\item 
+devcall \hyperlink{group__udpexternal_ga4b9a2995c6470acb368863cb0c467921}{udp\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__udpexternal_ga19a687321da86a127c08eb51ed7d3b0a}{udp\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__udpexternal_gae5b3e1ee3e3d286f70482aa26831af45}{udp\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__udpexternal_ga145b34934ec681c09c5d32083c7f769d}{udp\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}{udp\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+devcall \hyperlink{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}{udp\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Primary U\-D\-P A\-P\-I, including functions compliant with Xinu's device model. Users should use \hyperlink{group__udpexternal_gabcbf39c9ecabbf6066fff987c50c7db1}{udp\-Alloc()} to allocate a U\-D\-P device, then use the generic device calls \hyperlink{group__devcalls_ga1eba5ef52c39e4c1d412e31cd03d4d2c}{open()}, \hyperlink{group__devcalls_ga743e9d7e0afd7a1eb0c4321e79bc30a3}{read()}, \hyperlink{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{write()}, \hyperlink{group__devcalls_ga24e6838ad3f08cdb319118280033a9d5}{control()}, or \hyperlink{group__devcalls_ga67013cfade639dcd90764203bfdb4656}{close()} on it, each of which calls the corresponding function listed here. A U\-D\-P device essentially corresponds to a \char`\"{}socket\char`\"{} as used in other operating systems. Local and remote ports and addresses are specified in the \hyperlink{group__devcalls_ga1eba5ef52c39e4c1d412e31cd03d4d2c}{open()} calle. 
+
+\subsection{Function Documentation}
+\hypertarget{group__udpexternal_gabcbf39c9ecabbf6066fff987c50c7db1}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Alloc@{udp\-Alloc}}
+\index{udp\-Alloc@{udp\-Alloc}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}ushort udp\-Alloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_gabcbf39c9ecabbf6066fff987c50c7db1}
+Allocate an available U\-D\-P device.
+
+\begin{DoxyReturn}{Returns}
+Device number for a U\-D\-P device, or \-::\-S\-Y\-S\-E\-R\-R if none are free. 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_ga4b9a2995c6470acb368863cb0c467921}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Close@{udp\-Close}}
+\index{udp\-Close@{udp\-Close}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_ga4b9a2995c6470acb368863cb0c467921}
+Closes a U\-D\-P device.
+
+Caveat\-: There must not be any threads executing \hyperlink{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}{udp\-Write()} on the U\-D\-P device when it is closed. On the other hand, it is safe to close the U\-D\-P device while threads are executing \hyperlink{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}{udp\-Read()}, and they will return \-::\-S\-Y\-S\-E\-R\-R. However, you still must not re-\/open the U\-D\-P device before all \hyperlink{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}{udp\-Read()} threads have returned.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Device entry for the U\-D\-P device. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the U\-D\-P device was closed successfully; \-::\-S\-Y\-S\-E\-R\-R otherwise. Currently this function can only fail if the U\-D\-P device was not actually open. 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_ga19a687321da86a127c08eb51ed7d3b0a}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Control@{udp\-Control}}
+\index{udp\-Control@{udp\-Control}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_ga19a687321da86a127c08eb51ed7d3b0a}
+Control function for udp devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & udp device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_gae5b3e1ee3e3d286f70482aa26831af45}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Init@{udp\-Init}}
+\index{udp\-Init@{udp\-Init}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_gae5b3e1ee3e3d286f70482aa26831af45}
+Set aside some space for a U\-D\-P device to be opened on 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & U\-D\-P device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_ga145b34934ec681c09c5d32083c7f769d}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Open@{udp\-Open}}
+\index{udp\-Open@{udp\-Open}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_ga145b34934ec681c09c5d32083c7f769d}
+Associate a U\-D\-P socket with local and remote I\-P addresses and ports, and prepare it for receiving and sending data with \hyperlink{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}{udp\-Read()} and \hyperlink{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}{udp\-Write()}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Device table entry for the U\-D\-P device.\\
+\hline
+{\em ap} & Four additional arguments, specifying the following in order\-:
+\begin{DoxyItemize}
+\item The local I\-P address.
+\item The remote I\-P address. May be {\ttfamily N\-U\-L\-L} to create an initially unbound socket.
+\item The local port. May be 0 to auto-\/assign a port number.
+\item The remote port. May be 0 if creating an initially unbound socket.
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the U\-D\-P device was opened successfully; otherwise \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Read@{udp\-Read}}
+\index{udp\-Read@{udp\-Read}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_gadab18aa82e8854f5a53051ab0ed2c665}
+Read the next U\-D\-P packet from a U\-D\-P device and place its data into the provided buffer.
+
+In the default mode, the resulting data will be the U\-D\-P payload. If instead the U\-D\-P is in passive mode, the resulting data will be the U\-D\-P pseudo-\/header, directly followed by the U\-D\-P header, directly followed by the U\-D\-P payload.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Device table entry for the U\-D\-P device. \\
+\hline
+{\em buf} & Buffer into which to read the data. \\
+\hline
+{\em len} & Maximum amount of data to read (length of {\ttfamily buf}).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes read. This is normally the size of the U\-D\-P packet (see note about passive mode above), but as special cases it will be 0 if the U\-D\-P is in non-\/blocking mode and no packets are available, or it will be {\ttfamily len} if the actual amount of data that was available was greater than {\ttfamily len}. Alternatively, if the U\-D\-P device was not initially open or was closed while attempting to read a packet, \-::\-S\-Y\-S\-E\-R\-R is returned. 
+\end{DoxyReturn}
+\hypertarget{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}{\index{U\-D\-P standard functions@{U\-D\-P standard functions}!udp\-Write@{udp\-Write}}
+\index{udp\-Write@{udp\-Write}!UDP standard functions@{U\-D\-P standard functions}}
+\subsubsection[{udp\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall udp\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}
+Write data to a U\-D\-P device, thereby sending it over the network in one or more U\-D\-P packets using the address/port parameters with which the U\-D\-P device is configured.
+
+Note\-: depending on the lower levels of the network stack, this function likely only buffers the U\-D\-P packet(s) to be sent at some later time. Therefore, they may not have actually been transmitted on the wire when this function returns.
+
+The U\-D\-P device M\-U\-S\-T be open and M\-U\-S\-T remain open throughout the execution of this function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Device entry for the U\-D\-P device. \\
+\hline
+{\em buf} & Buffer of data to be sent. If the U\-D\-P device is in the default mode, this is interpreted as the U\-D\-P payload to send, which will be split up among multiple U\-D\-P packets if its size exceeds \-::\-U\-D\-P\-\_\-\-M\-A\-X\-\_\-\-D\-A\-T\-A\-L\-E\-N bytes. Alternatively, if the U\-D\-P device is in passive mode", the data is intepreted as a single U\-D\-P packet including the U\-D\-P pseudo-\/header, followed by the U\-D\-P header, followed by the U\-D\-P payload. \\
+\hline
+{\em len} & Number of bytes of data to send (length of {\ttfamily buf}).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If any packets were successfully sent, returns the number of bytes of data successfully sent, which may be less than {\ttfamily len} in the case of an error. If the U\-D\-P device is not in passive mode and {\ttfamily len} was 0, no packets will be sent and 0 will be returned. Otherwise, returns \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}

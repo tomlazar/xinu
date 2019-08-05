@@ -1,0 +1,84 @@
+\hypertarget{group__ipv4}{\section{I\-Pv4}
+\label{group__ipv4}\index{I\-Pv4@{I\-Pv4}}
+}
+
+
+Internet Protocol Version 4.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__ipv4_gabf14848e228690e9a4fb2d37629439fd}{dot2ipv4} (const char $\ast$str, struct netaddr $\ast$ip)
+\item 
+syscall \hyperlink{group__ipv4_gadf2cbf4d3fa64e45e6a5da37ee0ab6e0}{ipv4\-Recv} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__ipv4_ga1b9759ea210530fd31b6d1e7febdc7a0}{ipv4\-Send} (struct packet $\ast$pkt, struct netaddr $\ast$src, struct netaddr $\ast$dst, uchar proto)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Internet Protocol Version 4. 
+
+\subsection{Function Documentation}
+\hypertarget{group__ipv4_gabf14848e228690e9a4fb2d37629439fd}{\index{I\-Pv4@{I\-Pv4}!dot2ipv4@{dot2ipv4}}
+\index{dot2ipv4@{dot2ipv4}!IPv4@{I\-Pv4}}
+\subsubsection[{dot2ipv4}]{\setlength{\rightskip}{0pt plus 5cm}syscall dot2ipv4 (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{str, }
+\item[{struct netaddr $\ast$}]{ip}
+\end{DoxyParamCaption}
+)}}\label{group__ipv4_gabf14848e228690e9a4fb2d37629439fd}
+Convert an I\-Pv4 address in dotted-\/decimal notation into a netaddr.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The dotted-\/decimal I\-Pv4 address string to convert. \\
+\hline
+{\em ip} & The netaddr structure for conversion result.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if conversion was successful, otherwise \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__ipv4_gadf2cbf4d3fa64e45e6a5da37ee0ab6e0}{\index{I\-Pv4@{I\-Pv4}!ipv4\-Recv@{ipv4\-Recv}}
+\index{ipv4\-Recv@{ipv4\-Recv}!IPv4@{I\-Pv4}}
+\subsubsection[{ipv4\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall ipv4\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__ipv4_gadf2cbf4d3fa64e45e6a5da37ee0ab6e0}
+Process an incoming I\-Pv4 packet. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__ipv4_ga1b9759ea210530fd31b6d1e7febdc7a0}{\index{I\-Pv4@{I\-Pv4}!ipv4\-Send@{ipv4\-Send}}
+\index{ipv4\-Send@{ipv4\-Send}!IPv4@{I\-Pv4}}
+\subsubsection[{ipv4\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall ipv4\-Send (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst, }
+\item[{uchar}]{proto}
+\end{DoxyParamCaption}
+)}}\label{group__ipv4_ga1b9759ea210530fd31b6d1e7febdc7a0}
+file ipv4\-Send.\-c
+
+Send an outgoing I\-Pv4 packet. 
+\begin{DoxyParams}{Parameters}
+{\em packet} & packet being sent \\
+\hline
+{\em src} & source I\-P address \\
+\hline
+{\em dst} & destination I\-P address \\
+\hline
+{\em proto} & the protocol of the ip pkt \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, T\-I\-M\-E\-O\-U\-T if A\-R\-P request timed out, I\-Pv4\-\_\-\-N\-O\-\_\-\-I\-N\-T\-E\-R\-F\-A\-C\-E if interface does not exist, I\-Pv4\-\_\-\-N\-O\-\_\-\-H\-O\-P if next hop is unknown, S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}

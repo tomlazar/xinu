@@ -1,0 +1,39 @@
+\hypertarget{netaddrmask_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/netaddr/netaddrmask.c File Reference}
+\label{netaddrmask_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/netaddr/netaddrmask.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/netaddr/netaddrmask.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__network_ga77597087eb8994342babb0d121e530aa}{netaddrmask} (struct netaddr $\ast$a, const struct netaddr $\ast$mask)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct netaddr {\bfseries N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C}
+\item 
+struct netaddr {\bfseries N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\hypertarget{netaddrmask_8c_a1df6ba2f39b8d5dadb67b8dbd6d67d75}{\index{netaddrmask.\-c@{netaddrmask.\-c}!N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C@{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C}}
+\index{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C@{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C}!netaddrmask.c@{netaddrmask.\-c}}
+\subsubsection[{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}struct netaddr N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-E\-T\-H\-\_\-\-B\-R\-C}}\label{netaddrmask_8c_a1df6ba2f39b8d5dadb67b8dbd6d67d75}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{ NETADDR\_ETHERNET, ETH\_ADDR\_LEN,
+    \{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF\}
+\}
+\end{DoxyCode}
+\hypertarget{netaddrmask_8c_aaa9d116090d6bfe8b71d8958e2011fff}{\index{netaddrmask.\-c@{netaddrmask.\-c}!N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C@{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C}}
+\index{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C@{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C}!netaddrmask.c@{netaddrmask.\-c}}
+\subsubsection[{N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C}]{\setlength{\rightskip}{0pt plus 5cm}struct netaddr N\-E\-T\-A\-D\-D\-R\-\_\-\-G\-L\-O\-B\-A\-L\-\_\-\-I\-P\-\_\-\-B\-R\-C}}\label{netaddrmask_8c_aaa9d116090d6bfe8b71d8958e2011fff}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+= \{ NETADDR\_IPv4, IPv4\_ADDR\_LEN,
+    \{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF\}
+\}
+\end{DoxyCode}

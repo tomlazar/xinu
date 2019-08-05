@@ -1,0 +1,36 @@
+\hypertarget{rtpOpen_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Open.c File Reference}
+\label{rtpOpen_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Open.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/rtp/rtp\-Open.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$bufpool.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$rtp.\-h$>$}\\*
+{\ttfamily \#include $<$stdarg.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+{\ttfamily \#include $<$udp.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{rtpOpen_8c_a92d21029560f825a44385847e106844a}{rtp\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{rtpOpen_8c_a92d21029560f825a44385847e106844a}{\index{rtp\-Open.\-c@{rtp\-Open.\-c}!rtp\-Open@{rtp\-Open}}
+\index{rtp\-Open@{rtp\-Open}!rtpOpen.c@{rtp\-Open.\-c}}
+\subsubsection[{rtp\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall rtp\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{rtpOpen_8c_a92d21029560f825a44385847e106844a}
+Associate a R\-T\-P socket with a hardware device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-T\-P device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if R\-T\-P is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

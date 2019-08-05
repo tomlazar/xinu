@@ -1,0 +1,606 @@
+\hypertarget{group__framebuffer}{\section{Framebuffer}
+\label{group__framebuffer}\index{Framebuffer@{Framebuffer}}
+}
+
+
+Driver for the B\-C\-M2837\-B0 (Raspberry Pi 3 B+) framebuffer.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__framebuffer_ga2904d055d7c6862db8c9166a395106cb}{draw\-Char} (char c, int x, int y, ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga503b1c35573399e40e3194caae4548c7}{draw\-Pixel} (int x, int y, ulong color)
+\item 
+void \hyperlink{group__framebuffer_gaa429a32ff09444b627786fd6c19b581e}{draw\-Line} (int x1, int y1, int x2, int y2, ulong color)
+\item 
+void \hyperlink{group__framebuffer_gae2b706c3c8323205874f3894f3fdedaa}{draw\-Segment} (int x1, int y1, int x2, int y2, ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga2b5faeecb7efcf4098db82c4c52d97f2}{draw\-Rect} (int x1, int y1, int x2, int y2, ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga4363c77931a2deda12d0300a7caa1897}{fill\-Rect} (int x1, int y1, int x2, int y2, ulong color, bool gradient)
+\item 
+void \hyperlink{group__framebuffer_ga44dc19680fd34418b4841cbaa85a71fd}{draw\-Circle} (int x0, int y0, int radius, ulong color)
+\item 
+void \hyperlink{group__framebuffer_gab888df48ec085eed4c0259ffdf4cc835}{fill\-Circle} (int x0, int y0, int radius, ulong color, bool gradient)
+\item 
+void \hyperlink{group__framebuffer_gac3a4b9c686abe9ca2eb5e6f14c60a62d}{draw\-Body} (int x0, int y0, int radius, ulong color)
+\item 
+void \hyperlink{group__framebuffer_gab48a4e6fc42403950e5f2b12e2382c9b}{fill\-Body} (int x0, int y0, int radius, ulong color, bool gradient)
+\item 
+syscall \hyperlink{group__framebuffer_gabd98f202f1503060580d385d288347b8}{fbputc} (uchar c, device $\ast$devptr)
+\item 
+syscall \hyperlink{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}{fbgetc} (device $\ast$devptr)
+\item 
+syscall \hyperlink{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}{fbprintf} (char $\ast$fmt,...)
+\item 
+devcall \hyperlink{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}{fb\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}{fb\-Write} (device $\ast$devptr, const uchar $\ast$buf, uint len)
+\item 
+ulong \hyperlink{group__framebuffer_ga71d1bd833737d965d0223b5da02b6311}{mailbox\-Read} ()
+\item 
+void \hyperlink{group__framebuffer_ga4f8108da950b74ecf40e586187d5fa6e}{mailbox\-Write} (ulong data)
+\item 
+ulong \hyperlink{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}{read\-M\-M\-I\-O} (ulong base, ulong reg)
+\item 
+void \hyperlink{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}{write\-M\-M\-I\-O} (ulong base, ulong reg, ulong val)
+\item 
+ulong \hyperlink{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}{phys\-To\-Bus} (void $\ast$address)
+\item 
+volatile unsigned int \hyperlink{group__framebuffer_ga8cc6c2c5dacb126c55b0c3aa9dd0e552}{\-\_\-\-\_\-attribute\-\_\-\-\_\-} ((aligned(16)))
+\item 
+void \hyperlink{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}{screen\-Init} ()
+\item 
+int \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuffer\-Init} ()
+\item 
+void \hyperlink{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}{screen\-Clear} (ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}{minishell\-Clear} (ulong color)
+\item 
+void \hyperlink{group__framebuffer_ga09da65be8be722fc8e0a30ecfa616818}{initlinemap} ()
+\item 
+double \hyperlink{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}{power} (double base, int exp)
+\item 
+long \hyperlink{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}{factorial} (int num)
+\item 
+double \hyperlink{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}{cosine\-\_\-taylor} (double x, int terms)
+\item 
+double \hyperlink{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}{cos} (int x)
+\item 
+double \hyperlink{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{sine\-\_\-taylor} (double x, int terms)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Driver for the B\-C\-M2837\-B0 (Raspberry Pi 3 B+) framebuffer. This driver communicates with the Video\-Core G\-P\-U and provides functions to draw shapes and print text to the screen. 
+
+\subsection{Function Documentation}
+\hypertarget{group__framebuffer_ga8cc6c2c5dacb126c55b0c3aa9dd0e552}{\index{Framebuffer@{Framebuffer}!\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-attribute\-\_\-\-\_\-@{\-\_\-\-\_\-attribute\-\_\-\-\_\-}!Framebuffer@{Framebuffer}}
+\subsubsection[{\-\_\-\-\_\-attribute\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}volatile unsigned int \-\_\-\-\_\-attribute\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{(aligned(16))}]{}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga8cc6c2c5dacb126c55b0c3aa9dd0e552}
+Make a mailbox call. 
+\begin{DoxyParams}{Parameters}
+{\em ch} & Mailbox channel \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R on failure, non-\/zero on success 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}{\index{Framebuffer@{Framebuffer}!cos@{cos}}
+\index{cos@{cos}!Framebuffer@{Framebuffer}}
+\subsubsection[{cos}]{\setlength{\rightskip}{0pt plus 5cm}double cos (
+\begin{DoxyParamCaption}
+\item[{int}]{x}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}
+Compute the cosine using the Taylor approximation as a helper function 
+\begin{DoxyParams}{Parameters}
+{\em x} & Angle, in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double-\/precision result of the computation 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}{\index{Framebuffer@{Framebuffer}!cosine\-\_\-taylor@{cosine\-\_\-taylor}}
+\index{cosine\-\_\-taylor@{cosine\-\_\-taylor}!Framebuffer@{Framebuffer}}
+\subsubsection[{cosine\-\_\-taylor}]{\setlength{\rightskip}{0pt plus 5cm}double cosine\-\_\-taylor (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{int}]{terms}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}
+Compute the Taylor series approximation of cosine using power and factorial  x Base value 
+\begin{DoxyParams}{Parameters}
+{\em terms} & Terms of the sum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double-\/precision result of the cosine approximation 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gac3a4b9c686abe9ca2eb5e6f14c60a62d}{\index{Framebuffer@{Framebuffer}!draw\-Body@{draw\-Body}}
+\index{draw\-Body@{draw\-Body}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Body}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Body (
+\begin{DoxyParamCaption}
+\item[{int}]{x0, }
+\item[{int}]{y0, }
+\item[{int}]{radius, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gac3a4b9c686abe9ca2eb5e6f14c60a62d}
+Turtle graphics specific circle functions 
+\begin{DoxyParams}{Parameters}
+{\em x0} & x-\/coordinate of circle center \\
+\hline
+{\em y0} & y-\/coordinate of circle center \\
+\hline
+{\em radius} & radius of circle \\
+\hline
+{\em color} & color of circle \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga2904d055d7c6862db8c9166a395106cb}{\index{Framebuffer@{Framebuffer}!draw\-Char@{draw\-Char}}
+\index{draw\-Char@{draw\-Char}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Char}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Char (
+\begin{DoxyParamCaption}
+\item[{char}]{c, }
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga2904d055d7c6862db8c9166a395106cb}
+\hyperlink{font_8c}{font.\-c} includes a 12 byte representation of each of the first 128 A\-S\-C\-I\-I characters. each byte is one row of 0's and 1's, where 1's represent that a pixel should be rendered in that location. 
+\begin{DoxyParams}{Parameters}
+{\em c} & character to be drawn \\
+\hline
+{\em x} & x-\/coordinate of character \\
+\hline
+{\em y} & y-\/coordinate of character \\
+\hline
+{\em color} & color of character \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga44dc19680fd34418b4841cbaa85a71fd}{\index{Framebuffer@{Framebuffer}!draw\-Circle@{draw\-Circle}}
+\index{draw\-Circle@{draw\-Circle}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Circle}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Circle (
+\begin{DoxyParamCaption}
+\item[{int}]{x0, }
+\item[{int}]{y0, }
+\item[{int}]{radius, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga44dc19680fd34418b4841cbaa85a71fd}
+Midpoint Circle Algorithm calculation of a circle. Based on \char`\"{}x$^\wedge$2 + y$^\wedge$2 = r$^\wedge$2\char`\"{} 
+\begin{DoxyParams}{Parameters}
+{\em x0} & x-\/coordinate of circle center \\
+\hline
+{\em y0} & y-\/coordinate of circle center \\
+\hline
+{\em radius} & radius of circle \\
+\hline
+{\em color} & color of circle \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gaa429a32ff09444b627786fd6c19b581e}{\index{Framebuffer@{Framebuffer}!draw\-Line@{draw\-Line}}
+\index{draw\-Line@{draw\-Line}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Line (
+\begin{DoxyParamCaption}
+\item[{int}]{x1, }
+\item[{int}]{y1, }
+\item[{int}]{x2, }
+\item[{int}]{y2, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gaa429a32ff09444b627786fd6c19b581e}
+Line drawing based on Bresenham's Algorithm. So that we don't need to mess with division or decimals. 
+\begin{DoxyParams}{Parameters}
+{\em x1} & starting x-\/coordinate of line \\
+\hline
+{\em y1} & starting y-\/coordinate of line \\
+\hline
+{\em x2} & ending x-\/coordinate of line \\
+\hline
+{\em y2} & ending y-\/coordinate of line \\
+\hline
+{\em color} & color of line \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga503b1c35573399e40e3194caae4548c7}{\index{Framebuffer@{Framebuffer}!draw\-Pixel@{draw\-Pixel}}
+\index{draw\-Pixel@{draw\-Pixel}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Pixel}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Pixel (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga503b1c35573399e40e3194caae4548c7}
+Draws a colored pixel at given (x, y) coordinates. 
+\begin{DoxyParams}{Parameters}
+{\em x} & x-\/coordinate of pixel \\
+\hline
+{\em y} & y-\/coordinate of pixel \\
+\hline
+{\em color} & color of pixel \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga2b5faeecb7efcf4098db82c4c52d97f2}{\index{Framebuffer@{Framebuffer}!draw\-Rect@{draw\-Rect}}
+\index{draw\-Rect@{draw\-Rect}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Rect (
+\begin{DoxyParamCaption}
+\item[{int}]{x1, }
+\item[{int}]{y1, }
+\item[{int}]{x2, }
+\item[{int}]{y2, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga2b5faeecb7efcf4098db82c4c52d97f2}
+Draws a rectangle outline T\-O\-D\-O\-D\-C better description 
+\begin{DoxyParams}{Parameters}
+{\em x1} & upper left hand corner x-\/coordinate \\
+\hline
+{\em y1} & upper left hand corner y-\/coordinate \\
+\hline
+{\em x2} & lower right hand corner x-\/coordinate \\
+\hline
+{\em y2} & lower right hand corner y-\/coordinate \\
+\hline
+{\em color} & color of rectangle \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gae2b706c3c8323205874f3894f3fdedaa}{\index{Framebuffer@{Framebuffer}!draw\-Segment@{draw\-Segment}}
+\index{draw\-Segment@{draw\-Segment}!Framebuffer@{Framebuffer}}
+\subsubsection[{draw\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}void draw\-Segment (
+\begin{DoxyParamCaption}
+\item[{int}]{x1, }
+\item[{int}]{y1, }
+\item[{int}]{x2, }
+\item[{int}]{y2, }
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gae2b706c3c8323205874f3894f3fdedaa}
+Modified draw\-Line specifically for turtle graphics 
+\begin{DoxyParams}{Parameters}
+{\em x1} & starting x-\/coordinate \\
+\hline
+{\em y1} & starting y-\/coordinate \\
+\hline
+{\em x2} & ending x-\/coordinate \\
+\hline
+{\em y2} & ending y-\/coordinate \\
+\hline
+{\em color} & color of line \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}{\index{Framebuffer@{Framebuffer}!factorial@{factorial}}
+\index{factorial@{factorial}!Framebuffer@{Framebuffer}}
+\subsubsection[{factorial}]{\setlength{\rightskip}{0pt plus 5cm}long factorial (
+\begin{DoxyParamCaption}
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}
+Compute the factorial of an integer 
+\begin{DoxyParams}{Parameters}
+{\em num} & Integer to compute factorial operation on \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Long integer result of the factorial operation 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}{\index{Framebuffer@{Framebuffer}!fbgetc@{fbgetc}}
+\index{fbgetc@{fbgetc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbgetc}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbgetc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga58dd5ca5672b2a60f6fd7d84b21604fa}
+perform a synchronous kernel read 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to device on which to write character \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+character read on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}{\index{Framebuffer@{Framebuffer}!fbprintf@{fbprintf}}
+\index{fbprintf@{fbprintf}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbprintf}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{fmt, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gae27b27fde448b226b5fdb3b09ba6a6cf}
+kernel printf\-: formatted, unbuffered output to framebuffer Akin to \char`\"{}kprintf\char`\"{} for the serial driver. Alternate\-: fprintf(F\-R\-A\-M\-E\-B\-U\-F, \char`\"{}string\char`\"{}); 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$fmt} & pointer to string being printed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gabd98f202f1503060580d385d288347b8}{\index{Framebuffer@{Framebuffer}!fbputc@{fbputc}}
+\index{fbputc@{fbputc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fbputc}]{\setlength{\rightskip}{0pt plus 5cm}syscall fbputc (
+\begin{DoxyParamCaption}
+\item[{uchar}]{c, }
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gabd98f202f1503060580d385d288347b8}
+perform a synchronous character write 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to device on which to write character \\
+\hline
+{\em c} & character to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+c on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}{\index{Framebuffer@{Framebuffer}!fb\-Putc@{fb\-Putc}}
+\index{fb\-Putc@{fb\-Putc}!Framebuffer@{Framebuffer}}
+\subsubsection[{fb\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall fb\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga275598c76328d67dd24528da8f6b82a9}
+Write a single character to the framebuffer 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to framebuffer device \\
+\hline
+{\em ch} & character to write \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}{\index{Framebuffer@{Framebuffer}!fb\-Write@{fb\-Write}}
+\index{fb\-Write@{fb\-Write}!Framebuffer@{Framebuffer}}
+\subsubsection[{fb\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall fb\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const uchar $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga2986864462be3ca8c70bd2da1faf8870}
+Write a buffer of characters to the framebuffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to framebuffer device \\
+\hline
+{\em buf} & buffer of characters to write \\
+\hline
+{\em len} & number of characters to write from the buffer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of characters written, which may be less than {\ttfamily len} in the event of a write error; or \-::\-S\-Y\-S\-E\-R\-R if an error occurred before any characters at all were written. 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gab48a4e6fc42403950e5f2b12e2382c9b}{\index{Framebuffer@{Framebuffer}!fill\-Body@{fill\-Body}}
+\index{fill\-Body@{fill\-Body}!Framebuffer@{Framebuffer}}
+\subsubsection[{fill\-Body}]{\setlength{\rightskip}{0pt plus 5cm}void fill\-Body (
+\begin{DoxyParamCaption}
+\item[{int}]{x0, }
+\item[{int}]{y0, }
+\item[{int}]{radius, }
+\item[{ulong}]{color, }
+\item[{bool}]{gradient}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gab48a4e6fc42403950e5f2b12e2382c9b}
+Draws filled in circle 
+\begin{DoxyParams}{Parameters}
+{\em x0} & x-\/coordinate of circle center \\
+\hline
+{\em y0} & y-\/coordinate of circle center \\
+\hline
+{\em radius} & radius of circle \\
+\hline
+{\em color} & color of circle \\
+\hline
+{\em gradient} & true if circle has a gradient; false if not \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gab888df48ec085eed4c0259ffdf4cc835}{\index{Framebuffer@{Framebuffer}!fill\-Circle@{fill\-Circle}}
+\index{fill\-Circle@{fill\-Circle}!Framebuffer@{Framebuffer}}
+\subsubsection[{fill\-Circle}]{\setlength{\rightskip}{0pt plus 5cm}void fill\-Circle (
+\begin{DoxyParamCaption}
+\item[{int}]{x0, }
+\item[{int}]{y0, }
+\item[{int}]{radius, }
+\item[{ulong}]{color, }
+\item[{bool}]{gradient}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gab888df48ec085eed4c0259ffdf4cc835}
+Draws a filled in circle T\-O\-D\-O\-D\-C better description 
+\begin{DoxyParams}{Parameters}
+{\em x0} & x-\/coordinate of circle center \\
+\hline
+{\em y0} & y-\/coordinate of circle center \\
+\hline
+{\em radius} & radius of circle \\
+\hline
+{\em color} & color of circle \\
+\hline
+{\em gradient} & true if circle has a gradient; false if not \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga4363c77931a2deda12d0300a7caa1897}{\index{Framebuffer@{Framebuffer}!fill\-Rect@{fill\-Rect}}
+\index{fill\-Rect@{fill\-Rect}!Framebuffer@{Framebuffer}}
+\subsubsection[{fill\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}void fill\-Rect (
+\begin{DoxyParamCaption}
+\item[{int}]{x1, }
+\item[{int}]{y1, }
+\item[{int}]{x2, }
+\item[{int}]{y2, }
+\item[{ulong}]{color, }
+\item[{bool}]{gradient}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga4363c77931a2deda12d0300a7caa1897}
+Draws a filled-\/in ractangle, given coordinates and colorization options 
+\begin{DoxyParams}{Parameters}
+{\em x1} & upper left hand corner x-\/coordinate \\
+\hline
+{\em y1} & upper left hand corner y-\/coordinate \\
+\hline
+{\em x2} & lower right hand corner x-\/coordinate \\
+\hline
+{\em y2} & lower right hand corner y-\/coordinate \\
+\hline
+{\em color} & color of rectangle \\
+\hline
+{\em gradient} & true if rectangle has a gradient; false if not \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{\index{Framebuffer@{Framebuffer}!framebuffer\-Init@{framebuffer\-Init}}
+\index{framebuffer\-Init@{framebuffer\-Init}!Framebuffer@{Framebuffer}}
+\subsubsection[{framebuffer\-Init}]{\setlength{\rightskip}{0pt plus 5cm}int framebuffer\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}
+Initializes the framebuffer used by the G\-P\-U via the framebuffer mailbox. \begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure. 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga09da65be8be722fc8e0a30ecfa616818}{\index{Framebuffer@{Framebuffer}!initlinemap@{initlinemap}}
+\index{initlinemap@{initlinemap}!Framebuffer@{Framebuffer}}
+\subsubsection[{initlinemap}]{\setlength{\rightskip}{0pt plus 5cm}void initlinemap (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga09da65be8be722fc8e0a30ecfa616818}
+Clear the \char`\"{}linemapping\char`\"{} array used to keep track of pixels we need to remember \hypertarget{group__framebuffer_ga71d1bd833737d965d0223b5da02b6311}{\index{Framebuffer@{Framebuffer}!mailbox\-Read@{mailbox\-Read}}
+\index{mailbox\-Read@{mailbox\-Read}!Framebuffer@{Framebuffer}}
+\subsubsection[{mailbox\-Read}]{\setlength{\rightskip}{0pt plus 5cm}ulong mailbox\-Read (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga71d1bd833737d965d0223b5da02b6311}
+Read from mailbox one on channel one (G\-P\-U mailbox) Note\-: Data\-: first 28 bits. Channel\-: last 4 bits. \hypertarget{group__framebuffer_ga4f8108da950b74ecf40e586187d5fa6e}{\index{Framebuffer@{Framebuffer}!mailbox\-Write@{mailbox\-Write}}
+\index{mailbox\-Write@{mailbox\-Write}!Framebuffer@{Framebuffer}}
+\subsubsection[{mailbox\-Write}]{\setlength{\rightskip}{0pt plus 5cm}void mailbox\-Write (
+\begin{DoxyParamCaption}
+\item[{ulong}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga4f8108da950b74ecf40e586187d5fa6e}
+Write to G\-P\-U mailbox. 
+\begin{DoxyParams}{Parameters}
+{\em data} & Data to write to the mailbox \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}{\index{Framebuffer@{Framebuffer}!minishell\-Clear@{minishell\-Clear}}
+\index{minishell\-Clear@{minishell\-Clear}!Framebuffer@{Framebuffer}}
+\subsubsection[{minishell\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}void minishell\-Clear (
+\begin{DoxyParamCaption}
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga6b5b2d4cd5bc3ff9d509d3da923c9a38}
+Clear the minishell window 
+\begin{DoxyParams}{Parameters}
+{\em color} & Color to paint the window upon clear \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}{\index{Framebuffer@{Framebuffer}!phys\-To\-Bus@{phys\-To\-Bus}}
+\index{phys\-To\-Bus@{phys\-To\-Bus}!Framebuffer@{Framebuffer}}
+\subsubsection[{phys\-To\-Bus}]{\setlength{\rightskip}{0pt plus 5cm}ulong phys\-To\-Bus (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{address}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gaec48109921b4cac283b9a8b09e8d3b4d}
+Converts A\-R\-M physical addresses to A\-R\-M bus addresses. Separate function for legibility's sake. Rev 1 board G\-P\-U required bus addresses. Now deprecated. 
+\begin{DoxyParams}{Parameters}
+{\em address} & Physical address to convert \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}{\index{Framebuffer@{Framebuffer}!power@{power}}
+\index{power@{power}!Framebuffer@{Framebuffer}}
+\subsubsection[{power}]{\setlength{\rightskip}{0pt plus 5cm}double power (
+\begin{DoxyParamCaption}
+\item[{double}]{base, }
+\item[{int}]{exp}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}
+Compute the double-\/precision result of a power operation 
+\begin{DoxyParams}{Parameters}
+{\em base} & Double-\/precision base value of operation \\
+\hline
+{\em exp} & Integer exponent to which the base is raised \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double-\/precision result of the power operation 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}{\index{Framebuffer@{Framebuffer}!read\-M\-M\-I\-O@{read\-M\-M\-I\-O}}
+\index{read\-M\-M\-I\-O@{read\-M\-M\-I\-O}!Framebuffer@{Framebuffer}}
+\subsubsection[{read\-M\-M\-I\-O}]{\setlength{\rightskip}{0pt plus 5cm}ulong read\-M\-M\-I\-O (
+\begin{DoxyParamCaption}
+\item[{ulong}]{base, }
+\item[{ulong}]{reg}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga066eacc612c8bedce15eae1c33b004e5}
+To omit illegible lines of code, a helper function that reads from memory mapped I\-O registers. 
+\begin{DoxyParams}{Parameters}
+{\em base} & Register base \\
+\hline
+{\em reg} & M\-M\-I\-O register to read \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}{\index{Framebuffer@{Framebuffer}!screen\-Clear@{screen\-Clear}}
+\index{screen\-Clear@{screen\-Clear}!Framebuffer@{Framebuffer}}
+\subsubsection[{screen\-Clear}]{\setlength{\rightskip}{0pt plus 5cm}void screen\-Clear (
+\begin{DoxyParamCaption}
+\item[{ulong}]{color}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gae53dd11cfa34d8495673673e60de3230}
+Very heavy handed clearing of the screen to a single color. 
+\begin{DoxyParams}{Parameters}
+{\em color} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}{\index{Framebuffer@{Framebuffer}!screen\-Init@{screen\-Init}}
+\index{screen\-Init@{screen\-Init}!Framebuffer@{Framebuffer}}
+\subsubsection[{screen\-Init}]{\setlength{\rightskip}{0pt plus 5cm}void screen\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gad185f05b60d4c37caf680a0bc3965130}
+Calls \hyperlink{group__framebuffer_ga56ef48c620ce51763b69d07f912aa73b}{framebuffer\-Init()} several times to ensure we successfully initialize, just in case. \begin{DoxyReturn}{Returns}
+Void upon completion. 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{\index{Framebuffer@{Framebuffer}!sine\-\_\-taylor@{sine\-\_\-taylor}}
+\index{sine\-\_\-taylor@{sine\-\_\-taylor}!Framebuffer@{Framebuffer}}
+\subsubsection[{sine\-\_\-taylor}]{\setlength{\rightskip}{0pt plus 5cm}double sine\-\_\-taylor (
+\begin{DoxyParamCaption}
+\item[{double}]{x, }
+\item[{int}]{terms}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}
+Compute the Taylor series approximation of sine 
+\begin{DoxyParams}{Parameters}
+{\em x} & Base value \\
+\hline
+{\em terms} & Terms of the sum \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double-\/precision result of the sine approximation 
+\end{DoxyReturn}
+\hypertarget{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}{\index{Framebuffer@{Framebuffer}!write\-M\-M\-I\-O@{write\-M\-M\-I\-O}}
+\index{write\-M\-M\-I\-O@{write\-M\-M\-I\-O}!Framebuffer@{Framebuffer}}
+\subsubsection[{write\-M\-M\-I\-O}]{\setlength{\rightskip}{0pt plus 5cm}void write\-M\-M\-I\-O (
+\begin{DoxyParamCaption}
+\item[{ulong}]{base, }
+\item[{ulong}]{reg, }
+\item[{ulong}]{val}
+\end{DoxyParamCaption}
+)}}\label{group__framebuffer_ga8a59650d2f1bccd558d8e27ccb10f859}
+The opposite of above. Write to M\-M\-I\-O. 
+\begin{DoxyParams}{Parameters}
+{\em base} & Register base \\
+\hline
+{\em reg} & M\-M\-I\-O register to write to \\
+\hline
+{\em val} & Value to be written \\
+\hline
+\end{DoxyParams}

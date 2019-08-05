@@ -10,8 +10,16 @@
 #include <string.h>
 #include <usb_core_driver.h>
 
-/* Implementation of etherWrite() for the MicroChip LAN7800; see the documentation
- * for this function in ether.h.  */
+/** 
+ * @ingroup etherspecific
+ *
+ * Implementation of etherWrite() for the MicroChip LAN7800; see the documentation
+ * for this function in ether.h.  
+ * @param devptr	Pointer to the ethernet device to write to.
+ * @param buf		Packet buffer
+ * @param len 		Amount of bytes to write
+ * @return 		The length of the packet written
+ */
 devcall etherWrite(device *devptr, const void *buf, uint len)
 {
 	struct ether *ethptr;

@@ -1,0 +1,37 @@
+\hypertarget{structusb__port}{\section{usb\-\_\-port Struct Reference}
+\label{structusb__port}\index{usb\-\_\-port@{usb\-\_\-port}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structusb__hub}{usb\-\_\-hub} $\ast$ \hyperlink{structusb__port_a32a3b6f74c651364bc843206100f5af8}{hub}
+\item 
+uint8\-\_\-t \hyperlink{structusb__port_ae4ff07e00205ab6051034896b60e211b}{number}
+\item 
+struct usb\-\_\-device $\ast$ \hyperlink{structusb__port_afad6616803945c9ed1fe0cd7b1d8b612}{child}
+\item 
+struct usb\-\_\-port\-\_\-status \hyperlink{structusb__port_a761cbd419f28cb6ee0f1d2668a55e11a}{status}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This driver's representation of a U\-S\-B port. 
+
+\subsection{Field Documentation}
+\hypertarget{structusb__port_afad6616803945c9ed1fe0cd7b1d8b612}{\index{usb\-\_\-port@{usb\-\_\-port}!child@{child}}
+\index{child@{child}!usb_port@{usb\-\_\-port}}
+\subsubsection[{child}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-device$\ast$ usb\-\_\-port\-::child}}\label{structusb__port_afad6616803945c9ed1fe0cd7b1d8b612}
+Pointer to the U\-S\-B device attached to this port, or N\-U\-L\-L if there is none. \hypertarget{structusb__port_a32a3b6f74c651364bc843206100f5af8}{\index{usb\-\_\-port@{usb\-\_\-port}!hub@{hub}}
+\index{hub@{hub}!usb_port@{usb\-\_\-port}}
+\subsubsection[{hub}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf usb\-\_\-hub}$\ast$ usb\-\_\-port\-::hub}}\label{structusb__port_a32a3b6f74c651364bc843206100f5af8}
+Pointer to the U\-S\-B hub this port is attached to. \hypertarget{structusb__port_ae4ff07e00205ab6051034896b60e211b}{\index{usb\-\_\-port@{usb\-\_\-port}!number@{number}}
+\index{number@{number}!usb_port@{usb\-\_\-port}}
+\subsubsection[{number}]{\setlength{\rightskip}{0pt plus 5cm}uint8\-\_\-t usb\-\_\-port\-::number}}\label{structusb__port_ae4ff07e00205ab6051034896b60e211b}
+Number of this port (1-\/based) \hypertarget{structusb__port_a761cbd419f28cb6ee0f1d2668a55e11a}{\index{usb\-\_\-port@{usb\-\_\-port}!status@{status}}
+\index{status@{status}!usb_port@{usb\-\_\-port}}
+\subsubsection[{status}]{\setlength{\rightskip}{0pt plus 5cm}struct usb\-\_\-port\-\_\-status usb\-\_\-port\-::status}}\label{structusb__port_a761cbd419f28cb6ee0f1d2668a55e11a}
+Status of this port. 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usb/\hyperlink{usbhub_8c}{usbhub.\-c}\end{DoxyCompactItemize}

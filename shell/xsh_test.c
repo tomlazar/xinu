@@ -33,16 +33,11 @@ int testmain(int argc, char **argv)
 {
 	uint cpuid = getcpuid();
 	int i = 0;
-	kprintf("\r\n********=======********\r\n");
-	
+	printf("\r\n********=======********\r\n");
 	resched();
-
-	struct thrent *thr = &thrtab[thrcurrent[cpuid]];
-
 	for (i = 0; i < 10; i++)
 	{
-//		resched();
-		kprintf("NAME: %s\tTID: %d\tCore: %d\r\n", thr->name, thrcurrent[cpuid], cpuid);
+		printf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
 //		resched();
@@ -110,13 +105,11 @@ shellcmd xsh_test(int nargs, char *args[])
 	kprintf("5) Multicore Priority Scheduling (RESCHED_YES)\r\n");
 	kprintf("6) Multicore Priority Scheduling (RESCHED_NO)\r\n");
 
-	kprintf("===TEST BEGIN===\r\n");
+	printf("===TEST BEGIN===\r\n");
 
 	// TODO: Test your operating system!
 
-	device *devptr;
-	devptr = (device *)&devtab[SERIAL0];
-	c = kgetc(devptr);
+	c = getc(CONSOLE);
 	switch (c)
 	{
 		case '0':

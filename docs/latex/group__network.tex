@@ -1,0 +1,280 @@
+\hypertarget{group__network}{\section{Networking}
+\label{group__network}\index{Networking@{Networking}}
+}
+
+
+Networking subsystem and protocols.  
+
+
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{group__arp}{A\-R\-P}
+\begin{DoxyCompactList}\small\item\em Address Resolution Protocol. \end{DoxyCompactList}\item 
+\hyperlink{group__dhcpc}{D\-H\-C\-P client}
+\begin{DoxyCompactList}\small\item\em Client for Dynamic Host Configuration Protocol (I\-Pv4 version) \end{DoxyCompactList}\item 
+\hyperlink{group__icmp}{I\-C\-M\-P}
+\begin{DoxyCompactList}\small\item\em Internet Control Message Protocol. \end{DoxyCompactList}\item 
+\hyperlink{group__ipv4}{I\-Pv4}
+\begin{DoxyCompactList}\small\item\em Internet Protocol Version 4. \end{DoxyCompactList}\item 
+\hyperlink{group__netemu}{Network Emulation}
+\begin{DoxyCompactList}\small\item\em Automatically drop and corrupt packets for testing. \end{DoxyCompactList}\item 
+\hyperlink{group__snoop}{Packet snooping}
+\begin{DoxyCompactList}\small\item\em View the data of packets being send and received over a network interface. \end{DoxyCompactList}\item 
+\hyperlink{group__route}{Routing}
+\begin{DoxyCompactList}\small\item\em I\-Pv4 routing support. \end{DoxyCompactList}\item 
+\hyperlink{group__tftp}{T\-F\-T\-P client}
+\begin{DoxyCompactList}\small\item\em Trivial File Transfer Protocol client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{group__network_ga185f793896833cc2389da020d37d0d9e}{ushort {\bfseries net\-Chksum} (void $\ast$data, uint len)}\label{group__network_ga185f793896833cc2389da020d37d0d9e}
+
+\item 
+syscall \hyperlink{group__network_gac45c2d4b1c31e8d2a75c17fcdda6a77c}{net\-Down} (int descrp)
+\item 
+syscall \hyperlink{group__network_gae1f8f55dd322e072c3d57749d3a22452}{net\-Freebuf} (struct packet $\ast$pkt)
+\item 
+struct packet $\ast$ \hyperlink{group__network_gadde7ccba7e66f7e4c52bb7969a92a910}{net\-Getbuf} (void)
+\item 
+syscall \hyperlink{group__network_gae84240e1a1f1520ed1376f040b2e10e3}{net\-Init} ()
+\item 
+struct netif $\ast$ \hyperlink{group__network_ga296762f874916f20b45e5935d62bc178}{net\-Lookup} (int devnum)
+\item 
+thread \hyperlink{group__network_ga714193dc3ba55fe83e6ce9fb9e4926e3}{net\-Recv} (struct netif $\ast$netptr)
+\item 
+syscall \hyperlink{group__network_ga882a9173c7b941813a15e7f890e3e9a3}{net\-Send} (struct packet $\ast$pkt, const struct netaddr $\ast$hwaddr, const struct netaddr $\ast$praddr, ushort type)
+\item 
+syscall \hyperlink{group__network_ga80e0d9490cd00d1a9ca6eea1f323d931}{net\-Up} (int descrp, const struct netaddr $\ast$ip, const struct netaddr $\ast$mask, const struct netaddr $\ast$gateway)
+\item 
+bool \hyperlink{group__network_gabb69f95504d495008cd1bb13a4377efa}{netaddrequal} (const struct netaddr $\ast$a, const struct netaddr $\ast$b)
+\item 
+syscall \hyperlink{group__network_gaea3d616f64991056ba857ffa8a9d44fd}{netaddrhost} (struct netaddr $\ast$a, const struct netaddr $\ast$mask)
+\item 
+syscall \hyperlink{group__network_ga77597087eb8994342babb0d121e530aa}{netaddrmask} (struct netaddr $\ast$a, const struct netaddr $\ast$mask)
+\item 
+int \hyperlink{group__network_gacf354e2fb91290fe82f5b26c09274784}{netaddrsprintf} (char $\ast$str, const struct netaddr $\ast$addr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Networking subsystem and protocols. Note\-: although they are network protocols, \hyperlink{group__udp}{U\-D\-P} and \hyperlink{group__tcp}{T\-C\-P} are implemented as device drivers and therefore are not grouped in this section. 
+
+\subsection{Function Documentation}
+\hypertarget{group__network_gabb69f95504d495008cd1bb13a4377efa}{\index{Networking@{Networking}!netaddrequal@{netaddrequal}}
+\index{netaddrequal@{netaddrequal}!Networking@{Networking}}
+\subsubsection[{netaddrequal}]{\setlength{\rightskip}{0pt plus 5cm}bool netaddrequal (
+\begin{DoxyParamCaption}
+\item[{const struct netaddr $\ast$}]{a, }
+\item[{const struct netaddr $\ast$}]{b}
+\end{DoxyParamCaption}
+)}}\label{group__network_gabb69f95504d495008cd1bb13a4377efa}
+Compare two network addresses 
+\begin{DoxyParams}{Parameters}
+{\em a} & first network address \\
+\hline
+{\em b} & second network address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-T\-R\-U\-E if addresses are the same, otherwise \-::\-F\-A\-L\-S\-E. 
+\end{DoxyReturn}
+\hypertarget{group__network_gaea3d616f64991056ba857ffa8a9d44fd}{\index{Networking@{Networking}!netaddrhost@{netaddrhost}}
+\index{netaddrhost@{netaddrhost}!Networking@{Networking}}
+\subsubsection[{netaddrhost}]{\setlength{\rightskip}{0pt plus 5cm}syscall netaddrhost (
+\begin{DoxyParamCaption}
+\item[{struct netaddr $\ast$}]{a, }
+\item[{const struct netaddr $\ast$}]{mask}
+\end{DoxyParamCaption}
+)}}\label{group__network_gaea3d616f64991056ba857ffa8a9d44fd}
+Calculate the host portion of a network address, which is essentially the opposite of masking it with \hyperlink{group__network_ga77597087eb8994342babb0d121e530aa}{netaddrmask()}. For example, with I\-Pv4, extracting the host portion of 192.\-168.\-0.\-50 with a mask of 255.\-255.\-255.\-0 will produce 0.\-0.\-0.\-50.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Network address from which to extract the host portion. \\
+\hline
+{\em mask} & The netmask to use.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-Y\-S\-E\-R\-R if {\ttfamily a} and {\ttfamily mask} are not the same type of network address; otherwise returns O\-K and modifies {\ttfamily a} in place to produce just the host portion of the network address. 
+\end{DoxyReturn}
+\hypertarget{group__network_ga77597087eb8994342babb0d121e530aa}{\index{Networking@{Networking}!netaddrmask@{netaddrmask}}
+\index{netaddrmask@{netaddrmask}!Networking@{Networking}}
+\subsubsection[{netaddrmask}]{\setlength{\rightskip}{0pt plus 5cm}syscall netaddrmask (
+\begin{DoxyParamCaption}
+\item[{struct netaddr $\ast$}]{a, }
+\item[{const struct netaddr $\ast$}]{mask}
+\end{DoxyParamCaption}
+)}}\label{group__network_ga77597087eb8994342babb0d121e530aa}
+Apply a mask to a network address. For example, with I\-Pv4, masking 192.\-168.\-0.\-50 with 255.\-255.\-255.\-0 will produce 192.\-168.\-0.\-0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & Network address to mask. \\
+\hline
+{\em mask} & The mask to apply.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-Y\-S\-E\-R\-R if {\ttfamily a} and {\ttfamily mask} are not the same type of network address; otherwise returns O\-K and modifies {\ttfamily a} in place to mask it. 
+\end{DoxyReturn}
+\hypertarget{group__network_gacf354e2fb91290fe82f5b26c09274784}{\index{Networking@{Networking}!netaddrsprintf@{netaddrsprintf}}
+\index{netaddrsprintf@{netaddrsprintf}!Networking@{Networking}}
+\subsubsection[{netaddrsprintf}]{\setlength{\rightskip}{0pt plus 5cm}int netaddrsprintf (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{str, }
+\item[{const struct netaddr $\ast$}]{addr}
+\end{DoxyParamCaption}
+)}}\label{group__network_gacf354e2fb91290fe82f5b26c09274784}
+Format a network address and place in a null-\/terminated string.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & Pointer to the output string, which must have enough space for the appropriate type of network address, including the null terminator. \\
+\hline
+{\em addr} & Network address to format.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the resulting string cast to an {\ttfamily int}. 
+\end{DoxyReturn}
+\hypertarget{group__network_gac45c2d4b1c31e8d2a75c17fcdda6a77c}{\index{Networking@{Networking}!net\-Down@{net\-Down}}
+\index{net\-Down@{net\-Down}!Networking@{Networking}}
+\subsubsection[{net\-Down}]{\setlength{\rightskip}{0pt plus 5cm}syscall net\-Down (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp}
+\end{DoxyParamCaption}
+)}}\label{group__network_gac45c2d4b1c31e8d2a75c17fcdda6a77c}
+Bring down a network interface.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Device descriptor for the underlying network device of the interface.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the interface was successfully brought down; \-::\-S\-Y\-S\-E\-R\-R otherwise. Currently, \-::\-S\-Y\-S\-E\-R\-R is only returned if no network interface is running on the device. 
+\end{DoxyReturn}
+\hypertarget{group__network_gae1f8f55dd322e072c3d57749d3a22452}{\index{Networking@{Networking}!net\-Freebuf@{net\-Freebuf}}
+\index{net\-Freebuf@{net\-Freebuf}!Networking@{Networking}}
+\subsubsection[{net\-Freebuf}]{\setlength{\rightskip}{0pt plus 5cm}syscall net\-Freebuf (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__network_gae1f8f55dd322e072c3d57749d3a22452}
+file net\-Getbuf.\-c
+
+Frees a buffer for storing a packet. \begin{DoxyReturn}{Returns}
+O\-K if successful, S\-Y\-S\-E\-R\-R if an error occured 
+\end{DoxyReturn}
+\hypertarget{group__network_gadde7ccba7e66f7e4c52bb7969a92a910}{\index{Networking@{Networking}!net\-Getbuf@{net\-Getbuf}}
+\index{net\-Getbuf@{net\-Getbuf}!Networking@{Networking}}
+\subsubsection[{net\-Getbuf}]{\setlength{\rightskip}{0pt plus 5cm}struct packet$\ast$ net\-Getbuf (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__network_gadde7ccba7e66f7e4c52bb7969a92a910}
+file net\-Getbuf.\-c
+
+Provides a buffer for storing a packet. \begin{DoxyReturn}{Returns}
+pointer to a packet buffer, S\-Y\-S\-E\-R\-R if an error occured 
+\end{DoxyReturn}
+$<$ pointer to packet \hypertarget{group__network_gae84240e1a1f1520ed1376f040b2e10e3}{\index{Networking@{Networking}!net\-Init@{net\-Init}}
+\index{net\-Init@{net\-Init}!Networking@{Networking}}
+\subsubsection[{net\-Init}]{\setlength{\rightskip}{0pt plus 5cm}syscall net\-Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{group__network_gae84240e1a1f1520ed1376f040b2e10e3}
+Initialize network interfaces \begin{DoxyReturn}{Returns}
+O\-K if initialized properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__network_ga296762f874916f20b45e5935d62bc178}{\index{Networking@{Networking}!net\-Lookup@{net\-Lookup}}
+\index{net\-Lookup@{net\-Lookup}!Networking@{Networking}}
+\subsubsection[{net\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}struct netif$\ast$ net\-Lookup (
+\begin{DoxyParamCaption}
+\item[{int}]{devnum}
+\end{DoxyParamCaption}
+)}}\label{group__network_ga296762f874916f20b45e5935d62bc178}
+Lookup a network interface, given an underlying device. 
+\begin{DoxyParams}{Parameters}
+{\em devnum} & device number to find netif for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+network interface, N\-U\-L\-L if none exists 
+\end{DoxyReturn}
+\hypertarget{group__network_ga714193dc3ba55fe83e6ce9fb9e4926e3}{\index{Networking@{Networking}!net\-Recv@{net\-Recv}}
+\index{net\-Recv@{net\-Recv}!Networking@{Networking}}
+\subsubsection[{net\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}thread net\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct netif $\ast$}]{netptr}
+\end{DoxyParamCaption}
+)}}\label{group__network_ga714193dc3ba55fe83e6ce9fb9e4926e3}
+Receive thread to handle one incoming packet at a time
+
+
+\begin{DoxyParams}{Parameters}
+{\em netptr} & network interface device to open net\-Recv on\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+This thread never returns. 
+\end{DoxyReturn}
+$<$ maximum packet length \hypertarget{group__network_ga882a9173c7b941813a15e7f890e3e9a3}{\index{Networking@{Networking}!net\-Send@{net\-Send}}
+\index{net\-Send@{net\-Send}!Networking@{Networking}}
+\subsubsection[{net\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall net\-Send (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{const struct netaddr $\ast$}]{hwaddr, }
+\item[{const struct netaddr $\ast$}]{praddr, }
+\item[{ushort}]{type}
+\end{DoxyParamCaption}
+)}}\label{group__network_ga882a9173c7b941813a15e7f890e3e9a3}
+file net\-Send.\-c
+
+Appends the Link-\/\-Level header to a packet and writes to the underlying interface. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & packet to send \\
+\hline
+{\em hwaddr} & hardware address of the destination, N\-U\-L\-L if should lookup \\
+\hline
+{\em praddr} & protocol address of the destination, N\-U\-L\-L if hwaddr is known \\
+\hline
+{\em type} & type of the packet to put in link level header \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, T\-I\-M\-E\-O\-U\-T if A\-R\-P request timed out, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+$<$ pointer to network interface
+
+$<$ pointer to Ethernet header
+
+$<$ result of A\-R\-P lookup \hypertarget{group__network_ga80e0d9490cd00d1a9ca6eea1f323d931}{\index{Networking@{Networking}!net\-Up@{net\-Up}}
+\index{net\-Up@{net\-Up}!Networking@{Networking}}
+\subsubsection[{net\-Up}]{\setlength{\rightskip}{0pt plus 5cm}syscall net\-Up (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{const struct netaddr $\ast$}]{ip, }
+\item[{const struct netaddr $\ast$}]{mask, }
+\item[{const struct netaddr $\ast$}]{gateway}
+\end{DoxyParamCaption}
+)}}\label{group__network_ga80e0d9490cd00d1a9ca6eea1f323d931}
+Starts a network interface using the specified protocol addresses.
+
+
+\begin{DoxyParams}{Parameters}
+{\em descrp} & Index of the underlying network device on which to open the interface. \\
+\hline
+{\em ip} & Protocol address; cannot be N\-U\-L\-L. \\
+\hline
+{\em mask} & Protocol address mask; cannot be N\-U\-L\-L. \\
+\hline
+{\em gateway} & Protocol address of the gateway, or N\-U\-L\-L if unspecified. If unspecified, it is interpreted as \char`\"{}no gateway\char`\"{}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if the network interface was successfully started; otherwise S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
