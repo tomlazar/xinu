@@ -130,9 +130,11 @@ usb_status_t lan7800_set_mac_address(struct usb_device *udev, const uint8_t *mac
 	status = lan7800_write_reg(udev, LAN7800_ADDRL, addrl);
 	if (status != USB_STATUS_SUCCESS)
 	{
-		kprintf("\r\nFailed to write low registers of MAC.\r\n");
+		kprintf("\r\nERROR: Failed to write low registers of MAC address\r\n");
 		return status;
 	}
+
+	/* Try to write the MAC until there are nonzero values read back from the mailbox */
 
 	return lan7800_write_reg(udev, LAN7800_ADDRH, addrh);
 }
@@ -385,6 +387,7 @@ usb_status_t lan7800_init(struct usb_device *udev, uint8_t* macaddress)
 	lan7800_read_reg(udev, LAN7800_HW_CFG, &buf);
 	buf |= LAN7800_HW_CFG_MEF; /* Multiple ethernet frames */
 	buf |= LAN7800_HW_CFG_LED0_EN;
+	buf |= LAN7800_HW_CFG_LED1_EN;
 	lan7800_write_reg(udev, LAN7800_HW_CFG, buf);
 
 	lan7800_read_reg(udev, LAN7800_USB_CFG0, &buf);

@@ -49,6 +49,7 @@ syscall wait(semaphore sem)
     if (c < 0)
     {
 		thrtab_acquire(thrcurrent[cpuid]);
+
         thrptr->state = THRWAIT;
         thrptr->sem = sem;
 		thrtab_release(thrcurrent[cpuid]);

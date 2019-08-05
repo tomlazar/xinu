@@ -37,6 +37,6 @@ dmb:
 .globl dsb
 dsb:
 	.func dsb
-	dsb
+	dsb		/* Wait for either cache or MMU to finish before continuing */
 	bx	lr
 	.endfunc

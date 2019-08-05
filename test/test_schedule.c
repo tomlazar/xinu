@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <testsuite.h>
 #include <core.h>
+#include <thread.h>
 
 #define TIMES 5
 
@@ -84,6 +85,8 @@ thread test_schedule(bool verbose)
 
     for (i = 0; i < 4 * TIMES; i++)
     {
+	kprintf("\r");
+	kprintf("\r\nExpectedResults[%d]: %d (%s), TestResults[%d]: %d", i, expectedResults[i], thrtab[i].name, i, testArray[i]);
         if (expectedResults[i] != testArray[i])
         {
             passed = FALSE;

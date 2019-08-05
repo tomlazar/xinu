@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
+#include <framebuffer.h>
 
 /**
  * @ingroup shell
@@ -39,5 +40,6 @@ shellcmd xsh_clear(int nargs, char *args[])
     }
 
     printf("\033[2J\033[H\n");
+    
     return 0;
 }

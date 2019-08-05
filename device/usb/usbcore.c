@@ -66,6 +66,8 @@
 #include <usb_hub_driver.h>
 #include <usb_std_defs.h>
 #include <usb_subsystem.h>
+#include "../system/platforms/arm-rpi3/mmu.h"
+#include <clock.h>
 
 /** Maximum number of simultaneous USB devices supported.  */
 #define MAX_NUSBDEV 32
@@ -414,6 +416,7 @@ usb_control_msg(struct usb_device *dev,
         semfree(sem);
         return USB_STATUS_OUT_OF_MEMORY;
     }
+
     req->dev = dev;
     req->endpoint_desc = endpoint_desc;
     req->recvbuf = data;
@@ -432,7 +435,7 @@ usb_control_msg(struct usb_device *dev,
         wait(sem);
         status = req->status;
 
-        /* Force error if actual size was not the same as requested size.  */
+	/* Force error if actual size was not the same as requested size.  */
         if (status == USB_STATUS_SUCCESS && req->actual_size != req->size)
         {
             status = USB_STATUS_INVALID_DATA;
@@ -588,6 +591,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
     status = usb_get_configuration_descriptor(dev, configuration,
                                               dev->config_descriptor,
                                               desc.wTotalLength);
+    
     if (status != USB_STATUS_SUCCESS)
     {
         return status;
@@ -606,7 +610,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
 
         if (hdr->bLength < sizeof(struct usb_descriptor_header))
         {
-            goto out_invalid;
+	    goto out_invalid;
         }
 
         switch (hdr->bDescriptorType)
@@ -621,6 +625,7 @@ usb_read_configuration_descriptor(struct usb_device *dev, uint8_t configuration)
                             dev->interfaces[interface_idx]->bNumEndpoints)
                 {
                     usb_dev_debug(dev, "Number of endpoints incorrect\r\n");
+
                     goto out_invalid;
                 }
                 if (((struct usb_interface_descriptor*)hdr)->bAlternateSetting != 0)
@@ -948,7 +953,7 @@ usb_attach_device(struct usb_device *dev)
     {
         usb_dev_error(dev, "Failed to read configuration descriptor: %s\r\n",
                       usb_status_string(status));
-        return status;
+	return status;
     }
 
     /* Configure the device with its first reported configuration.  */
@@ -969,6 +974,9 @@ usb_attach_device(struct usb_device *dev)
 
     /* Try to bind a driver to the newly configured device. */
     status = usb_try_to_bind_device_driver(dev);
+
+    // XXX TODO delay moves along execution for some reason...
+    udelay(12);
 
     if (status == USB_STATUS_DEVICE_UNSUPPORTED)
     {

@@ -40,9 +40,22 @@ int testmain(int argc, char **argv)
 		printf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
 
 		/* Uncomment the resched() line for cooperative scheduling. */
-		//resched();
+//		resched();
 	}
 	return 0;
+}
+
+void printQueue(qid_typ q)
+{
+	int next, tail;
+
+	next = quetab[quehead(q)].next;
+	tail = quetail(q);
+	while (next != tail)
+	{
+		kprintf("[%d : %d,%d : %d]\r\n", quetab[next].prev, next, quetab[next].key, quetab[next].next);
+		next = quetab[next].next;
+	}
 }
 
 void printpcb(int pid)
@@ -82,12 +95,15 @@ void printpcb(int pid)
 shellcmd xsh_test(int nargs, char *args[])
 {
 	int c, pid;
+	int pids[12];
 
-	printf("0) Test creation of one process\r\n");
-	printf("1) Test passing of many args\r\n");
-	printf("2) Create three processes and run them\r\n");
-	printf("3) Create three processes and run them on other cores\r\n");
-	printf("4) Priority scheduling on one core\r\n");
+	kprintf("0) Test creation of one process\r\n");
+	kprintf("1) Test passing of many args\r\n");
+	kprintf("2) Create three processes and run them\r\n");
+	kprintf("3) Create three processes and run them on other cores\r\n");
+	kprintf("4) Single-core Priority Scheduling\r\n");
+	kprintf("5) Multicore Priority Scheduling (RESCHED_YES)\r\n");
+	kprintf("6) Multicore Priority Scheduling (RESCHED_NO)\r\n");
 
 	printf("===TEST BEGIN===\r\n");
 
@@ -127,17 +143,58 @@ shellcmd xsh_test(int nargs, char *args[])
 			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
 			break;
 		case '4':
-			//priority scheduling on single core
-			ready(create((void *)testmain, INITSTK, 1, "MAIN A", 0, NULL), RESCHED_NO, 1);
-			ready(create((void *)testmain, INITSTK, 2, "MAIN B", 0, NULL), RESCHED_NO, 1);
-			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 1);
-			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 1);
+			//priority scheduling on the same core; expected output: A, then B or D, end with C
+			ready(create((void *)testmain, INITSTK, 1, "MAIN A", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN B", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 0);
 			break;
 		case '5':
-			ready(create((void *)testmain, INITSTK, 2, "MAIN A", 0, NULL), RESCHED_NO, 0);
-			ready(create((void *)testmain, INITSTK, 1, "MAIN B", 0, NULL), RESCHED_NO, 0);
-			ready(create((void *)testmain, INITSTK, 2, "MAIN C", 0, NULL), RESCHED_NO, 1);
-			ready(create((void *)testmain, INITSTK, 1, "MAIN D", 0, NULL), RESCHED_NO, 1);
+			//create 3 processes on each core with different priorities; resched on
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
+	
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 1);
+
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 2);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 3);
+			
+			break;		
+		case '6':
+			//create 3 processes on each core with different priorities, resched off
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 0);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 1);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 2);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 3);
+		
+#if 0
+			for (int i = 0; i < 4; i++)
+			{	
+				kprintf("readylist[%d] dump:\r\n", i);
+				printQueue(readylist[i]);
+				kprintf("\r\n");
+			}
+#endif
+			break;
 		default:
 			break;
 	}
