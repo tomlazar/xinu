@@ -343,7 +343,7 @@ usb_get_ascii_string(struct usb_device *dev, uint32_t iString,
 		sizeof(uint16_t);
 	if (num_languages == 0)
 	{
-		usb_dev_error(dev, "String descriptor language list is empty\n");
+		usb_dev_error(dev, "String descriptor language list is empty\r\n");
 		return USB_STATUS_INVALID_DATA;
 	}
 

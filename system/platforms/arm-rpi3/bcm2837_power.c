@@ -7,6 +7,7 @@
  */
 #include "bcm2837.h"
 #include "bcm2837_mbox.h"
+#include "mmu.h"
 
 /* Write to the specified channel of the mailbox.  */
 void

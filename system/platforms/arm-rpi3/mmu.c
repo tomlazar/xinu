@@ -1,7 +1,9 @@
-#include <mmu.h>
+#include "mmu.h"
 #include <mutex.h>
+#include <dma_buf.h>
 
-/* code from Github user dwelch67 */
+/* code from Github user dwelch67
+ * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
 {
 	unsigned int ra, rb, rc;
@@ -19,23 +21,24 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 void mmu_init()
 {
 	unsigned int ra;
-
-	/* Make memory cacheable */
 	for (ra = 0; ; ra += 0x00100000)
-	{
+	{		
 		mmu_section(ra, ra, 0x15C06);
 		//mmu_section(ra, ra, 0x0 | 0x8);
 		if (ra >= 0x3F000000)
-			break; /* Stop before IO peripherals */
+			break;
 	}
 
 	/* Peripherals not marked (use 0x0000) */
 	for ( ; ; ra += 0x00100000)
 	{
 		mmu_section(ra, ra, 0x0000);
-		if (ra == 0xFFF00000)
+		if (ra == 0x40000000)
 			break;
 	}
+
+	// make dma buffer area non-cacheable
+	mmu_section(dma_buf_space, dma_buf_space, 0x0);
 
 	start_mmu(MMUTABLEBASE);
 }

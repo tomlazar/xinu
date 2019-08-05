@@ -18,6 +18,7 @@
 #endif
 
 #include "platforms/arm-rpi3/mmu.h"
+#include <dma_buf.h>
 
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
@@ -75,30 +76,6 @@ void nulluser(void)
 	kprintf("******************** Hello Xinu World! ********************\r\n");
 	kprintf("***********************************************************\r\n");
 
-	/* XXX Test for determining cache structure */
-	uint encoding = _getcacheinfo();
-	kprintf("\r\nCCSIDR:\t\t\t\t%032b\r\n", encoding);
-	// CCSIDR: 01110000000011111110000000011010
-	// According to Cortex A53 doc:
-	// [31] Write through		0
-	// [30] Write back		1
-	// [29] Read allocation		1
-	// [28] Write allocation	1
-	// [27:13] NumSets		127 == 0x7F
-	// [12:3] Associativity		3 (4-way set assoc. cache) (see sec 2.1.6 of a53 doc)
-	// 				Meaning, each set contains 4 cache lines.
-	// [2:0] Words per line         16 words per cache line (according to arm cortex a53)
-	// 				16 words * 32 bits each = 512 bits per cache line
-	// 				Cache representation: From 0 to 126 sets,
-	// 				Each set contains 4 * 512 bits of data cache = 2048 bits
-
-	encoding = _getcachemaint();
-	kprintf("\r\nCache maintenance register:\t%032b\r\n\n", encoding);
-	//00000010000100000010001000010001
-	// [27:24] Cached memory size		0010 == 0x2
-	// [7:4] Cache maintenance by set/way: 	0001
-	// [0:3] Cache maintenance by MVA:	0001
-
 	/* Enable interrupts  */
 	enable();	
 
@@ -121,7 +98,6 @@ static int sysinit(void)
 
 	/* Initialize serial lock */
 	serial_lock = mutex_create();
-	kprintf("\r\nSERIAL_LOCK: %d\r\n", serial_lock);
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
@@ -299,24 +275,4 @@ static void core_nulluser(void)
 		if (nonempty(readylist[cpuid]))
 			resched();
 	}
-}
-
-void dump_cache_tags(void){
-
-	uint start = 0x40;
-	uint end = 0x400;	// inc by 40 to 400
-	uint tag0 = 0;
-	uint tag1 = 0;
-
-	for(uint i=start; i<=end; i+= 0x40){
-
-		tag0 = _dump_dr0(i);
-		tag1 = _dump_dr1(i);
-	
-		if(i == 0x40)
-			kprintf("DR0\t\t\t\tDR1\t\t\t\t\r\n---\t\t\t\t---\t\t\t\t\r\n");
-		
-		kprintf("%d. %032b\t\t\t\t%032b\r\n\n", tag0, tag1);
-	}
-
 }

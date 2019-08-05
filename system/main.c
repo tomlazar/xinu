@@ -32,29 +32,28 @@ thread main(void)
 	/* Print information about the operating system  */
 	print_os_info();
 
-//XXX Temporarily disable LAN device until USB transfers are solved.
-#define NETHER 0
-	        /* Open all ethernet devices */
-#if NETHER
-		struct ether *ethptr;
-		ushort i;
-		for (i = 0; i < NETHER; i++)
-		{
-			ethptr = &ethertab[ethertab[i].dev->minor];
-			if (SYSERR == open(ethertab[i].dev->num))
-			{
-				kprintf("[\t\033[1;31mFAILED\033[0;39m\t]\tFailed to open device %s\r\n",
-						ethertab[i].dev->name);
-			}
-			else if(ETH_STATE_UP == ethptr->state)
-			{
-				printf("[\t\033[1;32mOK\033[0;39m\t]\tOpened device %s\r\n",
-						ethertab[i].dev->name);
-			}
-		}
-#endif  /* NETHER */
 
-kprintf("\r\n\n\nAfter etherOpen...\r\n\n");
+	/* Open all ethernet devices */
+#if NETHER
+	struct ether *ethptr;
+	ushort i;
+	int result;
+	for (i = 0; i < NETHER; i++)
+	{
+		ethptr = &ethertab[ethertab[i].dev->minor];
+		result = open(ethertab[i].dev->num);
+		if (SYSERR == result)
+		{
+			kprintf("[    \033[1;31mERROR\033[0;39m    ] Failed to open %s\r\n",
+					ethertab[i].dev->name);
+		}
+		else if(ETH_STATE_UP == ethptr->state)
+		{
+			kprintf("[    \033[1;32mOK\033[0;39m    ] Successfully opened %s\r\n",
+					ethertab[i].dev->name);
+		}
+	}
+#endif  /* NETHER */
 
 	/* Set up the first TTY (CONSOLE)  */
 #if defined(CONSOLE) && defined(SERIAL0)

@@ -12,16 +12,15 @@ extern void mmu_initialize(void);
 extern void start_mmu(unsigned int);
 extern void _clean_cache(void);
 extern void _flush_cache(void);
+extern void _inval_cache(void);
+extern void _flush_area(uint32_t);
+extern void _inval_area(uint32_t);
+
 extern uint32_t _getcacheinfo(void);
-extern uint32_t _getcachemaint(void);
-extern unsigned int _dump_dr0(unsigned int);
-extern unsigned int _dump_dr1(unsigned int);
 extern void stop_mmu(void);
 extern void invalidate_tlbs(void);
 extern unsigned int mmu_section(unsigned int, unsigned int, unsigned int);
 extern void mmu_init(void);
-
-extern void dump_cache_tags(void);
 
 extern void PUT32(unsigned int, unsigned int);
 extern unsigned int GET32(unsigned int);

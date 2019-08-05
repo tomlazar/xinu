@@ -10,11 +10,11 @@
 #include "../../../device/uart-pl011/pl011.h"
 #include <mmu.h>
 #include <random.h>
-
 #include <mutex.h>
 #include <queue.h>
 #include <thread.h>
 #include <semaphore.h>
+#include <dma_buf.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -110,7 +110,7 @@ void led_off(void)
 int platforminit(void)
 {
 	strlcpy(platform.family, "BCM2837B0", PLT_STRMAX);
-	strlcpy(platform.name, "Raspberry Pi 3 Model B+", PLT_STRMAX);
+	strlcpy(platform.name, "Raspberry Pi 3 B+", PLT_STRMAX);
 	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
@@ -145,6 +145,9 @@ int platforminit(void)
 		muxtab[i].state = MUTEX_FREE;
 		muxtab[i].lock = MUTEX_UNLOCKED;
 	}
+
+	/* Initialize dma buffer space */
+	dma_buf_init();
 
 	/* Initialze the Hardware Random Number Generator */
 	random_init();

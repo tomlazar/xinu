@@ -100,6 +100,8 @@ extern void bcm2837_power_init(void);
 
 extern void dmb(void);
 
+extern bool lan7800_isattached;
+
 /* Memory barriers needed before/after one or more reads from a peripheral  */
 #define pre_peripheral_read_mb    dmb
 #define post_peripheral_read_mb   dmb
