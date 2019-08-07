@@ -21,6 +21,7 @@
 #include <dma_buf.h>
 
 /* Function prototypes */
+extern void testmain();
 extern thread main(void);       /* main is the first thread created    */
 static int sysinit(void);       /* intializes system structures        */
 
@@ -49,6 +50,7 @@ tid_typ thrcurrent[NCORES];     /* Id of currently running thread      */
 void *memheap;                  /* Bottom of heap (top of O/S stack)   */
 ulong cpuid;                    /* Processor id                        */
 struct platform platform;       /* Platform specific configuration     */
+
 
 /*
  * Intializes the system and becomes the null thread.
@@ -83,7 +85,10 @@ void nulluser(void)
 	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES, CORE_ZERO);
 
 	/* null thread has nothing else to do but cannot exit  */
-	while (TRUE){}
+	while (TRUE)
+	{
+		
+	}
 }
 
 /**

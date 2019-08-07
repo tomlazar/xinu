@@ -36,7 +36,6 @@ interrupt clkhandler(void)
         clkticks = 0;
     }
 
-	/* We do not have preemption yet.. this breaks the code.. */
     /* If sleepq is not empty, decrement first key.   */
     /* If key reaches zero, call wakeup.              */
     if (nonempty(sleepq) && (--firstkey(sleepq) <= 0))

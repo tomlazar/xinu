@@ -48,4 +48,3 @@ DEVICES  := uart-pl011      \
             raw             \
             loopback        \
             telnet          \
-
