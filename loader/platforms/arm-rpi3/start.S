@@ -145,7 +145,9 @@ reset_handler:
 	 * Note: Xinu shouldn't do any unaligned memory accesses on purpose, but
 	 * we found that gcc can still generate unaligned memory accesses for
 	 * tasks such as copying character strings.  (An alternative would be to
-	 * pass -mno-unaligned-access to gcc to prevent it from doing so.)  */
+	 * pass -mno-unaligned-access to gcc to prevent it from doing so.) 
+	 */
+
 	mrc p15, 0, r0, c1, c0, 0
 	orr r0, #1 << 22
 	mcr p15, 0, r0, c1, c0, 0
@@ -175,12 +177,11 @@ bssloopa:
 	add	r0, sp, #NULLSTK	/* Core 1 stack pointer */
 	str	r0, [r3, #4]
 
-	add	r1, r0, #NULLSTK	/* Core 2 stack pointer */
+	add	r1, r0, #NULLSTK	/* Core e stack pointer */
 	str	r1, [r3, #8]
 
 	add	r2, r1, #NULLSTK	/* Core 3 stack pointer */
 	str	r2, [r3, #12]
-
 
 	/* The remaining memory available to the ARM will be Xinu's "memheap"
 	 * region, which is used for dynamic memory allocation.  Set its
@@ -198,9 +199,19 @@ bssloopa:
 //	and	r1, r0, r1
 //	cmp	r1, #0
 	
+        /* Enable FPU */
+	mov r0, #0xf00000		// make cp10 en 11 fully accesible - pi3 - see page 4272 of ARMv8 trm
+	mcr p15, 0, r0, c1, c0, 2	// Write r0 to CPACR
+	isb
+	mov r1, #0x40000000		// Set FPEXC_EN bit to enable the FPU
+	vmsr FPEXC, r1
+	isb
+
+	/* Initialize the Raspberry Pi graphics subsystem */
+	bl screenInit
+
 	/* Branch to nulluser function, located in xinu/system/initialize.c
 	/* The function will initialize the system and become the null thread. */
-//	beq	nulluser
 	b	nulluser
 	.endfunc
 

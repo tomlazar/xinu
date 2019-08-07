@@ -1,0 +1,20 @@
+\hypertarget{bcm2837__power_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/bcm2837\-\_\-power.c File Reference}
+\label{bcm2837__power_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/bcm2837\-\_\-power.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/bcm2837\-\_\-power.\-c}}
+}
+{\ttfamily \#include \char`\"{}bcm2837.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}bcm2837\-\_\-mbox.\-h\char`\"{}}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}{bcm2837\-\_\-mailbox\-\_\-write} (uint channel, uint value)
+\item 
+uint \hyperlink{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}{bcm2837\-\_\-mailbox\-\_\-read} (uint channel)
+\item 
+int \hyperlink{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
+\item 
+void \hyperlink{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This driver provides the ability to power on and power off hardware, such as the U\-S\-B Controller, on the B\-C\-M2837\-B0 So\-C used on the Raspberry Pi 3 B+. This makes use of the B\-C\-M2837\-B0's mailbox mechanism. 

@@ -1,0 +1,68 @@
+\hypertarget{group__uarthardware}{\section{U\-A\-R\-T Hardware Functions}
+\label{group__uarthardware}\index{U\-A\-R\-T Hardware Functions@{U\-A\-R\-T Hardware Functions}}
+}
+
+
+These U\-A\-R\-T functions are implemented differently for different U\-A\-R\-T types.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__uarthardware_ga63f230956488cfad07a24439479cbae8}{kgetc} (device $\ast$devptr)
+\item 
+syscall \hyperlink{group__uarthardware_gafa6ada77dd52e31e2f6f3c097f313bd7}{kputc} (uchar c, device $\ast$devptr)
+\item 
+interrupt \hyperlink{group__uarthardware_ga696bd5bd313d92e9269aafbb9e7843ed}{uart\-Interrupt} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+These U\-A\-R\-T functions are implemented differently for different U\-A\-R\-T types. 
+
+\subsection{Function Documentation}
+\hypertarget{group__uarthardware_ga63f230956488cfad07a24439479cbae8}{\index{U\-A\-R\-T Hardware Functions@{U\-A\-R\-T Hardware Functions}!kgetc@{kgetc}}
+\index{kgetc@{kgetc}!UART Hardware Functions@{U\-A\-R\-T Hardware Functions}}
+\subsubsection[{kgetc}]{\setlength{\rightskip}{0pt plus 5cm}syscall kgetc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__uarthardware_ga63f230956488cfad07a24439479cbae8}
+Synchronously read a character from a U\-A\-R\-T. This blocks until a character is available. The interrupt handler is not used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The character read from the U\-A\-R\-T as an {\ttfamily unsigned char} cast to an {\ttfamily int}. 
+\end{DoxyReturn}
+\hypertarget{group__uarthardware_gafa6ada77dd52e31e2f6f3c097f313bd7}{\index{U\-A\-R\-T Hardware Functions@{U\-A\-R\-T Hardware Functions}!kputc@{kputc}}
+\index{kputc@{kputc}!UART Hardware Functions@{U\-A\-R\-T Hardware Functions}}
+\subsubsection[{kputc}]{\setlength{\rightskip}{0pt plus 5cm}syscall kputc (
+\begin{DoxyParamCaption}
+\item[{uchar}]{c, }
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__uarthardware_gafa6ada77dd52e31e2f6f3c097f313bd7}
+Synchronously write a character to a U\-A\-R\-T. This blocks until the character has been written to the hardware. The interrupt handler is not used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & The character to write. \\
+\hline
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The character written to the U\-A\-R\-T as an {\ttfamily unsigned char} cast to an {\ttfamily int}. 
+\end{DoxyReturn}
+\hypertarget{group__uarthardware_ga696bd5bd313d92e9269aafbb9e7843ed}{\index{U\-A\-R\-T Hardware Functions@{U\-A\-R\-T Hardware Functions}!uart\-Interrupt@{uart\-Interrupt}}
+\index{uart\-Interrupt@{uart\-Interrupt}!UART Hardware Functions@{U\-A\-R\-T Hardware Functions}}
+\subsubsection[{uart\-Interrupt}]{\setlength{\rightskip}{0pt plus 5cm}interrupt uart\-Interrupt (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__uarthardware_ga696bd5bd313d92e9269aafbb9e7843ed}
+Handle an interrupt request from a P\-L011 U\-A\-R\-T. 

@@ -1,0 +1,34 @@
+\hypertarget{tftpSendRRQ_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-R\-R\-Q.c File Reference}
+\label{tftpSendRRQ_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-R\-R\-Q.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/tftp/tftp\-Send\-R\-R\-Q.\-c}}
+}
+{\ttfamily \#include $<$tftp.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{tftpSendRRQ_8c_a8c85038fb416fd258b047e4e11bf8e40}{tftp\-Send\-R\-R\-Q} (int udpdev, const char $\ast$filename)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tftpSendRRQ_8c_a8c85038fb416fd258b047e4e11bf8e40}{\index{tftp\-Send\-R\-R\-Q.\-c@{tftp\-Send\-R\-R\-Q.\-c}!tftp\-Send\-R\-R\-Q@{tftp\-Send\-R\-R\-Q}}
+\index{tftp\-Send\-R\-R\-Q@{tftp\-Send\-R\-R\-Q}!tftpSendRRQ.c@{tftp\-Send\-R\-R\-Q.\-c}}
+\subsubsection[{tftp\-Send\-R\-R\-Q}]{\setlength{\rightskip}{0pt plus 5cm}syscall tftp\-Send\-R\-R\-Q (
+\begin{DoxyParamCaption}
+\item[{int}]{udpdev, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}\label{tftpSendRRQ_8c_a8c85038fb416fd258b047e4e11bf8e40}
+Send a T\-F\-T\-P R\-R\-Q (Read Request) packet over a U\-D\-P connection to the T\-F\-T\-P server. This instructs the T\-F\-T\-P server to begin sending the contents of the specified file. Not intended to be used outside of the T\-F\-T\-P code.
+
+
+\begin{DoxyParams}{Parameters}
+{\em udpdev} & Device descriptor for the open U\-D\-P device. \\
+\hline
+{\em filename} & Name of the file to request.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet sent successfully; S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}

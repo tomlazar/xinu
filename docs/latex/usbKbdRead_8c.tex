@@ -1,0 +1,36 @@
+\hypertarget{usbKbdRead_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Read.c File Reference}
+\label{usbKbdRead_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Read.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Read.\-c}}
+}
+{\ttfamily \#include $<$usbkbd.\-h$>$}\\*
+{\ttfamily \#include $<$interrupt.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{usbKbdRead_8c_a61054a99364dded71fa75dad82b361ba}{usb\-Kbd\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{usbKbdRead_8c_a61054a99364dded71fa75dad82b361ba}{\index{usb\-Kbd\-Read.\-c@{usb\-Kbd\-Read.\-c}!usb\-Kbd\-Read@{usb\-Kbd\-Read}}
+\index{usb\-Kbd\-Read@{usb\-Kbd\-Read}!usbKbdRead.c@{usb\-Kbd\-Read.\-c}}
+\subsubsection[{usb\-Kbd\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall usb\-Kbd\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{usbKbdRead_8c_a61054a99364dded71fa75dad82b361ba}
+Read data from a U\-S\-B keyboard.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-S\-B keyboard. \\
+\hline
+{\em buf} & Pointer to a buffer into which to place the read data. \\
+\hline
+{\em len} & Maximum number of bytes of data to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes read, which normally is {\ttfamily len}, but may be less than {\ttfamily len} if the keyboard has been set to non-\/blocking mode. Returns \-::\-S\-Y\-S\-E\-R\-R on other error (currently, only if \hyperlink{usbKbdInit_8c_adcec5b3d0038b082ef1865dee38bacf9}{usb\-Kbd\-Init()} has not yet been called). 
+\end{DoxyReturn}

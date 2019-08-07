@@ -1,0 +1,158 @@
+\hypertarget{group__memory__mgmt}{\section{Memory Management}
+\label{group__memory__mgmt}\index{Memory Management@{Memory Management}}
+}
+
+
+Allocate and free heap or buffer pool memory.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{group__memory__mgmt_gac8e3a2c7c295381a03c7c8ecd87cc829}{bfpalloc} (uint bufsize, uint nbuf)
+\item 
+syscall \hyperlink{group__memory__mgmt_ga8bee6ee29e079528a5ffa034688eef5d}{bfpfree} (int poolid)
+\item 
+syscall \hyperlink{group__memory__mgmt_gaad938675e9b041fec3ef4f45135d0c3e}{buffree} (void $\ast$buffer)
+\item 
+void $\ast$ \hyperlink{group__memory__mgmt_ga7f0c97b43d7de013a0751ff6b4fd0f54}{bufget\-\_\-} (int poolid, const char $\ast$file, const char $\ast$func)
+\item 
+syscall \hyperlink{group__memory__mgmt_ga1e69240a1816b306eabb2cdba801379c}{memfree} (void $\ast$memptr, uint nbytes)
+\item 
+void $\ast$ \hyperlink{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}{memget} (uint nbytes)
+\item 
+void $\ast$ \hyperlink{group__memory__mgmt_gaa801c85a6f7f903a4e4ed2555c8d0f18}{stkget} (uint nbytes)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Allocate and free heap or buffer pool memory. 
+
+\subsection{Function Documentation}
+\hypertarget{group__memory__mgmt_gac8e3a2c7c295381a03c7c8ecd87cc829}{\index{Memory Management@{Memory Management}!bfpalloc@{bfpalloc}}
+\index{bfpalloc@{bfpalloc}!Memory Management@{Memory Management}}
+\subsubsection[{bfpalloc}]{\setlength{\rightskip}{0pt plus 5cm}int bfpalloc (
+\begin{DoxyParamCaption}
+\item[{uint}]{bufsize, }
+\item[{uint}]{nbuf}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_gac8e3a2c7c295381a03c7c8ecd87cc829}
+Acquire heap storage and subdivide into buffers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bufsize} & Size of individual buffers, in bytes.\\
+\hline
+{\em nbuf} & Number of buffers in the pool.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns an identifier for the buffer pool that can be passed to bufget() or \hyperlink{group__memory__mgmt_ga8bee6ee29e079528a5ffa034688eef5d}{bfpfree()}. On failure, returns \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_ga8bee6ee29e079528a5ffa034688eef5d}{\index{Memory Management@{Memory Management}!bfpfree@{bfpfree}}
+\index{bfpfree@{bfpfree}!Memory Management@{Memory Management}}
+\subsubsection[{bfpfree}]{\setlength{\rightskip}{0pt plus 5cm}syscall bfpfree (
+\begin{DoxyParamCaption}
+\item[{int}]{poolid}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_ga8bee6ee29e079528a5ffa034688eef5d}
+Frees the memory allocated for a buffer pool.
+
+
+\begin{DoxyParams}{Parameters}
+{\em poolid} & Identifier of the buffer pool to free, as returned by \hyperlink{group__memory__mgmt_gac8e3a2c7c295381a03c7c8ecd87cc829}{bfpalloc()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if the buffer pool was valid and was successfully freed; otherwise \-::\-S\-Y\-S\-E\-R\-R. If {\ttfamily poolid} specified a valid buffer pool, then this function can only return \-::\-S\-Y\-S\-E\-R\-R as a result of memory corruption. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_gaad938675e9b041fec3ef4f45135d0c3e}{\index{Memory Management@{Memory Management}!buffree@{buffree}}
+\index{buffree@{buffree}!Memory Management@{Memory Management}}
+\subsubsection[{buffree}]{\setlength{\rightskip}{0pt plus 5cm}syscall buffree (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{buffer}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_gaad938675e9b041fec3ef4f45135d0c3e}
+Return a buffer to its buffer pool.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & Address of buffer to free, as returned by bufget().\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if buffer was successfully freed; otherwise \-::\-S\-Y\-S\-E\-R\-R. \-::\-S\-Y\-S\-E\-R\-R can only be returned as a result of memory corruption or passing an invalid {\ttfamily buffer} argument. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_ga7f0c97b43d7de013a0751ff6b4fd0f54}{\index{Memory Management@{Memory Management}!bufget\-\_\-@{bufget\-\_\-}}
+\index{bufget\-\_\-@{bufget\-\_\-}!Memory Management@{Memory Management}}
+\subsubsection[{bufget\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ bufget\-\_\- (
+\begin{DoxyParamCaption}
+\item[{int}]{poolid, }
+\item[{const char $\ast$}]{file, }
+\item[{const char $\ast$}]{func}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_ga7f0c97b43d7de013a0751ff6b4fd0f54}
+Allocate a buffer from a buffer pool. If no buffers are currently available, this function wait until one is, usually rescheduling the thread. The returned buffer must be freed with \hyperlink{group__memory__mgmt_gaad938675e9b041fec3ef4f45135d0c3e}{buffree()} when the calling code is finished with it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em poolid} & Identifier of the buffer pool, as returned by \hyperlink{group__memory__mgmt_gac8e3a2c7c295381a03c7c8ecd87cc829}{bfpalloc()}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If {\ttfamily poolid} does not specify a valid buffer pool, returns \-::\-S\-Y\-S\-E\-R\-R; otherwise returns a pointer to the resulting buffer. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_ga1e69240a1816b306eabb2cdba801379c}{\index{Memory Management@{Memory Management}!memfree@{memfree}}
+\index{memfree@{memfree}!Memory Management@{Memory Management}}
+\subsubsection[{memfree}]{\setlength{\rightskip}{0pt plus 5cm}syscall memfree (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{memptr, }
+\item[{uint}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_ga1e69240a1816b306eabb2cdba801379c}
+Frees a block of heap-\/allocated memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em memptr} & Pointer to memory block allocated with \hyperlink{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}{memget()}.\\
+\hline
+{\em nbytes} & Length of memory block, in bytes. (Same value passed to \hyperlink{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}{memget()}.)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure. This function can only fail because of memory corruption or specifying an invalid memory block. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}{\index{Memory Management@{Memory Management}!memget@{memget}}
+\index{memget@{memget}!Memory Management@{Memory Management}}
+\subsubsection[{memget}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ memget (
+\begin{DoxyParamCaption}
+\item[{uint}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}
+Allocate heap memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nbytes} & Number of bytes requested.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R if {\ttfamily nbytes} was 0 or there is no memory to satisfy the request; otherwise returns a pointer to the allocated memory region. The returned pointer is guaranteed to be 8-\/byte aligned. Free the block with \hyperlink{group__memory__mgmt_ga1e69240a1816b306eabb2cdba801379c}{memfree()} when done with it. 
+\end{DoxyReturn}
+\hypertarget{group__memory__mgmt_gaa801c85a6f7f903a4e4ed2555c8d0f18}{\index{Memory Management@{Memory Management}!stkget@{stkget}}
+\index{stkget@{stkget}!Memory Management@{Memory Management}}
+\subsubsection[{stkget}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ stkget (
+\begin{DoxyParamCaption}
+\item[{uint}]{nbytes}
+\end{DoxyParamCaption}
+)}}\label{group__memory__mgmt_gaa801c85a6f7f903a4e4ed2555c8d0f18}
+Allocate stack memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em nbytes} & Number of bytes requested.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-S\-Y\-S\-E\-R\-R if {\ttfamily nbytes} was 0 or there is no memory to satisfy the request; otherwise returns a pointer to the {\bfseries topmost (highest address) word} of the allocated memory region. The intention is that this is the base of a stack growing down. Free the stack with stkfree() when done with it. 
+\end{DoxyReturn}

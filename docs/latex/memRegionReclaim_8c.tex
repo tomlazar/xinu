@@ -1,0 +1,27 @@
+\hypertarget{memRegionReclaim_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Reclaim.c File Reference}
+\label{memRegionReclaim_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Reclaim.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Reclaim.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{memRegionReclaim_8c_a4d1104c55ac6e877e51b39f7d56a1cc2}{mem\-Region\-Reclaim} (tid\-\_\-typ tid)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Attempt to reclaim an allocated memory region. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionReclaim_8c_a4d1104c55ac6e877e51b39f7d56a1cc2}{\index{mem\-Region\-Reclaim.\-c@{mem\-Region\-Reclaim.\-c}!mem\-Region\-Reclaim@{mem\-Region\-Reclaim}}
+\index{mem\-Region\-Reclaim@{mem\-Region\-Reclaim}!memRegionReclaim.c@{mem\-Region\-Reclaim.\-c}}
+\subsubsection[{mem\-Region\-Reclaim}]{\setlength{\rightskip}{0pt plus 5cm}void mem\-Region\-Reclaim (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{memRegionReclaim_8c_a4d1104c55ac6e877e51b39f7d56a1cc2}
+Given a thread id, attempt to reclaim all the memory regions that were allocated to that thread and return them to the region free list. 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread id holding memory regions. \\
+\hline
+\end{DoxyParams}

@@ -13,55 +13,8 @@
 #include <ctype.h>
 #include <clock.h>
 #include <testsuite.h>
-#include <thread.h>
-
-#include <semaphore.h>
-
-extern void led_init(void);
-extern void led_off(void);
-extern void stop_mmu(void);
-extern void invalidate_tlbs(void);
-extern syscall kexec(const void *, uint);
-
-const ulong blink_kernel[] = {
-	0xe59f000c,	/* ldr	r0, [pc. #12]	*/
-	0xe3a01001,	/* mov	r1, #1		*/
-	0xe1a01801,	/* lsl	r1, r1, #16	*/
-	0xe5801000,	/* str	r1, [r0]	*/
-	0xeafffffe,	/* b	10		*/
-	0x3f20001c
-};
-
-static thread test_thread(int);
-static thread test_thread1(void);
-static thread test_thread2(tid_typ);
-
-static thread producer(void);
-static thread consumer(void);
-static thread print_thread(void);
-
-#define BUFLEN	10
-
-static unsigned int buffer[BUFLEN];
-static unsigned int in, out;
-static semaphore bufsem;
-
-extern void test_boundedbuffer(void);
-extern void unparkcore(uint, void *, void *);
-extern uint getcpuid(void);
-
-extern thread test_semaphore(bool);
-extern thread test_semaphore2(bool);
-extern thread test_semaphore3(bool);
-extern thread test_semaphore4(bool);
-
-static void print_test(void)
-{
-	uint cpuid = getcpuid();
-
-	while(1)
-		kprintf("THIS IS CORE %d SAYING HELLO\r\n", cpuid);
-}
+#include <device.h>
+#include <uart.h>
 
 /**
  * @ingroup shell
@@ -74,186 +27,178 @@ static void print_test(void)
  * @param args  array of arguments
  * @return non-zero value on error
  */
-shellcmd xsh_test(int nargs, char *args[])
+
+struct thrent *ppcb = NULL;
+int testmain(int argc, char **argv)
 {
-#if 0
-	stop_mmu();
-	invalidate_tlbs();
-	led_init();
-	led_off();
-
-	kexec((const void *)blink_kernel, sizeof(blink_kernel));	
-#endif
-#if 1
-	int i;
-	int threads = 10;
-	tid_typ tid[threads];
-
-//	tid_typ tid1 = create(test_thread1, INITSTK, INITPRIO, "TEST01", 0);
-//	tid_typ tid2 = create(test_thread2, INITSTK, INITPRIO, "TEST02", 1, tid1);
-//	tid_typ tid3 = create(test_thread, INITSTK, 100, "TEST03", 1, 10);
-
-
-	for (i = 0; i < threads; i++)
-		tid[i] = create(test_thread, INITSTK, INITPRIO, "test", 1, 5);
-
-
-//	ready_multi(tid1, 1);	
-//	ready_multi(tid2, 2);
-//	ready_multi(tid3, 2);
-
-	for (i = 0; i < threads; i++)
-//		ready_multi(tid[i], (i % 3) + 1);
-		ready_multi(tid[i], 1);
-#endif
-
-#if 0
-
-	bufsem = semcreate(1);
-
-	for (int i = 0; i < BUFLEN; i++)
+	uint cpuid = getcpuid();
+	int i = 0;
+	printf("\r\n********=======********\r\n");
+	resched();
+	for (i = 0; i < 10; i++)
 	{
-		buffer[i] = 0;
+		printf("Hello Xinu world! This is thread TID: %d Core: %d\r\n", thrcurrent[cpuid], cpuid);
+
+		/* Uncomment the resched() line for cooperative scheduling. */
+//		resched();
 	}
-	in = 0;
-	out = 0;
-
-	dmb();
-
-	tid_typ con = create(consumer, INITSTK, INITPRIO, "producer", 0);
-	tid_typ pro = create(producer, INITSTK, INITPRIO, "consumer", 0);
-	tid_typ pri = create(print_thread, INITSTK, 100, "bufprint", 0);
-
-	ready_multi(con, 1);
-	ready_multi(pro, 2);
-	ready_multi(pri, 3);
-
-//	kprintf("\r\n%d %d %d\r\n", core_affinity[con], core_affinity[pro],
-//							core_affinity[pri]);
-
-#endif
 	return 0;
 }
 
-static thread test_thread(int count)
+void printQueue(qid_typ q)
 {
-	disable();
-	udelay(100);
-	uint cpuid = getcpuid();
-	int i;
-	for (i = 0; i < count; i++)
+	int next, tail;
+
+	next = quetab[quehead(q)].next;
+	tail = quetail(q);
+	while (next != tail)
 	{
-		kprintf("\rtest_thread: %d\r\n", i);
-		resched();
+		kprintf("[%d : %d,%d : %d]\r\n", quetab[next].prev, next, quetab[next].key, quetab[next].next);
+		next = quetab[next].next;
 	}
-	return OK;
 }
 
-static thread test_thread1()
+void printpcb(int pid)
 {
-	disable();
-	message msg = recvtime(1000);
-	if (TIMEOUT == msg)
+	struct thrent *ppcb = NULL;
+
+	/* Using the process ID, access it in the PCB table. */
+	ppcb = &thrtab[pid];
+
+	/* Printing PCB */
+	kprintf("Process name		  : %s \r\n", ppcb->name);
+
+	switch (ppcb->state)
 	{
-		kprintf("msg timed out\r\n");
-		return OK;
+		case THRFREE:
+			kprintf("State of the process	  : FREE \r\n");
+			break;
+		case THRCURR:
+			kprintf("State of the process 	  : CURRENT \r\n");
+			break;
+		case THRSUSP:
+			kprintf("State of the process	  : SUSPENDED \r\n");
+			break;
+		case THRREADY:
+			kprintf("State of the process	  : READY \r\n");
+			break;
+		default:
+			kprintf("ERROR: Process state not correctly set!\r\n");
+			break;
 	}
-	kprintf("received: %d\r\n", msg);
-	return OK;
+
+	/* Print PCB contents and registers */
+	kprintf("Base of run time stack    : 0x%08X \r\n", ppcb->stkbase);
+	kprintf("Stack length of process   : %8u \r\n", ppcb->stklen);
 }
 
-static thread test_thread2(tid_typ tid)
+shellcmd xsh_test(int nargs, char *args[])
 {
-	disable();
-	send(tid, 1234);
-	return OK;
-}
+	int c, pid;
+	int pids[12];
 
-static thread consumer(void)
-{
-	disable();
+	kprintf("0) Test creation of one process\r\n");
+	kprintf("1) Test passing of many args\r\n");
+	kprintf("2) Create three processes and run them\r\n");
+	kprintf("3) Create three processes and run them on other cores\r\n");
+	kprintf("4) Single-core Priority Scheduling\r\n");
+	kprintf("5) Multicore Priority Scheduling (RESCHED_YES)\r\n");
+	kprintf("6) Multicore Priority Scheduling (RESCHED_NO)\r\n");
 
-	unsigned int item;
+	printf("===TEST BEGIN===\r\n");
 
-	while (TRUE)
+	// TODO: Test your operating system!
+
+	c = getc(CONSOLE);
+	switch (c)
 	{
-		/* wait while buffer is empty */
-		while (in == out)
-		{
-			udelay(rand() % 500);
-			pld(&in);
-			pld(&out);
-		}
+		case '0':
+			// Process creation testcase
+			pid = create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL);
+			printpcb(pid);
+			break;
+
+		case '1':
+			// Many arguments testcase
+			//pid = create((void *)testbigargs, INITSTK, 2, "MAIN1", 8,
+			//             0x11111111, 0x22222222, 0x33333333, 0x44444444,
+			//             0x55555555, 0x66666666, 0x77777777, 0x88888888);
+			printpcb(pid);
+			// TODO: print out stack with extra args
+			// TODO: ready(pid, RESCHED_YES, 0);
+			break;
+
+		case '2':
+			// Create three copies of a process, and let them play.
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO , 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_YES, 0);
+			break;
+
+		case '3':
+			// Create 3 processes and ready them on cores 1, 2, 3
+			ready(create((void *)testmain, INITSTK, 2, "MAIN1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN2", 0, NULL), RESCHED_NO, 2);
+			//break;
+			ready(create((void *)testmain, INITSTK, 2, "MAIN3", 0, NULL), RESCHED_NO, 3);
+			break;
+		case '4':
+			//priority scheduling on the same core; expected output: A, then B or D, end with C
+			ready(create((void *)testmain, INITSTK, 1, "MAIN A", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN B", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "MAIN C", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "MAIN D", 0, NULL), RESCHED_NO, 0);
+			break;
+		case '5':
+			//create 3 processes on each core with different priorities; resched on
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 0);
+	
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 1);
+
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 2);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_YES, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_YES, 3);
+			
+			break;		
+		case '6':
+			//create 3 processes on each core with different priorities, resched off
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 0);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 0);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 1);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 1);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 2);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 2);
+			
+			ready(create((void *)testmain, INITSTK, 1, "PRIORITY1", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 2, "PRIORITY2", 0, NULL), RESCHED_NO, 3);
+			ready(create((void *)testmain, INITSTK, 3, "PRIORITY3", 0, NULL), RESCHED_NO, 3);
 		
-		wait(bufsem);
-
-		pldw(&out);
-		pld(&buffer[out]);
-
-		item = buffer[out];		// consume
-		out = (out + 1) % BUFLEN;
-	
-		dmb();
-
-		signal(bufsem);	
-	}	
-}
-
-static thread producer(void)
-{
-	disable();
-	while (TRUE)
-	{
-	
-		while (((in + 1) % BUFLEN) == out)
-		{
-			udelay(rand() % 500);
-			pld(&in);
-			pld(&out);
-		}
-	
-		wait(bufsem);
-
-		pldw(&in);
-		pldw(&buffer[in]);
-
-		/* produce */
-		buffer[in] = rand() % 1000;
-		in = (in + 1) % BUFLEN;
-
-		dmb();
-
-		signal(bufsem);
+#if 0
+			for (int i = 0; i < 4; i++)
+			{	
+				kprintf("readylist[%d] dump:\r\n", i);
+				printQueue(readylist[i]);
+				kprintf("\r\n");
+			}
+#endif
+			break;
+		default:
+			break;
 	}
-}
 
-static thread print_thread(void)
-{
-	disable();
-
-	int i;
-
-	while (TRUE)
-	{
-		udelay(2000);
-		wait(bufsem);
-
-		for (i = 0; i < BUFLEN; i++)
-		{
-			pld(&buffer[i]);
-		}
-		pld(&in);
-		pld(&out);
-
-		kprintf("\r\nbuffer: ");
-		for (i = 0; i < BUFLEN; i++)
-		{
-			kprintf("%d ", buffer[i]);
-		}
-		kprintf("\r\n");
-		kprintf("in: %d; out: %d\r\n", in, out);
-
-		signal(bufsem);
-
-	}
+	kprintf("\r\n===TEST END===\r\n");
+	return;
 }

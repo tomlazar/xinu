@@ -1,3 +1,4 @@
+#include <core.h>
 #include <kernel.h>
 #include <backplane.h>
 #include <clock.h>

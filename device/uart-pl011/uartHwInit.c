@@ -80,9 +80,6 @@ devcall uartHwInit(device *devptr)
 {
     volatile struct pl011_uart_csreg *regptr = devptr->csr;
 
-    /* TODO:  It doesn't work without this delay, but why? */
-    udelay(1500);
-
     /* Disable the UART by zeroing the "control register".  */
     regptr->cr = 0;
 

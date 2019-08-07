@@ -1,0 +1,121 @@
+\hypertarget{group__monitors}{\section{Monitors}
+\label{group__monitors}\index{Monitors@{Monitors}}
+}
+
+
+Monitor creation, locking, unlocking, and freeing.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__monitors_ga890b5cddd6552af757ba83df0d98411f}{lock} (monitor mon)
+\item 
+syscall \hyperlink{group__monitors_ga1468f65ae8caff736b49bfadda072306}{moncount} (monitor mon)
+\item 
+monitor \hyperlink{group__monitors_ga847945847782446b422b90615a2d04eb}{moncreate} (void)
+\item 
+syscall \hyperlink{group__monitors_gaf0f342ddccbef6e4195e3314bf3847e0}{monfree} (monitor mon)
+\item 
+syscall \hyperlink{group__monitors_ga298f8477f3e145fe2402e9b00be084cf}{unlock} (monitor mon)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Monitor creation, locking, unlocking, and freeing. 
+
+\subsection{Function Documentation}
+\hypertarget{group__monitors_ga890b5cddd6552af757ba83df0d98411f}{\index{Monitors@{Monitors}!lock@{lock}}
+\index{lock@{lock}!Monitors@{Monitors}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}syscall lock (
+\begin{DoxyParamCaption}
+\item[{monitor}]{mon}
+\end{DoxyParamCaption}
+)}}\label{group__monitors_ga890b5cddd6552af757ba83df0d98411f}
+Lock a monitor.
+
+If no thread owns the monitor, its owner is set to the current thread and its count is set to 1.
+
+If the current thread already owns the monitor, its count is incremented and no further action is taken.
+
+If another thread owns the monitor, the current thread waits for the monitor to become fully unlocked by that thread, then sets its owner to the current thread and its count to 1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mon} & The monitor to lock.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure ({\ttfamily mon} did not specify a valid, allocated monitor). 
+\end{DoxyReturn}
+\hypertarget{group__monitors_ga1468f65ae8caff736b49bfadda072306}{\index{Monitors@{Monitors}!moncount@{moncount}}
+\index{moncount@{moncount}!Monitors@{Monitors}}
+\subsubsection[{moncount}]{\setlength{\rightskip}{0pt plus 5cm}syscall moncount (
+\begin{DoxyParamCaption}
+\item[{monitor}]{mon}
+\end{DoxyParamCaption}
+)}}\label{group__monitors_ga1468f65ae8caff736b49bfadda072306}
+Retrieve the count of a monitor --- that is, the number of times it has been locked by the owning thread, or 0 if no thread currently owns the monitor.
+
+This function performs no locking. The caller must temporarily disable interrupts if the specified monitor could potentially be freed, locked, or unlocked concurrently.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mon} & The monitor to retrieve the count of.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If {\ttfamily mon} specified a valid, allocated monitor, its count is returned. Otherwise, \-::\-S\-Y\-S\-E\-R\-R is returned. 
+\end{DoxyReturn}
+\hypertarget{group__monitors_ga847945847782446b422b90615a2d04eb}{\index{Monitors@{Monitors}!moncreate@{moncreate}}
+\index{moncreate@{moncreate}!Monitors@{Monitors}}
+\subsubsection[{moncreate}]{\setlength{\rightskip}{0pt plus 5cm}monitor moncreate (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__monitors_ga847945847782446b422b90615a2d04eb}
+Create and initialize a new monitor.
+
+\begin{DoxyReturn}{Returns}
+On success, returns the new monitor. On failure (system is out of monitors or semaphores), returns \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__monitors_gaf0f342ddccbef6e4195e3314bf3847e0}{\index{Monitors@{Monitors}!monfree@{monfree}}
+\index{monfree@{monfree}!Monitors@{Monitors}}
+\subsubsection[{monfree}]{\setlength{\rightskip}{0pt plus 5cm}syscall monfree (
+\begin{DoxyParamCaption}
+\item[{monitor}]{mon}
+\end{DoxyParamCaption}
+)}}\label{group__monitors_gaf0f342ddccbef6e4195e3314bf3847e0}
+Free a monitor previously allocated with \hyperlink{group__monitors_ga847945847782446b422b90615a2d04eb}{moncreate()}.
+
+A monitor must only be freed when no thread has it locked -- that is, either the monitor is unowned, or is owned by a thread that has been killed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mon} & The monitor to free.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure ({\ttfamily mon} did not specify a valid, allocated monitor). 
+\end{DoxyReturn}
+\hypertarget{group__monitors_ga298f8477f3e145fe2402e9b00be084cf}{\index{Monitors@{Monitors}!unlock@{unlock}}
+\index{unlock@{unlock}!Monitors@{Monitors}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}syscall unlock (
+\begin{DoxyParamCaption}
+\item[{monitor}]{mon}
+\end{DoxyParamCaption}
+)}}\label{group__monitors_ga298f8477f3e145fe2402e9b00be084cf}
+Unlock a monitor.
+
+The monitor's lock count (indicating the number of times the owning thread has locked the monitor) is decremented. If the count remains greater than zero, no further action is taken. If the count reaches zero, the monitor is set to unowned and up to one thread that may be waiting to \hyperlink{group__monitors_ga890b5cddd6552af757ba83df0d98411f}{lock()} the monitor is awakened.
+
+This normally should be called by the owning thread of the monitor subsequently to a \hyperlink{group__monitors_ga890b5cddd6552af757ba83df0d98411f}{lock()} by the same thread, but this also may be called moncount(mon) times to fully unlock a monitor that was owned by a thread that has been killed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mon} & The monitor to unlock.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R on failure ({\ttfamily mon} did not specify a valid, allocated monitor with nonzero lock count). 
+\end{DoxyReturn}

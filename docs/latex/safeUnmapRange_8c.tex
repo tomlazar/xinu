@@ -1,0 +1,33 @@
+\hypertarget{safeUnmapRange_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Unmap\-Range.c File Reference}
+\label{safeUnmapRange_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Unmap\-Range.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/safe\-Unmap\-Range.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{safeUnmapRange_8c_aaa62da8fb48619c726f64ddfba6c61c4}{safe\-Unmap\-Range} (void $\ast$start, uint length)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Remove a range of pages from page table. 
+
+\subsection{Function Documentation}
+\hypertarget{safeUnmapRange_8c_aaa62da8fb48619c726f64ddfba6c61c4}{\index{safe\-Unmap\-Range.\-c@{safe\-Unmap\-Range.\-c}!safe\-Unmap\-Range@{safe\-Unmap\-Range}}
+\index{safe\-Unmap\-Range@{safe\-Unmap\-Range}!safeUnmapRange.c@{safe\-Unmap\-Range.\-c}}
+\subsubsection[{safe\-Unmap\-Range}]{\setlength{\rightskip}{0pt plus 5cm}int safe\-Unmap\-Range (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{start, }
+\item[{uint}]{length}
+\end{DoxyParamCaption}
+)}}\label{safeUnmapRange_8c_aaa62da8fb48619c726f64ddfba6c61c4}
+Remove a range of pages from a page table starting at start and ending after length bytes. 
+\begin{DoxyParams}{Parameters}
+{\em start} & beginning page address to remove. \\
+\hline
+{\em length} & number of bytes to unmap for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+non-\/zero value on failure. 
+\end{DoxyReturn}

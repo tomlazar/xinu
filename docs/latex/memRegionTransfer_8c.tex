@@ -1,0 +1,30 @@
+\hypertarget{memRegionTransfer_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Transfer.c File Reference}
+\label{memRegionTransfer_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Transfer.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/mem/mem\-Region\-Transfer.\-c}}
+}
+{\ttfamily \#include $<$safemem.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{memRegionTransfer_8c_af54a0dccbeb6d3f20b826db77cc18ec7}{mem\-Region\-Transfer} (void $\ast$start, tid\-\_\-typ tid)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Transfer a memory region to a new thread. 
+
+\subsection{Function Documentation}
+\hypertarget{memRegionTransfer_8c_af54a0dccbeb6d3f20b826db77cc18ec7}{\index{mem\-Region\-Transfer.\-c@{mem\-Region\-Transfer.\-c}!mem\-Region\-Transfer@{mem\-Region\-Transfer}}
+\index{mem\-Region\-Transfer@{mem\-Region\-Transfer}!memRegionTransfer.c@{mem\-Region\-Transfer.\-c}}
+\subsubsection[{mem\-Region\-Transfer}]{\setlength{\rightskip}{0pt plus 5cm}void mem\-Region\-Transfer (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{start, }
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{memRegionTransfer_8c_af54a0dccbeb6d3f20b826db77cc18ec7}
+Transfer a memory region from the owning thread to a new thread. 
+\begin{DoxyParams}{Parameters}
+{\em start} & beginning address of memory region. \\
+\hline
+{\em tid} & thread id to transfer region to. \\
+\hline
+\end{DoxyParams}

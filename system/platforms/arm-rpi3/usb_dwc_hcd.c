@@ -78,6 +78,8 @@
 #include <usb_hub_defs.h>
 #include <usb_std_defs.h>
 #include "bcm2837.h"
+#include "mmu.h"
+#include <dma_buf.h>
 
 /** Round a number up to the next multiple of the word size.  */
 #define WORD_ALIGN(n) (((n) + sizeof(ulong) - 1) & ~(sizeof(ulong) - 1))
@@ -108,7 +110,6 @@ static volatile struct dwc_regs * const regs = (void*)DWC_REGS_BASE;
  */
 #define XFER_SCHEDULER_THREAD_PRIORITY 60
 
-//
 /** Name of USB transfer request scheduler thread.  */
 #define XFER_SCHEDULER_THREAD_NAME "USB scheduler"
 
@@ -159,9 +160,23 @@ static semaphore chfree_sema;
  */
 static struct usb_xfer_request *channel_pending_xfers[DWC_NUM_CHANNELS];
 
-/** Aligned buffers for DMA.  */
-static uint8_t aligned_bufs[DWC_NUM_CHANNELS][WORD_ALIGN(USB_MAX_PACKET_SIZE)]
-                                __aligned(4);
+/* Aligned buffers for DMA.
+ * In the conception of this driver in Embedded Xinu 2.01 (circa 2013),
+ * there existed two possibilities for DMA buffer:
+ * 	1. DMA over the hardware if the data is word-aligned
+ *	OR
+ *	2. DMA manually through a two-dimensional "aligned_bufs" buffer
+ *		and read/write using memcpy()
+ * 
+ * Because Embedded Xinu 3.0 (2019 port) enables L1 data cache to facilitate
+ * multicore atomic operations, DMA needs to be guarded to maintain
+ * cache coherency. ARM Cortex A-53 cache maintenance operations are 
+ * somewhat ambiguous. For example, the invalidate operation (DCIMVAC)
+ * may also "clean" (flush) the data cache line. Thus, it was an easier
+ * decision to adhere to only #2 above, and allocate a section in memory
+ * for it that is uncached (see mmu.c).
+ * */
+static uint8_t *aligned_bufs[DWC_NUM_CHANNELS];
 
 /* Find index of first set bit in a nonzero word.  */
 static inline ulong first_set_bit(ulong word)
@@ -170,11 +185,12 @@ static inline ulong first_set_bit(ulong word)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Finds and reserves an unused DWC USB host channel.  This is blocking and
  * waits until a channel is available.
  *
- * @return
- *      Index of the free channel.
+ * @return Index of the free channel.
  */
 static uint
 dwc_get_free_channel(void)
@@ -191,11 +207,12 @@ dwc_get_free_channel(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Marks a channel as free.  This signals any thread that may be waiting for a
  * free channel.
  *
- * @param chan
- *      Index of DWC USB host channel to release.
+ * @param chan	Index of DWC USB host channel to release.
  */
 static void
 dwc_release_channel(uint chan)
@@ -209,7 +226,10 @@ dwc_release_channel(uint chan)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Powers on the DWC hardware.
+ * @return ::USB_STATUS_SUCCESS on successful poweron of the controller; otherwise return ::USB_STATUS_HARDWARE_ERROR
  */
 static usb_status_t
 dwc_power_on(void)
@@ -231,6 +251,8 @@ dwc_power_off(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Performs a software reset of the DWC hardware.  Note: the DWC seems to be in
  * a reset state after the initial power on, so this is only strictly necessary
  * when hcd_start() is entered with the DWC already powered on (e.g. when
@@ -249,13 +271,21 @@ dwc_soft_reset(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Set up the DWC OTG USB Host Controller for DMA (direct memory access).  This
  * makes it possible for the Host Controller to directly access in-memory
  * buffers when performing USB transfers.  Beware: all buffers accessed with DMA
- * must be 4-byte-aligned.  Furthermore, if the L1 data cache is enabled, then
+ * must be 4-byte-aligned.
+ *
+ * Furthermore, if the L1 data cache is enabled, then
  * it must be explicitly flushed to maintain cache coherency since it is
- * internal to the ARM processor.  (This is not currently handled by this driver
- * because Xinu does not enable the L1 data cache.)
+ * internal to the ARM processor. XinuPi3 (Embedded Xinu version 3.0 2019) has
+ * L1 data cache enabled to facilitate multicore atomic operations. Instead of
+ * setting up the MMU to mark all memory cacheable (except peripherals, of course),
+ * we flag a section of memory as uncacheable -- this uncached 1MB section
+ * is used for the DMA buffer (aligned_bufs) for USB, among other buffers
+ * (for instance, the LAN7800 mailbox buffer).
  */
 static void
 dwc_setup_dma_mode(void)
@@ -285,10 +315,13 @@ dwc_setup_dma_mode(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Read the Host Port Control and Status register with the intention of
  * modifying it.  Due to the inconsistent design of the bits in this register,
  * this requires zeroing the write-clear bits so they aren't unintentionally
  * cleared by writing back 1's to them.
+ * @return Status register of the Host Port
  */
 static union dwc_host_port_ctrlstatus
 dwc_get_host_port_ctrlstatus(void)
@@ -303,6 +336,8 @@ dwc_get_host_port_ctrlstatus(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Powers on the DWC host port; i.e. the USB port that is logically attached to
  * the root hub.
  */
@@ -318,6 +353,8 @@ dwc_power_on_host_port(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Resets the DWC host port; i.e. the USB port that is logically attached to the
  * root hub.
  */
@@ -338,7 +375,11 @@ dwc_reset_host_port(void)
     regs->host_port_ctrlstatus = hw_status;
 }
 
-/** Hard-coded device descriptor for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ * 
+ * Hard-coded device descriptor for the faked root hub.
+ */
 static const struct usb_device_descriptor root_hub_device_descriptor = {
     .bLength = sizeof(struct usb_device_descriptor),
     .bDescriptorType = USB_DESCRIPTOR_TYPE_DEVICE,
@@ -356,8 +397,12 @@ static const struct usb_device_descriptor root_hub_device_descriptor = {
     .bNumConfigurations = 1,
 };
 
-/** Hard-coded configuration descriptor, along with an associated interface
- * descriptor and endpoint descriptor, for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded configuration descriptor, along with an associated interface
+ * descriptor and endpoint descriptor, for the faked root hub.  
+ */
 static const struct {
     struct usb_configuration_descriptor configuration;
     struct usb_interface_descriptor interface;
@@ -395,7 +440,11 @@ static const struct {
     },
 };
 
-/** Hard-coded list of language IDs for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded list of language IDs for the faked root hub.
+ */
 static const struct usb_string_descriptor root_hub_string_0 = {
     /* bLength is the base size plus the length of the bString */
     .bLength = sizeof(struct usb_string_descriptor) +
@@ -404,7 +453,11 @@ static const struct usb_string_descriptor root_hub_string_0 = {
     .bString = {USB_LANGID_US_ENGLISH},
 };
 
-/** Hard-coded product string for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded product string for the faked root hub.
+ */
 static const struct usb_string_descriptor root_hub_string_1 = {
     /* bLength is the base size plus the length of the bString */
     .bLength = sizeof(struct usb_string_descriptor) +
@@ -419,13 +472,21 @@ static const struct usb_string_descriptor root_hub_string_1 = {
                 'H', 'u', 'b'},
 };
 
-/** Hard-coded table of strings for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded table of strings for the faked root hub.
+ */
 static const struct usb_string_descriptor * const root_hub_strings[] = {
     &root_hub_string_0,
     &root_hub_string_1,
 };
 
-/** Hard-coded hub descriptor for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded hub descriptor for the faked root hub.
+ */
 static const struct usb_hub_descriptor root_hub_hub_descriptor = {
     /* bDescLength is the base size plus the length of the varData */
     .bDescLength = sizeof(struct usb_hub_descriptor) +
@@ -439,17 +500,25 @@ static const struct usb_hub_descriptor root_hub_hub_descriptor = {
                  0xff, /* PortPwrCtrlMask */ },
 };
 
-/** Hard-coded hub status for the faked root hub.  */
+/** 
+ * @ingroup usbhcd
+ *
+ * Hard-coded hub status for the faked root hub.
+ */
 static const struct usb_device_status root_hub_device_status = {
     .wStatus = USB_DEVICE_STATUS_SELF_POWERED,
 };
 
 /**
+ * @ingroup usbhcd
+ *
  * Pending interrupt transfer (if any) to the root hub's status change endpoint.
  */
 static struct usb_xfer_request *root_hub_status_change_request = NULL;
 
 /**
+ * @ingroup usbhcd
+ *
  * Saved status of the host port.  This is modified when the host controller
  * issues an interrupt due to a host port status change.  The reason we need to
  * keep track of this status in a separate variable rather than using the
@@ -459,6 +528,8 @@ static struct usb_xfer_request *root_hub_status_change_request = NULL;
 static struct usb_port_status host_port_status;
 
 /**
+ * @ingroup usbhcd
+ *
  * Called when host_port_status has been updated so that any status change
  * interrupt transfer that was sent to the root hub can be fulfilled.
  */
@@ -481,16 +552,16 @@ dwc_host_port_status_changed(void)
 
 
 /**
+ * @ingroup usbhcd
+ *
  * Fake a standard (i.e. not hub-specific) control message request to the root
  * hub.
  *
- * @param req
- *      Standard request to the root hub to fake.
+ * @param req	Standard request to the root hub to fake.
  *
- * @return
- *      ::USB_STATUS_SUCCESS if request successfully processed; otherwise
- *      another ::usb_status_t error code, such as
- *      ::USB_STATUS_UNSUPPORTED_REQUEST.
+ * @return ::USB_STATUS_SUCCESS if request successfully processed; otherwise
+ * 	another ::usb_status_t error code, such as
+ * 	::USB_STATUS_UNSUPPORTED_REQUEST.
  */
 static usb_status_t
 dwc_root_hub_standard_request(struct usb_xfer_request *req)
@@ -556,11 +627,12 @@ dwc_root_hub_standard_request(struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Fills in a <code>struct ::usb_hub_status</code> (which is in the USB standard
  * format) with the current status of the root hub.
  *
- * @param status
- *      The hub status structure to fill in.
+ * @param status	The hub status structure to fill in.
  */
 static void
 dwc_get_root_hub_status(struct usb_hub_status *status)
@@ -571,7 +643,11 @@ dwc_get_root_hub_status(struct usb_hub_status *status)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Handle a SetPortFeature request on the port attached to the root hub.
+ * @param feature	Enumeration of feature to set
+ * @return ::USB_STATUS_SUCCESS on successful request, ::USB_STATUS_UNSUPPORTED_REQUEST otherwise
  */
 static usb_status_t
 dwc_set_host_port_feature(enum usb_port_feature feature)
@@ -591,7 +667,11 @@ dwc_set_host_port_feature(enum usb_port_feature feature)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Handle a ClearPortFeature request on the port attached to the root hub.
+ * @param feature	Enumeration of feature to set
+ * @return ::USB_STATUS_SUCCESS on successful request, ::USB_STATUS_UNSUPPORTED_REQUEST otherwise
  */
 static usb_status_t
 dwc_clear_host_port_feature(enum usb_port_feature feature)
@@ -620,13 +700,13 @@ dwc_clear_host_port_feature(enum usb_port_feature feature)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Fake a hub-class-specific control message request to the root hub.
  *
- * @param req
- *      Hub-class-specific request to the root hub to fake.
+ * @param req	Hub-class-specific request to the root hub to fake.
  *
- * @return
- *      ::USB_STATUS_SUCCESS if request successfully processed; otherwise
+ * @return ::USB_STATUS_SUCCESS if request successfully processed; otherwise
  *      another ::usb_status_t error code, such as
  *      ::USB_STATUS_UNSUPPORTED_REQUEST.
  */
@@ -706,7 +786,14 @@ dwc_root_hub_class_request(struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Fake a control transfer to or from the root hub.
+ * @param req	USB transfer to fake
+ * 
+ * @return ::USB_STATUS_SUCCESS if request successfully processed; otherwise
+ * 	another ::usb_status_t error code, such as
+ * 	::USB_STATUS_UNSUPPORTED_REQUEST.
  */
 static usb_status_t
 dwc_root_hub_control_msg(struct usb_xfer_request *req)
@@ -722,7 +809,10 @@ dwc_root_hub_control_msg(struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Fake a request to the root hub.
+ * @param req	USB transfer to fake
  */
 static void
 dwc_process_root_hub_request(struct usb_xfer_request *req)
@@ -748,12 +838,12 @@ dwc_process_root_hub_request(struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Starts a low-level transaction on the USB.
  *
- * @param chan
- *      Index of the host channel to start the transaction on.
- * @param req
- *      USB request set up for the next transaction
+ * @param chan	Index of the host channel to start the transaction on.
+ * @param req	USB request set up for the next transaction
  */
 static void
 dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
@@ -805,6 +895,8 @@ dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Starts or restarts a USB transfer on a channel of the DesignWare Hi-Speed USB
  * 2.0 OTG Controller.
  *
@@ -813,10 +905,8 @@ dwc_channel_start_transaction(uint chan, struct usb_xfer_request *req)
  * documentation about the registers used here can be found in the declaration
  * of dwc_regs::dwc_host_channel.
  *
- * @param chan
- *      Index of the host channel to start the transfer on.
- * @param req
- *      USB transfer to start.
+ * @param chan	Index of the host channel to start the transfer on.
+ * @param req	USB transfer to start.
  */
 static void
 dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
@@ -985,39 +1075,17 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
         }
     }
 
-    /* Set up DMA buffer.  */
-    if (IS_WORD_ALIGNED(data))
+    /* Set up DMA buffer. The data must be OR'd with 0xC0000000 for conversion from
+     * ARM physical address to VideoCore address */
+    chanptr->dma_address = (uint32_t) aligned_bufs[chan] | 0xC0000000;    
+    
+    /* For OUT endpoints, copy the data to send into the DMA buffer.  */
+    if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
     {
-	/* IMPORTANT: This address must be OR'ed with 0xC0000000 in order to
-	 * convert the address from ARM to VC4. This is done both times which
-	 * the DMA address is stored.
-         * Can DMA directly from source or to destination if word-aligned.  */
-        chanptr->dma_address = (uint32_t)data | 0xC0000000;
-    }
-    else
-    {
-        /* Need to use alternate buffer for DMA, since the actual source or
-         * destination is not word-aligned.  If the attempted transfer size
-         * overflows this alternate buffer, cap it to the greatest number of
-         * whole packets that fit.  */
-        chanptr->dma_address = (uint32_t)aligned_bufs[chan] | 0xC0000000;
-        if (transfer.size > sizeof(aligned_bufs[chan]))
-        {
-            transfer.size = sizeof(aligned_bufs[chan]) -
-                            (sizeof(aligned_bufs[chan]) %
-                              characteristics.max_packet_size);
-            req->short_attempt = 1;
-        }
-        /* For OUT endpoints, copy the data to send into the DMA buffer.  */
-        if (characteristics.endpoint_direction == USB_DIRECTION_OUT)
-        {
-            memcpy(aligned_bufs[chan], data, transfer.size);
-        }
+        memcpy(aligned_bufs[chan], data, transfer.size);
     }
 
-    /* Set pointer to start of next chunk of data to send/receive (may be
-     * different from the actual DMA address to be used by the hardware if an
-     * alternate buffer was selected above).  */
+    /* Set pointer to start of next chunk of data to send/receive */
     req->cur_data_ptr = data;
 
     /* Calculate the number of packets being set up for this transfer.  */
@@ -1072,15 +1140,14 @@ dwc_channel_start_xfer(uint chan, struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Thread procedure for the threads created in defer_xfer().
  *
  * Instances of this thread are killed in usb_free_xfer_request().
  *
- * @param req
- *      USB transfer request to defer.
- *
- * @return
- *      This thread never returns.
+ * @param req	USB transfer request to defer.
+ * @return This thread never returns.
  */
 static thread
 defer_xfer_thread(struct usb_xfer_request *req)
@@ -1142,6 +1209,8 @@ defer_xfer_thread(struct usb_xfer_request *req)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Called when a USB transfer needs to be retried at a later time due to no data
  * being available from the endpoint.
  *
@@ -1165,11 +1234,9 @@ defer_xfer_thread(struct usb_xfer_request *req)
  * and energy.  But with USB 2.0, there is no way around this, other than by
  * suspending the USB device which we don't support.
  *
- * @param req
- *      USB transfer to defer.
+ * @param req	USB transfer to defer.
  *
- * @return
- *      ::USB_STATUS_SUCCESS if deferral process successfully started; otherwise
+ * @return ::USB_STATUS_SUCCESS if deferral process successfully started; otherwise
  *      another ::usb_status_t error code.
  */
 static usb_status_t
@@ -1192,7 +1259,7 @@ defer_xfer(struct usb_xfer_request *req)
                                          DEFER_XFER_THREAD_PRIORITY,
                                          DEFER_XFER_THREAD_NAME,
                                          1, req);
-        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO))
+        if (SYSERR == ready(req->deferer_thread_tid, RESCHED_NO, 0))
         {
             req->deferer_thread_tid = BADTID;
             usb_dev_error(req->dev,
@@ -1204,7 +1271,11 @@ defer_xfer(struct usb_xfer_request *req)
     return USB_STATUS_SUCCESS;
 }
 
-/** Internal transfer status codes used to simplify interrupt handling.  */
+/**
+ * @ingroup usbhcd 
+ *
+ * Internal transfer status codes used to simplify interrupt handling.  
+ */
 enum dwc_intr_status {
     XFER_COMPLETE            = 0,
     XFER_FAILED              = 1,
@@ -1214,7 +1285,13 @@ enum dwc_intr_status {
 };
 
 /**
+ * @ingroup usbhcd
+ *
  * Handle a channel halting with no apparent error.
+ * @param req		USB transfer to handle
+ * @param chan		Host channel halted
+ * @param interrupts	Channel interrupts received
+ * @return ::XFER_COMPLETE on success, otherwise return an error code such as ::XFER_NEEDS_RESTART
  */
 static enum dwc_intr_status
 dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
@@ -1241,9 +1318,8 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
         enum usb_direction dir = characteristics.endpoint_direction;
         enum usb_transfer_type type = characteristics.endpoint_type;
 
-        /* Calculate number of bytes transferred and copy data from DMA
-         * buffer if needed.  */
-
+        /* Calculate number of bytes transferred and
+	 * copy data from DMA buffer. */
         if (dir == USB_DIRECTION_IN)
         {
             /* The transfer.size field seems to be updated sanely for IN
@@ -1251,15 +1327,11 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
              * impossible to determine the length of short packets...)  */
             bytes_transferred = req->attempted_bytes_remaining -
                                 chanptr->transfer.size;
-            /* Copy data from DMA buffer if needed */
-            if (!IS_WORD_ALIGNED(req->cur_data_ptr))
-            {
-	        usb_dev_debug(req->dev, "\r\n\n------------------------------\r\nCOPY FROM DMA BUFFER.\r\n\n----------------------------\r\n\n");
-                memcpy(req->cur_data_ptr,
-                       &aligned_bufs[chan][req->attempted_size -
-                                           req->attempted_bytes_remaining],
-                       bytes_transferred);
-            }
+
+            /* Copy data from DMA buffer */
+            memcpy(req->cur_data_ptr,
+                &aligned_bufs[chan][req->attempted_size - req->attempted_bytes_remaining],
+                bytes_transferred);
         }
         else
         {
@@ -1410,13 +1482,13 @@ dwc_handle_normal_channel_halted(struct usb_xfer_request *req, uint chan,
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Handle a channel halted interrupt on the specified channel.  This can occur
  * anytime after dwc_channel_start_transaction() enabled the channel and the
  * corresponding channel halted interrupt.
  *
- * @param chan
- *      Index of the DWC host channel on which the channel halted interrupt
- *      occurred.
+ * @param chan	Index of the DWC host channel on which the channel halted interrupt occurred.
  */
 static void
 dwc_handle_channel_halted_interrupt(uint chan)
@@ -1484,7 +1556,6 @@ dwc_handle_channel_halted_interrupt(uint chan)
     }
     else
     {
-	usb_dev_debug(req->dev, "\r\n****\n\nNO ERROR, HALT CHANNEL.\r\n\n***\n");
         /* No apparent error occurred.  */
         intr_status = dwc_handle_normal_channel_halted(req, chan, interrupts);
     }
@@ -1560,6 +1631,8 @@ dwc_handle_channel_halted_interrupt(uint chan)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Interrupt handler function for the Synopsys DesignWare Hi-Speed USB 2.0
  * On-The-Go Controller (DWC).  This should only be called when an interrupt
  * this driver explicitly enabled is pending.  See the comment above
@@ -1677,6 +1750,8 @@ dwc_interrupt_handler(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Performs initial setup of the Synopsys Designware USB 2.0 On-The-Go
  * Controller (DWC) interrupts.
  *
@@ -1742,20 +1817,23 @@ dwc_setup_interrupts(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Queue of USB transfer requests that have been submitted to the Host
  * Controller Driver but not yet started on a channel.
  */
 static mailbox hcd_xfer_mailbox;
 
 /**
+ * @ingroup usbhcd
+ *
  * USB transfer request scheduler thread:  This thread repeatedly waits for next
  * USB transfer request that needs to be scheduled, waits for a free channel,
  * then starts the transfer request on that channel.  This is obviously a very
  * simplistic scheduler as it does not take into account bandwidth requirements
  * or which endpoint a transfer is for.
  *
- * @return
- *      This thread never returns.
+ * @return This thread never returns.
  */
 static thread
 dwc_schedule_xfer_requests(void)
@@ -1783,9 +1861,12 @@ dwc_schedule_xfer_requests(void)
 }
 
 /**
+ * @ingroup usbhcd
+ *
  * Initialize a bitmask and semaphore that keep track of the free/inuse status
  * of the host channels and a queue in which to place submitted USB transfer
  * requests, then start the USB transfer request scheduler thread.
+ * @return ::USB_STATUS_SUCCESS on successful initialization, otherwise return ::USB_STATUS_OUT_OF_MEMORY
  */
 static usb_status_t
 dwc_start_xfer_scheduler(void)
@@ -1809,7 +1890,7 @@ dwc_start_xfer_scheduler(void)
                                     XFER_SCHEDULER_THREAD_STACK_SIZE,
                                     XFER_SCHEDULER_THREAD_PRIORITY,
                                     XFER_SCHEDULER_THREAD_NAME, 0);
-    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO))
+    if (SYSERR == ready(dwc_xfer_scheduler_tid, RESCHED_NO, 0))
     {
         semfree(chfree_sema);
         mailboxFree(hcd_xfer_mailbox);
@@ -1818,13 +1899,26 @@ dwc_start_xfer_scheduler(void)
     return USB_STATUS_SUCCESS;
 }
 
-/* Implementation of hcd_start() for the DesignWare Hi-Speed USB 2.0 On-The-Go
+/**
+ * @ingroup usbhcd
+ *
+ * Implementation of hcd_start() for the DesignWare Hi-Speed USB 2.0 On-The-Go
  * Controller.  See usb_hcdi.h for the documentation of this interface of the
- * Host Controller Driver.  */
+ * Host Controller Driver.  
+ * @return ::USB_STATUS_SUCCESS on successful intitialization of the HCD; otherwise, return ::USB_STATUS_HARDWARE_ERROR or ::USB_STATUS_OUT_OF_MEMORY
+ */
 usb_status_t
 hcd_start(void)
 {
     usb_status_t status;
+    int i;
+
+    /* Allocate an uncached area for the DMA buffer to use, avoiding
+     * the need for cache maintenance operations. */
+    for (i = 0; i < DWC_NUM_CHANNELS; i++)
+    {
+        aligned_bufs[i] = dma_buf_alloc(WORD_ALIGN(USB_MAX_PACKET_SIZE));
+    }
 
     status = dwc_power_on();
     if (status != USB_STATUS_SUCCESS)
@@ -1842,9 +1936,13 @@ hcd_start(void)
     return status;
 }
 
-/* Implementation of hcd_stop() for the DesignWare Hi-Speed USB 2.0 On-The-Go
+/**
+ * @ingroup usbhcd
+ *
+ * Implementation of hcd_stop() for the DesignWare Hi-Speed USB 2.0 On-The-Go
  * Controller.  See usb_hcdi.h for the documentation of this interface of the
- * Host Controller Driver.  */
+ * Host Controller Driver.  
+ */
 void
 hcd_stop(void)
 {
@@ -1865,9 +1963,13 @@ hcd_stop(void)
     dwc_power_off();
 }
 
-/* Implementation of hcd_submit_xfer_request() for the DesignWare Hi-Speed USB
+/**
+ * @ingroup usbhcd
+ * Implementation of hcd_submit_xfer_request() for the DesignWare Hi-Speed USB
  * 2.0 On-The-Go Controller.  See usb_hcdi.h for the documentation of this
- * interface of the Host Controller Driver.  */
+ * interface of the Host Controller Driver.  
+ * @return ::USB_STATUS_SUCCESS after successful sending of mailbox message, ::SYSERR if failure within mailboxSend()
+ */
 /**
  * @details
  *

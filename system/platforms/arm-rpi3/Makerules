@@ -4,34 +4,33 @@
 COMP = system/platforms/arm-rpi3
 
 # Source files for this component
-S_FILES = ctxsw.S          \
-		  halt.S           \
-		  intutils.S       \
-		  irq_handler.S    \
-		  memory_barrier.S \
-		  pause.S	       \
-		  getmode.S	   	   \
-		  getcpuid.S	   \
-		  setupCores.S	   \
-		  setmode.S		   \
-		  mutex_util.S		   \
-		  mmu_util.S	   \
-		  preload_data.S    \
+S_FILES = ctxsw.S               \
+	  halt.S                \
+	  intutils.S            \
+	  irq_handler.S         \
+	  memory_barrier.S      \
+	  pause.S	        \
+	  getmode.S	   	\
+	  getcpuid.S	        \
+	  setupCores.S	        \
+	  setmode.S		\
+	  mmu_util.S	        \
+	  preload_data.S        \
+	  mutex_util.S
 
-C_FILES = setupStack.c       \
-		  bcm2837_power.c    \
-		  dispatch.c         \
-		  kexec.c            \
-		  platforminit.c     \
-		  timer.c            \
-		  usb_dwc_hcd.c      \
-		  watchdog.c		 \
-		  unparkcore.c		 \
-		  mmu.c				 \
-		  random.c			 \
-		  bcm2837_mbox.c		 \
-		  des.c				 \
-		  mutex.c
+C_FILES = setupStack.c          \
+	   bcm2837_power.c      \
+	   dispatch.c           \
+	   kexec.c              \
+	   platforminit.c       \
+	   timer.c              \
+	   usb_dwc_hcd.c        \
+	   watchdog.c		\
+	   unparkcore.c		\
+	   mmu.c		\
+	   random.c		\
+	   bcm2837_mbox.c	\
+	   des.c		
 
 # Add the files to the compile source path
 DIR = ${TOPDIR}/${COMP}

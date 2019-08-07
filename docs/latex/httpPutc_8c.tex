@@ -1,0 +1,33 @@
+\hypertarget{httpPutc_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Putc.c File Reference}
+\label{httpPutc_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Putc.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/http/http\-Putc.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$http.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{httpPutc_8c_ab8ece0bf76f0618c02c9293652479522}{http\-Putc} (device $\ast$devptr, char ch)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{httpPutc_8c_ab8ece0bf76f0618c02c9293652479522}{\index{http\-Putc.\-c@{http\-Putc.\-c}!http\-Putc@{http\-Putc}}
+\index{http\-Putc@{http\-Putc}!httpPutc.c@{http\-Putc.\-c}}
+\subsubsection[{http\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall http\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{httpPutc_8c_ab8ece0bf76f0618c02c9293652479522}
+Write a single character to the H\-T\-T\-P device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & H\-T\-T\-P device table entry \\
+\hline
+{\em ch} & character to output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily ch} as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success; {\ttfamily S\-Y\-S\-E\-R\-R} on failure. 
+\end{DoxyReturn}

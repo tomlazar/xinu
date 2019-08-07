@@ -11,6 +11,7 @@
 #include <shell.h>
 #include <thread.h>
 #include <telnet.h>
+#include <core.h>
 
 thread telnetServerKiller(ushort, ushort);
 
@@ -58,7 +59,7 @@ thread telnetServer(int ethdev, int port, ushort telnetdev,
         sprintf(thrname, "telnetSvrKill_%d", (devtab[telnetdev].minor));
         killtid = create((void *)telnetServerKiller, INITSTK, INITPRIO,
                          thrname, 2, telnetdev, tcpdev);
-        ready(killtid, RESCHED_YES);
+        ready(killtid, RESCHED_YES, CORE_ZERO);
 
         if (open(tcpdev, host, NULL, port, NULL, TCP_PASSIVE) < 0)
         {
@@ -111,7 +112,7 @@ thread telnetServer(int ethdev, int port, ushort telnetdev,
         /* Clear any pending messages */
         recvclr();
         TELNET_TRACE("telnetServer() spawning shell thread %d\n", tid);
-        ready(tid, RESCHED_YES);
+        ready(tid, RESCHED_YES, CORE_ZERO);
 
         // loop until child process dies
         while (recvclr() != tid)

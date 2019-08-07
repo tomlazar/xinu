@@ -1,0 +1,107 @@
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-channel\-:\-:dwc\-\_\-host\-\_\-channel\-\_\-interrupts Union Reference}
+\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a0eed56ac8ec26f428831b4dcdab565f1}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a0eed56ac8ec26f428831b4dcdab565f1}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ae76488d72e8a78d8dc5fa7c0201f1b48}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a080f3a3c1d88ca4d75523795393a12c3}{transfer\_completed}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a5d5cf6f7761bbb8b9c4d81278a4d9db0}{channel\_halted}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab596e821aed848dec17d26de82168c9a}{ahb\_error}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a6f9935f073878b63944c7c1ab1953f1a}{stall\_response\_received}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a0727e2cb21b4ac3806de17ad35ac50eb}{nak\_response\_received}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a8daa1a8ae4126d655625a31d7a5d74ef}{ack\_response\_received}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a50ee2ce16b7d94abd934970835fdbe30}{nyet\_response\_received}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab36c54d540d80b8f74daa75eb6083045}{transaction\_error}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a2b3f505c2a3ec5b0bc2c2f078f6cc33f}{babble\_error}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_acfa88ef39b0d5b954721d5bda7026a6c}{frame\_overrun}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a337ecfce39c6226d51404c5c7b14b5ab}{data\_toggle\_error}: 1\\
+\>uint32\_t {\bfseries buffer\_not\_available}: 1\\
+\>uint32\_t {\bfseries excess\_transaction\_error}: 1\\
+\>uint32\_t {\bfseries frame\_list\_rollover}: 1\\
+\>uint32\_t {\bfseries reserved}: 18\\
+\}; }\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ae76488d72e8a78d8dc5fa7c0201f1b48}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Channel Interrupts Register -\/
+
+Bitmask of status conditions that have occurred on this channel.
+
+These bits can be used with or without \char`\"{}real\char`\"{} interrupts. To have the C\-P\-U get a real interrupt when one of these bits gets set, set the appropriate bit in the interrupt\-\_\-mask, and also ensure that interrupts from the channel are enabled in the host\-\_\-channels\-\_\-interrupt\-\_\-mask register, channel interrupts overall are enabled in the core\-\_\-interrupt\-\_\-mask register, and interrupts from the D\-W\-C hardware overall are enabled in the ahb\-\_\-configuration register and by any system-\/specific interrupt controller. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a8daa1a8ae4126d655625a31d7a5d74ef}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!ack\-\_\-response\-\_\-received@{ack\-\_\-response\-\_\-received}}
+\index{ack\-\_\-response\-\_\-received@{ack\-\_\-response\-\_\-received}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{ack\-\_\-response\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::ack\-\_\-response\-\_\-received}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a8daa1a8ae4126d655625a31d7a5d74ef}
+The device issued an A\-C\-K handshake packet (receiving device acknowledged error-\/free packet). \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab596e821aed848dec17d26de82168c9a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!ahb\-\_\-error@{ahb\-\_\-error}}
+\index{ahb\-\_\-error@{ahb\-\_\-error}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{ahb\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::ahb\-\_\-error}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab596e821aed848dec17d26de82168c9a}
+An error occurred on the A\-R\-M Advanced High-\/\-Performance Bus (A\-H\-B). \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a2b3f505c2a3ec5b0bc2c2f078f6cc33f}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!babble\-\_\-error@{babble\-\_\-error}}
+\index{babble\-\_\-error@{babble\-\_\-error}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{babble\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::babble\-\_\-error}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a2b3f505c2a3ec5b0bc2c2f078f6cc33f}
+Unexpected bus activity occurred. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a5d5cf6f7761bbb8b9c4d81278a4d9db0}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!channel\-\_\-halted@{channel\-\_\-halted}}
+\index{channel\-\_\-halted@{channel\-\_\-halted}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{channel\-\_\-halted}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::channel\-\_\-halted}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a5d5cf6f7761bbb8b9c4d81278a4d9db0}
+The channel has halted. After this bit has been set, the channel sits idle and nothing else will happen until software takes action.
+
+Channels may halt for several reasons. From our experience these cover all possible situations in which software needs to take action, so this is the only channel interrupt that actually needs to be enabled. At least in D\-M\-A mode, the controller to some extent will act autonomously to complete transfers and only issue this interrupt when software needs to take action.
+
+Situations in which a channel will halt include but probably are not limited to\-:
+
+
+\begin{DoxyItemize}
+\item The transfer has completed, thereby setting the transfer\-\_\-completed flag as documented above.
+\item A Start Split or Complete Split transaction has finished.
+\item The hub sent a N\-Y\-E\-T packet when trying to execute a Complete Split transaction, thereby signalling that the Split transaction is not yet complete.
+\item The device sent a N\-A\-K packet, thereby signalling it had no data to send at the time, when trying to execute an I\-N interrupt transfer.
+\item One of several errors has occurred, such as an A\-H\-B error, data toggle error, tranasction error, stall condition, or frame overrun error. 
+\end{DoxyItemize}\hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a337ecfce39c6226d51404c5c7b14b5ab}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!data\-\_\-toggle\-\_\-error@{data\-\_\-toggle\-\_\-error}}
+\index{data\-\_\-toggle\-\_\-error@{data\-\_\-toggle\-\_\-error}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{data\-\_\-toggle\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::data\-\_\-toggle\-\_\-error}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a337ecfce39c6226d51404c5c7b14b5ab}
+When issuing a series of D\-A\-T\-A transactions to an endpoint, the correct D\-A\-T\-A0 or D\-A\-T\-A1 packet I\-D was not specified in the packet\-\_\-id member of the transfer register. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_acfa88ef39b0d5b954721d5bda7026a6c}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!frame\-\_\-overrun@{frame\-\_\-overrun}}
+\index{frame\-\_\-overrun@{frame\-\_\-overrun}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{frame\-\_\-overrun}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::frame\-\_\-overrun}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_acfa88ef39b0d5b954721d5bda7026a6c}
+T\-O\-D\-O \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a0727e2cb21b4ac3806de17ad35ac50eb}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!nak\-\_\-response\-\_\-received@{nak\-\_\-response\-\_\-received}}
+\index{nak\-\_\-response\-\_\-received@{nak\-\_\-response\-\_\-received}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{nak\-\_\-response\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::nak\-\_\-response\-\_\-received}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a0727e2cb21b4ac3806de17ad35ac50eb}
+The device issued a N\-A\-K handshake packet (receiving device cannot accept data or transmitting device cannot send data).
+
+The channel will halt with this bit set when performing an I\-N transfer from an interrupt endpoint that has no data to send. As this requires software intervention to restart the channel, this means that polling of interrupt endpoints (e.\-g. on hubs and H\-I\-D devices) must be done in software, even if the actual transactions themselves are interrupt-\/driven. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a50ee2ce16b7d94abd934970835fdbe30}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!nyet\-\_\-response\-\_\-received@{nyet\-\_\-response\-\_\-received}}
+\index{nyet\-\_\-response\-\_\-received@{nyet\-\_\-response\-\_\-received}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{nyet\-\_\-response\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::nyet\-\_\-response\-\_\-received}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a50ee2ce16b7d94abd934970835fdbe30}
+The device issued a N\-Y\-E\-T handshake packet. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a6f9935f073878b63944c7c1ab1953f1a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!stall\-\_\-response\-\_\-received@{stall\-\_\-response\-\_\-received}}
+\index{stall\-\_\-response\-\_\-received@{stall\-\_\-response\-\_\-received}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{stall\-\_\-response\-\_\-received}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::stall\-\_\-response\-\_\-received}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a6f9935f073878b63944c7c1ab1953f1a}
+The device issued a S\-T\-A\-L\-L handshake packet (endpoint is halted or control pipe request is not supported). \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab36c54d540d80b8f74daa75eb6083045}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!transaction\-\_\-error@{transaction\-\_\-error}}
+\index{transaction\-\_\-error@{transaction\-\_\-error}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{transaction\-\_\-error}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::transaction\-\_\-error}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_ab36c54d540d80b8f74daa75eb6083045}
+From our experience this seems to usually indicate that software programmed the channel incorrectly. \hypertarget{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a080f3a3c1d88ca4d75523795393a12c3}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}!transfer\-\_\-completed@{transfer\-\_\-completed}}
+\index{transfer\-\_\-completed@{transfer\-\_\-completed}!dwc_regs::dwc_host_channel::dwc_host_channel_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts}}
+\subsubsection[{transfer\-\_\-completed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-channel\-::dwc\-\_\-host\-\_\-channel\-\_\-interrupts\-::transfer\-\_\-completed}}\label{uniondwc__regs_1_1dwc__host__channel_1_1dwc__host__channel__interrupts_a080f3a3c1d88ca4d75523795393a12c3}
+The requested U\-S\-B transfer has successfully completed.
+
+Exceptions and caveats\-:
+
+
+\begin{DoxyItemize}
+\item When doing split transactions, this bit will be set after a Complete Split transaction has finished, even though the overall transfer may not actually be complete.
+\item The transfer will only be complete up to the extent that data was programmed into the channel. For example, control transfers have 3 phases, each of which must be programmed into the channel separately. This flag will be set after each of these phases has successfully completed.
+\item An O\-U\-T transfer is otherwise considered complete when exactly the requested number of bytes of data have been successfully transferred, while an I\-N transfer is otherwise considered complete when exactly the requested number of bytes of data have been successfully transferred or a shorter-\/than-\/expected packet was received. 
+\end{DoxyItemize}
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

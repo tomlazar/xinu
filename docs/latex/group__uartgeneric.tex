@@ -1,0 +1,227 @@
+\hypertarget{group__uartgeneric}{\section{U\-A\-R\-T Generic Functions}
+\label{group__uartgeneric}\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}}
+}
+
+
+These U\-A\-R\-T functions are implemented the same way regardless of the exact type of U\-A\-R\-T.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__uartgeneric_ga6a11716b0c463862ca01de0b540fc68c}{kprintf} (const char $\ast$format,...)
+\item 
+syscall \hyperlink{group__uartgeneric_gaf634f79d4d8266eef152ce9f6566eb7d}{kvprintf} (const char $\ast$format, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__uartgeneric_ga14d3c8fd167b9675c24d31202a98a157}{uart\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__uartgeneric_gab370a669e99ede545549211cfb660010}{uart\-Getc} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__uartgeneric_gaaddd148902bf1ef9d260ce4a098bdcf8}{uart\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__uartgeneric_ga69b15b2d7c40d2b80462646c68e2030a}{uart\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__uartgeneric_ga9ae71c7b0411efdeebe223f1b23897c6}{uart\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+void \hyperlink{group__uartgeneric_ga22a7e0cd3b663a3ae8fc817afa382455}{uart\-Stat} (ushort uartnum)
+\item 
+devcall \hyperlink{group__uartgeneric_gafdc38699ceaecbc01f0fa8bf79213f84}{uart\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct uart \hyperlink{group__uartgeneric_gaaba973119f71b1422dd48f51eb1dca51}{uarttab} \mbox{[}N\-U\-A\-R\-T\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+These U\-A\-R\-T functions are implemented the same way regardless of the exact type of U\-A\-R\-T. 
+
+\subsection{Function Documentation}
+\hypertarget{group__uartgeneric_ga6a11716b0c463862ca01de0b540fc68c}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!kprintf@{kprintf}}
+\index{kprintf@{kprintf}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{kprintf}]{\setlength{\rightskip}{0pt plus 5cm}syscall kprintf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_ga6a11716b0c463862ca01de0b540fc68c}
+kernel printf\-: Multicore-\/safe (by mutex locks), formatted, synchronous output to S\-E\-R\-I\-A\-L0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string. Not all standard format specifiers are supported by this implementation. See \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt()} for a description of supported conversion specifications. \\
+\hline
+{\em ...} & Arguments matching those in the format string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of characters written. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_gaf634f79d4d8266eef152ce9f6566eb7d}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!kvprintf@{kvprintf}}
+\index{kvprintf@{kvprintf}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{kvprintf}]{\setlength{\rightskip}{0pt plus 5cm}syscall kvprintf (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{format, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_gaf634f79d4d8266eef152ce9f6566eb7d}
+kernel printf\-: formatted, synchronous output to S\-E\-R\-I\-A\-L0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string. Not all standard format specifiers are supported by this implementation. See \hyperlink{group__libxc_gaf48b30d4bbe6f24fac50996ad08dee81}{\-\_\-doprnt()} for a description of supported conversion specifications. \\
+\hline
+{\em ap} & Arguments matching those in the format string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of characters written. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_ga14d3c8fd167b9675c24d31202a98a157}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Control@{uart\-Control}}
+\index{uart\-Control@{uart\-Control}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_ga14d3c8fd167b9675c24d31202a98a157}
+Control parameters to a U\-A\-R\-T. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to U\-A\-R\-T device \\
+\hline
+{\em func} & index of function to run (defined in uart.\-h) \\
+\hline
+{\em arg1} & first argument to called function \\
+\hline
+{\em arg2} & second argument to called function\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+S\-Y\-S\-E\-R\-R if control function not recognized; otherwise a control-\/function-\/dependent value. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_gab370a669e99ede545549211cfb660010}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Getc@{uart\-Getc}}
+\index{uart\-Getc@{uart\-Getc}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_gab370a669e99ede545549211cfb660010}
+Read a single character from a U\-A\-R\-T.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character read as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On read error, invalid device, or end-\/of file, returns S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_gaaddd148902bf1ef9d260ce4a098bdcf8}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Init@{uart\-Init}}
+\index{uart\-Init@{uart\-Init}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_gaaddd148902bf1ef9d260ce4a098bdcf8}
+Initialize a U\-A\-R\-T, including the entry in Xinu's U\-A\-R\-T table as well as the hardware itself.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for the U\-A\-R\-T.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success; S\-Y\-S\-E\-R\-R on failure. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_ga69b15b2d7c40d2b80462646c68e2030a}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Putc@{uart\-Putc}}
+\index{uart\-Putc@{uart\-Putc}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_ga69b15b2d7c40d2b80462646c68e2030a}
+Write a single character to a U\-A\-R\-T.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T. \\
+\hline
+{\em ch} & The character to write.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character written as an {\ttfamily unsigned char} cast to an {\ttfamily int}. On failure, returns S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_ga9ae71c7b0411efdeebe223f1b23897c6}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Read@{uart\-Read}}
+\index{uart\-Read@{uart\-Read}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_ga9ae71c7b0411efdeebe223f1b23897c6}
+Reads data from a U\-A\-R\-T.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T. \\
+\hline
+{\em buf} & Pointer to a buffer into which to place the read data. \\
+\hline
+{\em len} & Maximum number of bytes of data to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes read, which normally is {\ttfamily len}, but may be less than {\ttfamily len} if the U\-A\-R\-T has been set to non-\/blocking mode. Returns S\-Y\-S\-E\-R\-R on other error (currently, only if \hyperlink{group__uartgeneric_gaaddd148902bf1ef9d260ce4a098bdcf8}{uart\-Init()} has not yet been called). 
+\end{DoxyReturn}
+\hypertarget{group__uartgeneric_ga22a7e0cd3b663a3ae8fc817afa382455}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Stat@{uart\-Stat}}
+\index{uart\-Stat@{uart\-Stat}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Stat}]{\setlength{\rightskip}{0pt plus 5cm}void uart\-Stat (
+\begin{DoxyParamCaption}
+\item[{ushort}]{uartnum}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_ga22a7e0cd3b663a3ae8fc817afa382455}
+Prints information about the current status of a U\-A\-R\-T.
+
+
+\begin{DoxyParams}{Parameters}
+{\em uartnum} & The minor number of the U\-A\-R\-T. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__uartgeneric_gafdc38699ceaecbc01f0fa8bf79213f84}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uart\-Write@{uart\-Write}}
+\index{uart\-Write@{uart\-Write}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uart\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall uart\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__uartgeneric_gafdc38699ceaecbc01f0fa8bf79213f84}
+Write a buffer of data to a U\-A\-R\-T.
+
+Caveat\-: this operates asynchronously, so the data written may be held in an internal buffer and not yet actually written to the hardware. The U\-A\-R\-T driver's lower half (interrupt handler; see \hyperlink{group__uarthardware_ga696bd5bd313d92e9269aafbb9e7843ed}{uart\-Interrupt()}) is responsible for actually writing the data to the hardware. Exception\-: when the U\-A\-R\-T transmitter is idle, \hyperlink{group__uartgeneric_gafdc38699ceaecbc01f0fa8bf79213f84}{uart\-Write()} can directly write one byte to the hardware.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-A\-R\-T. \\
+\hline
+{\em buf} & Pointer to the buffer of data to write. \\
+\hline
+{\em len} & Number of bytes to write.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes written, which normally is {\ttfamily len}, but may be less than {\ttfamily len} if the U\-A\-R\-T has been set to non-\/blocking mode. Returns \-::\-S\-Y\-S\-E\-R\-R on other error (currently, only if \hyperlink{group__uartgeneric_gaaddd148902bf1ef9d260ce4a098bdcf8}{uart\-Init()} has not yet been called). 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\hypertarget{group__uartgeneric_gaaba973119f71b1422dd48f51eb1dca51}{\index{U\-A\-R\-T Generic Functions@{U\-A\-R\-T Generic Functions}!uarttab@{uarttab}}
+\index{uarttab@{uarttab}!UART Generic Functions@{U\-A\-R\-T Generic Functions}}
+\subsubsection[{uarttab}]{\setlength{\rightskip}{0pt plus 5cm}struct uart uarttab\mbox{[}N\-U\-A\-R\-T\mbox{]}}}\label{group__uartgeneric_gaaba973119f71b1422dd48f51eb1dca51}
+Global table of U\-A\-R\-T devices that are available in the current Embedded Xinu configuration. 

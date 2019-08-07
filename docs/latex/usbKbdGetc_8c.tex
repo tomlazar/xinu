@@ -1,0 +1,29 @@
+\hypertarget{usbKbdGetc_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Getc.c File Reference}
+\label{usbKbdGetc_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Getc.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Getc.\-c}}
+}
+{\ttfamily \#include $<$usbkbd.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{usbKbdGetc_8c_a831715939ab4f3c7e38a9bd855b6f3aa}{usb\-Kbd\-Getc} (device $\ast$devptr)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{usbKbdGetc_8c_a831715939ab4f3c7e38a9bd855b6f3aa}{\index{usb\-Kbd\-Getc.\-c@{usb\-Kbd\-Getc.\-c}!usb\-Kbd\-Getc@{usb\-Kbd\-Getc}}
+\index{usb\-Kbd\-Getc@{usb\-Kbd\-Getc}!usbKbdGetc.c@{usb\-Kbd\-Getc.\-c}}
+\subsubsection[{usb\-Kbd\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall usb\-Kbd\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{usbKbdGetc_8c_a831715939ab4f3c7e38a9bd855b6f3aa}
+Read a single character from a U\-S\-B keyboard.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the device table entry for a U\-S\-B keyboard.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the character read as an {\ttfamily unsigned char} cast to an {\ttfamily int}. If keyboard has not been initialized or is in non-\/blocking mode and no data is available, returns \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}

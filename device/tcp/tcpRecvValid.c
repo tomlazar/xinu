@@ -22,7 +22,7 @@ bool tcpRecvValid(struct packet *pkt, struct tcb *tcbptr)
     struct tcpPkt *tcp;
     ushort tcplen;
     tcpseq temp;
-    bool result;
+    bool result = 0;
     bool resultB;
     ushort seglen;
     uint availwnd;

@@ -1,0 +1,38 @@
+\hypertarget{flashWrite_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Write.c File Reference}
+\label{flashWrite_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Write.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Write.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{flashWrite_8c_a6d20f4c36f701e8d6af91003eaeb481d}{flash\-Write} (device $\ast$devptr, uchar $\ast$buffer, ulong block)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A simple, high-\/level interface to write to flash. 
+
+\subsection{Function Documentation}
+\hypertarget{flashWrite_8c_a6d20f4c36f701e8d6af91003eaeb481d}{\index{flash\-Write.\-c@{flash\-Write.\-c}!flash\-Write@{flash\-Write}}
+\index{flash\-Write@{flash\-Write}!flashWrite.c@{flash\-Write.\-c}}
+\subsubsection[{flash\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{uchar $\ast$}]{buffer, }
+\item[{ulong}]{block}
+\end{DoxyParamCaption}
+)}}\label{flashWrite_8c_a6d20f4c36f701e8d6af91003eaeb481d}
+Provides a simple way to write the contents of a block to flash. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & pointer to the flash device \\
+\hline
+{\em $\ast$buffer} & buffer holding content to write (should be flash-\/$>$log\-\_\-size) \\
+\hline
+{\em block} & block number to write to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}

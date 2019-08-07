@@ -6,6 +6,7 @@
 
 #include <thread.h>
 #include <queue.h>
+#include <clock.h>
 
 /**
  * @ingroup threads
@@ -15,61 +16,11 @@
  * @param resch if RESCHED_YES, reschedules
  * @return OK if thread has been added to readylist, else SYSERR
  */
-int ready(tid_typ tid, bool resch)
-{
-    register struct thrent *thrptr;
-	unsigned int cpuid;
-
-	cpuid = getcpuid();
-
-    if (isbadtid(tid))
-    {
-        return SYSERR;
-    }
-
-	thrtab_acquire(tid);
-
-    thrptr = &thrtab[tid];
-    thrptr->state = THRREADY;
-
-	/* if core affinity is not set,
-	 * set affinity to core currently running this code (most likely 0) */
-	if (-1 == core_affinity[tid])
-	{
-		core_affinity[tid] = cpuid;
-	}
-
-#if 0
-	/* do not put in ready list if calling ready from a different cpu */
-	if (cpuid != core_affinity[tid])
-	{
-		thrtab_release(tid);
-		return SYSERR;
-	}
-#endif
-	thrtab_release(tid);
-
-    insert(tid, readylist[core_affinity[tid]], thrptr->prio);
-
-    if (resch == RESCHED_YES)
-    {
-        resched();
-    }
-
-    return OK;
-}
-
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-int ready_multi(tid_typ tid, unsigned int core)
+int ready(tid_typ tid, bool resch, uint core)
 {
 	register struct thrent *thrptr;
 
-//	kprintf("\r[ready_multi] readying tid %d on core %d\r\n", tid, core);
-
-	udelay(25);
-
-	if (isbadtid(tid))
-	{
+	if (isbadtid(tid)){
 		return SYSERR;
 	}
 
@@ -78,15 +29,24 @@ int ready_multi(tid_typ tid, unsigned int core)
 	thrptr = &thrtab[tid];
 	thrptr->state = THRREADY;
 
-	if (-1 == core_affinity[tid])
+	/* if core affinity is not set,
+	 * set affinity to core currently running this code (most likely 0) */
+	unsigned int cpuid;
+	cpuid = getcpuid();
+	if (-1 == thrptr->core_affinity)
 	{
-		core_affinity[tid] = core;
+		thrptr->core_affinity = core;
 	}
 
 	thrtab_release(tid);
 
-	insert(tid, readylist[core_affinity[tid]], thrptr->prio);
+	if (SYSERR == insert(tid, readylist[thrptr->core_affinity], thrptr->prio)){
+		return SYSERR;
+	}
+
+	if ((resch == RESCHED_YES) && (thrptr->core_affinity == cpuid)){
+		resched();
+	}
 
 	return OK;
 }
-#endif

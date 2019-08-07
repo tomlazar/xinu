@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <interrupt.h>
 #include <mailbox.h>
+#include "../system/platforms/arm-rpi3/mmu.h"
 
 /**
  * @ingroup mailbox

@@ -1,0 +1,185 @@
+\hypertarget{group__loopback}{\section{Loopback}
+\label{group__loopback}\index{Loopback@{Loopback}}
+}
+
+
+Loopback Device Driver.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{group__loopback_ga9aca156eb06d8c13bc3bf35e41abb581}{loopback\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__loopback_ga38557e79b7cf307a7182e0b4e6cc4bd4}{loopback\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+devcall \hyperlink{group__loopback_gaded6cc6dd823aa30128f07bfc2cb3cdb}{loopback\-Getc} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__loopback_ga3ea02fb1e741122fa5d352580693905c}{loopback\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__loopback_gabc2f963fc9113f9f03b6924f051f0d14}{loopback\-Open} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__loopback_gacfcefd30f0568e628c5d908e19ea7f71}{loopback\-Putc} (device $\ast$devptr, char ch)
+\item 
+devcall \hyperlink{group__loopback_gadfd7b5c850dc71e89def9e5a5d067997}{loopback\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+devcall \hyperlink{group__loopback_ga6b7827f78cad08b666aa5010c423f98c}{loopback\-Write} (device $\ast$devptr, const void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Loopback Device Driver. This module implements a loopback device. Data written to a loopback device is placed into an internal buffer and then provided to later reads from the device. 
+
+\subsection{Function Documentation}
+\hypertarget{group__loopback_ga9aca156eb06d8c13bc3bf35e41abb581}{\index{Loopback@{Loopback}!loopback\-Close@{loopback\-Close}}
+\index{loopback\-Close@{loopback\-Close}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_ga9aca156eb06d8c13bc3bf35e41abb581}
+Close a loopback device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & loopback device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if loopback is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__loopback_ga38557e79b7cf307a7182e0b4e6cc4bd4}{\index{Loopback@{Loopback}!loopback\-Control@{loopback\-Control}}
+\index{loopback\-Control@{loopback\-Control}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_ga38557e79b7cf307a7182e0b4e6cc4bd4}
+Control function for loopback devices. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__loopback_gaded6cc6dd823aa30128f07bfc2cb3cdb}{\index{Loopback@{Loopback}!loopback\-Getc@{loopback\-Getc}}
+\index{loopback\-Getc@{loopback\-Getc}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Getc}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Getc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_gaded6cc6dd823aa30128f07bfc2cb3cdb}
+Get a character from the loopback buffer, possibly blocking.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the loopback device.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The resulting {\ttfamily ch} as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success; {\ttfamily E\-O\-F} if there is no data available and the device is in nonblocking mode. 
+\end{DoxyReturn}
+\hypertarget{group__loopback_ga3ea02fb1e741122fa5d352580693905c}{\index{Loopback@{Loopback}!loopback\-Init@{loopback\-Init}}
+\index{loopback\-Init@{loopback\-Init}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_ga3ea02fb1e741122fa5d352580693905c}
+Initialize loopback device 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on open 
+\end{DoxyReturn}
+\hypertarget{group__loopback_gabc2f963fc9113f9f03b6924f051f0d14}{\index{Loopback@{Loopback}!loopback\-Open@{loopback\-Open}}
+\index{loopback\-Open@{loopback\-Open}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_gabc2f963fc9113f9f03b6924f051f0d14}
+Open a loopback device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & loopback device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if loopback is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__loopback_gacfcefd30f0568e628c5d908e19ea7f71}{\index{Loopback@{Loopback}!loopback\-Putc@{loopback\-Putc}}
+\index{loopback\-Putc@{loopback\-Putc}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Putc}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Putc (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{char}]{ch}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_gacfcefd30f0568e628c5d908e19ea7f71}
+Put a character onto the loopback buffer
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Loopback device \\
+\hline
+{\em ch} & character to output\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily ch} as an {\ttfamily unsigned char} cast to an {\ttfamily int} on success; {\ttfamily S\-Y\-S\-E\-R\-R} if there is no room in the buffer. 
+\end{DoxyReturn}
+\hypertarget{group__loopback_gadfd7b5c850dc71e89def9e5a5d067997}{\index{Loopback@{Loopback}!loopback\-Read@{loopback\-Read}}
+\index{loopback\-Read@{loopback\-Read}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_gadfd7b5c850dc71e89def9e5a5d067997}
+Read up to the specified number of characters from a loopback.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Loopback device to read from. \\
+\hline
+{\em buf} & Buffer into which to place the read data. \\
+\hline
+{\em len} & Maximum number of characters to read.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns the number of characters read, which may be less than {\ttfamily len} if {\ttfamily E\-O\-F} or a read error occurs. Alternatively, if the loopback device is not open, returns {\ttfamily S\-Y\-S\-E\-R\-R}. 
+\end{DoxyReturn}
+\hypertarget{group__loopback_ga6b7827f78cad08b666aa5010c423f98c}{\index{Loopback@{Loopback}!loopback\-Write@{loopback\-Write}}
+\index{loopback\-Write@{loopback\-Write}!Loopback@{Loopback}}
+\subsubsection[{loopback\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall loopback\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{const void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__loopback_ga6b7827f78cad08b666aa5010c423f98c}
+Write data to the loopbock device.
+
+
+\begin{DoxyParams}{Parameters}
+{\em devptr} & Pointer to the loopback device to write to. \\
+\hline
+{\em buf} & Buffer of data to write. \\
+\hline
+{\em len} & Number of bytes of data to write.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns the number of bytes written, which may be less than {\ttfamily len} in the event of a write error. Alternatively, {\ttfamily S\-Y\-S\-E\-R\-R} is returned if the loopback device is not open or if a write error occurred before any data at all was successfully written. 
+\end{DoxyReturn}

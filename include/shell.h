@@ -19,39 +19,18 @@
 /* Message constants: Updated by the Xinu Team, 2018
  * NONVT100: for platforms that do not support escape codes which provide color. */
 
-#define SHELL_BANNER_DEFAULT "\n\033[1;31m--------------------------------------\n      ____  ___.__                    \n      \\  \\/  /|__| ____  __ __       \n       \\     / |  |/    \\|  |  \\      \n       /     \\ |  |   |  \\  |  /      \n      /___/\\  \\|__|___|  /____/       \n            \\_/        \\/       v2.0  \n--------------------------------------\n\033[0;39m\n"
+#define SHELL_BANNER_PI3 "\n\033[1;96m                                                 _______.\n\033[1;31m------------------------------------------------\033[1;96m/_____./|\033[1;31m------\n    ____  ___\033[1;32m.__   \033[1;31m              .___  \033[1;32m .__  \033[1;96m  | ____ | |\033[1;31m\n    \\   \\/  /\033[1;32m|__|\033[1;31m ____  __ __    |  _ \\ \033[1;32m|__| \033[1;96m  |/ /_| | |\033[1;31m\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   \033[1;96m  |__  | |\033[1;31m\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  \033[1;96m  /___| | .\033[1;31m\n    /___/\\  \\|__|___|  /____/    | |    |__| \033[1;96m  | ______/\033[1;31m\n          \\_/        \\/          |/          \033[1;96m  |/   \033[1;32m\n    2019                 			    v3.0 \033[1;31m\n---------------------------------------------------------------\033[1;39m\n"
 
-#define SHELL_BANNER_DEFAULT_NONVT100 "--------------------------------------\n      ____  ___.__                    \n      \\   \\/  /|__| ____  __ __       \n       \\     / |  |/    \\|  |  \\      \n       /     \\ |  |   |  \\  |  /      \n      /___/\\  \\|__|___|  /____/       \n            \\_/        \\/       v3.14 \n--------------------------------------\n\n"
+#define SHELL_BANNER_PI3_NONVT100 "\n                                                 _______.\n------------------------------------------------/_____./|------\n    ____  ___.__                 .___   .__    | ____ | |\n    \\   \\/  /|__| ____  __ __    |  _ \\ |__|   |/ /_| | |\n     \\     / |  |/    \\|  |  \\   | |_| ||  |     |__  | |\n     /     \\ |  |   |  \\  |  /   |  __/ |  |    /___| | .\n    /___/\\  \\|__|___|  /____/    | |    |__|   | ______/\n          \\_/        \\/          |/            |/   \n    2019                 			    v3.0 \n---------------------------------------------------------------\n"
 
-#define SHELL_BANNER_PI "\n\033[1;31m-----------------------------------------------------\n      ____  ___\033[1;32m.__\033[1;31m                 .___   \033[1;32m.__\033[1;31m\n      \\   \\/  /\033[1;32m|__|\033[1;31m ____  __ __    |  _ \\ \033[1;32m|__|\033[1;31m\n       \\     / |  |/    \\|  |  \\   | |_| ||  |\n       /     \\ |  |   |  \\  |  /   |  __/ |  |\n      /___/\\  \\|__|___|  /____/    | |    |__|\n            \\_/        \\/          |/          v3.14\n-----------------------------------------------------\n\033[0;39m\n"
-
-#define SHELL_BANNER_PI_NONVT100 "-----------------------------------------------------\n      ____  ___.__                 .___   .__\n      \\   \\/  /|__| ____  __ __    |  _ \\ |__|\n       \\     / |  |/    \\|  |  \\   | |_| ||  |\n       /     \\ |  |   |  \\  |  /   |  __/ |  |\n      /___/\\  \\|__|___|  /____/    | |    |__|\n            \\_/        \\/          |/          v3.14\n-----------------------------------------------------\n\n"
-
-#define SHELL_BANNER_PI3 "\n\033[1;96m                                                 _______.\n\033[1;31m------------------------------------------------\033[1;96m/_____./|\033[1;31m------\n    ____  ___\033[1;32m.__   \033[1;31m              .___  \033[1;32m .__  \033[1;96m  | ____ | |\033[1;31m\n    \\   \\/  /\033[1;32m|__|\033[1;31m ____  __ __    |  _ \\ \033[1;32m|__| \033[1;96m  |/ /_| | |\033[1;31m\n     \\     / |  |/    \\|  |  \\   | |_| ||  |   \033[1;96m  |__  | |\033[1;31m\n     /     \\ |  |   |  \\  |  /   |  __/ |  |  \033[1;96m  /___| | .\033[1;31m\n    /___/\\  \\|__|___|  /____/    | |    |__| \033[1;96m  | ______/\033[1;31m\n          \\_/        \\/          |/          \033[1;96m  |/   \033[1;32m\n    2018                 			    v3.14 \033[1;31m\n---------------------------------------------------------------\033[0;39m\n"
-
-#define SHELL_BANNER_PI3_NONVT100 "\n                                                 _______.\n------------------------------------------------/_____./|------\n    ____  ___.__                 .___   .__    | ____ | |\n    \\   \\/  /|__| ____  __ __    |  _ \\ |__|   |/ /_| | |\n     \\     / |  |/    \\|  |  \\   | |_| ||  |     |__  | |\n     /     \\ |  |   |  \\  |  /   |  __/ |  |    /___| | .\n    /___/\\  \\|__|___|  /____/    | |    |__|   | ______/\n          \\_/        \\/          |/            |/   \n    2018                 			    v3.14 \n---------------------------------------------------------------\n"
-
-#ifdef _XINU_PLATFORM_ARM_RPI_
-#  define SHELL_BANNER            SHELL_BANNER_PI
-#  define SHELL_BANNER_NONVT100   SHELL_BANNER_PI_NONVT100
-#elif _XINU_PLATFORM_ARM_RPI_3_
 #  define SHELL_BANNER		  SHELL_BANNER_PI3
 #  define SHELL_BANNER_NONVT100   SHELL_BANNER_PI3_NONVT100
-#else
-#  define SHELL_BANNER            SHELL_BANNER_DEFAULT
-#  define SHELL_BANNER_NONVT100   SHELL_BANNER_DEFAULT_NONVT100
-#endif
 
 /** start message */
 #define SHELL_START     "Welcome to the wonderful world of Xinu!\n"
-//#define SHELL_START     "\033[1;5;37;41mThis is NOT the kernel you are looking for!\033[0;39m\n"
-#define SHELL_EXIT       "Shell closed.\n"  /**< exit message            */
+#define SHELL_EXIT       "Shell closed.\n"  /* exit message            */
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#define SHELL_PROMPT     "\033[1;31mxsh"              /**< prompt                  */
-#else
-#define SHELL_PROMPT	 "xsh"
-#endif
+#define SHELL_PROMPT     "\033[1;31mxsh\033[0;39m"    /* prompt with terminal coloring   */
 
 #define MAX_PROMPT_LEN   32                 /**< basic prompt max length */
 #define SHELL_SYNTAXERR  "Syntax error.\n"  /**< syntax error            */
@@ -97,6 +76,7 @@ extern ulong ncommand;               /**< number of commands in table   */
 
 /* Function prototypes */
 thread shell(int, int, int);
+void color_fbprint(char *);
 short lexan(char *, ushort, char *, char *[]);
 shellcmd xsh_arp(int, char *[]);
 shellcmd xsh_clear(int, char *[]);

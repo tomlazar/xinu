@@ -10,11 +10,11 @@
 #include "../../../device/uart-pl011/pl011.h"
 #include <mmu.h>
 #include <random.h>
-
 #include <mutex.h>
 #include <queue.h>
 #include <thread.h>
 #include <semaphore.h>
+#include <dma_buf.h>
 
 /* Definitions of usable ARM boot tags. ATAG list is a list of parameters passed from
  * the bootloader to the kernel. atags_ptr is passed inside start.S as a parameter. */
@@ -82,7 +82,11 @@ extern void *_end;
 /**
  * This code is irrelevant to Embedded Xinu and is only used as a means of testing on the RPI 3 boards
  */
-/* Initialize GPIO pin 16 as an output */
+/**
+ * @ingroup bcm2837
+ *
+ * Initialize GPIO pin 16 as an output 
+ */
 void led_init(void)
 {
 	volatile struct rpi_gpio_regs *regptr;
@@ -90,13 +94,21 @@ void led_init(void)
 	regptr->gpfsel[1] &= ~(7 << 18);
 	regptr->gpfsel[1] |=  (1 << 18);	
 }
-/* Set GPIO pin 16 to ON */
+/**
+ * @ingroup bcm2837
+ *
+ * Set GPIO pin 16 to ON 
+ */
 void led_on(void)
 {	
 	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
 	regptr->gpset[0] = 1 << 16;
 }
-/* Set GPIO pin 16 to OFF */
+/**
+ * @ingroup bcm2837
+ *
+ * Set GPIO pin 16 to OFF 
+ */
 void led_off(void)
 {	
 	volatile struct rpi_gpio_regs *regptr = (struct rpi_gpio_regs *)(GPIO_REGS_BASE);
@@ -104,25 +116,52 @@ void led_off(void)
 }
 
 /**
+ * @ingroup bcm2837
+ *
  * Initializes platform specific information for the Raspberry Pi hardware.
  * @return OK
  */
 int platforminit(void)
 {
-	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
-	strlcpy(platform.name, "Raspberry Pi 3", PLT_STRMAX);
+	strlcpy(platform.family, "BCM2837B0", PLT_STRMAX);
+	strlcpy(platform.name, "Raspberry Pi 3 B+", PLT_STRMAX);
 	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
-//	platform.clkfreq = 1200000000;
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */
 	platform.serial_high = 0;  /* Used only if serial # not found in atags */
+	uint32_t cache_encoding = _getcacheinfo();	/* CCSIDR encoding of L1 cache size */
+	switch (cache_encoding){
+		case 0x7003E01A:
+			platform.dcache_size = 8; // 8 KB
+			break;
+		case 0x7007E01A:
+			platform.dcache_size = 16; // 16 KB
+			break;
+		case 0x700FE01A:
+			platform.dcache_size = 32; // 32 KB
+			break;
+		case 0x701FE01A:
+			platform.dcache_size = 64; // 64 KB
+			break;
+		default:
+			platform.dcache_size = 0;
+			break;
+	}
 
 	/* Initialize bcm2837 power */	
 	bcm2837_power_init(); 
 	
 	/* Initialize the Memory Managament Unit */
 	mmu_init();
-//	mmu_initialize();	
+
+	/* Initialize the mutex table */
+	for(int i = 0; i < NMUTEX; i++){
+		muxtab[i].state = MUTEX_FREE;
+		muxtab[i].lock = MUTEX_UNLOCKED;
+	}
+
+	/* Initialize dma buffer space */
+	dma_buf_init();
 
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
@@ -130,10 +169,11 @@ int platforminit(void)
 	/* Initialize the mutexes for global tables */
 	quetab_mutex = mutex_create();
 
-	for (int i = 0; i < NTHREAD; i++)
-	{
+	register struct thrent *thrptr;
+	for (int i = 0; i < NTHREAD; i++){
 		thrtab_mutex[i] = mutex_create();
-		core_affinity[i] = -1;
+		thrptr = &thrtab[i];
+		thrptr->core_affinity = -1;
 	}
 
 	for (int i = 0; i < NSEM; i++)

@@ -1,6 +1,5 @@
 #
-# Makefile definitions for Embedded Xinu shared between all supported ARM
-# platforms.
+# Makefile definitions for Embedded Xinu shared between single-core ARM platforms.
 #
 
 TEMPLATE_ARCH := arm

@@ -1,0 +1,50 @@
+\hypertarget{uniondwc__regs_1_1dwc__core__interrupts}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-core\-\_\-interrupts Union Reference}
+\label{uniondwc__regs_1_1dwc__core__interrupts}\index{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__core__interrupts_a08e181d933e031a4d23a9c80a27e637f}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__core__interrupts_a08e181d933e031a4d23a9c80a27e637f}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__core__interrupts_a785c3d394ef5ae50d9637ce4585a9f4a}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t {\bfseries stuff}: 3\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__core__interrupts_a8d9b20aba961b10b2219b83943384c9e}{sof\_intr}: 1\\
+\>uint32\_t {\bfseries morestuff}: 20\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__core__interrupts_ae18812af64f50bab4271325ffb696393}{port\_intr}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__core__interrupts_adccaa03a3106ce21f01593da1813d948}{host\_channel\_intr}: 1\\
+\>uint32\_t {\bfseries evenmorestuff}: 6\\
+\}; }\label{uniondwc__regs_1_1dwc__core__interrupts_a785c3d394ef5ae50d9637ce4585a9f4a}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+0x014 \-: Core Interrupt Register.
+
+This register contains the state of pending top-\/level D\-W\-C interrupts. 1 means interrupt pending while 0 means no interrupt pending.
+
+Note that at least for port\-\_\-intr and host\-\_\-channel\-\_\-intr, software must clear the interrupt somewhere else rather than by writing to this register. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__core__interrupts_adccaa03a3106ce21f01593da1813d948}{\index{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}!host\-\_\-channel\-\_\-intr@{host\-\_\-channel\-\_\-intr}}
+\index{host\-\_\-channel\-\_\-intr@{host\-\_\-channel\-\_\-intr}!dwc_regs::dwc_core_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}}
+\subsubsection[{host\-\_\-channel\-\_\-intr}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts\-::host\-\_\-channel\-\_\-intr}}\label{uniondwc__regs_1_1dwc__core__interrupts_adccaa03a3106ce21f01593da1813d948}
+Channel interrupt occurred. Software must examine the Host All Channels Interrupt Register to determine which channel(s) have pending interrupts, then handle and clear the interrupts for these channels. \hypertarget{uniondwc__regs_1_1dwc__core__interrupts_ae18812af64f50bab4271325ffb696393}{\index{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}!port\-\_\-intr@{port\-\_\-intr}}
+\index{port\-\_\-intr@{port\-\_\-intr}!dwc_regs::dwc_core_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}}
+\subsubsection[{port\-\_\-intr}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts\-::port\-\_\-intr}}\label{uniondwc__regs_1_1dwc__core__interrupts_ae18812af64f50bab4271325ffb696393}
+Host port status changed. Software must examine the Host Port Control and Status Register to determine the current status of the host port and clear any flags in it that indicate a status change. \hypertarget{uniondwc__regs_1_1dwc__core__interrupts_a8d9b20aba961b10b2219b83943384c9e}{\index{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}!sof\-\_\-intr@{sof\-\_\-intr}}
+\index{sof\-\_\-intr@{sof\-\_\-intr}!dwc_regs::dwc_core_interrupts@{dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts}}
+\subsubsection[{sof\-\_\-intr}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-core\-\_\-interrupts\-::sof\-\_\-intr}}\label{uniondwc__regs_1_1dwc__core__interrupts_a8d9b20aba961b10b2219b83943384c9e}
+Start of Frame. T\-O\-D\-O 
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

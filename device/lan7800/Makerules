@@ -1,4 +1,4 @@
-# This Makefule contains rules to build this directory
+# This Makefile contains rules to build this directory
 
 # Name of this component (the directory this file is stored in)
 COMP = device/lan7800
@@ -12,6 +12,9 @@ C_FILES =		lan7800.c		\
 			etherRead.c		\
 			etherWrite.c		\
 			etherControl.c		\
+			etherStat.c		\
+			vlanStat.c		\
+			colon2mac.c		\
 
 S_FILES =
 

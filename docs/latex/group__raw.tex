@@ -1,0 +1,209 @@
+\hypertarget{group__raw}{\section{Raw Packets}
+\label{group__raw}\index{Raw Packets@{Raw Packets}}
+}
+
+
+Send and receive raw packets.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{group__raw_ga3226cf84ecbe32c7891ef562dd685a13}{raw\-Close} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__raw_ga6e1624816fad3a948c3676fdfb4f0b16}{raw\-Control} (device $\ast$devptr, int func, long arg1, long arg2)
+\item 
+struct raw $\ast$ \hyperlink{group__raw_ga21df9d51e521e20c0d698d6deb92dd1d}{raw\-Demux} (struct netaddr $\ast$src, struct netaddr $\ast$dst, ushort proto)
+\item 
+devcall \hyperlink{group__raw_ga1e865f42b5835df2606c9baad3559ad1}{raw\-Init} (device $\ast$devptr)
+\item 
+devcall \hyperlink{group__raw_ga16ca67af60cfea565544cc0ddf5d8d44}{raw\-Open} (device $\ast$devptr, va\-\_\-list ap)
+\item 
+devcall \hyperlink{group__raw_gafbb17ac395517eee84cdbdc6d74d1d25}{raw\-Read} (device $\ast$devptr, void $\ast$buf, uint len)
+\item 
+syscall \hyperlink{group__raw_ga382435839d865928482a977c6b2dc3e3}{raw\-Recv} (struct packet $\ast$pkt, struct netaddr $\ast$src, struct netaddr $\ast$dst, ushort proto)
+\item 
+syscall \hyperlink{group__raw_ga96bcfddfc19de3105a3ad83cf5ec68f7}{raw\-Send} (struct raw $\ast$rawptr, void $\ast$buf, uint len)
+\item 
+devcall \hyperlink{group__raw_ga5b6e06855a1ac2e31f4c90f2742fc817}{raw\-Write} (device $\ast$devptr, void $\ast$buf, uint len)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Send and receive raw packets. 
+
+\subsection{Function Documentation}
+\hypertarget{group__raw_ga3226cf84ecbe32c7891ef562dd685a13}{\index{Raw Packets@{Raw Packets}!raw\-Close@{raw\-Close}}
+\index{raw\-Close@{raw\-Close}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Close}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Close (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga3226cf84ecbe32c7891ef562dd685a13}
+Close a raw socket device. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-A\-W device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if raw socket is closed properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga6e1624816fad3a948c3676fdfb4f0b16}{\index{Raw Packets@{Raw Packets}!raw\-Control@{raw\-Control}}
+\index{raw\-Control@{raw\-Control}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{int}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga6e1624816fad3a948c3676fdfb4f0b16}
+Control function for raw sockets. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-A\-W device table entry \\
+\hline
+{\em func} & control function to execute \\
+\hline
+{\em arg1} & first argument for the control function \\
+\hline
+{\em arg2} & second argument for the control function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the result of the control function 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga21df9d51e521e20c0d698d6deb92dd1d}{\index{Raw Packets@{Raw Packets}!raw\-Demux@{raw\-Demux}}
+\index{raw\-Demux@{raw\-Demux}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Demux}]{\setlength{\rightskip}{0pt plus 5cm}struct raw$\ast$ raw\-Demux (
+\begin{DoxyParamCaption}
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst, }
+\item[{ushort}]{proto}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga21df9d51e521e20c0d698d6deb92dd1d}
+Locate the raw socket for a packet 
+\begin{DoxyParams}{Parameters}
+{\em src} & source I\-P address of the packet \\
+\hline
+{\em dst} & destination I\-P address of the packet \\
+\hline
+{\em proto} & protocol of the packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+most completely matched socket, N\-U\-L\-L if no match 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga1e865f42b5835df2606c9baad3559ad1}{\index{Raw Packets@{Raw Packets}!raw\-Init@{raw\-Init}}
+\index{raw\-Init@{raw\-Init}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Init}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Init (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga1e865f42b5835df2606c9baad3559ad1}
+Initialize raw socket structures. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-A\-W device table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if device is initialized 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga16ca67af60cfea565544cc0ddf5d8d44}{\index{Raw Packets@{Raw Packets}!raw\-Open@{raw\-Open}}
+\index{raw\-Open@{raw\-Open}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Open}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Open (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga16ca67af60cfea565544cc0ddf5d8d44}
+Open a raw socket. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & R\-A\-W device table entry \\
+\hline
+{\em ap} & 2nd argument is the local I\-P address 3rd argument is the remote I\-P address 4th argument is the I\-P protocol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if raw socket is opened properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__raw_gafbb17ac395517eee84cdbdc6d74d1d25}{\index{Raw Packets@{Raw Packets}!raw\-Read@{raw\-Read}}
+\index{raw\-Read@{raw\-Read}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Read (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__raw_gafbb17ac395517eee84cdbdc6d74d1d25}
+Read a packet from a raw socket. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to R\-A\-W device \\
+\hline
+{\em buf} & buffer for read packet \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of octets read, S\-Y\-S\-E\-R\-R if error occurred 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga382435839d865928482a977c6b2dc3e3}{\index{Raw Packets@{Raw Packets}!raw\-Recv@{raw\-Recv}}
+\index{raw\-Recv@{raw\-Recv}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall raw\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst, }
+\item[{ushort}]{proto}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga382435839d865928482a977c6b2dc3e3}
+Process an incoming protocol other than U\-D\-P or T\-C\-P. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga96bcfddfc19de3105a3ad83cf5ec68f7}{\index{Raw Packets@{Raw Packets}!raw\-Send@{raw\-Send}}
+\index{raw\-Send@{raw\-Send}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall raw\-Send (
+\begin{DoxyParamCaption}
+\item[{struct raw $\ast$}]{rawptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga96bcfddfc19de3105a3ad83cf5ec68f7}
+Send an outgoing packet of protocol other than U\-D\-P or T\-C\-P. 
+\begin{DoxyParams}{Parameters}
+{\em rawptr} & pointer to the raw socket control block \\
+\hline
+{\em buf} & buffer to semd \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent succesfully, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__raw_ga5b6e06855a1ac2e31f4c90f2742fc817}{\index{Raw Packets@{Raw Packets}!raw\-Write@{raw\-Write}}
+\index{raw\-Write@{raw\-Write}!Raw Packets@{Raw Packets}}
+\subsubsection[{raw\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall raw\-Write (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{void $\ast$}]{buf, }
+\item[{uint}]{len}
+\end{DoxyParamCaption}
+)}}\label{group__raw_ga5b6e06855a1ac2e31f4c90f2742fc817}
+Write a packet to a raw socket. 
+\begin{DoxyParams}{Parameters}
+{\em devptr} & pointer to R\-A\-W device \\
+\hline
+{\em buf} & buffer to write \\
+\hline
+{\em len} & size of the buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of octets written, S\-Y\-S\-E\-R\-R if error occurred 
+\end{DoxyReturn}

@@ -1,0 +1,49 @@
+\hypertarget{usbKbdInterrupt_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Interrupt.c File Reference}
+\label{usbKbdInterrupt_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Interrupt.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/usbkbd/usb\-Kbd\-Interrupt.\-c}}
+}
+{\ttfamily \#include $<$usbkbd.\-h$>$}\\*
+{\ttfamily \#include $<$usb\-\_\-core\-\_\-driver.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{usbKbdInterrupt_8c_aabaddf1cf1b3a9f9303bd3235186766b}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-L\-E\-F\-T\-\_\-\-C\-T\-R\-L}~(1 $<$$<$ 0)}\label{usbKbdInterrupt_8c_aabaddf1cf1b3a9f9303bd3235186766b}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a7d3c76f094feb703542f51443098b5ee}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-L\-E\-F\-T\-\_\-\-S\-H\-I\-F\-T}~(1 $<$$<$ 1)}\label{usbKbdInterrupt_8c_a7d3c76f094feb703542f51443098b5ee}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a42be30064a5aaa0ccee0149c71537d27}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-L\-E\-F\-T\-\_\-\-A\-L\-T}~(1 $<$$<$ 2)}\label{usbKbdInterrupt_8c_a42be30064a5aaa0ccee0149c71537d27}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a80b7f73afe293b90e578416f685bb9e2}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-L\-E\-F\-T\-\_\-\-G\-U\-I}~(1 $<$$<$ 3)}\label{usbKbdInterrupt_8c_a80b7f73afe293b90e578416f685bb9e2}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a36a2917fb7c49a48f70c8f787e5c0e18}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-R\-I\-G\-H\-T\-\_\-\-C\-T\-R\-L}~(1 $<$$<$ 4)}\label{usbKbdInterrupt_8c_a36a2917fb7c49a48f70c8f787e5c0e18}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a04727a8e52c8a5869937c52de8c59e94}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-R\-I\-G\-H\-T\-\_\-\-S\-H\-I\-F\-T}~(1 $<$$<$ 5)}\label{usbKbdInterrupt_8c_a04727a8e52c8a5869937c52de8c59e94}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_a2a52e51e5630e06e1f01f3013774c461}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-R\-I\-G\-H\-T\-\_\-\-A\-L\-T}~(1 $<$$<$ 6)}\label{usbKbdInterrupt_8c_a2a52e51e5630e06e1f01f3013774c461}
+
+\item 
+\hypertarget{usbKbdInterrupt_8c_aff07023c310957ab7658402dcbb3724f}{\#define {\bfseries H\-I\-D\-\_\-\-B\-O\-O\-T\-\_\-\-R\-I\-G\-H\-T\-\_\-\-G\-U\-I}~(1 $<$$<$ 7)}\label{usbKbdInterrupt_8c_aff07023c310957ab7658402dcbb3724f}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{usbKbdInterrupt_8c_a3dc571cf89cd023fe2157f788d24ed69}{usb\-Kbd\-Interrupt} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{usbKbdInterrupt_8c_a3dc571cf89cd023fe2157f788d24ed69}{\index{usb\-Kbd\-Interrupt.\-c@{usb\-Kbd\-Interrupt.\-c}!usb\-Kbd\-Interrupt@{usb\-Kbd\-Interrupt}}
+\index{usb\-Kbd\-Interrupt@{usb\-Kbd\-Interrupt}!usbKbdInterrupt.c@{usb\-Kbd\-Interrupt.\-c}}
+\subsubsection[{usb\-Kbd\-Interrupt}]{\setlength{\rightskip}{0pt plus 5cm}void usb\-Kbd\-Interrupt (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{usbKbdInterrupt_8c_a3dc571cf89cd023fe2157f788d24ed69}
+Called when the U\-S\-B transfer request from a U\-S\-B keyboard's I\-N interrupt endpoint completes or fails. 

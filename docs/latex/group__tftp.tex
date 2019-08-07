@@ -1,0 +1,78 @@
+\hypertarget{group__tftp}{\section{T\-F\-T\-P client}
+\label{group__tftp}\index{T\-F\-T\-P client@{T\-F\-T\-P client}}
+}
+
+
+Trivial File Transfer Protocol client.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__tftp_ga8d4b71e6433024684572eaba833b1073}{tftp\-Get} (const char $\ast$filename, const struct netaddr $\ast$local\-\_\-ip, const struct netaddr $\ast$server\-\_\-ip, tftp\-Recv\-Data\-Func recv\-Data\-Func, void $\ast$recv\-Data\-Ctx)
+\item 
+syscall \hyperlink{group__tftp_gaa11ea875484070e374a719a68a589af1}{tftp\-Get\-Into\-Buffer} (const char $\ast$filename, const struct netaddr $\ast$local\-\_\-ip, const struct netaddr $\ast$server\-\_\-ip, uint $\ast$len\-\_\-ret)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Trivial File Transfer Protocol client. 
+
+\subsection{Function Documentation}
+\hypertarget{group__tftp_ga8d4b71e6433024684572eaba833b1073}{\index{T\-F\-T\-P client@{T\-F\-T\-P client}!tftp\-Get@{tftp\-Get}}
+\index{tftp\-Get@{tftp\-Get}!TFTP client@{T\-F\-T\-P client}}
+\subsubsection[{tftp\-Get}]{\setlength{\rightskip}{0pt plus 5cm}syscall tftp\-Get (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const struct netaddr $\ast$}]{local\-\_\-ip, }
+\item[{const struct netaddr $\ast$}]{server\-\_\-ip, }
+\item[{tftp\-Recv\-Data\-Func}]{recv\-Data\-Func, }
+\item[{void $\ast$}]{recv\-Data\-Ctx}
+\end{DoxyParamCaption}
+)}}\label{group__tftp_ga8d4b71e6433024684572eaba833b1073}
+Download a file from a remote server using T\-F\-T\-P and passes its contents, block-\/by-\/block, to a callback function. This callback function can do whatever it wants with the file data, such as store it all into a buffer or write it to persistent storage.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em filename} & Name of the file to download. \\
+\hline
+\mbox{\tt in}  & {\em local\-\_\-ip} & Local protocol address to use for the connection. \\
+\hline
+\mbox{\tt in}  & {\em server\-\_\-ip} & Remote protocol address to use for the connection (address of T\-F\-T\-P server). \\
+\hline
+\mbox{\tt in}  & {\em recv\-Data\-Func} & Callback function that will be passed the file data block-\/by-\/block. For each call of the callback function, the {\ttfamily data} (first) argument will be set to a pointer to the next block of data and the {\ttfamily len} (second) argument will be set to the block's length. All data blocks will be the same size, except possibly the last, which can be anywhere from 0 bytes up to the size of the previous block(s) if any. \par
+ In the current implementation, the block size (other than possibly for the last block) is fixed at 512 bytes. However, implementations of this callback S\-H\-O\-U\-L\-D handle larger block sizes since \hyperlink{group__tftp_ga8d4b71e6433024684572eaba833b1073}{tftp\-Get()} could be extended to support T\-F\-T\-P block size negotiation. \par
+ This callback is expected to return \-::\-O\-K if successful. If it does not return \-::\-O\-K, the T\-F\-T\-P transfer is aborted and \hyperlink{group__tftp_ga8d4b71e6433024684572eaba833b1073}{tftp\-Get()} returns this value. \\
+\hline
+\mbox{\tt in}  & {\em recv\-Data\-Ctx} & Extra parameter that will be passed literally to {\ttfamily recv\-Data\-Func}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K on success; \-::\-S\-Y\-S\-E\-R\-R if the T\-F\-T\-P transfer times out or fails, or if one of several other errors occur; or the value returned by {\ttfamily recv\-Data\-Func}, if it was not \-::\-O\-K. 
+\end{DoxyReturn}
+\hypertarget{group__tftp_gaa11ea875484070e374a719a68a589af1}{\index{T\-F\-T\-P client@{T\-F\-T\-P client}!tftp\-Get\-Into\-Buffer@{tftp\-Get\-Into\-Buffer}}
+\index{tftp\-Get\-Into\-Buffer@{tftp\-Get\-Into\-Buffer}!TFTP client@{T\-F\-T\-P client}}
+\subsubsection[{tftp\-Get\-Into\-Buffer}]{\setlength{\rightskip}{0pt plus 5cm}syscall tftp\-Get\-Into\-Buffer (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{filename, }
+\item[{const struct netaddr $\ast$}]{local\-\_\-ip, }
+\item[{const struct netaddr $\ast$}]{server\-\_\-ip, }
+\item[{uint $\ast$}]{len\-\_\-ret}
+\end{DoxyParamCaption}
+)}}\label{group__tftp_gaa11ea875484070e374a719a68a589af1}
+Download a file from a remote server using T\-F\-T\-P and allocates and return an in-\/memory buffer containing the file contents.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em filename} & Name of the file to download. \\
+\hline
+\mbox{\tt in}  & {\em local\-\_\-ip} & Local protocol address to use for the connection. \\
+\hline
+\mbox{\tt in}  & {\em server\-\_\-ip} & Remote protocol address to use for the connection (address of T\-F\-T\-P server). \\
+\hline
+\mbox{\tt out}  & {\em len\-\_\-ret} & On success, the length of the file in bytes, which is also the length of the returned buffer, is written into this location.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+On success, returns a pointer (cast to an {\ttfamily int}) to a buffer containing the contents of the downloaded file. This buffer is allocated with \hyperlink{group__memory__mgmt_gabb10def0b219dc9f0a9b7e7d3e539837}{memget()} and therefore can be freed using \hyperlink{group__memory__mgmt_ga1e69240a1816b306eabb2cdba801379c}{memfree()}. On out-\/of-\/memory, timeout, file not found, or other error, returns \-::\-S\-Y\-S\-E\-R\-R. 
+\end{DoxyReturn}

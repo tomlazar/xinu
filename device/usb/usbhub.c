@@ -59,6 +59,8 @@
 #include <usb_hub_defs.h>
 #include <usb_hub_driver.h>
 #include <usb_std_defs.h>
+#include <core.h>
+#include <clock.h>
 
 /** Maximum number of ports per hub supported by this driver.  (USB 2.0
  * theoretically allows up to 255 ports per hub.)  */
@@ -556,6 +558,9 @@ hub_thread(void)
 
                 usb_dev_debug(req->dev, "Processing hub status change\r\n");
 
+		// XXX TODO delay moves along execution for some reason...
+		udelay(25);
+
                 /* The format of the message is a bitmap that indicates which ports have
                  * had status changes.  We ignore bit 0, which indicates status change
                  * of the hub device itself.  */
@@ -645,7 +650,7 @@ hub_onetime_init(void)
     /* Create hub thread.  */
     hub_thread_tid = create(hub_thread, HUB_THREAD_STACK_SIZE, HUB_THREAD_PRIORITY,
                             HUB_THREAD_NAME, 0);
-    if (SYSERR == ready(hub_thread_tid, RESCHED_NO))
+    if (SYSERR == ready(hub_thread_tid, RESCHED_NO, CORE_ZERO))
     {
         kill(hub_thread_tid);
         hub_thread_tid = BADTID;

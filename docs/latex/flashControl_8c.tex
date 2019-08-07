@@ -1,0 +1,41 @@
+\hypertarget{flashControl_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Control.c File Reference}
+\label{flashControl_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Control.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/flash\-Control.\-c}}
+}
+{\ttfamily \#include $<$kernel.\-h$>$}\\*
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{flashControl_8c_a0501ee509f76a6071f231ffd93085c3b}{flash\-Control} (device $\ast$devptr, ushort func, long arg1, long arg2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides various control functions for Flash memory. 
+
+\subsection{Function Documentation}
+\hypertarget{flashControl_8c_a0501ee509f76a6071f231ffd93085c3b}{\index{flash\-Control.\-c@{flash\-Control.\-c}!flash\-Control@{flash\-Control}}
+\index{flash\-Control@{flash\-Control}!flashControl.c@{flash\-Control.\-c}}
+\subsubsection[{flash\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall flash\-Control (
+\begin{DoxyParamCaption}
+\item[{device $\ast$}]{devptr, }
+\item[{ushort}]{func, }
+\item[{long}]{arg1, }
+\item[{long}]{arg2}
+\end{DoxyParamCaption}
+)}}\label{flashControl_8c_a0501ee509f76a6071f231ffd93085c3b}
+Control parameters to a F\-L\-A\-S\-H device. Currently supports F\-L\-A\-S\-H\-\_\-\-M\-O\-D\-E (which returns the mode of the device) and F\-L\-A\-S\-H\-\_\-\-S\-T\-A\-T\-U\-S (which will return the value in the status register). 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$devptr} & Pointer to flash device structure \\
+\hline
+{\em func} & function to use \\
+\hline
+{\em arg1} & first argument if needed in function \\
+\hline
+{\em arg2} & second argument if needed in function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+dependent on function called 
+\end{DoxyReturn}

@@ -1,0 +1,102 @@
+\hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus}{\section{dwc\-\_\-regs\-:\-:dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus Union Reference}
+\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus}\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+}
+
+
+{\ttfamily \#include $<$usb\-\_\-dwc\-\_\-regs.\-h$>$}
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_abd76529753f14e72011736252e7c48e9}{uint32\-\_\-t {\bfseries val}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_abd76529753f14e72011736252e7c48e9}
+
+\item 
+\hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_af08a09b59bf5b46ed04e736eeef155cb}{\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aadfc4b8998833fb6deca97b2989dcd41}{connected}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa82a0f52b9560d97ee565980d112818a}{connected\_changed}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a138dd5347ad90387c1ad0aeea43f8c06}{enabled}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a78ec0c970ca183bd219fc38b88b366be}{enabled\_changed}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_acc42fd23665b1ff035698152578d70c7}{overcurrent}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a28c23c38988d620a8563e7e7d5d20107}{overcurrent\_changed}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ae49410371fc53a414f17a7e62b8290a4}{resume}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a5fdcc742ffa9ea28bbc916f2ff80d3e4}{suspended}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a94625e71960841a1540af9df89f5c70a}{reset}: 1\\
+\>uint32\_t {\bfseries reserved}: 1\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ad8a9442e447b333a961a562b1d0eef85}{line\_status}: 2\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a01420294b4b933b9434613681a34cb6d}{powered}: 1\\
+\>uint32\_t {\bfseries test\_control}: 4\\
+\>uint32\_t \hyperlink{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa81595e89f5505a3ae023296254ba8b2}{speed}: 2\\
+\>uint32\_t {\bfseries reserved2}: 13\\
+\}; }\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_af08a09b59bf5b46ed04e736eeef155cb}
+\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+0x440 \-: Host Port Control and Status Register.
+
+This register provides the information needed to respond to status queries about the \char`\"{}host port\char`\"{}, which is the port that is logically attached to the root hub.
+
+When changing this register, software must read its value, then clear the enabled, connected\-\_\-changed, enabled\-\_\-changed, and overcurrent\-\_\-changed members to avoid changing them, as those particular bits are cleared by writing 1. 
+
+\subsection{Field Documentation}
+\hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aadfc4b8998833fb6deca97b2989dcd41}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!connected@{connected}}
+\index{connected@{connected}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{connected}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::connected}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aadfc4b8998833fb6deca97b2989dcd41}
+1\-: a device is connected to this port. 0\-: no device is connected to this port.
+
+Changed by hardware only. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa82a0f52b9560d97ee565980d112818a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!connected\-\_\-changed@{connected\-\_\-changed}}
+\index{connected\-\_\-changed@{connected\-\_\-changed}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{connected\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::connected\-\_\-changed}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa82a0f52b9560d97ee565980d112818a}
+Set by hardware when connected bit changes. Software can write 1 to acknowledge and clear. The setting of this bit by hardware generates an interrupt that can be enabled by setting port\-\_\-intr in the core\-\_\-interrupt\-\_\-mask register. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a138dd5347ad90387c1ad0aeea43f8c06}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!enabled@{enabled}}
+\index{enabled@{enabled}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{enabled}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::enabled}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a138dd5347ad90387c1ad0aeea43f8c06}
+1\-: port is enabled. 0\-: port is disabled.
+
+Note\-: the host port is enabled by default after it is reset.
+
+Note\-: Writing 1 here appears to disable the port. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a78ec0c970ca183bd219fc38b88b366be}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!enabled\-\_\-changed@{enabled\-\_\-changed}}
+\index{enabled\-\_\-changed@{enabled\-\_\-changed}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{enabled\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::enabled\-\_\-changed}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a78ec0c970ca183bd219fc38b88b366be}
+Set by hardware when enabled bit changes. Software can write 1 to acknowledge and clear. The setting of this bit by hardware generates an interrupt that can be enabled by setting port\-\_\-intr in the core\-\_\-interrupt\-\_\-mask register. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ad8a9442e447b333a961a562b1d0eef85}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!line\-\_\-status@{line\-\_\-status}}
+\index{line\-\_\-status@{line\-\_\-status}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{line\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::line\-\_\-status}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ad8a9442e447b333a961a562b1d0eef85}
+Current logic of data lines (10\-: logic of D+; 11\-: logic of D-\/).
+
+Changed by hardware only. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_acc42fd23665b1ff035698152578d70c7}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!overcurrent@{overcurrent}}
+\index{overcurrent@{overcurrent}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{overcurrent}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::overcurrent}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_acc42fd23665b1ff035698152578d70c7}
+1\-: overcurrent condition active on this port 0\-: no overcurrent condition active on this port
+
+Changed by hardware only. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a28c23c38988d620a8563e7e7d5d20107}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!overcurrent\-\_\-changed@{overcurrent\-\_\-changed}}
+\index{overcurrent\-\_\-changed@{overcurrent\-\_\-changed}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{overcurrent\-\_\-changed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::overcurrent\-\_\-changed}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a28c23c38988d620a8563e7e7d5d20107}
+Set by hardware when the overcurrent bit changes. The software can write 1 to acknowledge and clear. The setting of this bit by hardware generates the interrupt that can be enabled by setting port\-\_\-intr in the core\-\_\-interrupt\-\_\-mask register. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a01420294b4b933b9434613681a34cb6d}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!powered@{powered}}
+\index{powered@{powered}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{powered}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::powered}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a01420294b4b933b9434613681a34cb6d}
+1\-: port is powered. 0\-: port is not powered.
+
+Software can change this bit to power on (1) or power off (0) the port. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a94625e71960841a1540af9df89f5c70a}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!reset@{reset}}
+\index{reset@{reset}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::reset}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a94625e71960841a1540af9df89f5c70a}
+Software can set this to start a reset on this port. Software must clear this after waiting 60 milliseconds for the reset is complete. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ae49410371fc53a414f17a7e62b8290a4}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!resume@{resume}}
+\index{resume@{resume}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{resume}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::resume}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_ae49410371fc53a414f17a7e62b8290a4}
+Set by software to set resume signalling. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa81595e89f5505a3ae023296254ba8b2}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!speed@{speed}}
+\index{speed@{speed}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{speed}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::speed}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_aa81595e89f5505a3ae023296254ba8b2}
+Speed of attached device (if any). This should only be considered meaningful if the connected bit is set.
+
+00\-: high speed; 01\-: full speed; 10\-: low speed
+
+Changed by hardware only. \hypertarget{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a5fdcc742ffa9ea28bbc916f2ff80d3e4}{\index{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}!suspended@{suspended}}
+\index{suspended@{suspended}!dwc_regs::dwc_host_port_ctrlstatus@{dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus}}
+\subsubsection[{suspended}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t dwc\-\_\-regs\-::dwc\-\_\-host\-\_\-port\-\_\-ctrlstatus\-::suspended}}\label{uniondwc__regs_1_1dwc__host__port__ctrlstatus_a5fdcc742ffa9ea28bbc916f2ff80d3e4}
+Set by software to suspend the port. 
+
+The documentation for this union was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/system/platforms/arm-\/rpi3/\hyperlink{usb__dwc__regs_8h}{usb\-\_\-dwc\-\_\-regs.\-h}\end{DoxyCompactItemize}

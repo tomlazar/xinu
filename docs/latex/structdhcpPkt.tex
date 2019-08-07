@@ -1,0 +1,94 @@
+\hypertarget{structdhcpPkt}{\section{dhcp\-Pkt Struct Reference}
+\label{structdhcpPkt}\index{dhcp\-Pkt@{dhcp\-Pkt}}
+}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uchar \hyperlink{structdhcpPkt_a6240894b73b2216f6390e867274dfc9c}{op}
+\item 
+uchar \hyperlink{structdhcpPkt_ac24a7e3d31318851bc5d84e675148d08}{htype}
+\item 
+uchar \hyperlink{structdhcpPkt_a08914a4ec7eb2b42b49c58846241c651}{hlen}
+\item 
+uchar \hyperlink{structdhcpPkt_ab23d57fb3a3cd50f1a98a74640be536f}{hops}
+\item 
+uint \hyperlink{structdhcpPkt_a07f00255478787b96a0cab3fcd8bedc0}{xid}
+\item 
+ushort \hyperlink{structdhcpPkt_a7475ebcc0c47265ecde655e323373912}{secs}
+\item 
+ushort \hyperlink{structdhcpPkt_a5277e2cefb888b35e414f113c045112e}{flags}
+\item 
+uint \hyperlink{structdhcpPkt_ad9d4c8cb18c57e8b59b929325024b170}{ciaddr}
+\item 
+uint \hyperlink{structdhcpPkt_a8c4bd15e865dad84840058a7fb94c12d}{yiaddr}
+\item 
+uint \hyperlink{structdhcpPkt_a9491030b52f03e8a652e81122619d62c}{siaddr}
+\item 
+uint \hyperlink{structdhcpPkt_a956d85f55011edee0aef50875bba0fea}{giaddr}
+\item 
+uchar \hyperlink{structdhcpPkt_a1d2bb27b495c49626b834f9bdea85ead}{chaddr} \mbox{[}16\mbox{]}
+\item 
+char \hyperlink{structdhcpPkt_a9d689ffd1a62795bc7e2c9f8d307711c}{sname} \mbox{[}64\mbox{]}
+\item 
+char \hyperlink{structdhcpPkt_a08a75af14420f1815ebddb7cb7dafb7c}{file} \mbox{[}128\mbox{]}
+\item 
+uint \hyperlink{structdhcpPkt_adee276232c86a6e9e7a2f815236d0648}{cookie}
+\item 
+uchar \hyperlink{structdhcpPkt_a5e3c645306d2df469b9eda0dec731bbf}{opts} \mbox{[}1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structdhcpPkt_a1d2bb27b495c49626b834f9bdea85ead}{\index{dhcp\-Pkt@{dhcp\-Pkt}!chaddr@{chaddr}}
+\index{chaddr@{chaddr}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{chaddr}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::chaddr\mbox{[}16\mbox{]}}}\label{structdhcpPkt_a1d2bb27b495c49626b834f9bdea85ead}
+Client hardware address \hypertarget{structdhcpPkt_ad9d4c8cb18c57e8b59b929325024b170}{\index{dhcp\-Pkt@{dhcp\-Pkt}!ciaddr@{ciaddr}}
+\index{ciaddr@{ciaddr}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{ciaddr}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::ciaddr}}\label{structdhcpPkt_ad9d4c8cb18c57e8b59b929325024b170}
+Client ip address \hypertarget{structdhcpPkt_adee276232c86a6e9e7a2f815236d0648}{\index{dhcp\-Pkt@{dhcp\-Pkt}!cookie@{cookie}}
+\index{cookie@{cookie}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{cookie}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::cookie}}\label{structdhcpPkt_adee276232c86a6e9e7a2f815236d0648}
+Magic cookie \hypertarget{structdhcpPkt_a08a75af14420f1815ebddb7cb7dafb7c}{\index{dhcp\-Pkt@{dhcp\-Pkt}!file@{file}}
+\index{file@{file}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{file}]{\setlength{\rightskip}{0pt plus 5cm}char dhcp\-Pkt\-::file\mbox{[}128\mbox{]}}}\label{structdhcpPkt_a08a75af14420f1815ebddb7cb7dafb7c}
+File (for extension) \hypertarget{structdhcpPkt_a5277e2cefb888b35e414f113c045112e}{\index{dhcp\-Pkt@{dhcp\-Pkt}!flags@{flags}}
+\index{flags@{flags}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{flags}]{\setlength{\rightskip}{0pt plus 5cm}ushort dhcp\-Pkt\-::flags}}\label{structdhcpPkt_a5277e2cefb888b35e414f113c045112e}
+Flags \hypertarget{structdhcpPkt_a956d85f55011edee0aef50875bba0fea}{\index{dhcp\-Pkt@{dhcp\-Pkt}!giaddr@{giaddr}}
+\index{giaddr@{giaddr}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{giaddr}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::giaddr}}\label{structdhcpPkt_a956d85f55011edee0aef50875bba0fea}
+Gateway ip address \hypertarget{structdhcpPkt_a08914a4ec7eb2b42b49c58846241c651}{\index{dhcp\-Pkt@{dhcp\-Pkt}!hlen@{hlen}}
+\index{hlen@{hlen}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{hlen}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::hlen}}\label{structdhcpPkt_a08914a4ec7eb2b42b49c58846241c651}
+Hardware length \hypertarget{structdhcpPkt_ab23d57fb3a3cd50f1a98a74640be536f}{\index{dhcp\-Pkt@{dhcp\-Pkt}!hops@{hops}}
+\index{hops@{hops}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{hops}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::hops}}\label{structdhcpPkt_ab23d57fb3a3cd50f1a98a74640be536f}
+Hops \hypertarget{structdhcpPkt_ac24a7e3d31318851bc5d84e675148d08}{\index{dhcp\-Pkt@{dhcp\-Pkt}!htype@{htype}}
+\index{htype@{htype}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{htype}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::htype}}\label{structdhcpPkt_ac24a7e3d31318851bc5d84e675148d08}
+Hardware type (ethernet) \hypertarget{structdhcpPkt_a6240894b73b2216f6390e867274dfc9c}{\index{dhcp\-Pkt@{dhcp\-Pkt}!op@{op}}
+\index{op@{op}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{op}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::op}}\label{structdhcpPkt_a6240894b73b2216f6390e867274dfc9c}
+Operation (request or reply) \hypertarget{structdhcpPkt_a5e3c645306d2df469b9eda0dec731bbf}{\index{dhcp\-Pkt@{dhcp\-Pkt}!opts@{opts}}
+\index{opts@{opts}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{opts}]{\setlength{\rightskip}{0pt plus 5cm}uchar dhcp\-Pkt\-::opts\mbox{[}1\mbox{]}}}\label{structdhcpPkt_a5e3c645306d2df469b9eda0dec731bbf}
+Options \hypertarget{structdhcpPkt_a7475ebcc0c47265ecde655e323373912}{\index{dhcp\-Pkt@{dhcp\-Pkt}!secs@{secs}}
+\index{secs@{secs}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{secs}]{\setlength{\rightskip}{0pt plus 5cm}ushort dhcp\-Pkt\-::secs}}\label{structdhcpPkt_a7475ebcc0c47265ecde655e323373912}
+Seconds still start time \hypertarget{structdhcpPkt_a9491030b52f03e8a652e81122619d62c}{\index{dhcp\-Pkt@{dhcp\-Pkt}!siaddr@{siaddr}}
+\index{siaddr@{siaddr}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{siaddr}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::siaddr}}\label{structdhcpPkt_a9491030b52f03e8a652e81122619d62c}
+Server ip address \hypertarget{structdhcpPkt_a9d689ffd1a62795bc7e2c9f8d307711c}{\index{dhcp\-Pkt@{dhcp\-Pkt}!sname@{sname}}
+\index{sname@{sname}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{sname}]{\setlength{\rightskip}{0pt plus 5cm}char dhcp\-Pkt\-::sname\mbox{[}64\mbox{]}}}\label{structdhcpPkt_a9d689ffd1a62795bc7e2c9f8d307711c}
+Server name \hypertarget{structdhcpPkt_a07f00255478787b96a0cab3fcd8bedc0}{\index{dhcp\-Pkt@{dhcp\-Pkt}!xid@{xid}}
+\index{xid@{xid}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{xid}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::xid}}\label{structdhcpPkt_a07f00255478787b96a0cab3fcd8bedc0}
+Transfer Identification \hypertarget{structdhcpPkt_a8c4bd15e865dad84840058a7fb94c12d}{\index{dhcp\-Pkt@{dhcp\-Pkt}!yiaddr@{yiaddr}}
+\index{yiaddr@{yiaddr}!dhcpPkt@{dhcp\-Pkt}}
+\subsubsection[{yiaddr}]{\setlength{\rightskip}{0pt plus 5cm}uint dhcp\-Pkt\-::yiaddr}}\label{structdhcpPkt_a8c4bd15e865dad84840058a7fb94c12d}
+Your ip address 
+
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/\hyperlink{dhcp_8h}{dhcp.\-h}\end{DoxyCompactItemize}

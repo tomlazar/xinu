@@ -18,9 +18,12 @@
  */
 void wakeup(void)
 {
+    uint cpuid;
+    cpuid = getcpuid();
+
     while (nonempty(sleepq) && (firstkey(sleepq) <= 0))
     {
-        ready(dequeue(sleepq), RESCHED_NO);
+        ready(dequeue(sleepq), RESCHED_NO, cpuid);
     }
 
     resched();

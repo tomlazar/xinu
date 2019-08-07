@@ -1,0 +1,101 @@
+\hypertarget{physical_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/physical.c File Reference}
+\label{physical_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/physical.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/flash/physical.\-c}}
+}
+{\ttfamily \#include $<$flash.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+devcall \hyperlink{physical_8c_a293c92e507042fbc66fc7a02c29ac8d2}{physical\-Read} (struct flash $\ast$flash, struct flash\-\_\-block $\ast$block)
+\item 
+devcall \hyperlink{physical_8c_abbdb5c51d7bf941811c80865db0e23e6}{physical\-Write} (struct flash $\ast$flash, struct flash\-\_\-block $\ast$block)
+\item 
+devcall \hyperlink{physical_8c_a097b261adee99c0ea924f08d825245e9}{physical\-Erase} (struct flash $\ast$flash, struct flash\-\_\-block $\ast$block)
+\item 
+devcall \hyperlink{physical_8c_a002cf962563d6520887f03c7110ed373}{physical\-Control} (struct flash $\ast$flash, struct flash\-\_\-block $\ast$block, uchar func, ulong arg)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A function from this file calls the proper function of the specific command set if it is supported.
+
+Functions in this file communicate directly with the hardware to achieve their goals. This file acts like the B\-I\-O\-S in older computers (by providing calls to to the physical work to the O/\-S). 
+
+\subsection{Function Documentation}
+\hypertarget{physical_8c_a002cf962563d6520887f03c7110ed373}{\index{physical.\-c@{physical.\-c}!physical\-Control@{physical\-Control}}
+\index{physical\-Control@{physical\-Control}!physical.c@{physical.\-c}}
+\subsubsection[{physical\-Control}]{\setlength{\rightskip}{0pt plus 5cm}devcall physical\-Control (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{struct flash\-\_\-block $\ast$}]{block, }
+\item[{uchar}]{func, }
+\item[{ulong}]{arg}
+\end{DoxyParamCaption}
+)}}\label{physical_8c_a002cf962563d6520887f03c7110ed373}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to use \\
+\hline
+{\em $\ast$block} & block to perform operations on \\
+\hline
+{\em func} & see include/flash.\-h for functions \\
+\hline
+{\em arg} & argument (if needed) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status of function 
+\end{DoxyReturn}
+\hypertarget{physical_8c_a097b261adee99c0ea924f08d825245e9}{\index{physical.\-c@{physical.\-c}!physical\-Erase@{physical\-Erase}}
+\index{physical\-Erase@{physical\-Erase}!physical.c@{physical.\-c}}
+\subsubsection[{physical\-Erase}]{\setlength{\rightskip}{0pt plus 5cm}devcall physical\-Erase (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{struct flash\-\_\-block $\ast$}]{block}
+\end{DoxyParamCaption}
+)}}\label{physical_8c_a097b261adee99c0ea924f08d825245e9}
+Erase an erase-\/block from Flash memory. Flash memory can only change a binary 1 to a binary 0, not the other way around. In order to write new data to the device we must tell flash to change all 0s to 1s. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device to perform operations on \\
+\hline
+{\em $\ast$block} & block to erase \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{physical_8c_a293c92e507042fbc66fc7a02c29ac8d2}{\index{physical.\-c@{physical.\-c}!physical\-Read@{physical\-Read}}
+\index{physical\-Read@{physical\-Read}!physical.c@{physical.\-c}}
+\subsubsection[{physical\-Read}]{\setlength{\rightskip}{0pt plus 5cm}devcall physical\-Read (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{struct flash\-\_\-block $\ast$}]{block}
+\end{DoxyParamCaption}
+)}}\label{physical_8c_a293c92e507042fbc66fc7a02c29ac8d2}
+Physically read from the flash device. Passed in block must contain the start\-\_\-pos for the reading and the size of the block located at start\-\_\-pos. 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device used for data. \\
+\hline
+{\em $\ast$block} & flash\-\_\-block to store data in. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes read on success, S\-Y\-S\-E\-R\-R on failure. 
+\end{DoxyReturn}
+\hypertarget{physical_8c_abbdb5c51d7bf941811c80865db0e23e6}{\index{physical.\-c@{physical.\-c}!physical\-Write@{physical\-Write}}
+\index{physical\-Write@{physical\-Write}!physical.c@{physical.\-c}}
+\subsubsection[{physical\-Write}]{\setlength{\rightskip}{0pt plus 5cm}devcall physical\-Write (
+\begin{DoxyParamCaption}
+\item[{struct flash $\ast$}]{flash, }
+\item[{struct flash\-\_\-block $\ast$}]{block}
+\end{DoxyParamCaption}
+)}}\label{physical_8c_abbdb5c51d7bf941811c80865db0e23e6}
+Physically write to the flash device. This will write a stored block to memory if the state if F\-L\-A\-S\-H\-\_\-\-B\-L\-O\-C\-K\-\_\-\-D\-I\-R\-T\-Y (data within the block has changed). If it is not in the F\-L\-A\-S\-H\-\_\-\-B\-L\-O\-C\-K\-\_\-\-D\-I\-R\-T\-Y state that means the block is either F\-R\-E\-E (nothing is stored) or C\-L\-E\-A\-N (hasn't changed since it was read). 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$flash} & flash device used for data. \\
+\hline
+{\em $\ast$block} & flash\-\_\-block to store data in. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+number of bytes written on success, S\-Y\-S\-E\-R\-R on failure. 
+\end{DoxyReturn}

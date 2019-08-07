@@ -1,0 +1,244 @@
+\hypertarget{group__bcm2837}{\section{Bcm2837}
+\label{group__bcm2837}\index{Bcm2837@{Bcm2837}}
+}
+
+
+The So\-C of the Raspberry Pi 3 Model B+ is the Broadcom B\-C\-M2837\-B0.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group__bcm2837_ga556fc5ad8b59adb57df58404e85efe8f}{add\-\_\-mailbox\-\_\-tag} (volatile uint32\-\_\-t $\ast$buffer, uint32\-\_\-t tag, uint32\-\_\-t buflen, uint32\-\_\-t len, uint32\-\_\-t $\ast$data)
+\item 
+void \hyperlink{group__bcm2837_ga3bdf72a46b4f0bdae32864267c39c2d8}{build\-\_\-mailbox\-\_\-request} (volatile uint32\-\_\-t $\ast$mailbuffer)
+\item 
+void \hyperlink{group__bcm2837_ga2aa4bfcc808a4bb452a90c63426e2505}{get\-\_\-mac\-\_\-mailbox} (volatile uint32\-\_\-t $\ast$mailbuffer)
+\item 
+void \hyperlink{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}{bcm2837\-\_\-mailbox\-\_\-write} (uint channel, uint value)
+\item 
+uint \hyperlink{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}{bcm2837\-\_\-mailbox\-\_\-read} (uint channel)
+\item 
+int \hyperlink{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{bcm2837\-\_\-setpower} (enum board\-\_\-power\-\_\-feature feature, bool on)
+\item 
+void \hyperlink{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{bcm2837\-\_\-power\-\_\-init} (void)
+\item 
+unsigned int \hyperlink{group__bcm2837_gaba27187e9e8c347b2f7e2f3d1eeafe83}{mmu\-\_\-section} (unsigned int vadd, unsigned int padd, unsigned int flags)
+\item 
+void \hyperlink{group__bcm2837_gabd7eba8cae99b9fb84685567d7f35242}{mmu\-\_\-init} ()
+\item 
+void \hyperlink{group__bcm2837_ga7eb4d382bdd4b42c57dbb7154d03ac66}{led\-\_\-init} (void)
+\item 
+void \hyperlink{group__bcm2837_ga801936b261245054eb570e040642818a}{led\-\_\-on} (void)
+\item 
+void \hyperlink{group__bcm2837_ga429f05b7eac928971c19e37ddc7079be}{led\-\_\-off} (void)
+\item 
+int \hyperlink{group__bcm2837_gab8f68c443b71713640467ae1be1228f1}{platforminit} (void)
+\item 
+void $\ast$ \hyperlink{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}{setup\-Stack} (void $\ast$stackaddr, void $\ast$procaddr, void $\ast$retaddr, uint nargs, va\-\_\-list ap)
+\item 
+\hypertarget{group__bcm2837_gaba2a41b7c6a7714a97247c273185b45a}{void {\bfseries Core\-Setup} (void)}\label{group__bcm2837_gaba2a41b7c6a7714a97247c273185b45a}
+
+\item 
+void \hyperlink{group__bcm2837_ga5587184e0769948d9924cad59ac83341}{createnullthread} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The So\-C of the Raspberry Pi 3 Model B+ is the Broadcom B\-C\-M2837\-B0. While much of Embedded Xinu's port has been redesigned for the B\-C\-M2837\-B0 (bootloader, multicore capability, L1 cache, to name a few), there are remnants of the last port (B\-C\-M2835 Raspberry Pi 1) in this operating system as the entire wheel need not be reinvented. 
+
+\subsection{Function Documentation}
+\hypertarget{group__bcm2837_ga556fc5ad8b59adb57df58404e85efe8f}{\index{Bcm2837@{Bcm2837}!add\-\_\-mailbox\-\_\-tag@{add\-\_\-mailbox\-\_\-tag}}
+\index{add\-\_\-mailbox\-\_\-tag@{add\-\_\-mailbox\-\_\-tag}!Bcm2837@{Bcm2837}}
+\subsubsection[{add\-\_\-mailbox\-\_\-tag}]{\setlength{\rightskip}{0pt plus 5cm}void add\-\_\-mailbox\-\_\-tag (
+\begin{DoxyParamCaption}
+\item[{volatile uint32\-\_\-t $\ast$}]{buffer, }
+\item[{uint32\-\_\-t}]{tag, }
+\item[{uint32\-\_\-t}]{buflen, }
+\item[{uint32\-\_\-t}]{len, }
+\item[{uint32\-\_\-t $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga556fc5ad8b59adb57df58404e85efe8f}
+Add a tag to the mailbox buffer. This step must be done before a mailbox request is built. 
+\begin{DoxyParams}{Parameters}
+{\em buffer} & Mailbox buffer \\
+\hline
+{\em tag} & Tag to pass \\
+\hline
+{\em buflen} & Buffer length \\
+\hline
+{\em len} & Length of data to be sent \\
+\hline
+{\em data} & Data to be sent \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-mailbox\-\_\-read@{bcm2837\-\_\-mailbox\-\_\-read}}
+\index{bcm2837\-\_\-mailbox\-\_\-read@{bcm2837\-\_\-mailbox\-\_\-read}!Bcm2837@{Bcm2837}}
+\subsubsection[{bcm2837\-\_\-mailbox\-\_\-read}]{\setlength{\rightskip}{0pt plus 5cm}uint bcm2837\-\_\-mailbox\-\_\-read (
+\begin{DoxyParamCaption}
+\item[{uint}]{channel}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gaf3a135e92d25f12cae0cc9c4e380c2e0}
+Read from the specified channel of the mailbox. 
+\begin{DoxyParams}{Parameters}
+{\em channel} & Mailbox channel to read from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value read from the mailbox 
+\end{DoxyReturn}
+\hypertarget{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-mailbox\-\_\-write@{bcm2837\-\_\-mailbox\-\_\-write}}
+\index{bcm2837\-\_\-mailbox\-\_\-write@{bcm2837\-\_\-mailbox\-\_\-write}!Bcm2837@{Bcm2837}}
+\subsubsection[{bcm2837\-\_\-mailbox\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}void bcm2837\-\_\-mailbox\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{uint}]{channel, }
+\item[{uint}]{value}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga560d6c2a9ab56136a3219b1aceaca531}
+Write to the specified channel of the mailbox. 
+\begin{DoxyParams}{Parameters}
+{\em channel} & Mailbox channel to write to \\
+\hline
+{\em value} & Value to write to the mailbox \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}}
+\index{bcm2837\-\_\-power\-\_\-init@{bcm2837\-\_\-power\-\_\-init}!Bcm2837@{Bcm2837}}
+\subsubsection[{bcm2837\-\_\-power\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void bcm2837\-\_\-power\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gad1cb830ad707715e909b54abc6f8d9d5}
+Resets B\-C\-M2837 power to default state (all devices powered off). \hypertarget{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}{\index{Bcm2837@{Bcm2837}!bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}}
+\index{bcm2837\-\_\-setpower@{bcm2837\-\_\-setpower}!Bcm2837@{Bcm2837}}
+\subsubsection[{bcm2837\-\_\-setpower}]{\setlength{\rightskip}{0pt plus 5cm}int bcm2837\-\_\-setpower (
+\begin{DoxyParamCaption}
+\item[{enum board\-\_\-power\-\_\-feature}]{feature, }
+\item[{bool}]{on}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gad5db106cf15f544accbdeb02ed89894a}
+Powers on or powers off B\-C\-M2837 hardware.
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & Device or hardware to power on or off. \\
+\hline
+{\em on} & \-::\-T\-R\-U\-E to power on; \-::\-F\-A\-L\-S\-E to power off.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if successful; \-::\-S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}
+\hypertarget{group__bcm2837_ga3bdf72a46b4f0bdae32864267c39c2d8}{\index{Bcm2837@{Bcm2837}!build\-\_\-mailbox\-\_\-request@{build\-\_\-mailbox\-\_\-request}}
+\index{build\-\_\-mailbox\-\_\-request@{build\-\_\-mailbox\-\_\-request}!Bcm2837@{Bcm2837}}
+\subsubsection[{build\-\_\-mailbox\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void build\-\_\-mailbox\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{volatile uint32\-\_\-t $\ast$}]{mailbuffer}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga3bdf72a46b4f0bdae32864267c39c2d8}
+Ready the buffer by initializing proper lengths, slots. 
+\begin{DoxyParams}{Parameters}
+{\em mailbuffer} & Mailbox buffer \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__bcm2837_ga5587184e0769948d9924cad59ac83341}{\index{Bcm2837@{Bcm2837}!createnullthread@{createnullthread}}
+\index{createnullthread@{createnullthread}!Bcm2837@{Bcm2837}}
+\subsubsection[{createnullthread}]{\setlength{\rightskip}{0pt plus 5cm}void createnullthread (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga5587184e0769948d9924cad59ac83341}
+Create a null thread (for testing purposes -\/$>$ should be taken out) \hypertarget{group__bcm2837_ga2aa4bfcc808a4bb452a90c63426e2505}{\index{Bcm2837@{Bcm2837}!get\-\_\-mac\-\_\-mailbox@{get\-\_\-mac\-\_\-mailbox}}
+\index{get\-\_\-mac\-\_\-mailbox@{get\-\_\-mac\-\_\-mailbox}!Bcm2837@{Bcm2837}}
+\subsubsection[{get\-\_\-mac\-\_\-mailbox}]{\setlength{\rightskip}{0pt plus 5cm}void get\-\_\-mac\-\_\-mailbox (
+\begin{DoxyParamCaption}
+\item[{volatile uint32\-\_\-t $\ast$}]{mailbuffer}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga2aa4bfcc808a4bb452a90c63426e2505}
+Function for getting the M\-A\-C address using the corresponding M\-A\-C mailbox tag. 
+\begin{DoxyParams}{Parameters}
+{\em mailbuffer} & Mailbox buffer written with M\-A\-C address upon conclusion. \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__bcm2837_ga7eb4d382bdd4b42c57dbb7154d03ac66}{\index{Bcm2837@{Bcm2837}!led\-\_\-init@{led\-\_\-init}}
+\index{led\-\_\-init@{led\-\_\-init}!Bcm2837@{Bcm2837}}
+\subsubsection[{led\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void led\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga7eb4d382bdd4b42c57dbb7154d03ac66}
+This code is irrelevant to Embedded Xinu and is only used as a means of testing on the R\-P\-I 3 boards
+
+Initialize G\-P\-I\-O pin 16 as an output \hypertarget{group__bcm2837_ga429f05b7eac928971c19e37ddc7079be}{\index{Bcm2837@{Bcm2837}!led\-\_\-off@{led\-\_\-off}}
+\index{led\-\_\-off@{led\-\_\-off}!Bcm2837@{Bcm2837}}
+\subsubsection[{led\-\_\-off}]{\setlength{\rightskip}{0pt plus 5cm}void led\-\_\-off (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga429f05b7eac928971c19e37ddc7079be}
+Set G\-P\-I\-O pin 16 to O\-F\-F \hypertarget{group__bcm2837_ga801936b261245054eb570e040642818a}{\index{Bcm2837@{Bcm2837}!led\-\_\-on@{led\-\_\-on}}
+\index{led\-\_\-on@{led\-\_\-on}!Bcm2837@{Bcm2837}}
+\subsubsection[{led\-\_\-on}]{\setlength{\rightskip}{0pt plus 5cm}void led\-\_\-on (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_ga801936b261245054eb570e040642818a}
+Set G\-P\-I\-O pin 16 to O\-N \hypertarget{group__bcm2837_gabd7eba8cae99b9fb84685567d7f35242}{\index{Bcm2837@{Bcm2837}!mmu\-\_\-init@{mmu\-\_\-init}}
+\index{mmu\-\_\-init@{mmu\-\_\-init}!Bcm2837@{Bcm2837}}
+\subsubsection[{mmu\-\_\-init}]{\setlength{\rightskip}{0pt plus 5cm}void mmu\-\_\-init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gabd7eba8cae99b9fb84685567d7f35242}
+\hyperlink{group__bcm2837_gabd7eba8cae99b9fb84685567d7f35242}{mmu\-\_\-init()} configures virtual address == physical address also configures memory to be cacheable, except for peripheral portion \hypertarget{group__bcm2837_gaba27187e9e8c347b2f7e2f3d1eeafe83}{\index{Bcm2837@{Bcm2837}!mmu\-\_\-section@{mmu\-\_\-section}}
+\index{mmu\-\_\-section@{mmu\-\_\-section}!Bcm2837@{Bcm2837}}
+\subsubsection[{mmu\-\_\-section}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int mmu\-\_\-section (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{vadd, }
+\item[{unsigned int}]{padd, }
+\item[{unsigned int}]{flags}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gaba27187e9e8c347b2f7e2f3d1eeafe83}
+Mark a section of memory as cacheable, given flags 
+\begin{DoxyParams}{Parameters}
+{\em vadd} & Virtual address \\
+\hline
+{\em padd} & Physical address \\
+\hline
+{\em flags} & Flag to mark the section \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Zero 
+\end{DoxyReturn}
+\hypertarget{group__bcm2837_gab8f68c443b71713640467ae1be1228f1}{\index{Bcm2837@{Bcm2837}!platforminit@{platforminit}}
+\index{platforminit@{platforminit}!Bcm2837@{Bcm2837}}
+\subsubsection[{platforminit}]{\setlength{\rightskip}{0pt plus 5cm}int platforminit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gab8f68c443b71713640467ae1be1228f1}
+Initializes platform specific information for the Raspberry Pi hardware. \begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\hypertarget{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}{\index{Bcm2837@{Bcm2837}!setup\-Stack@{setup\-Stack}}
+\index{setup\-Stack@{setup\-Stack}!Bcm2837@{Bcm2837}}
+\subsubsection[{setup\-Stack}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ setup\-Stack (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{stackaddr, }
+\item[{void $\ast$}]{procaddr, }
+\item[{void $\ast$}]{retaddr, }
+\item[{uint}]{nargs, }
+\item[{va\-\_\-list}]{ap}
+\end{DoxyParamCaption}
+)}}\label{group__bcm2837_gabd29847cfed983d7133858e65fc2d146}
+Set up the context record and arguments on the stack for a new thread (A\-R\-M version) 
+\begin{DoxyParams}{Parameters}
+{\em stackaddr} & Stack address \\
+\hline
+{\em procaddr} & Process address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Top of the stack 
+\end{DoxyReturn}

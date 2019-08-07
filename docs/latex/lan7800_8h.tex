@@ -1,0 +1,600 @@
+\hypertarget{lan7800_8h}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.h File Reference}
+\label{lan7800_8h}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.\-h@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/lan7800/lan7800.\-h}}
+}
+{\ttfamily \#include \char`\"{}usb\-\_\-util.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$clock.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{lan7800_8h_ae3907c05b02387c6d8eff93ec36ee1b9}{\#define {\bfseries L\-A\-N7800\-\_\-\-V\-E\-N\-D\-O\-R\-\_\-\-I\-D}~0x424}\label{lan7800_8h_ae3907c05b02387c6d8eff93ec36ee1b9}
+
+\item 
+\hypertarget{lan7800_8h_abc2318eab135c129ea637677c87c5a88}{\#define {\bfseries L\-A\-N7800\-\_\-\-P\-R\-O\-D\-U\-C\-T\-\_\-\-I\-D}~0x7800}\label{lan7800_8h_abc2318eab135c129ea637677c87c5a88}
+
+\item 
+\hypertarget{lan7800_8h_a87516dfcff5e80d7b6b6bae1417ffb5f}{\#define {\bfseries lan7800\-\_\-dump\-\_\-reg}(udev, index)~\-\_\-\-\_\-lan7800\-\_\-dump\-\_\-reg(udev, index, \#index)}\label{lan7800_8h_a87516dfcff5e80d7b6b6bae1417ffb5f}
+
+\item 
+\hypertarget{lan7800_8h_a46bcfaf515733022beb7a39b52b1072e}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-R\-X\-C\-S\-U\-M}~4}\label{lan7800_8h_a46bcfaf515733022beb7a39b52b1072e}
+
+\item 
+\hypertarget{lan7800_8h_ae1fcd816aabf721961c1be69e5ba4373}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-H\-W\-\_\-\-V\-L\-A\-N\-\_\-\-C\-T\-A\-G\-\_\-\-R\-X}~2}\label{lan7800_8h_ae1fcd816aabf721961c1be69e5ba4373}
+
+\item 
+\hypertarget{lan7800_8h_a6ad44101b98f66c56a81345e97eca22b}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-H\-W\-\_\-\-V\-L\-A\-N\-\_\-\-C\-T\-A\-G\-\_\-\-F\-I\-L\-T\-E\-R}~1}\label{lan7800_8h_a6ad44101b98f66c56a81345e97eca22b}
+
+\item 
+\hypertarget{lan7800_8h_aecf1c4ed0ad48151fd22bf4682a27dc2}{\#define {\bfseries lan7800\-\_\-wait\-\_\-for\-\_\-bit}~\hyperlink{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit}}\label{lan7800_8h_aecf1c4ed0ad48151fd22bf4682a27dc2}
+
+\item 
+\hypertarget{lan7800_8h_ac73a81b6fe4615dc85710dfa8fb7e34b}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-I\-G\-E\-\_\-}~0x20000000}\label{lan7800_8h_ac73a81b6fe4615dc85710dfa8fb7e34b}
+
+\item 
+\hypertarget{lan7800_8h_aac38c6a2953319ee726be597fcdf6f8c}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-I\-C\-E\-\_\-}~0x10000000}\label{lan7800_8h_aac38c6a2953319ee726be597fcdf6f8c}
+
+\item 
+\hypertarget{lan7800_8h_a051302f4dcffabf5c12c9fa8d2db3573}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-L\-S\-O}~0x08000000}\label{lan7800_8h_a051302f4dcffabf5c12c9fa8d2db3573}
+
+\item 
+\hypertarget{lan7800_8h_a61d330e072f6f348f8d103aba665c55b}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-I\-P\-E\-\_\-}~0x04000000}\label{lan7800_8h_a61d330e072f6f348f8d103aba665c55b}
+
+\item 
+\hypertarget{lan7800_8h_ae12c372718a6c655d6811eaccc70c4d3}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-T\-P\-E\-\_\-}~0x02000000}\label{lan7800_8h_ae12c372718a6c655d6811eaccc70c4d3}
+
+\item 
+\hypertarget{lan7800_8h_a7f36b9b21587624d19d8f4b5cc9faf2c}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-I\-V\-T\-G\-\_\-}~0x01000000}\label{lan7800_8h_a7f36b9b21587624d19d8f4b5cc9faf2c}
+
+\item 
+\hypertarget{lan7800_8h_ac59d75874b2ecdfeda80b805f3785813}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-R\-V\-T\-G\-\_\-}~0x00800000}\label{lan7800_8h_ac59d75874b2ecdfeda80b805f3785813}
+
+\item 
+\hypertarget{lan7800_8h_a36ab1e8bb88f561d592ebe84b03da620}{\#define {\bfseries L\-A\-N7800\-\_\-\-T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-B\-U\-F\-\_\-\-S\-I\-Z\-E}~0x000\-F\-F\-F\-F\-F}\label{lan7800_8h_a36ab1e8bb88f561d592ebe84b03da620}
+
+\item 
+\hypertarget{lan7800_8h_a387048e1ee1086aa7d0665fb523d995c}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-M\-S\-S\-\_\-\-S\-H\-I\-F\-T\-\_\-}~16}\label{lan7800_8h_a387048e1ee1086aa7d0665fb523d995c}
+
+\item 
+\hypertarget{lan7800_8h_a0e580e0fe9dad4465e575cd3d1af4577}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-M\-S\-S\-\_\-\-M\-A\-S\-K\-\_\-}~0x3\-F\-F\-F0000}\label{lan7800_8h_a0e580e0fe9dad4465e575cd3d1af4577}
+
+\item 
+\hypertarget{lan7800_8h_a0a926c885fe2249a65bb049aee2feada}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-M\-S\-S\-\_\-\-M\-I\-N\-\_\-}~(unsigned short)8}\label{lan7800_8h_a0a926c885fe2249a65bb049aee2feada}
+
+\item 
+\hypertarget{lan7800_8h_a869f1bc0eb0db44e06a5053ea535c3c8}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-V\-T\-A\-G\-\_\-\-M\-A\-S\-K\-\_\-}~0x0000\-F\-F\-F\-F}\label{lan7800_8h_a869f1bc0eb0db44e06a5053ea535c3c8}
+
+\item 
+\hypertarget{lan7800_8h_a062edce64477c4944faecd33054805bb}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-V\-T\-A\-G\-\_\-\-P\-R\-I\-\_\-\-M\-A\-S\-K\-\_\-}~0x0000\-E000}\label{lan7800_8h_a062edce64477c4944faecd33054805bb}
+
+\item 
+\hypertarget{lan7800_8h_a1a4486814d8cac3dbb748556d8810a8f}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-V\-T\-A\-G\-\_\-\-C\-F\-I\-\_\-\-M\-A\-S\-K\-\_\-}~0x00001000}\label{lan7800_8h_a1a4486814d8cac3dbb748556d8810a8f}
+
+\item 
+\hypertarget{lan7800_8h_a800a18b7e965cd17bad603c5a96a35e4}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-B\-\_\-\-V\-T\-A\-G\-\_\-\-V\-I\-D\-\_\-\-M\-A\-S\-K\-\_\-}~0x00000\-F\-F\-F}\label{lan7800_8h_a800a18b7e965cd17bad603c5a96a35e4}
+
+\item 
+\hypertarget{lan7800_8h_ad88bdb429b2ab5e5a273885b9f6fd24f}{\#define {\bfseries L\-A\-N7800\-\_\-\-T\-X\-\_\-\-O\-V\-E\-R\-H\-E\-A\-D}~8}\label{lan7800_8h_ad88bdb429b2ab5e5a273885b9f6fd24f}
+
+\item 
+\hypertarget{lan7800_8h_a16fc6940463f086fc9716e88273ece7f}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-X\-\_\-\-O\-V\-E\-R\-H\-E\-A\-D}~4}\label{lan7800_8h_a16fc6940463f086fc9716e88273ece7f}
+
+\item 
+\hypertarget{lan7800_8h_a7ec0b5993d05c70ca55f7041a4166588}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-S\-\_\-\-U\-S\-B\-\_\-\-P\-K\-T\-\_\-\-S\-I\-Z\-E}~512}\label{lan7800_8h_a7ec0b5993d05c70ca55f7041a4166588}
+
+\item 
+\hypertarget{lan7800_8h_a72865ced6f2e00570a0e021f785b2190}{\#define {\bfseries L\-A\-N7800\-\_\-\-V\-E\-N\-D\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-W\-R\-I\-T\-E}~0x\-A0}\label{lan7800_8h_a72865ced6f2e00570a0e021f785b2190}
+
+\item 
+\hypertarget{lan7800_8h_a24cde40f15e943f805bf5d26973f03c3}{\#define {\bfseries L\-A\-N7800\-\_\-\-V\-E\-N\-D\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-R\-E\-A\-D}~0x\-A1}\label{lan7800_8h_a24cde40f15e943f805bf5d26973f03c3}
+
+\item 
+\hypertarget{lan7800_8h_a8a121f0727e91f3dc959eb1949758b4c}{\#define {\bfseries L\-A\-N7800\-\_\-\-V\-E\-N\-D\-E\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-\_\-\-G\-E\-T\-\_\-\-S\-T\-A\-T\-S}~0x\-A2}\label{lan7800_8h_a8a121f0727e91f3dc959eb1949758b4c}
+
+\item 
+\hypertarget{lan7800_8h_a6855c8ce9765b30d0584110f5c7b0d4a}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X}~0x104}\label{lan7800_8h_a6855c8ce9765b30d0584110f5c7b0d4a}
+
+\item 
+\hypertarget{lan7800_8h_a1330c5d54e2c386c533080e2c9150064}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-T\-X}~0x108}\label{lan7800_8h_a1330c5d54e2c386c533080e2c9150064}
+
+\item 
+\hypertarget{lan7800_8h_a88caa7f41b984a1cb15e88f338ca962c}{\#define {\bfseries L\-A\-N7800\-\_\-\-A\-D\-D\-R\-H}~0x118}\label{lan7800_8h_a88caa7f41b984a1cb15e88f338ca962c}
+
+\item 
+\hypertarget{lan7800_8h_a25e19da19e0f10ac4ce588f24908cefd}{\#define {\bfseries L\-A\-N7800\-\_\-\-A\-D\-D\-R\-L}~0x11\-C}\label{lan7800_8h_a25e19da19e0f10ac4ce588f24908cefd}
+
+\item 
+\hypertarget{lan7800_8h_a027365a096e56d0eeeef0b0da9977fe7}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G}~0x010}\label{lan7800_8h_a027365a096e56d0eeeef0b0da9977fe7}
+
+\item 
+\hypertarget{lan7800_8h_ac39b108d83e8474af6c1697f40ead7e2}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-S\-R\-S\-T}~0x00000001}\label{lan7800_8h_ac39b108d83e8474af6c1697f40ead7e2}
+
+\item 
+\hypertarget{lan7800_8h_ab1567b418563c42e7a7ceb6a51a0c543}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-L\-R\-S\-T}~0x00000002}\label{lan7800_8h_ab1567b418563c42e7a7ceb6a51a0c543}
+
+\item 
+\hypertarget{lan7800_8h_adc4ced5b8070a570782ab88d16cee651}{\#define {\bfseries L\-A\-N7800\-\_\-\-B\-U\-R\-S\-T\-\_\-\-C\-A\-P}~0x090}\label{lan7800_8h_adc4ced5b8070a570782ab88d16cee651}
+
+\item 
+\hypertarget{lan7800_8h_a9388104dd6b69aa2abe277511324fe33}{\#define {\bfseries L\-A\-N7800\-\_\-\-B\-U\-R\-S\-T\-\_\-\-C\-A\-P\-\_\-\-S\-I\-Z\-E}~0x000000\-F\-F}\label{lan7800_8h_a9388104dd6b69aa2abe277511324fe33}
+
+\item 
+\hypertarget{lan7800_8h_a7307da67822c22f3d879da74bd19f33e}{\#define {\bfseries M\-A\-C\-\_\-\-C\-R\-\_\-\-L\-O\-O\-P\-B\-A\-C\-K}~0x00000400}\label{lan7800_8h_a7307da67822c22f3d879da74bd19f33e}
+
+\item 
+\hypertarget{lan7800_8h_af5fa26d81f0d473fde09df2b6876f56d}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-X\-\_\-\-S\-T\-S\-\_\-\-F\-L}~0x00003\-F\-F\-F}\label{lan7800_8h_af5fa26d81f0d473fde09df2b6876f56d}
+
+\item 
+\hypertarget{lan7800_8h_a4962f882211b7ccfa2170c20ab305464}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-R\-X\-\_\-\-E\-R\-R}~0x\-C03\-F0000}\label{lan7800_8h_a4962f882211b7ccfa2170c20ab305464}
+
+\item 
+\hypertarget{lan7800_8h_aa36d2f3c0fed9bc13eb2693be1f3b990}{\#define {\bfseries L\-A\-N7800\-\_\-\-T\-X\-\_\-\-F\-L\-O\-W}~0x0\-D0}\label{lan7800_8h_aa36d2f3c0fed9bc13eb2693be1f3b990}
+
+\item 
+\hypertarget{lan7800_8h_ada58080a73b016a6714e6cee2aee6359}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L}~0x0\-B0}\label{lan7800_8h_ada58080a73b016a6714e6cee2aee6359}
+
+\item 
+\hypertarget{lan7800_8h_a2f710a2ff7949a33f7a26885f9745a22}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-C\-R}~0x100}\label{lan7800_8h_a2f710a2ff7949a33f7a26885f9745a22}
+
+\item 
+\hypertarget{lan7800_8h_ae6948a15031e71e592102ac0ab180207}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-C\-R\-\_\-\-A\-D\-P}~(1 $<$$<$ 13)}\label{lan7800_8h_ae6948a15031e71e592102ac0ab180207}
+
+\item 
+\hypertarget{lan7800_8h_ace04804425526058f2d2634768995663}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-T\-X\-\_\-\-C\-T\-L}~0x0\-C4}\label{lan7800_8h_ace04804425526058f2d2634768995663}
+
+\item 
+\hypertarget{lan7800_8h_a2e210bbdad979837cfc7c8269034ebd5}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-T\-H\-\_\-\-F\-R\-A\-M\-E\-\_\-\-L\-E\-N}~1514}\label{lan7800_8h_a2e210bbdad979837cfc7c8269034ebd5}
+
+\item 
+\hypertarget{lan7800_8h_a3a77650f059400f4755d844ea6ad58c5}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E}(mtu)~((mtu) $<$$<$ 16)}\label{lan7800_8h_a3a77650f059400f4755d844ea6ad58c5}
+
+\item 
+\hypertarget{lan7800_8h_a14c453b69dd29e1a2c5f6e25490c32f0}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E\-\_\-\-D\-E\-F\-A\-U\-L\-T}~L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E(L\-A\-N7800\-\_\-\-E\-T\-H\-\_\-\-F\-R\-A\-M\-E\-\_\-\-L\-E\-N + 4 /$\ast$ V\-L\-A\-N $\ast$/ + 4 /$\ast$ C\-R\-C $\ast$/)}\label{lan7800_8h_a14c453b69dd29e1a2c5f6e25490c32f0}
+
+\item 
+\hypertarget{lan7800_8h_a1057b9ad96597414a3fe5084345c9225}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-F\-C\-S\-\_\-\-S\-T\-R\-I\-P}~(1 $<$$<$ 4)}\label{lan7800_8h_a1057b9ad96597414a3fe5084345c9225}
+
+\item 
+\hypertarget{lan7800_8h_a6811b38789665a424535811cb42e5da3}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-R\-X\-\_\-\-C\-T\-L}~0x0\-C0}\label{lan7800_8h_a6811b38789665a424535811cb42e5da3}
+
+\item 
+\hypertarget{lan7800_8h_abdf9e78ef3ed1de4630ea4e1bda7a967}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-B\-A\-S\-E}~0x400}\label{lan7800_8h_abdf9e78ef3ed1de4630ea4e1bda7a967}
+
+\item 
+\hypertarget{lan7800_8h_afb50058f297949d1136b5de3896c1b20}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I\-X}~0x00}\label{lan7800_8h_afb50058f297949d1136b5de3896c1b20}
+
+\item 
+\hypertarget{lan7800_8h_a95da864494a95cd22ac117e1ad388230}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O\-X}~0x04}\label{lan7800_8h_a95da864494a95cd22ac117e1ad388230}
+
+\item 
+\hypertarget{lan7800_8h_a4f41cf84b3f4327514faa5c1e542cf19}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I\-\_\-\-B\-E\-G\-I\-N}~(L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-B\-A\-S\-E + L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I\-X)}\label{lan7800_8h_a4f41cf84b3f4327514faa5c1e542cf19}
+
+\item 
+\hypertarget{lan7800_8h_a6c9bec11e22771efe78f56bb51480e7a}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O\-\_\-\-B\-E\-G\-I\-N}~(L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-B\-A\-S\-E + L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O\-X)}\label{lan7800_8h_a6c9bec11e22771efe78f56bb51480e7a}
+
+\item 
+\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I}(index)
+\item 
+\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O}(index)
+\item 
+\hypertarget{lan7800_8h_ab61dc3fa30c5108037a6d46e27e1eecd}{\#define {\bfseries L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I\-\_\-\-V\-A\-L\-I\-D}~B\-I\-T(31)}\label{lan7800_8h_ab61dc3fa30c5108037a6d46e27e1eecd}
+
+\item 
+\hypertarget{lan7800_8h_a9ece0eba83be3294988bb334e7b49bd3}{\#define {\bfseries M\-I\-I\-\_\-\-A\-C\-C}~0x120}\label{lan7800_8h_a9ece0eba83be3294988bb334e7b49bd3}
+
+\item 
+\hypertarget{lan7800_8h_aaa042a045626b552e4b59bc526b15db5}{\#define {\bfseries M\-I\-I\-\_\-\-A\-C\-C\-\_\-\-M\-I\-I\-\_\-\-R\-E\-A\-D}~0x0}\label{lan7800_8h_aaa042a045626b552e4b59bc526b15db5}
+
+\item 
+\hypertarget{lan7800_8h_afb4eef9960e4276ce167aaf13e641103}{\#define {\bfseries M\-I\-I\-\_\-\-A\-C\-C\-\_\-\-M\-I\-I\-\_\-\-W\-R\-I\-T\-E}~0x2}\label{lan7800_8h_afb4eef9960e4276ce167aaf13e641103}
+
+\item 
+\hypertarget{lan7800_8h_ac0f1f3047336c0f51f9e1c458148fd77}{\#define {\bfseries M\-I\-I\-\_\-\-A\-C\-C\-\_\-\-M\-I\-I\-\_\-\-B\-U\-S\-Y}~1 $<$$<$ 0}\label{lan7800_8h_ac0f1f3047336c0f51f9e1c458148fd77}
+
+\item 
+\hypertarget{lan7800_8h_ad4555e12c97807989c77125adb40d616}{\#define {\bfseries M\-I\-I\-\_\-\-D\-A\-T\-A}~0x124}\label{lan7800_8h_ad4555e12c97807989c77125adb40d616}
+
+\item 
+\hypertarget{lan7800_8h_a940bb5653213512d362f6519428b2282}{\#define {\bfseries T\-X\-\_\-\-O\-V\-E\-R\-H\-E\-A\-D}~8}\label{lan7800_8h_a940bb5653213512d362f6519428b2282}
+
+\item 
+\hypertarget{lan7800_8h_a78efeb08b0f78734d291cdbdc352dbe2}{\#define {\bfseries R\-X\-\_\-\-O\-V\-E\-R\-H\-E\-A\-D}~10}\label{lan7800_8h_a78efeb08b0f78734d291cdbdc352dbe2}
+
+\item 
+\hypertarget{lan7800_8h_ac3d50e86d73ec8451ae74c5f95ef920d}{\#define {\bfseries R\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-L\-E\-N\-\_\-\-M\-A\-S\-K}~0x00003\-F\-F\-F}\label{lan7800_8h_ac3d50e86d73ec8451ae74c5f95ef920d}
+
+\item 
+\hypertarget{lan7800_8h_ab44b4a4817da1bffca32f8db71b70081}{\#define {\bfseries R\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-R\-E\-D}~0x00400000}\label{lan7800_8h_ab44b4a4817da1bffca32f8db71b70081}
+
+\item 
+\hypertarget{lan7800_8h_a08fbb712ae792fd626073151d8361ccf}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-L\-E\-N\-\_\-\-M\-A\-S\-K}~0x000\-F\-F\-F\-F\-F}\label{lan7800_8h_a08fbb712ae792fd626073151d8361ccf}
+
+\item 
+\hypertarget{lan7800_8h_a12aa97d4cbab462e453a90386dbcd83d}{\#define {\bfseries T\-X\-\_\-\-C\-M\-D\-\_\-\-A\-\_\-\-F\-C\-S}~0x00400000}\label{lan7800_8h_a12aa97d4cbab462e453a90386dbcd83d}
+
+\item 
+\hypertarget{lan7800_8h_a2d1678d5a7cc8ce499643f3b8957def4}{\#define {\bfseries E\-I\-N\-V\-A\-L}~22}\label{lan7800_8h_a2d1678d5a7cc8ce499643f3b8957def4}
+
+\item 
+\hypertarget{lan7800_8h_abb2f1f9253e98a05a1f70b253b729a2f}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E}~0x00001000}\label{lan7800_8h_abb2f1f9253e98a05a1f70b253b729a2f}
+
+\item 
+\hypertarget{lan7800_8h_ad994c9f3b2c8eff80653399188483054}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-P\-W\-R\-\_\-\-D\-N}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x00}\label{lan7800_8h_ad994c9f3b2c8eff80653399188483054}
+
+\item 
+\hypertarget{lan7800_8h_af2cc314ee7fcf0a3f6af306db9cb6497}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-P\-W\-R\-\_\-\-D\-N\-\_\-\-P\-W\-R\-D\-N\-\_\-\-N}~0x01}\label{lan7800_8h_af2cc314ee7fcf0a3f6af306db9cb6497}
+
+\item 
+\hypertarget{lan7800_8h_a8ffbf6de0094b5f94ee7121ca51226a7}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-A\-D\-D\-R1}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x01}\label{lan7800_8h_a8ffbf6de0094b5f94ee7121ca51226a7}
+
+\item 
+\hypertarget{lan7800_8h_a74b1e01f686ef3ff978658d12842aa54}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-A\-D\-D\-R1\-\_\-15\-\_\-11}~0x1\-F}\label{lan7800_8h_a74b1e01f686ef3ff978658d12842aa54}
+
+\item 
+\hypertarget{lan7800_8h_a040af12f3afc8b9aeb1043804a50b8a2}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-A\-D\-D\-R2}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x02}\label{lan7800_8h_a040af12f3afc8b9aeb1043804a50b8a2}
+
+\item 
+\hypertarget{lan7800_8h_ae6009416afe75dbeffdaff4609266fce}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-A\-D\-D\-R2\-\_\-10\-\_\-3}~0x\-F\-F}\label{lan7800_8h_ae6009416afe75dbeffdaff4609266fce}
+
+\item 
+\hypertarget{lan7800_8h_a5d2297be1b59225da16554466e949be4}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-F\-U\-N\-C\-\_\-\-C\-M\-D}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x08}\label{lan7800_8h_a5d2297be1b59225da16554466e949be4}
+
+\item 
+\hypertarget{lan7800_8h_a132be8262ae1671c8c48fe128fc9eece}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-F\-U\-N\-C\-\_\-\-C\-M\-D\-\_\-\-R\-E\-A\-D}~0x01}\label{lan7800_8h_a132be8262ae1671c8c48fe128fc9eece}
+
+\item 
+\hypertarget{lan7800_8h_a15771220c35499d36998d68e534fe7f7}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-C\-M\-D\-\_\-\-G\-O}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x0\-A}\label{lan7800_8h_a15771220c35499d36998d68e534fe7f7}
+
+\item 
+\hypertarget{lan7800_8h_a00d6f8cc5bf9488bf7e4598489e6722c}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-C\-M\-D\-\_\-\-G\-O\-\_\-\-G\-O}~0x01}\label{lan7800_8h_a00d6f8cc5bf9488bf7e4598489e6722c}
+
+\item 
+\hypertarget{lan7800_8h_a835b9b947f879a46f7bedbc3f886bf5c}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-S\-T\-A\-T\-U\-S}~L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-B\-A\-S\-E + 4 $\ast$ 0x0\-C}\label{lan7800_8h_a835b9b947f879a46f7bedbc3f886bf5c}
+
+\item 
+\hypertarget{lan7800_8h_ab321551af4af75ba495a2a1d91dde931}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-S\-T\-A\-T\-U\-S\-\_\-\-B\-U\-S\-Y}~0x01}\label{lan7800_8h_ab321551af4af75ba495a2a1d91dde931}
+
+\item 
+\hypertarget{lan7800_8h_a3fd7eeed0e50307626cbcb097a10de3f}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-R\-D\-\_\-\-D\-A\-T\-A}~0x01}\label{lan7800_8h_a3fd7eeed0e50307626cbcb097a10de3f}
+
+\item 
+\hypertarget{lan7800_8h_a96687c729de546f18ec31d4951f6abd1}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-I\-N\-D\-I\-C\-A\-T\-O\-R\-\_\-1}~0x\-F3}\label{lan7800_8h_a96687c729de546f18ec31d4951f6abd1}
+
+\item 
+\hypertarget{lan7800_8h_ae9f09691bce90d5425578041876469e9}{\#define {\bfseries L\-A\-N7800\-\_\-\-O\-T\-P\-\_\-\-I\-N\-D\-I\-C\-A\-T\-O\-R\-\_\-2}~0x\-F7}\label{lan7800_8h_ae9f09691bce90d5425578041876469e9}
+
+\item 
+\hypertarget{lan7800_8h_a70979f50f9c83e5aebab3d6a1bd4cf35}{\#define {\bfseries E\-I\-O}~5}\label{lan7800_8h_a70979f50f9c83e5aebab3d6a1bd4cf35}
+
+\item 
+\hypertarget{lan7800_8h_ae2ad2bba2af9aec31b72256540c34bf3}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-I\-N\-D\-I\-C\-A\-T\-O\-R}~0x\-A5}\label{lan7800_8h_ae2ad2bba2af9aec31b72256540c34bf3}
+
+\item 
+\hypertarget{lan7800_8h_aaccfadbe59aee334f16edada94df742d}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-C\-M\-D}~0x040}\label{lan7800_8h_aaccfadbe59aee334f16edada94df742d}
+
+\item 
+\hypertarget{lan7800_8h_a000e3851599a13fa914f45c22ccdff17}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-C\-M\-D\-\_\-\-E\-P\-C\-\_\-\-B\-U\-S\-Y}~0x80000000}\label{lan7800_8h_a000e3851599a13fa914f45c22ccdff17}
+
+\item 
+\hypertarget{lan7800_8h_a5c5ea1d1fedaaa14ee9a1278eaf769ed}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-M\-A\-C\-\_\-\-O\-F\-F\-S\-E\-T}~0x01}\label{lan7800_8h_a5c5ea1d1fedaaa14ee9a1278eaf769ed}
+
+\item 
+\hypertarget{lan7800_8h_a9bc1b2bfc7273fde1a336b8190664956}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-C\-M\-D\-\_\-\-E\-P\-C\-\_\-\-T\-I\-M\-E\-O\-U\-T}~0x00000400}\label{lan7800_8h_a9bc1b2bfc7273fde1a336b8190664956}
+
+\item 
+\hypertarget{lan7800_8h_aaeca8cf8f27d1c3711a0284ef57d3d20}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-L\-E\-D3\-\_\-\-E\-N}~0x00800000}\label{lan7800_8h_aaeca8cf8f27d1c3711a0284ef57d3d20}
+
+\item 
+\hypertarget{lan7800_8h_a5e85fc63c93e5a68ab240ceb04a185b5}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-L\-E\-D2\-\_\-\-E\-N}~0x00400000}\label{lan7800_8h_a5e85fc63c93e5a68ab240ceb04a185b5}
+
+\item 
+\hypertarget{lan7800_8h_a405a335234063f62dfe27ef75e97dcce}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-L\-E\-D1\-\_\-\-E\-N}~0x00200000}\label{lan7800_8h_a405a335234063f62dfe27ef75e97dcce}
+
+\item 
+\hypertarget{lan7800_8h_acb3abee4b5e22cea8c318fa3018b92f7}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-L\-E\-D0\-\_\-\-E\-N}~0x00100000}\label{lan7800_8h_acb3abee4b5e22cea8c318fa3018b92f7}
+
+\item 
+\hypertarget{lan7800_8h_a9a21a698f6c5c0455e58090fe82975f0}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-C\-M\-D\-\_\-\-E\-P\-C\-\_\-\-C\-M\-D\-\_\-\-R\-E\-A\-D}~0x00000000}\label{lan7800_8h_a9a21a698f6c5c0455e58090fe82975f0}
+
+\item 
+\hypertarget{lan7800_8h_ae3ec1faabeba4bdbe9ece581bee8408f}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-C\-M\-D\-\_\-\-E\-P\-C\-\_\-\-A\-D\-D\-R\-\_\-\-M\-A\-S\-K}~0x000001\-F\-F}\label{lan7800_8h_ae3ec1faabeba4bdbe9ece581bee8408f}
+
+\item 
+\hypertarget{lan7800_8h_a83cc009b3716ebee60bef20c260e8f04}{\#define {\bfseries L\-A\-N7800\-\_\-\-E2\-P\-\_\-\-D\-A\-T\-A}~0x44}\label{lan7800_8h_a83cc009b3716ebee60bef20c260e8f04}
+
+\item 
+\hypertarget{lan7800_8h_a738e1711eada5514b205415541f33954}{\#define {\bfseries L\-A\-N7800\-\_\-\-U\-S\-B\-\_\-\-C\-F\-G1}~0x084}\label{lan7800_8h_a738e1711eada5514b205415541f33954}
+
+\item 
+\hypertarget{lan7800_8h_a9bc5a547e28e73254d523863ff466a7e}{\#define {\bfseries L\-A\-N7800\-\_\-\-U\-S\-B\-\_\-\-C\-F\-G1\-\_\-\-L\-T\-M\-\_\-\-E\-N\-A\-B\-L\-E}~0x00000100}\label{lan7800_8h_a9bc5a547e28e73254d523863ff466a7e}
+
+\item 
+\hypertarget{lan7800_8h_ab9450cee2d6ebb27b74654b2364cd381}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-B\-E\-L\-T\-\_\-\-I\-D\-L\-E0}~0x0\-E0}\label{lan7800_8h_ab9450cee2d6ebb27b74654b2364cd381}
+
+\item 
+\hypertarget{lan7800_8h_afbf78eba9fe410fcf9979a0c42ebac3b}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-B\-E\-L\-T\-\_\-\-I\-D\-L\-E1}~0x0\-E4}\label{lan7800_8h_afbf78eba9fe410fcf9979a0c42ebac3b}
+
+\item 
+\hypertarget{lan7800_8h_aa0bea72f0355afd454b87acc5a7ed34c}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-B\-E\-L\-T\-\_\-\-A\-C\-T0}~0x0\-E8}\label{lan7800_8h_aa0bea72f0355afd454b87acc5a7ed34c}
+
+\item 
+\hypertarget{lan7800_8h_a5b75117498fac083bf0dc316e8cb5888}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-B\-E\-L\-T\-\_\-\-A\-C\-T1}~0x0\-E\-C}\label{lan7800_8h_a5b75117498fac083bf0dc316e8cb5888}
+
+\item 
+\hypertarget{lan7800_8h_a27420c3a2bd91b4635adf74271533d8b}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-I\-N\-A\-C\-T\-I\-V\-E0}~0x0\-F0}\label{lan7800_8h_a27420c3a2bd91b4635adf74271533d8b}
+
+\item 
+\hypertarget{lan7800_8h_a21571e3438267c5275a22c2a7357dc18}{\#define {\bfseries L\-A\-N7800\-\_\-\-L\-T\-M\-\_\-\-I\-N\-A\-C\-T\-I\-V\-E1}~0x0\-F4}\label{lan7800_8h_a21571e3438267c5275a22c2a7357dc18}
+
+\item 
+\hypertarget{lan7800_8h_a72d4ed269f9158b4ce084cc9cdb876be}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E\-\_\-\-M\-A\-S\-K}~0x3\-F\-F\-F0000}\label{lan7800_8h_a72d4ed269f9158b4ce084cc9cdb876be}
+
+\item 
+\hypertarget{lan7800_8h_a176c8c7facc3e85c67aecc0e2684133c}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-M\-A\-X\-\_\-\-S\-I\-Z\-E\-\_\-\-S\-H\-I\-F\-T}~16}\label{lan7800_8h_a176c8c7facc3e85c67aecc0e2684133c}
+
+\item 
+\hypertarget{lan7800_8h_a65e54b68a3347050d3f6d189ef57e57c}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-T\-C\-P\-U\-D\-P\-\_\-\-C\-O\-E}~0x00001000}\label{lan7800_8h_a65e54b68a3347050d3f6d189ef57e57c}
+
+\item 
+\hypertarget{lan7800_8h_ad562835efe4e4058d24a7ac35a8e94fe}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-I\-P\-\_\-\-C\-O\-E}~0x00000800}\label{lan7800_8h_ad562835efe4e4058d24a7ac35a8e94fe}
+
+\item 
+\hypertarget{lan7800_8h_a0ab6bba9f00cc6e480c597d5b1e7d47e}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-I\-C\-M\-P\-\_\-\-C\-O\-E}~0x00002000}\label{lan7800_8h_a0ab6bba9f00cc6e480c597d5b1e7d47e}
+
+\item 
+\hypertarget{lan7800_8h_a33bf6c448607c9ab4292baafbd399c75}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-I\-G\-M\-P\-\_\-\-C\-O\-E}~0x00004000}\label{lan7800_8h_a33bf6c448607c9ab4292baafbd399c75}
+
+\item 
+\hypertarget{lan7800_8h_a65e54b68a3347050d3f6d189ef57e57c}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-T\-C\-P\-U\-D\-P\-\_\-\-C\-O\-E}~0x00001000}\label{lan7800_8h_a65e54b68a3347050d3f6d189ef57e57c}
+
+\item 
+\hypertarget{lan7800_8h_ae1fcd816aabf721961c1be69e5ba4373}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-H\-W\-\_\-\-V\-L\-A\-N\-\_\-\-C\-T\-A\-G\-\_\-\-R\-X}~2}\label{lan7800_8h_ae1fcd816aabf721961c1be69e5ba4373}
+
+\item 
+\hypertarget{lan7800_8h_afb329d4fce61cc1e6a6f5c4434fe9946}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-V\-L\-A\-N\-\_\-\-S\-T\-R\-I\-P}~0x00000080}\label{lan7800_8h_afb329d4fce61cc1e6a6f5c4434fe9946}
+
+\item 
+\hypertarget{lan7800_8h_a6ad44101b98f66c56a81345e97eca22b}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-H\-W\-\_\-\-V\-L\-A\-N\-\_\-\-C\-T\-A\-G\-\_\-\-F\-I\-L\-T\-E\-R}~1}\label{lan7800_8h_a6ad44101b98f66c56a81345e97eca22b}
+
+\item 
+\hypertarget{lan7800_8h_a6553d01c18ce9b05e9df177296eeab41}{\#define {\bfseries R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-V\-L\-A\-N\-\_\-\-F\-I\-L\-T\-E\-R}~0x00000020}\label{lan7800_8h_a6553d01c18ce9b05e9df177296eeab41}
+
+\item 
+\hypertarget{lan7800_8h_a46bcfaf515733022beb7a39b52b1072e}{\#define {\bfseries N\-E\-T\-I\-F\-\_\-\-F\-\_\-\-R\-X\-C\-S\-U\-M}~4}\label{lan7800_8h_a46bcfaf515733022beb7a39b52b1072e}
+
+\item 
+\hypertarget{lan7800_8h_aa5da908d844a6da228bf96ee1befced8}{\#define {\bfseries L\-A\-N7800\-\_\-\-U\-S\-B\-\_\-\-C\-F\-G0}~0x080}\label{lan7800_8h_aa5da908d844a6da228bf96ee1befced8}
+
+\item 
+\hypertarget{lan7800_8h_a58a1f9e22928438241310a75eff0585e}{\#define {\bfseries L\-A\-N7800\-\_\-\-U\-S\-B\-\_\-\-C\-F\-G\-\_\-\-B\-I\-R}~0x00000040}\label{lan7800_8h_a58a1f9e22928438241310a75eff0585e}
+
+\item 
+\hypertarget{lan7800_8h_a4e7f8d65b2c6b0180ecc9d7dafb47168}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-X\-\_\-\-T\-X\-\_\-\-F\-I\-F\-O\-\_\-\-S\-I\-Z\-E}~12 $\ast$ 1024}\label{lan7800_8h_a4e7f8d65b2c6b0180ecc9d7dafb47168}
+
+\item 
+\hypertarget{lan7800_8h_a3f6627ba7ddda0bd3f9f0a3ca98f66ec}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-X\-\_\-\-R\-X\-\_\-\-F\-I\-F\-O\-\_\-\-S\-I\-Z\-E}~12 $\ast$ 1024}\label{lan7800_8h_a3f6627ba7ddda0bd3f9f0a3ca98f66ec}
+
+\item 
+\hypertarget{lan7800_8h_a201da3d8919a0439a8999e7490432003}{\#define {\bfseries L\-A\-N7800\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-B\-U\-R\-S\-T\-\_\-\-C\-A\-P\-\_\-\-S\-I\-Z\-E}~L\-A\-N7800\-\_\-\-M\-A\-X\-\_\-\-T\-X\-\_\-\-F\-I\-F\-O\-\_\-\-S\-I\-Z\-E}\label{lan7800_8h_a201da3d8919a0439a8999e7490432003}
+
+\item 
+\hypertarget{lan7800_8h_a3d3bb17f46d9a47edbaae0b5ea95c926}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-S\-\_\-\-U\-S\-B\-\_\-\-P\-K\-T\-\_\-\-S\-I\-Z\-E}~64}\label{lan7800_8h_a3d3bb17f46d9a47edbaae0b5ea95c926}
+
+\item 
+\hypertarget{lan7800_8h_a7ec0b5993d05c70ca55f7041a4166588}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-S\-\_\-\-U\-S\-B\-\_\-\-P\-K\-T\-\_\-\-S\-I\-Z\-E}~512}\label{lan7800_8h_a7ec0b5993d05c70ca55f7041a4166588}
+
+\item 
+\hypertarget{lan7800_8h_a6446d8314b788626cf15ccb6d56576ee}{\#define {\bfseries L\-A\-N7800\-\_\-\-S\-S\-\_\-\-U\-S\-B\-\_\-\-P\-K\-T\-\_\-\-S\-I\-Z\-E}~1024}\label{lan7800_8h_a6446d8314b788626cf15ccb6d56576ee}
+
+\item 
+\hypertarget{lan7800_8h_a925fda2f8ae29936fbacc2e67d4ea888}{\#define {\bfseries L\-A\-N7800\-\_\-\-B\-U\-L\-K\-\_\-\-I\-N\-\_\-\-D\-L\-Y}~0x094}\label{lan7800_8h_a925fda2f8ae29936fbacc2e67d4ea888}
+
+\item 
+\hypertarget{lan7800_8h_af463773cdc5bba041bfb63f911d4b941}{\#define {\bfseries L\-A\-N7800\-\_\-\-D\-E\-F\-A\-U\-L\-T\-\_\-\-B\-U\-L\-K\-\_\-\-I\-N\-\_\-\-D\-E\-L\-A\-Y}~0x0800}\label{lan7800_8h_af463773cdc5bba041bfb63f911d4b941}
+
+\item 
+\hypertarget{lan7800_8h_a302a8e3b3e10106c1f7384c816c0a41b}{\#define {\bfseries L\-A\-N7800\-\_\-\-H\-W\-\_\-\-C\-F\-G\-\_\-\-M\-E\-F}~0x00000010}\label{lan7800_8h_a302a8e3b3e10106c1f7384c816c0a41b}
+
+\item 
+\hypertarget{lan7800_8h_a1bc541578bf3a6ce484e702ed2abe389}{\#define {\bfseries L\-A\-N7800\-\_\-\-U\-S\-B\-\_\-\-C\-F\-G\-\_\-\-B\-C\-E}~0x00000020}\label{lan7800_8h_a1bc541578bf3a6ce484e702ed2abe389}
+
+\item 
+\hypertarget{lan7800_8h_a45911c3828a898de4db08433298d304e}{\#define {\bfseries L\-A\-N7800\-\_\-\-I\-N\-T\-\_\-\-S\-T\-S}~0x0\-C}\label{lan7800_8h_a45911c3828a898de4db08433298d304e}
+
+\item 
+\hypertarget{lan7800_8h_a3cb576507eb15850ec3c430e25f87aba}{\#define {\bfseries L\-A\-N7800\-\_\-\-I\-N\-T\-\_\-\-S\-T\-S\-\_\-\-C\-L\-E\-A\-R\-\_\-\-A\-L\-L}~0x\-F\-F\-F\-F\-F\-F\-F\-F}\label{lan7800_8h_a3cb576507eb15850ec3c430e25f87aba}
+
+\item 
+\hypertarget{lan7800_8h_a640888eeb52c248487b76144fbdd3690}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-L\-O\-W}~0x10\-C}\label{lan7800_8h_a640888eeb52c248487b76144fbdd3690}
+
+\item 
+\hypertarget{lan7800_8h_aa54e9398d473cce15afb712855a705de}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-F\-L\-O\-W}~0x0\-D0}\label{lan7800_8h_aa54e9398d473cce15afb712855a705de}
+
+\item 
+\hypertarget{lan7800_8h_a1b37bac0c1d26327388f023a99475c71}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-T\-X\-\_\-\-F\-I\-F\-O\-\_\-\-E\-N\-D}~0x0\-C\-C}\label{lan7800_8h_a1b37bac0c1d26327388f023a99475c71}
+
+\item 
+\hypertarget{lan7800_8h_a76ece7170590cb178e1b9783e5383367}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-R\-X\-\_\-\-F\-I\-F\-O\-\_\-\-E\-N\-D}~0x0\-C8}\label{lan7800_8h_a76ece7170590cb178e1b9783e5383367}
+
+\item 
+\hypertarget{lan7800_8h_a98a788ffaa762653c715c47995159394}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-B\-C\-A\-S\-T\-\_\-\-E\-N}~0x00000400}\label{lan7800_8h_a98a788ffaa762653c715c47995159394}
+
+\item 
+\hypertarget{lan7800_8h_a35249bee513159c008061c3c3b3df584}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-D\-A\-\_\-\-P\-E\-R\-F\-E\-C\-T}~0x00000002}\label{lan7800_8h_a35249bee513159c008061c3c3b3df584}
+
+\item 
+\hypertarget{lan7800_8h_ada58080a73b016a6714e6cee2aee6359}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L}~0x0\-B0}\label{lan7800_8h_ada58080a73b016a6714e6cee2aee6359}
+
+\item 
+\hypertarget{lan7800_8h_a8cdf9c6782fcdd2f10aa469b77356c26}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-U\-C\-A\-S\-T\-\_\-\-E\-N}~0x00000100}\label{lan7800_8h_a8cdf9c6782fcdd2f10aa469b77356c26}
+
+\item 
+\hypertarget{lan7800_8h_a1f748a1c1c29d46722e62a2dcbe8e86f}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-M\-C\-A\-S\-T\-\_\-\-E\-N}~0x00000200}\label{lan7800_8h_a1f748a1c1c29d46722e62a2dcbe8e86f}
+
+\item 
+\hypertarget{lan7800_8h_a25a2fe682e8ccafc073499fd42d14ea5}{\#define {\bfseries L\-A\-N7800\-\_\-\-R\-F\-E\-\_\-\-C\-T\-L\-\_\-\-M\-C\-A\-S\-T\-\_\-\-H\-A\-S\-H}~0x00000008}\label{lan7800_8h_a25a2fe682e8ccafc073499fd42d14ea5}
+
+\item 
+\hypertarget{lan7800_8h_a89b2b1795e8ba4dbd691d7dffe739597}{\#define {\bfseries L\-A\-N7800\-\_\-\-P\-M\-T\-\_\-\-C\-T\-L}~0x014}\label{lan7800_8h_a89b2b1795e8ba4dbd691d7dffe739597}
+
+\item 
+\hypertarget{lan7800_8h_a99e4441141823736f733d9d56efdba4f}{\#define {\bfseries L\-A\-N7800\-\_\-\-P\-M\-T\-\_\-\-C\-T\-L\-\_\-\-P\-H\-Y\-\_\-\-R\-S\-T}~0x00000010}\label{lan7800_8h_a99e4441141823736f733d9d56efdba4f}
+
+\item 
+\hypertarget{lan7800_8h_ae2ad2bba2af9aec31b72256540c34bf3}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-E\-P\-R\-O\-M\-\_\-\-I\-N\-D\-I\-C\-A\-T\-O\-R}~0x\-A5}\label{lan7800_8h_ae2ad2bba2af9aec31b72256540c34bf3}
+
+\item 
+\hypertarget{lan7800_8h_a09bcb9bb3508b45ae8e4c6dd6aa6f9f2}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-C\-R\-\_\-\-A\-U\-T\-O\-\_\-\-D\-U\-P\-L\-E\-X}~0x00001000}\label{lan7800_8h_a09bcb9bb3508b45ae8e4c6dd6aa6f9f2}
+
+\item 
+\hypertarget{lan7800_8h_ae9c75c83fe01d5eff3144dc032ef7683}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-C\-R\-\_\-\-A\-U\-T\-O\-\_\-\-S\-P\-E\-E\-D}~0x00000800}\label{lan7800_8h_ae9c75c83fe01d5eff3144dc032ef7683}
+
+\item 
+\hypertarget{lan7800_8h_ace04804425526058f2d2634768995663}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-T\-X\-\_\-\-C\-T\-L}~0x0\-C4}\label{lan7800_8h_ace04804425526058f2d2634768995663}
+
+\item 
+\hypertarget{lan7800_8h_aef44c8806fe412d3fc57beb6f09672b3}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-T\-H\-\_\-\-M\-T\-U}~1500}\label{lan7800_8h_aef44c8806fe412d3fc57beb6f09672b3}
+
+\item 
+\hypertarget{lan7800_8h_a404a60e8551b4678135593241f97adf9}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-T\-H\-\_\-\-A\-L\-E\-N}~6}\label{lan7800_8h_a404a60e8551b4678135593241f97adf9}
+
+\item 
+\hypertarget{lan7800_8h_a0fb5e7493e0497a465e4853f2c3a88e6}{\#define {\bfseries L\-A\-N7800\-\_\-\-E\-T\-H\-\_\-\-V\-L\-A\-N\-\_\-\-L\-E\-N}~4}\label{lan7800_8h_a0fb5e7493e0497a465e4853f2c3a88e6}
+
+\item 
+\hypertarget{lan7800_8h_ab332c6f5309fbc7829e541134ece6561}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-R\-X\-\_\-\-R\-X\-E\-N}~0x00000001}\label{lan7800_8h_ab332c6f5309fbc7829e541134ece6561}
+
+\item 
+\hypertarget{lan7800_8h_ae0f118f98c69198d2fe413e75629b1c0}{\#define {\bfseries L\-A\-N7800\-\_\-\-M\-A\-C\-\_\-\-T\-X\-\_\-\-T\-X\-E\-N}~0x00000001}\label{lan7800_8h_ae0f118f98c69198d2fe413e75629b1c0}
+
+\item 
+\hypertarget{lan7800_8h_a6811b38789665a424535811cb42e5da3}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-R\-X\-\_\-\-C\-T\-L}~0x0\-C0}\label{lan7800_8h_a6811b38789665a424535811cb42e5da3}
+
+\item 
+\hypertarget{lan7800_8h_a5980f41e3611a6f1c6c7b68e21b2c6b2}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-R\-X\-\_\-\-C\-T\-L\-\_\-\-E\-N}~0x80000000}\label{lan7800_8h_a5980f41e3611a6f1c6c7b68e21b2c6b2}
+
+\item 
+\hypertarget{lan7800_8h_ace04804425526058f2d2634768995663}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-T\-X\-\_\-\-C\-T\-L}~0x0\-C4}\label{lan7800_8h_ace04804425526058f2d2634768995663}
+
+\item 
+\hypertarget{lan7800_8h_a4cb0b567542db88c1f5e3442828346d8}{\#define {\bfseries L\-A\-N7800\-\_\-\-F\-C\-T\-\_\-\-T\-X\-\_\-\-C\-T\-L\-\_\-\-E\-N}~0x80000000}\label{lan7800_8h_a4cb0b567542db88c1f5e3442828346d8}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac5a2ec33aa01163f97cfe029dab945d9}{lan7800\-\_\-write\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaa07a9c41cdf666a27e67905ed9121e23}{lan7800\-\_\-read\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t $\ast$data)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga2283a3790e3b0874e957b9c10ef44998}{lan7800\-\_\-modify\-\_\-reg} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t mask, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga164a8202ae5fb3af0f6de37a166e83b9}{lan7800\-\_\-set\-\_\-reg\-\_\-bits} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t index, uint32\-\_\-t set)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga332faebc17d841f5faeae06562624624}{lan7800\-\_\-wait\-\_\-device\-\_\-attached} (ushort minor)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga6bfd9afefc7838b5a054d0bc3a03e1b4}{lan7800\-\_\-set\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, const uint8\-\_\-t $\ast$macaddr)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga835efd429fb96b942474c163a03f1b82}{lan7800\-\_\-get\-\_\-mac\-\_\-address} (struct usb\-\_\-device $\ast$udev, uint8\-\_\-t $\ast$macaddr)
+\item 
+void \hyperlink{lan7800_8h_a409aee1578324a904f2e64750f6d2fcb}{lan7800\-\_\-rx\-\_\-complete} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+void \hyperlink{lan7800_8h_a020d1eb5f8327dda168c302e8aecbfbf}{lan7800\-\_\-tx\-\_\-complete} (struct usb\-\_\-xfer\-\_\-request $\ast$req)
+\item 
+\hypertarget{lan7800_8h_a44980904a44dff2d74dc60386b538fa1}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-mdio\-\_\-read} (struct usb\-\_\-device $\ast$udev, int phy\-\_\-id, int idx)}\label{lan7800_8h_a44980904a44dff2d74dc60386b538fa1}
+
+\item 
+\hypertarget{lan7800_8h_a93ab2c2c82fc90f0806fbf1c5be11894}{void {\bfseries lan7800\-\_\-mdio\-\_\-write} (struct usb\-\_\-device $\ast$udev, int phy\-\_\-id, int idx, int regval)}\label{lan7800_8h_a93ab2c2c82fc90f0806fbf1c5be11894}
+
+\item 
+\hypertarget{lan7800_8h_a2f3b06307083d5e02ea5958881921150}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-read\-\_\-raw\-\_\-otp} (struct usb\-\_\-device $\ast$udev, uint32\-\_\-t offset, uint32\-\_\-t length, uint8\-\_\-t $\ast$data)}\label{lan7800_8h_a2f3b06307083d5e02ea5958881921150}
+
+\item 
+\hypertarget{lan7800_8h_a8bb302cfaff1f56e7e0f2ed351cf496e}{int {\bfseries lan7800\-\_\-read\-\_\-otp\-\_\-mac} (unsigned char $\ast$enetaddr, struct usb\-\_\-device $\ast$udev)}\label{lan7800_8h_a8bb302cfaff1f56e7e0f2ed351cf496e}
+
+\item 
+\hypertarget{lan7800_8h_ac310490442b88821a975a337e80e371b}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-eeprom\-\_\-confirm\-\_\-not\-\_\-busy} (struct usb\-\_\-device $\ast$udev)}\label{lan7800_8h_ac310490442b88821a975a337e80e371b}
+
+\item 
+\hypertarget{lan7800_8h_a3ae8a583f5fd0280abe0a294013a523b}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-wait\-\_\-eeprom} (struct usb\-\_\-device $\ast$udev)}\label{lan7800_8h_a3ae8a583f5fd0280abe0a294013a523b}
+
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga03a05fda47e55dbcddeabc9980d1b671}{lan7800\-\_\-read\-\_\-raw\-\_\-eeprom} (struct usb\-\_\-device $\ast$dev, uint32\-\_\-t offset, uint32\-\_\-t length, uint8\-\_\-t $\ast$data)
+\item 
+\hypertarget{lan7800_8h_a69b28342d75a1aa1cd38376ed5a6b556}{usb\-\_\-status\-\_\-t {\bfseries lan7800\-\_\-read\-\_\-eeprom} (struct usb\-\_\-device $\ast$dev, uint32\-\_\-t offset, uint32\-\_\-t length, uint8\-\_\-t $\ast$data)}\label{lan7800_8h_a69b28342d75a1aa1cd38376ed5a6b556}
+
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga659c3aa68aab22ca75556617c216f5bd}{lan7800\-\_\-set\-\_\-rx\-\_\-max\-\_\-frame\-\_\-length} (struct usb\-\_\-device $\ast$dev, int size)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gac6d5ce65cf6384620c04e13e67690259}{lan7800\-\_\-set\-\_\-features} (struct usb\-\_\-device $\ast$dev, uint32\-\_\-t features)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_ga57b4e0f7b1ef285aa099af22280d4f07}{lan7800\-\_\-init} (struct usb\-\_\-device $\ast$dev, uint8\-\_\-t $\ast$macaddress)
+\item 
+usb\-\_\-status\-\_\-t \hyperlink{group__lan7800_gaf2e2dfd8f8f1403f261de53e0c4a072a}{lan7800\-\_\-mdio\-\_\-wait\-\_\-for\-\_\-bit} (struct usb\-\_\-device $\ast$udev, const uint32\-\_\-t reg, const uint32\-\_\-t mask, const bool set)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Authors}
+Rade Latinovich Patrick J. Mc\-Gee
+\end{DoxyAuthor}
+This header file provides definitions of the registers of the L\-A\-N7800 U\-S\-B Ethernet Adapter. Many of these definitions were borrowed primarily from Microchip's L\-A\-N78\-X\-X Linux Driver 
+
+\subsection{Macro Definition Documentation}
+\hypertarget{lan7800_8h_a5b5d6c9dfafc3cf37bca58f8260d3763}{\index{lan7800.\-h@{lan7800.\-h}!L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I@{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I}}
+\index{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I@{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I}!lan7800.h@{lan7800.\-h}}
+\subsubsection[{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-H\-I(
+\begin{DoxyParamCaption}
+\item[{}]{index}
+\end{DoxyParamCaption}
+)}}\label{lan7800_8h_a5b5d6c9dfafc3cf37bca58f8260d3763}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+(LAN78XX\_MAF\_BASE + (8 * (index)) + \(\backslash\)
+                            LAN78XX\_MAF\_HIX)
+\end{DoxyCode}
+\hypertarget{lan7800_8h_a1f38c5e4a54a69206967fa7326459b9b}{\index{lan7800.\-h@{lan7800.\-h}!L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O@{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O}}
+\index{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O@{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O}!lan7800.h@{lan7800.\-h}}
+\subsubsection[{L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O}]{\setlength{\rightskip}{0pt plus 5cm}\#define L\-A\-N78\-X\-X\-\_\-\-M\-A\-F\-\_\-\-L\-O(
+\begin{DoxyParamCaption}
+\item[{}]{index}
+\end{DoxyParamCaption}
+)}}\label{lan7800_8h_a1f38c5e4a54a69206967fa7326459b9b}
+{\bfseries Value\-:}
+\begin{DoxyCode}
+(LAN78XX\_MAF\_BASE + (8 * (index)) + \(\backslash\)
+                            LAN78XX\_MAF\_LOX)
+\end{DoxyCode}
+
+
+\subsection{Function Documentation}
+\hypertarget{lan7800_8h_a409aee1578324a904f2e64750f6d2fcb}{\index{lan7800.\-h@{lan7800.\-h}!lan7800\-\_\-rx\-\_\-complete@{lan7800\-\_\-rx\-\_\-complete}}
+\index{lan7800\-\_\-rx\-\_\-complete@{lan7800\-\_\-rx\-\_\-complete}!lan7800.h@{lan7800.\-h}}
+\subsubsection[{lan7800\-\_\-rx\-\_\-complete}]{\setlength{\rightskip}{0pt plus 5cm}void lan7800\-\_\-rx\-\_\-complete (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{lan7800_8h_a409aee1578324a904f2e64750f6d2fcb}
+Callback function executed with interrupts disabled when an asynchronous U\-S\-B bulk transfer from the Bulk I\-N endpoint of the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter for the purpose of receiving one or more Ethernet packets has successfully completed or has failed.
+
+This function is responsible for breaking up the raw U\-S\-B transfer data into the constituent Ethernet packet(s), then pushing them onto the incoming packets queue (which may wake up threads in ether\-Read() that are waiting for new packets). It then must re-\/submit the U\-S\-B bulk transfer request so that packets can continue to be received.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & U\-S\-B bulk I\-N transfer request that has completed. \\
+\hline
+\end{DoxyParams}
+\hypertarget{lan7800_8h_a020d1eb5f8327dda168c302e8aecbfbf}{\index{lan7800.\-h@{lan7800.\-h}!lan7800\-\_\-tx\-\_\-complete@{lan7800\-\_\-tx\-\_\-complete}}
+\index{lan7800\-\_\-tx\-\_\-complete@{lan7800\-\_\-tx\-\_\-complete}!lan7800.h@{lan7800.\-h}}
+\subsubsection[{lan7800\-\_\-tx\-\_\-complete}]{\setlength{\rightskip}{0pt plus 5cm}void lan7800\-\_\-tx\-\_\-complete (
+\begin{DoxyParamCaption}
+\item[{struct usb\-\_\-xfer\-\_\-request $\ast$}]{req}
+\end{DoxyParamCaption}
+)}}\label{lan7800_8h_a020d1eb5f8327dda168c302e8aecbfbf}
+Callback function executed with interrupts disabled when an asynchronous U\-S\-B bulk transfer to the Bulk O\-U\-T endpoint of the Microchip L\-A\-N7800 U\-S\-B Ethernet Adapter for the purpose of sending an Ethernet packet has successfully completed or has failed.
+
+Currently all this function has to do is return the buffer to its pool. This may wake up a thread in \hyperlink{etherWrite_8c_a5360e257755e44346f9a39e78b1ac04d}{ether\-Write()} that is waiting for a free buffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & U\-S\-B bulk O\-U\-T transfer request that has completed. \\
+\hline
+\end{DoxyParams}

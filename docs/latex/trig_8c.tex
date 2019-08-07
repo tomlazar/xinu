@@ -1,0 +1,41 @@
+\hypertarget{trig_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/trig.c File Reference}
+\label{trig_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/trig.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/device/framebuffer\-\_\-rpi/trig.\-c}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$framebuffer.\-h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{group__framebuffer_ga06d83b3a8c4e7de105f0cbec05156ca8}{power} (double base, int exp)
+\item 
+long \hyperlink{group__framebuffer_gaace690b4b57f656869ad150be9b8527b}{factorial} (int num)
+\item 
+double \hyperlink{group__framebuffer_ga8f29a8a49cb9e546d0593b65f839f27a}{cosine\-\_\-taylor} (double x, int terms)
+\item 
+double \hyperlink{group__framebuffer_gaea037da8bd8165c16730fb1f23b6df03}{cos} (int x)
+\item 
+double \hyperlink{group__framebuffer_gad72a63046aee1a31203e50b812f03bd7}{sine\-\_\-taylor} (double x, int terms)
+\item 
+double \hyperlink{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}{sin} (int x)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides sine and cosine for Taylor series. Cannot handle values above 215 degrees--will cause overflow. To correct this, only compute values between 0 and 90. Answers are not exactly accurate, but accurate enough for our purposes. 
+
+\subsection{Function Documentation}
+\hypertarget{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}{\index{trig.\-c@{trig.\-c}!sin@{sin}}
+\index{sin@{sin}!trig.c@{trig.\-c}}
+\subsubsection[{sin}]{\setlength{\rightskip}{0pt plus 5cm}double sin (
+\begin{DoxyParamCaption}
+\item[{int}]{x}
+\end{DoxyParamCaption}
+)}}\label{trig_8c_a9c4288de680562fe6d55dd4bd1a9abb9}
+Compute the sine using the Taylor approximation as a helper function Note\-: For graphics purposes, the sine must always be turned negative because a monitor is technically in quadrant 4 instead of quadrant 1. 
+\begin{DoxyParams}{Parameters}
+{\em x} & Angle, in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Double-\/precision result of the computation 
+\end{DoxyReturn}

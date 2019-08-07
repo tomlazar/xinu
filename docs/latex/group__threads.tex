@@ -1,0 +1,448 @@
+\hypertarget{group__threads}{\section{Threads}
+\label{group__threads}\index{Threads@{Threads}}
+}
+
+
+Thread functions.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{group__threads_ga2bfc2169e1e2e6a8f69863f2fbd49b08}{chprio} (tid\-\_\-typ tid, int newprio)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_gadaf1066eaafe737bb19d120939ee0fb8}{create} (void $\ast$procaddr, uint ssize, int priority, const char $\ast$name, int nargs,...)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_ga755c454d286d2321b99c3b4a0388ecc4}{getfirst} (qid\-\_\-typ q)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_ga112be8829f3439d572c415a75ecad52c}{getlast} (qid\-\_\-typ q)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_gac672647e3efaced96c3104af9b11762b}{getitem} (tid\-\_\-typ tid)
+\item 
+syscall \hyperlink{group__threads_gafd77d733c13214b040e1e6dcd9b5d69c}{getprio} (tid\-\_\-typ tid)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_ga451762ead96954f0c9954c64db4831eb}{gettid} (void)
+\item 
+int \hyperlink{group__threads_gaeb1e855fcc190c3c30e8e64924939e4c}{insert} (tid\-\_\-typ tid, qid\-\_\-typ q, int key)
+\item 
+int \hyperlink{group__threads_gad203c57d47eaf6798acae5d1a89d8e91}{insertd} (tid\-\_\-typ tid, qid\-\_\-typ q, int key)
+\item 
+syscall \hyperlink{group__threads_gac05f6a9c7beeb6bcbac34900986638f8}{kill} (tid\-\_\-typ tid)
+\item 
+qid\-\_\-typ \hyperlink{group__threads_gaf975b3cd4a227de027177b456c912fd9}{queinit} (void)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_gaab9d73203afebafae09523f14ed97903}{enqueue} (tid\-\_\-typ tid, qid\-\_\-typ q)
+\item 
+tid\-\_\-typ \hyperlink{group__threads_gace6175f210a255a0f9c19b57730eed6e}{dequeue} (qid\-\_\-typ q)
+\item 
+int \hyperlink{group__threads_ga27672998ad7f482c641123e2c09ce279}{ready} (tid\-\_\-typ tid, bool resch, uint core)
+\item 
+message \hyperlink{group__threads_gab8c6462cae122b52c45f94ccdcab216a}{receive} (void)
+\item 
+message \hyperlink{group__threads_ga246edc36f1a948322e6ef03630db6cf6}{recvclr} (void)
+\item 
+message \hyperlink{group__threads_gac167f15803970d10e6d5933a497f22e3}{recvtime} (int maxwait)
+\item 
+int \hyperlink{group__threads_ga2f2f306789c627d026ab97132160e37b}{resched} (void)
+\item 
+syscall \hyperlink{group__threads_gae74ef700d7d05933c374d5115fcc81d4}{resume} (tid\-\_\-typ tid)
+\item 
+syscall \hyperlink{group__threads_ga5174e528e5a2f3b426bf2e6b3eb83ca2}{send} (tid\-\_\-typ tid, message msg)
+\item 
+syscall \hyperlink{group__threads_ga7ca76dbbaaa6e8bb9b2ec2437e3cd9bb}{sleep} (uint ms)
+\item 
+syscall \hyperlink{group__threads_gad28b9186e53041d8154e5f51d989a9fa}{suspend} (tid\-\_\-typ tid)
+\item 
+syscall \hyperlink{group__threads_ga9ba450bf776fe6c9af43757a3e93a9fc}{unsleep} (tid\-\_\-typ tid)
+\item 
+void \hyperlink{group__threads_gafd2dbc8bba51fd7dce39d0dc189a93f0}{userret} (void)
+\item 
+syscall \hyperlink{group__threads_gaacc998b2f45d9a7a067e6511dc1dbbe3}{yield} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Thread functions. 
+
+\subsection{Function Documentation}
+\hypertarget{group__threads_ga2bfc2169e1e2e6a8f69863f2fbd49b08}{\index{Threads@{Threads}!chprio@{chprio}}
+\index{chprio@{chprio}!Threads@{Threads}}
+\subsubsection[{chprio}]{\setlength{\rightskip}{0pt plus 5cm}syscall chprio (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{int}]{newprio}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga2bfc2169e1e2e6a8f69863f2fbd49b08}
+Change the scheduling priority of a thread 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+{\em newprio} & new priority \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+old priority of thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_gadaf1066eaafe737bb19d120939ee0fb8}{\index{Threads@{Threads}!create@{create}}
+\index{create@{create}!Threads@{Threads}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ create (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{procaddr, }
+\item[{uint}]{ssize, }
+\item[{int}]{priority, }
+\item[{const char $\ast$}]{name, }
+\item[{int}]{nargs, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gadaf1066eaafe737bb19d120939ee0fb8}
+Create a thread to start running a procedure.
+
+
+\begin{DoxyParams}{Parameters}
+{\em procaddr} & procedure address \\
+\hline
+{\em ssize} & stack size in bytes \\
+\hline
+{\em priority} & thread priority (0 is lowest priority) \\
+\hline
+{\em name} & name of the thread, used for debugging \\
+\hline
+{\em nargs} & number of arguments that follow \\
+\hline
+{\em ...} & arguments to pass to thread procedure \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new thread's thread id, or \-::\-S\-Y\-S\-E\-R\-R if a new thread could not be created (not enough memory or thread entries). 
+\end{DoxyReturn}
+\hypertarget{group__threads_gace6175f210a255a0f9c19b57730eed6e}{\index{Threads@{Threads}!dequeue@{dequeue}}
+\index{dequeue@{dequeue}!Threads@{Threads}}
+\subsubsection[{dequeue}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ dequeue (
+\begin{DoxyParamCaption}
+\item[{qid\-\_\-typ}]{q}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gace6175f210a255a0f9c19b57730eed6e}
+Remove and return the first thread on a list 
+\begin{DoxyParams}{Parameters}
+{\em q} & target queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread id of removed thread, or E\-M\-P\-T\-Y 
+\end{DoxyReturn}
+\hypertarget{group__threads_gaab9d73203afebafae09523f14ed97903}{\index{Threads@{Threads}!enqueue@{enqueue}}
+\index{enqueue@{enqueue}!Threads@{Threads}}
+\subsubsection[{enqueue}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ enqueue (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{qid\-\_\-typ}]{q}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gaab9d73203afebafae09523f14ed97903}
+Insert a thread at the tail of a queue 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread I\-D to enqueue \\
+\hline
+{\em q} & target queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread id of enqueued thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga755c454d286d2321b99c3b4a0388ecc4}{\index{Threads@{Threads}!getfirst@{getfirst}}
+\index{getfirst@{getfirst}!Threads@{Threads}}
+\subsubsection[{getfirst}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ getfirst (
+\begin{DoxyParamCaption}
+\item[{qid\-\_\-typ}]{q}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga755c454d286d2321b99c3b4a0388ecc4}
+Remove a thread from front of queue 
+\begin{DoxyParams}{Parameters}
+{\em q} & target queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread I\-D of removed thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_gac672647e3efaced96c3104af9b11762b}{\index{Threads@{Threads}!getitem@{getitem}}
+\index{getitem@{getitem}!Threads@{Threads}}
+\subsubsection[{getitem}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ getitem (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gac672647e3efaced96c3104af9b11762b}
+Remove a thread from anywhere in a queue 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread I\-D to get \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread I\-D of removed thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga112be8829f3439d572c415a75ecad52c}{\index{Threads@{Threads}!getlast@{getlast}}
+\index{getlast@{getlast}!Threads@{Threads}}
+\subsubsection[{getlast}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ getlast (
+\begin{DoxyParamCaption}
+\item[{qid\-\_\-typ}]{q}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga112be8829f3439d572c415a75ecad52c}
+Remove a thread from end of queue 
+\begin{DoxyParams}{Parameters}
+{\em q} & target queue \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread I\-D of removed thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_gafd77d733c13214b040e1e6dcd9b5d69c}{\index{Threads@{Threads}!getprio@{getprio}}
+\index{getprio@{getprio}!Threads@{Threads}}
+\subsubsection[{getprio}]{\setlength{\rightskip}{0pt plus 5cm}syscall getprio (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gafd77d733c13214b040e1e6dcd9b5d69c}
+Return the scheduling priority of a thread 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread I\-D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+priority of thread on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga451762ead96954f0c9954c64db4831eb}{\index{Threads@{Threads}!gettid@{gettid}}
+\index{gettid@{gettid}!Threads@{Threads}}
+\subsubsection[{gettid}]{\setlength{\rightskip}{0pt plus 5cm}tid\-\_\-typ gettid (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga451762ead96954f0c9954c64db4831eb}
+Get the thread id of currently executing thread. \begin{DoxyReturn}{Returns}
+thread id of the currently running thread 
+\end{DoxyReturn}
+\hypertarget{group__threads_gaeb1e855fcc190c3c30e8e64924939e4c}{\index{Threads@{Threads}!insert@{insert}}
+\index{insert@{insert}!Threads@{Threads}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}int insert (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{qid\-\_\-typ}]{q, }
+\item[{int}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gaeb1e855fcc190c3c30e8e64924939e4c}
+Insert a thread into a queue in descending key order. 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread I\-D to insert \\
+\hline
+{\em q} & target queue \\
+\hline
+{\em key} & sorting key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\hypertarget{group__threads_gad203c57d47eaf6798acae5d1a89d8e91}{\index{Threads@{Threads}!insertd@{insertd}}
+\index{insertd@{insertd}!Threads@{Threads}}
+\subsubsection[{insertd}]{\setlength{\rightskip}{0pt plus 5cm}int insertd (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{qid\-\_\-typ}]{q, }
+\item[{int}]{key}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gad203c57d47eaf6798acae5d1a89d8e91}
+Insert a thread in delta queue in ascending order 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread id to insert \\
+\hline
+{\em q} & queue in which thread should be inserted \\
+\hline
+{\em key} & delta key \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K 
+\end{DoxyReturn}
+\hypertarget{group__threads_gac05f6a9c7beeb6bcbac34900986638f8}{\index{Threads@{Threads}!kill@{kill}}
+\index{kill@{kill}!Threads@{Threads}}
+\subsubsection[{kill}]{\setlength{\rightskip}{0pt plus 5cm}syscall kill (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gac05f6a9c7beeb6bcbac34900986638f8}
+Kill a thread and remove it from the system 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R otherwise 
+\end{DoxyReturn}
+\hypertarget{group__threads_gaf975b3cd4a227de027177b456c912fd9}{\index{Threads@{Threads}!queinit@{queinit}}
+\index{queinit@{queinit}!Threads@{Threads}}
+\subsubsection[{queinit}]{\setlength{\rightskip}{0pt plus 5cm}qid\-\_\-typ queinit (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gaf975b3cd4a227de027177b456c912fd9}
+Initialize a new queue in the global thread queue table \begin{DoxyReturn}{Returns}
+newly allocated queue I\-D or S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+$<$ next available quetab entry \hypertarget{group__threads_ga27672998ad7f482c641123e2c09ce279}{\index{Threads@{Threads}!ready@{ready}}
+\index{ready@{ready}!Threads@{Threads}}
+\subsubsection[{ready}]{\setlength{\rightskip}{0pt plus 5cm}int ready (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{bool}]{resch, }
+\item[{uint}]{core}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga27672998ad7f482c641123e2c09ce279}
+Make a thread eligible for C\-P\-U service. 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+{\em resch} & if R\-E\-S\-C\-H\-E\-D\-\_\-\-Y\-E\-S, reschedules \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if thread has been added to readylist, else S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__threads_gab8c6462cae122b52c45f94ccdcab216a}{\index{Threads@{Threads}!receive@{receive}}
+\index{receive@{receive}!Threads@{Threads}}
+\subsubsection[{receive}]{\setlength{\rightskip}{0pt plus 5cm}message receive (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gab8c6462cae122b52c45f94ccdcab216a}
+receive -\/ wait for a message and return it \begin{DoxyReturn}{Returns}
+message 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga246edc36f1a948322e6ef03630db6cf6}{\index{Threads@{Threads}!recvclr@{recvclr}}
+\index{recvclr@{recvclr}!Threads@{Threads}}
+\subsubsection[{recvclr}]{\setlength{\rightskip}{0pt plus 5cm}message recvclr (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga246edc36f1a948322e6ef03630db6cf6}
+Clear messages, return waiting message (if any) \begin{DoxyReturn}{Returns}
+msg if available, N\-O\-M\-S\-G if no message 
+\end{DoxyReturn}
+\hypertarget{group__threads_gac167f15803970d10e6d5933a497f22e3}{\index{Threads@{Threads}!recvtime@{recvtime}}
+\index{recvtime@{recvtime}!Threads@{Threads}}
+\subsubsection[{recvtime}]{\setlength{\rightskip}{0pt plus 5cm}message recvtime (
+\begin{DoxyParamCaption}
+\item[{int}]{maxwait}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gac167f15803970d10e6d5933a497f22e3}
+wait to receive a message or timeout and return result 
+\begin{DoxyParams}{Parameters}
+{\em maxwait} & ticks to wait before timeout \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+msg if becomes available, T\-I\-M\-E\-O\-U\-T if no message 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga2f2f306789c627d026ab97132160e37b}{\index{Threads@{Threads}!resched@{resched}}
+\index{resched@{resched}!Threads@{Threads}}
+\subsubsection[{resched}]{\setlength{\rightskip}{0pt plus 5cm}int resched (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga2f2f306789c627d026ab97132160e37b}
+Reschedule processor to highest priority ready thread. Upon entry, thrcurrent gives current thread id. Threadtab\mbox{[}thrcurrent\mbox{]}.pstate gives correct N\-E\-X\-T state for current thread if other than T\-H\-R\-R\-E\-A\-D\-Y. \begin{DoxyReturn}{Returns}
+O\-K when the thread is context switched back 
+\end{DoxyReturn}
+\hypertarget{group__threads_gae74ef700d7d05933c374d5115fcc81d4}{\index{Threads@{Threads}!resume@{resume}}
+\index{resume@{resume}!Threads@{Threads}}
+\subsubsection[{resume}]{\setlength{\rightskip}{0pt plus 5cm}syscall resume (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gae74ef700d7d05933c374d5115fcc81d4}
+Unsuspend a thread, making it ready 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+priority 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga5174e528e5a2f3b426bf2e6b3eb83ca2}{\index{Threads@{Threads}!send@{send}}
+\index{send@{send}!Threads@{Threads}}
+\subsubsection[{send}]{\setlength{\rightskip}{0pt plus 5cm}syscall send (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid, }
+\item[{message}]{msg}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga5174e528e5a2f3b426bf2e6b3eb83ca2}
+Send a message to another thread 
+\begin{DoxyParams}{Parameters}
+{\em tid} & thread id of recipient \\
+\hline
+{\em msg} & contents of message \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K on success, S\-Y\-S\-E\-R\-R on failure 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga7ca76dbbaaa6e8bb9b2ec2437e3cd9bb}{\index{Threads@{Threads}!sleep@{sleep}}
+\index{sleep@{sleep}!Threads@{Threads}}
+\subsubsection[{sleep}]{\setlength{\rightskip}{0pt plus 5cm}syscall sleep (
+\begin{DoxyParamCaption}
+\item[{uint}]{ms}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga7ca76dbbaaa6e8bb9b2ec2437e3cd9bb}
+Yields the processor for the specified number of milliseconds, allowing other threads to be scheduled.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ms} & number of milliseconds to sleep\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If successful, the thread will sleep for the specified number of milliseconds, then return \-::\-O\-K. Otherwise, \-::\-S\-Y\-S\-E\-R\-R will be returned. If a system timer is not supported, \-::\-S\-Y\-S\-E\-R\-R will always returned. 
+\end{DoxyReturn}
+\hypertarget{group__threads_gad28b9186e53041d8154e5f51d989a9fa}{\index{Threads@{Threads}!suspend@{suspend}}
+\index{suspend@{suspend}!Threads@{Threads}}
+\subsubsection[{suspend}]{\setlength{\rightskip}{0pt plus 5cm}syscall suspend (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gad28b9186e53041d8154e5f51d989a9fa}
+Suspend a thread, placing it in hibernation 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+priority or S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__threads_ga9ba450bf776fe6c9af43757a3e93a9fc}{\index{Threads@{Threads}!unsleep@{unsleep}}
+\index{unsleep@{unsleep}!Threads@{Threads}}
+\subsubsection[{unsleep}]{\setlength{\rightskip}{0pt plus 5cm}syscall unsleep (
+\begin{DoxyParamCaption}
+\item[{tid\-\_\-typ}]{tid}
+\end{DoxyParamCaption}
+)}}\label{group__threads_ga9ba450bf776fe6c9af43757a3e93a9fc}
+Remove thread from the sleep queue prematurely 
+\begin{DoxyParams}{Parameters}
+{\em tid} & target thread \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if thread removed, else S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__threads_gafd2dbc8bba51fd7dce39d0dc189a93f0}{\index{Threads@{Threads}!userret@{userret}}
+\index{userret@{userret}!Threads@{Threads}}
+\subsubsection[{userret}]{\setlength{\rightskip}{0pt plus 5cm}void userret (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gafd2dbc8bba51fd7dce39d0dc189a93f0}
+Entered when a thread exits by return. \hypertarget{group__threads_gaacc998b2f45d9a7a067e6511dc1dbbe3}{\index{Threads@{Threads}!yield@{yield}}
+\index{yield@{yield}!Threads@{Threads}}
+\subsubsection[{yield}]{\setlength{\rightskip}{0pt plus 5cm}syscall yield (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__threads_gaacc998b2f45d9a7a067e6511dc1dbbe3}
+Yield processor. \begin{DoxyReturn}{Returns}
+O\-K when the thread is context switched back 
+\end{DoxyReturn}

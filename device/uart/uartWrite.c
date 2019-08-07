@@ -6,6 +6,7 @@
 
 #include <uart.h>
 #include <interrupt.h>
+#include <mutex.h>
 
 /**
  * @ingroup uartgeneric
@@ -76,8 +77,10 @@ devcall uartWrite(device *devptr, const void *buf, uint len)
                 break;
             }
             wait(uartptr->osema);
+	    mutex_acquire(uartptr->olock);
             uartptr->out[(uartptr->ostart + uartptr->ocount) % UART_OBLEN] = ch;
             uartptr->ocount++;
+	    mutex_release(uartptr->olock);
         }
     }
 

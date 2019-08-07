@@ -1,0 +1,170 @@
+\hypertarget{group__icmp}{\section{I\-C\-M\-P}
+\label{group__icmp}\index{I\-C\-M\-P@{I\-C\-M\-P}}
+}
+
+
+Internet Control Message Protocol.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+thread \hyperlink{group__icmp_ga4ee2a49217ae9af4de18861a376a3732}{icmp\-Daemon} (void)
+\item 
+syscall \hyperlink{group__icmp_gaf4be4d9587ab78909263331887571260}{icmp\-Dest\-Unreach} (const struct packet $\ast$unreached, uchar code)
+\item 
+syscall \hyperlink{group__icmp_ga25e2245ca3ead5cb8ddf10e58a135bc9}{icmp\-Echo\-Request} (struct netaddr $\ast$dst, ushort id, ushort seq)
+\item 
+syscall \hyperlink{group__icmp_ga2293653d9624537154e5bc9297271e8c}{icmp\-Init} (void)
+\item 
+syscall \hyperlink{group__icmp_ga89fad9387e7cd00d430f8f0989c7178f}{icmp\-Recv} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__icmp_gabd405f2f7ca3575084ab1a4fe11fdd03}{icmp\-Redirect} (struct packet $\ast$redir, uchar code, struct rt\-Entry $\ast$route)
+\item 
+syscall \hyperlink{group__icmp_ga9daa5ef5db7661f44e78aff72b5b76d4}{icmp\-Send} (struct packet $\ast$pkt, uchar type, uchar code, uint datalen, struct netaddr $\ast$src, struct netaddr $\ast$dst)
+\item 
+syscall \hyperlink{group__icmp_ga7b343aec5f2076fffec6141b499b731e}{icmp\-Time\-Exceeded} (struct packet $\ast$unreached, uchar code)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Internet Control Message Protocol. 
+
+\subsection{Function Documentation}
+\hypertarget{group__icmp_ga4ee2a49217ae9af4de18861a376a3732}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Daemon@{icmp\-Daemon}}
+\index{icmp\-Daemon@{icmp\-Daemon}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Daemon}]{\setlength{\rightskip}{0pt plus 5cm}thread icmp\-Daemon (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga4ee2a49217ae9af4de18861a376a3732}
+Daemon that responds to I\-C\-M\-P echo requests (pings). \hypertarget{group__icmp_gaf4be4d9587ab78909263331887571260}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Dest\-Unreach@{icmp\-Dest\-Unreach}}
+\index{icmp\-Dest\-Unreach@{icmp\-Dest\-Unreach}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Dest\-Unreach}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Dest\-Unreach (
+\begin{DoxyParamCaption}
+\item[{const struct packet $\ast$}]{unreached, }
+\item[{uchar}]{code}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_gaf4be4d9587ab78909263331887571260}
+Compose I\-C\-M\-P Destination Unreachable message. 
+\begin{DoxyParams}{Parameters}
+{\em unreached} & packet that could not be sent \\
+\hline
+{\em code} & I\-C\-M\-P destination unreachable code number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__icmp_ga25e2245ca3ead5cb8ddf10e58a135bc9}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Echo\-Request@{icmp\-Echo\-Request}}
+\index{icmp\-Echo\-Request@{icmp\-Echo\-Request}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Echo\-Request}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Echo\-Request (
+\begin{DoxyParamCaption}
+\item[{struct netaddr $\ast$}]{dst, }
+\item[{ushort}]{id, }
+\item[{ushort}]{seq}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga25e2245ca3ead5cb8ddf10e58a135bc9}
+Send an I\-C\-M\-P Echo (Ping) Request. 
+\begin{DoxyParams}{Parameters}
+{\em dst} & destination address \\
+\hline
+{\em id} & ping stream identifier \\
+\hline
+{\em seq} & sequence number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__icmp_ga2293653d9624537154e5bc9297271e8c}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Init@{icmp\-Init}}
+\index{icmp\-Init@{icmp\-Init}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Init}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga2293653d9624537154e5bc9297271e8c}
+Initializes I\-C\-M\-P daemon. \begin{DoxyReturn}{Returns}
+O\-K if initialization is successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__icmp_ga89fad9387e7cd00d430f8f0989c7178f}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Recv@{icmp\-Recv}}
+\index{icmp\-Recv@{icmp\-Recv}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga89fad9387e7cd00d430f8f0989c7178f}
+Processes an incoming I\-C\-M\-P packet. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet return O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R \\
+\hline
+\end{DoxyParams}
+\hypertarget{group__icmp_gabd405f2f7ca3575084ab1a4fe11fdd03}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Redirect@{icmp\-Redirect}}
+\index{icmp\-Redirect@{icmp\-Redirect}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Redirect}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Redirect (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{redir, }
+\item[{uchar}]{code, }
+\item[{struct rt\-Entry $\ast$}]{route}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_gabd405f2f7ca3575084ab1a4fe11fdd03}
+Compose I\-C\-M\-P Redirect message. 
+\begin{DoxyParams}{Parameters}
+{\em redir} & packet that should have gone somewhere else \\
+\hline
+{\em code} & I\-C\-M\-P redirect code number \\
+\hline
+{\em route} & new gateway for packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__icmp_ga9daa5ef5db7661f44e78aff72b5b76d4}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Send@{icmp\-Send}}
+\index{icmp\-Send@{icmp\-Send}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Send (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{uchar}]{type, }
+\item[{uchar}]{code, }
+\item[{uint}]{datalen, }
+\item[{struct netaddr $\ast$}]{src, }
+\item[{struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga9daa5ef5db7661f44e78aff72b5b76d4}
+Send an I\-C\-M\-P (Internet Control Message Protocol) packet.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pkt} & Packet containing the I\-C\-M\-P data. pkt-\/$>$curr must be positioned on the I\-C\-M\-P data, pkt-\/$>$len must be the length of the I\-C\-M\-P data, and there must be at least enough space between pkt-\/$>$data and pkt-\/$>$curr for the I\-C\-M\-P, I\-Pv4, and link-\/level headers to be attached. \\
+\hline
+{\em type} & I\-C\-M\-P type field to use. \\
+\hline
+{\em code} & I\-C\-M\-P code field to use. \\
+\hline
+{\em datalen} & Length of the I\-C\-M\-P data payload. \\
+\hline
+{\em src} & Source network address. If src-\/$>$type == 0, then the source is automatically set to the address of the interface on which the packet is sent.  dst Destination network address.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-::\-O\-K if packet was successfully sent; otherwise \-::\-S\-Y\-S\-E\-R\-R or another error code returned by \hyperlink{group__ipv4_ga1b9759ea210530fd31b6d1e7febdc7a0}{ipv4\-Send()}. 
+\end{DoxyReturn}
+\hypertarget{group__icmp_ga7b343aec5f2076fffec6141b499b731e}{\index{I\-C\-M\-P@{I\-C\-M\-P}!icmp\-Time\-Exceeded@{icmp\-Time\-Exceeded}}
+\index{icmp\-Time\-Exceeded@{icmp\-Time\-Exceeded}!ICMP@{I\-C\-M\-P}}
+\subsubsection[{icmp\-Time\-Exceeded}]{\setlength{\rightskip}{0pt plus 5cm}syscall icmp\-Time\-Exceeded (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{unreached, }
+\item[{uchar}]{code}
+\end{DoxyParamCaption}
+)}}\label{group__icmp_ga7b343aec5f2076fffec6141b499b731e}
+Compose I\-C\-M\-P Time Exceeded message. 
+\begin{DoxyParams}{Parameters}
+{\em unreached} & packet that could not be sent \\
+\hline
+{\em code} & I\-C\-M\-P destination unreachable code number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

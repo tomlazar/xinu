@@ -1,0 +1,135 @@
+\hypertarget{group__udpinternal}{\section{U\-D\-P internals}
+\label{group__udpinternal}\index{U\-D\-P internals@{U\-D\-P internals}}
+}
+
+
+Low-\/level functions mostly internal to the U\-D\-P driver.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+ushort \hyperlink{group__udpinternal_gabf6402d0f7579e36434eb894d62f4cd9}{udp\-Chksum} (struct packet $\ast$pkt, ushort len, const struct netaddr $\ast$src, const struct netaddr $\ast$dst)
+\item 
+struct udp $\ast$ \hyperlink{group__udpinternal_gaabaf725b5bfd5ce49a08a8c9905dab1d}{udp\-Demux} (ushort dstpt, ushort srcpt, const struct netaddr $\ast$dstip, const struct netaddr $\ast$srcip)
+\item 
+\hypertarget{group__udpinternal_ga2a360f56afbbc2f63b2a88efe93d117a}{syscall {\bfseries udp\-Freebuf} (struct udp\-Pkt $\ast$udppkt)}\label{group__udpinternal_ga2a360f56afbbc2f63b2a88efe93d117a}
+
+\item 
+\hypertarget{group__udpinternal_ga68d45236b38c1e1cc88f0ea498f14675}{struct udp\-Pkt $\ast$ {\bfseries udp\-Getbuf} (struct udp $\ast$udpptr)}\label{group__udpinternal_ga68d45236b38c1e1cc88f0ea498f14675}
+
+\item 
+syscall \hyperlink{group__udpinternal_gaf90c7ded7bff66c36e5d633f009aa7c4}{udp\-Recv} (struct packet $\ast$pkt, const struct netaddr $\ast$src, const struct netaddr $\ast$dst)
+\item 
+syscall \hyperlink{group__udpinternal_ga22c9e2434d8ea5cae12ca55c82e4d3a3}{udp\-Send} (struct udp $\ast$udpptr, ushort datalen, const void $\ast$buf)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Low-\/level functions mostly internal to the U\-D\-P driver. 
+
+\subsection{Function Documentation}
+\hypertarget{group__udpinternal_gabf6402d0f7579e36434eb894d62f4cd9}{\index{U\-D\-P internals@{U\-D\-P internals}!udp\-Chksum@{udp\-Chksum}}
+\index{udp\-Chksum@{udp\-Chksum}!UDP internals@{U\-D\-P internals}}
+\subsubsection[{udp\-Chksum}]{\setlength{\rightskip}{0pt plus 5cm}ushort udp\-Chksum (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{ushort}]{len, }
+\item[{const struct netaddr $\ast$}]{src, }
+\item[{const struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__udpinternal_gabf6402d0f7579e36434eb894d62f4cd9}
+Calculate the checksum of a U\-D\-P packet based on U\-D\-P and I\-P information 
+\begin{DoxyParams}{Parameters}
+{\em udppkt} & U\-D\-P packet to calculate checksum for \\
+\hline
+{\em len} & Length of U\-D\-P packet \\
+\hline
+{\em src} & Source I\-P Address \\
+\hline
+{\em dst} & Destination I\-P Address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The checksum of the U\-D\-P packet 
+\end{DoxyReturn}
+\hypertarget{group__udpinternal_gaabaf725b5bfd5ce49a08a8c9905dab1d}{\index{U\-D\-P internals@{U\-D\-P internals}!udp\-Demux@{udp\-Demux}}
+\index{udp\-Demux@{udp\-Demux}!UDP internals@{U\-D\-P internals}}
+\subsubsection[{udp\-Demux}]{\setlength{\rightskip}{0pt plus 5cm}struct udp$\ast$ udp\-Demux (
+\begin{DoxyParamCaption}
+\item[{ushort}]{dstpt, }
+\item[{ushort}]{srcpt, }
+\item[{const struct netaddr $\ast$}]{dstip, }
+\item[{const struct netaddr $\ast$}]{srcip}
+\end{DoxyParamCaption}
+)}}\label{group__udpinternal_gaabaf725b5bfd5ce49a08a8c9905dab1d}
+Locate the U\-D\-P socket for a U\-D\-P packet 
+\begin{DoxyParams}{Parameters}
+{\em dstpt} & destination port of the U\-D\-P packet \\
+\hline
+{\em srcpt} & source port of the U\-D\-P packet \\
+\hline
+{\em dstip} & destination I\-P of the U\-D\-P packet \\
+\hline
+{\em srcip} & source I\-P of the U\-D\-P packet \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+most completely matched socket, N\-U\-L\-L if no match 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition interrupts are already disabled 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition interrupts are still disabled 
+\end{DoxyPostcond}
+\hypertarget{group__udpinternal_gaf90c7ded7bff66c36e5d633f009aa7c4}{\index{U\-D\-P internals@{U\-D\-P internals}!udp\-Recv@{udp\-Recv}}
+\index{udp\-Recv@{udp\-Recv}!UDP internals@{U\-D\-P internals}}
+\subsubsection[{udp\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall udp\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt, }
+\item[{const struct netaddr $\ast$}]{src, }
+\item[{const struct netaddr $\ast$}]{dst}
+\end{DoxyParamCaption}
+)}}\label{group__udpinternal_gaf90c7ded7bff66c36e5d633f009aa7c4}
+Receive a U\-D\-P packet and place it in the U\-D\-P device's input buffer 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & Incoming U\-D\-P packet \\
+\hline
+{\em src} & Source address \\
+\hline
+{\em dst} & Destination address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if U\-D\-P packet is received properly, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__udpinternal_ga22c9e2434d8ea5cae12ca55c82e4d3a3}{\index{U\-D\-P internals@{U\-D\-P internals}!udp\-Send@{udp\-Send}}
+\index{udp\-Send@{udp\-Send}!UDP internals@{U\-D\-P internals}}
+\subsubsection[{udp\-Send}]{\setlength{\rightskip}{0pt plus 5cm}syscall udp\-Send (
+\begin{DoxyParamCaption}
+\item[{struct udp $\ast$}]{udpptr, }
+\item[{ushort}]{datalen, }
+\item[{const void $\ast$}]{buf}
+\end{DoxyParamCaption}
+)}}\label{group__udpinternal_ga22c9e2434d8ea5cae12ca55c82e4d3a3}
+Send a U\-D\-P packet through a U\-D\-P device, thereby sending it over the network with the address/port parameters with which the U\-D\-P device is configured.
+
+This function is intended to be internal to the U\-D\-P code. From external code use \hyperlink{group__devcalls_ga400d1061c614113f32fc30ce80c85a98}{write()}, which calls \hyperlink{group__udpexternal_gaf42df1179176ea560a6101b7741cfe1d}{udp\-Write()}.
+
+Note\-: depending on the lower levels of the network stack, this function likely only buffers the packet to be sent at some later time. Therefore, it may not have actually been transmitted on the wire when this function returns.
+
+The U\-D\-P device M\-U\-S\-T be open and M\-U\-S\-T remain open throughout the execution of this function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em udpptr} & Pointer to the control block for the U\-D\-P device. \\
+\hline
+{\em datalen} & Number of bytes of data to send, which must be a valid value for the current U\-D\-P device mode (e.\-g. if in passive mode, it must be at least the length of the U\-D\-P pseudo-\/header plus U\-D\-P header). \\
+\hline
+{\em buf} & Buffer of data to send. In the default mode, this will interpreted as the U\-D\-P payload; however, if the U\-D\-P device is in passive mode, this will interpreted as the U\-D\-P pseudo-\/header follewed by the U\-D\-P header followed by the U\-D\-P payload.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent successfully; otherwise S\-Y\-S\-E\-R\-R or an error code returned by \hyperlink{group__ipv4_ga1b9759ea210530fd31b6d1e7febdc7a0}{ipv4\-Send()}. 
+\end{DoxyReturn}

@@ -16,6 +16,7 @@
 #include <telnet.h>
 #include <tty.h>
 #include <ether.h>
+#include <core.h>
 
 #if NETHER
 static void usage(char *command);
@@ -154,8 +155,8 @@ shellcmd xsh_telnet(int nargs, char *args[])
     while (recvclr() != NOMSG);
     control(stdin, TTY_CTRL_SET_IFLAG, TTY_ECHO, NULL);
     control(stdin, TTY_CTRL_CLR_IFLAG, TTY_IRAW, NULL);
-    ready(recvthr, RESCHED_YES);
-    ready(sendthr, RESCHED_NO);
+    ready(recvthr, RESCHED_YES, CORE_ZERO);
+    ready(sendthr, RESCHED_NO, CORE_ZERO);
 
     /* Wait for one thread to die */
     while ((msg != recvthr) && (msg != sendthr))

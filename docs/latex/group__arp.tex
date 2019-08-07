@@ -1,0 +1,194 @@
+\hypertarget{group__arp}{\section{A\-R\-P}
+\label{group__arp}\index{A\-R\-P@{A\-R\-P}}
+}
+
+
+Address Resolution Protocol.  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct arp\-Entry $\ast$ \hyperlink{group__arp_gaf964fcba1f7904ca9fa583d4b5b865de}{arp\-Alloc} (void)
+\item 
+thread \hyperlink{group__arp_ga41ce72f4c1c057a654b684abbf7b0ae6}{arp\-Daemon} (void)
+\item 
+syscall \hyperlink{group__arp_ga3c49e4cdbd9b2a5fd422357ffb1d6b3f}{arp\-Free} (struct arp\-Entry $\ast$entry)
+\item 
+struct arp\-Entry $\ast$ \hyperlink{group__arp_ga8a1c1c3f390b623e76a9398efe97290e}{arp\-Get\-Entry} (const struct netaddr $\ast$praddr)
+\item 
+syscall \hyperlink{group__arp_gae14002a1a9788ef389fd78b071665be8}{arp\-Init} (void)
+\item 
+syscall \hyperlink{group__arp_ga924e3c0beff4715d8233f6395bd9e9c7}{arp\-Lookup} (struct netif $\ast$netptr, const struct netaddr $\ast$praddr, struct netaddr $\ast$hwaddr)
+\item 
+syscall \hyperlink{group__arp_gaf5b303c33422acce3bf75135db160681}{arp\-Notify} (struct arp\-Entry $\ast$entry, message msg)
+\item 
+syscall \hyperlink{group__arp_ga349b8a3b725b48fa8f43ad4dc07ba304}{arp\-Recv} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__arp_ga4b01168c2c157b39c98a5483193172b3}{arp\-Send\-Reply} (struct packet $\ast$pkt)
+\item 
+syscall \hyperlink{group__arp_ga99197c6b2cebadb3372fbd42093cb491}{arp\-Send\-Rqst} (struct arp\-Entry $\ast$entry)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Address Resolution Protocol. 
+
+\subsection{Function Documentation}
+\hypertarget{group__arp_gaf964fcba1f7904ca9fa583d4b5b865de}{\index{A\-R\-P@{A\-R\-P}!arp\-Alloc@{arp\-Alloc}}
+\index{arp\-Alloc@{arp\-Alloc}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Alloc}]{\setlength{\rightskip}{0pt plus 5cm}struct arp\-Entry$\ast$ arp\-Alloc (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__arp_gaf964fcba1f7904ca9fa583d4b5b865de}
+Allocates an entry from the A\-R\-P table. \begin{DoxyReturn}{Returns}
+entry in A\-R\-P table, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+-\/condition interrupts are disabled 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+-\/condition interrupts are still disabled 
+\end{DoxyPostcond}
+\hypertarget{group__arp_ga41ce72f4c1c057a654b684abbf7b0ae6}{\index{A\-R\-P@{A\-R\-P}!arp\-Daemon@{arp\-Daemon}}
+\index{arp\-Daemon@{arp\-Daemon}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Daemon}]{\setlength{\rightskip}{0pt plus 5cm}thread arp\-Daemon (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga41ce72f4c1c057a654b684abbf7b0ae6}
+A\-R\-P daemon to manage the A\-R\-P table. \hypertarget{group__arp_ga3c49e4cdbd9b2a5fd422357ffb1d6b3f}{\index{A\-R\-P@{A\-R\-P}!arp\-Free@{arp\-Free}}
+\index{arp\-Free@{arp\-Free}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Free}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Free (
+\begin{DoxyParamCaption}
+\item[{struct arp\-Entry $\ast$}]{entry}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga3c49e4cdbd9b2a5fd422357ffb1d6b3f}
+Frees an entry from the A\-R\-P table. \begin{DoxyReturn}{Returns}
+S\-Y\-S\-E\-R\-R if error occurs, otherwise O\-K 
+\end{DoxyReturn}
+\hypertarget{group__arp_ga8a1c1c3f390b623e76a9398efe97290e}{\index{A\-R\-P@{A\-R\-P}!arp\-Get\-Entry@{arp\-Get\-Entry}}
+\index{arp\-Get\-Entry@{arp\-Get\-Entry}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Get\-Entry}]{\setlength{\rightskip}{0pt plus 5cm}struct arp\-Entry$\ast$ arp\-Get\-Entry (
+\begin{DoxyParamCaption}
+\item[{const struct netaddr $\ast$}]{praddr}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga8a1c1c3f390b623e76a9398efe97290e}
+Obtains an entry from the A\-R\-P table given a protocol address. 
+\begin{DoxyParams}{Parameters}
+{\em praddr} & protocol address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+entry for correspoding praddr in A\-R\-P table, N\-U\-L\-L if none exists 
+\end{DoxyReturn}
+$<$ pointer to A\-R\-P table entry
+
+$<$ interrupt state \hypertarget{group__arp_gae14002a1a9788ef389fd78b071665be8}{\index{A\-R\-P@{A\-R\-P}!arp\-Init@{arp\-Init}}
+\index{arp\-Init@{arp\-Init}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Init}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Init (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{group__arp_gae14002a1a9788ef389fd78b071665be8}
+Initializes A\-R\-P table and A\-R\-P daemon. \begin{DoxyReturn}{Returns}
+O\-K if initialization is successful, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__arp_ga924e3c0beff4715d8233f6395bd9e9c7}{\index{A\-R\-P@{A\-R\-P}!arp\-Lookup@{arp\-Lookup}}
+\index{arp\-Lookup@{arp\-Lookup}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Lookup}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Lookup (
+\begin{DoxyParamCaption}
+\item[{struct netif $\ast$}]{netptr, }
+\item[{const struct netaddr $\ast$}]{praddr, }
+\item[{struct netaddr $\ast$}]{hwaddr}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga924e3c0beff4715d8233f6395bd9e9c7}
+Obtains a hardware address from the A\-R\-P table given a protocol address. 
+\begin{DoxyParams}{Parameters}
+{\em netptr} & network interface \\
+\hline
+{\em praddr} & protocol address \\
+\hline
+{\em hwaddr} & buffer into which hardware address should be placed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if hardware address was obtained, otherwise T\-I\-M\-E\-O\-U\-T or S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+$<$ pointer to A\-R\-P table entry
+
+$<$ num of A\-R\-P lookups performed
+
+$<$ T\-T\-L for A\-R\-P table entry
+
+$<$ interrupt state \hypertarget{group__arp_gaf5b303c33422acce3bf75135db160681}{\index{A\-R\-P@{A\-R\-P}!arp\-Notify@{arp\-Notify}}
+\index{arp\-Notify@{arp\-Notify}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Notify}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Notify (
+\begin{DoxyParamCaption}
+\item[{struct arp\-Entry $\ast$}]{entry, }
+\item[{message}]{msg}
+\end{DoxyParamCaption}
+)}}\label{group__arp_gaf5b303c33422acce3bf75135db160681}
+Send a message to threads waiting on resolution of an A\-R\-P table entry. 
+\begin{DoxyParams}{Parameters}
+{\em entry} & A\-R\-P table entry \\
+\hline
+{\em msg} & message to send to waiting threads \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if successful, S\-Y\-S\-E\-R\-R if error occurs 
+\end{DoxyReturn}
+$<$ index into A\-R\-P table
+
+$<$ interrupt state \hypertarget{group__arp_ga349b8a3b725b48fa8f43ad4dc07ba304}{\index{A\-R\-P@{A\-R\-P}!arp\-Recv@{arp\-Recv}}
+\index{arp\-Recv@{arp\-Recv}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Recv}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Recv (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga349b8a3b725b48fa8f43ad4dc07ba304}
+Processes an incoming A\-R\-P packet. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & pointer to the incoming packet return O\-K if packet was processed succesfully, otherwise S\-Y\-S\-E\-R\-R \\
+\hline
+\end{DoxyParams}
+$<$ pointer to A\-R\-P table entry
+
+$<$ source hardware address
+
+$<$ source protocol address
+
+$<$ destination protocol address
+
+$<$ interrupt state \hypertarget{group__arp_ga4b01168c2c157b39c98a5483193172b3}{\index{A\-R\-P@{A\-R\-P}!arp\-Send\-Reply@{arp\-Send\-Reply}}
+\index{arp\-Send\-Reply@{arp\-Send\-Reply}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Send\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Send\-Reply (
+\begin{DoxyParamCaption}
+\item[{struct packet $\ast$}]{pkt}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga4b01168c2c157b39c98a5483193172b3}
+Sends an A\-R\-P reply for an A\-R\-P request over a network interface. 
+\begin{DoxyParams}{Parameters}
+{\em pkt} & A\-R\-P packet to reply to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}
+\hypertarget{group__arp_ga99197c6b2cebadb3372fbd42093cb491}{\index{A\-R\-P@{A\-R\-P}!arp\-Send\-Rqst@{arp\-Send\-Rqst}}
+\index{arp\-Send\-Rqst@{arp\-Send\-Rqst}!ARP@{A\-R\-P}}
+\subsubsection[{arp\-Send\-Rqst}]{\setlength{\rightskip}{0pt plus 5cm}syscall arp\-Send\-Rqst (
+\begin{DoxyParamCaption}
+\item[{struct arp\-Entry $\ast$}]{entry}
+\end{DoxyParamCaption}
+)}}\label{group__arp_ga99197c6b2cebadb3372fbd42093cb491}
+Sends an A\-R\-P request for an A\-R\-P table entry over a network interface. 
+\begin{DoxyParams}{Parameters}
+{\em entry} & A\-R\-P table entry \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was sent, otherwise S\-Y\-S\-E\-R\-R 
+\end{DoxyReturn}

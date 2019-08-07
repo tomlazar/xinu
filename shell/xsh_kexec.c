@@ -178,7 +178,7 @@ static void kexec_from_network(int netdev)
            data.bootfile, str_ip);
     kernel = (void*)tftpGetIntoBuffer(data.bootfile, &nif->ip,
                                       &data.next_server, &size);
-    printf("kernel=0x%08X, *kernel=0x%08X\n", kernel, *(uint*)kernel);
+    printf("kernel=0x%08X, *kernel=0x%08X\n", (uint)kernel, *(uint *)kernel);
 
     if (SYSERR == (int)kernel)
     {

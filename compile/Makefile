@@ -24,14 +24,14 @@ TOPDIR  := ..
 
 # Set the C compilation flags common to all Embedded Xinu platforms.
 # platformVars can add more flags if desired.
-CFLAGS  :=
+CFLAGS  := 
 
 # Do not perform linking until the end.
 CFLAGS  += -c
 
 # Optimize for size.
 CFLAGS  += -Os
-#C_FLAGS += -O0
+
 # Enable most useful compiler warnings.
 CFLAGS  += -Wall
 
@@ -169,7 +169,7 @@ COMPILER_ROOT := $(ARCH_ROOT)$(ARCH_PREFIX)
 # Set the actual compiler and several binutils programs.
 CC       := $(COMPILER_ROOT)gcc
 AR       := $(COMPILER_ROOT)ar
-LD       := $(COMPILER_ROOT)ld -Map test.map
+LD       := $(COMPILER_ROOT)ld# -Map test.map
 STRIP    := $(COMPILER_ROOT)strip
 OBJCOPY  := $(COMPILER_ROOT)objcopy
 
@@ -247,7 +247,7 @@ LIB_ARC  := $(LIBS:%=$(LIBDIR)/%.a)
 MAIN_OBJ := $(MAIN_SRC:%.c=%.o)
 
 # Data is relative to the compile directory
-DATA     := data
+DATA     ?= data
 
 DATA_SRC :=
 include $(DATA:%=%/Makerules)

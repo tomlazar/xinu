@@ -7,6 +7,7 @@
 #include <icmp.h>
 #include <stdlib.h>
 #include <thread.h>
+#include <core.h>
 
 mailbox icmpqueue;
 struct icmpEchoQueue echotab[NPINGQUEUE];
@@ -37,7 +38,7 @@ syscall icmpInit(void)
     /* Spawn icmpDaemon thread */
     ready(create
           ((void *)icmpDaemon, ICMP_THR_STK, ICMP_THR_PRIO, "icmpDaemon",
-           0), RESCHED_NO);
+           0), RESCHED_NO, CORE_ZERO);
 
     return OK;
 }

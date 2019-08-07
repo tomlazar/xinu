@@ -15,6 +15,7 @@
 #include <pcap.h>
 #include <testsuite.h>
 #include <thread.h>
+#include <core.h>
 
 #if NETHER
 
@@ -238,7 +239,7 @@ thread test_arp(bool verbose)
         tids[i] = tid;
         entry->waiting[i] = tid;
         entry->count++;
-        ready(tid, RESCHED_NO);
+        ready(tid, RESCHED_NO, CORE_ZERO);
     }
     recvclr();
     arpNotify(entry, ARP_MSG_RESOLVED);
@@ -288,7 +289,7 @@ thread test_arp(bool verbose)
         tids[i] = tid;
         entry->waiting[i] = tid;
         entry->count++;
-        ready(tid, RESCHED_NO);
+        ready(tid, RESCHED_NO, CORE_ZERO);
     }
     recvclr();
     if (SYSERR == arpFree(entry))
@@ -751,7 +752,7 @@ thread test_arp(bool verbose)
     tid =
         ready(create
               ((void *)lookupTest, INITSTK, INITPRIO, "lookupTest", 4,
-               request, wait, data, phdr.caplen), RESCHED_NO);
+               request, wait, data, phdr.caplen), RESCHED_NO, CORE_ZERO);
     i = arpLookup(netptr, &praddr, &addrbuf);
     if ((SYSERR == i) || (TIMEOUT == i))
     {
@@ -798,7 +799,7 @@ thread test_arp(bool verbose)
     tid =
         ready(create
               ((void *)lookupTest, INITSTK, INITPRIO, "lookupTest", 4,
-               request, wait, data, phdr.caplen), RESCHED_NO);
+               request, wait, data, phdr.caplen), RESCHED_NO, CORE_ZERO);
     i = arpLookup(netptr, &praddr, &addrbuf);
     if ((SYSERR == i) || (TIMEOUT == i))
     {

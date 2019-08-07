@@ -1,0 +1,181 @@
+\hypertarget{dhcp_8h}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp.h File Reference}
+\label{dhcp_8h}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp.\-h@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp.\-h}}
+}
+{\ttfamily \#include $<$stddef.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$dhcpc.\-h$>$}\\*
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structdhcpPkt}{dhcp\-Pkt}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{dhcp_8h_af6c333ed6910b1f294f4bf436945e244}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-\_\-\-R\-E\-Q\-U\-E\-S\-T}~1}\label{dhcp_8h_af6c333ed6910b1f294f4bf436945e244}
+
+\item 
+\hypertarget{dhcp_8h_a4c1c0549302d446b953556e17dc18dcb}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-\_\-\-R\-E\-P\-L\-Y}~2}\label{dhcp_8h_a4c1c0549302d446b953556e17dc18dcb}
+
+\item 
+\hypertarget{dhcp_8h_a4bd0555e1b5f4f255e14171a7478ed9a}{\#define {\bfseries D\-H\-C\-P\-\_\-\-R\-E\-T\-R\-A\-N\-S\-M\-I\-T\-\_\-\-C\-O\-U\-N\-T}~4}\label{dhcp_8h_a4bd0555e1b5f4f255e14171a7478ed9a}
+
+\item 
+\hypertarget{dhcp_8h_a0df0f247038b644245db4e360f1069fe}{\#define {\bfseries D\-H\-C\-P\-\_\-\-R\-E\-T\-R\-A\-N\-S\-M\-I\-T\-\_\-\-T\-I\-M\-E}~5000   /$\ast$ in ms $\ast$/}\label{dhcp_8h_a0df0f247038b644245db4e360f1069fe}
+
+\item 
+\hypertarget{dhcp_8h_a333cfad16240cfbbc60057502f6953f1}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T}~0}\label{dhcp_8h_a333cfad16240cfbbc60057502f6953f1}
+
+\item 
+\hypertarget{dhcp_8h_a23641ae770e522a2fa0ff94d9501c710}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G}~1}\label{dhcp_8h_a23641ae770e522a2fa0ff94d9501c710}
+
+\item 
+\hypertarget{dhcp_8h_a49f04321211b9a0f968fbd74f37b3658}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G}~2}\label{dhcp_8h_a49f04321211b9a0f968fbd74f37b3658}
+
+\item 
+\hypertarget{dhcp_8h_a646881cf07312eedc1fb1fe1cc371dd1}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-B\-O\-U\-N\-D}~3}\label{dhcp_8h_a646881cf07312eedc1fb1fe1cc371dd1}
+
+\item 
+\hypertarget{dhcp_8h_afa2c873797d89aef95044d2ac54fd63e}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-N\-E\-W}~4}\label{dhcp_8h_afa2c873797d89aef95044d2ac54fd63e}
+
+\item 
+\hypertarget{dhcp_8h_a2e686864055001baa1a1452e3d92f0c4}{\#define {\bfseries D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-B\-I\-N\-D}~5}\label{dhcp_8h_a2e686864055001baa1a1452e3d92f0c4}
+
+\item 
+\hypertarget{dhcp_8h_aa490e80da21dfc13b91c034095efdcd4}{\#define {\bfseries D\-H\-C\-P\-D\-I\-S\-C\-O\-V\-E\-R}~1}\label{dhcp_8h_aa490e80da21dfc13b91c034095efdcd4}
+
+\item 
+\hypertarget{dhcp_8h_ab82126d739f61a60d84116e1e0d3ad2e}{\#define {\bfseries D\-H\-C\-P\-O\-F\-F\-E\-R}~2}\label{dhcp_8h_ab82126d739f61a60d84116e1e0d3ad2e}
+
+\item 
+\hypertarget{dhcp_8h_a0cd47b14d8040e76932488eadbc0091e}{\#define {\bfseries D\-H\-C\-P\-R\-E\-Q\-U\-E\-S\-T}~3}\label{dhcp_8h_a0cd47b14d8040e76932488eadbc0091e}
+
+\item 
+\hypertarget{dhcp_8h_af03ae973e2eb857947af829f3611eed3}{\#define {\bfseries D\-H\-C\-P\-D\-E\-C\-L\-I\-N\-E}~4}\label{dhcp_8h_af03ae973e2eb857947af829f3611eed3}
+
+\item 
+\hypertarget{dhcp_8h_a4f4105ef611737b700a6da965306dcfe}{\#define {\bfseries D\-H\-C\-P\-A\-C\-K}~5}\label{dhcp_8h_a4f4105ef611737b700a6da965306dcfe}
+
+\item 
+\hypertarget{dhcp_8h_a4162aa47e0c49f981f31b4bd0363476b}{\#define {\bfseries D\-H\-C\-P\-N\-A\-K}~6}\label{dhcp_8h_a4162aa47e0c49f981f31b4bd0363476b}
+
+\item 
+\hypertarget{dhcp_8h_a28d24149d2c3838966cc9f5cf2fdf2cb}{\#define {\bfseries D\-H\-C\-P\-R\-E\-L\-E\-A\-S\-E}~7}\label{dhcp_8h_a28d24149d2c3838966cc9f5cf2fdf2cb}
+
+\item 
+\hypertarget{dhcp_8h_a3ba61c4414c0e091eb1d733ba8664729}{\#define {\bfseries D\-H\-C\-P\-\_\-\-T\-I\-M\-E\-O\-U\-T}~0}\label{dhcp_8h_a3ba61c4414c0e091eb1d733ba8664729}
+
+\item 
+\hypertarget{dhcp_8h_a0fcd21f8d7cbb829eaf9181c8413cd07}{\#define {\bfseries D\-H\-C\-P\-\_\-\-H\-D\-R\-\_\-\-L\-E\-N}~240}\label{dhcp_8h_a0fcd21f8d7cbb829eaf9181c8413cd07}
+
+\item 
+\hypertarget{dhcp_8h_a79ad0a6d474720c426a890bcd727d9dd}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-M\-S\-G\-T\-Y\-P\-E\-\_\-\-L\-E\-N}~3}\label{dhcp_8h_a79ad0a6d474720c426a890bcd727d9dd}
+
+\item 
+\hypertarget{dhcp_8h_a750c857e4ca15cb90096c344f69a2d39}{\#define {\bfseries D\-H\-C\-P\-\_\-\-M\-A\-G\-I\-C\-C\-O\-O\-K\-I\-E}~0x63825363}\label{dhcp_8h_a750c857e4ca15cb90096c344f69a2d39}
+
+\item 
+\hypertarget{dhcp_8h_a872097efe3db2bb0ba2e464c8acc23fd}{\#define {\bfseries D\-H\-C\-P\-\_\-\-H\-T\-Y\-P\-E\-\_\-\-E\-T\-H\-E\-R}~1}\label{dhcp_8h_a872097efe3db2bb0ba2e464c8acc23fd}
+
+\item 
+\hypertarget{dhcp_8h_a86ac88aab6da34be0599f857401954d3}{\#define {\bfseries D\-H\-C\-P\-\_\-\-B\-R\-O\-A\-D\-C\-A\-S\-T}~0x8000}\label{dhcp_8h_a86ac88aab6da34be0599f857401954d3}
+
+\item 
+\hypertarget{dhcp_8h_aef904623b711662a8d3d96a64f0abd6e}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-E\-N\-D}~255}\label{dhcp_8h_aef904623b711662a8d3d96a64f0abd6e}
+
+\item 
+\hypertarget{dhcp_8h_aa354818bbddd42c73d7ef5417ab7871e}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-P\-A\-D}~0}\label{dhcp_8h_aa354818bbddd42c73d7ef5417ab7871e}
+
+\item 
+\hypertarget{dhcp_8h_aed22ea0850ae6749faadc59984e36eeb}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-S\-U\-B\-N\-E\-T}~1}\label{dhcp_8h_aed22ea0850ae6749faadc59984e36eeb}
+
+\item 
+\hypertarget{dhcp_8h_aee0e6fd4bdc69f03904d386ff9181414}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-G\-A\-T\-E\-W\-A\-Y}~3}\label{dhcp_8h_aee0e6fd4bdc69f03904d386ff9181414}
+
+\item 
+\hypertarget{dhcp_8h_a6e98920e343e20a214f685eebfd5a7e3}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-D\-N\-S}~6}\label{dhcp_8h_a6e98920e343e20a214f685eebfd5a7e3}
+
+\item 
+\hypertarget{dhcp_8h_a6e7000fcf4f7705cf424e50a840c1110}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-H\-N\-A\-M\-E}~12}\label{dhcp_8h_a6e7000fcf4f7705cf424e50a840c1110}
+
+\item 
+\hypertarget{dhcp_8h_a512c73fcbb27688fd31ef4da263aeefd}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-D\-O\-M\-A\-I\-N}~15}\label{dhcp_8h_a512c73fcbb27688fd31ef4da263aeefd}
+
+\item 
+\hypertarget{dhcp_8h_abece4ef7038378ca95fdd8562f9af1e8}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-R\-E\-Q\-U\-E\-S\-T}~50}\label{dhcp_8h_abece4ef7038378ca95fdd8562f9af1e8}
+
+\item 
+\hypertarget{dhcp_8h_aca8b0afcc75718d347e4db98db686f98}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-L\-E\-A\-S\-E}~51}\label{dhcp_8h_aca8b0afcc75718d347e4db98db686f98}
+
+\item 
+\hypertarget{dhcp_8h_a36cb16049374d35a69758435305729b7}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-M\-S\-G\-T\-Y\-P\-E}~53}\label{dhcp_8h_a36cb16049374d35a69758435305729b7}
+
+\item 
+\hypertarget{dhcp_8h_ad6f201514b99dfec92a8ae4554d74de4}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-S\-E\-R\-V\-E\-R}~54}\label{dhcp_8h_ad6f201514b99dfec92a8ae4554d74de4}
+
+\item 
+\hypertarget{dhcp_8h_a97e69900ceff9c4ae2ddfef7cb1cc7b4}{\#define {\bfseries D\-H\-C\-P\-\_\-\-O\-P\-T\-\_\-\-P\-A\-R\-A\-M\-R\-E\-Q}~55}\label{dhcp_8h_a97e69900ceff9c4ae2ddfef7cb1cc7b4}
+
+\item 
+\hypertarget{dhcp_8h_a9c79e21119a879d02f454aab45d0b367}{\#define {\bfseries D\-H\-C\-P\-\_\-\-T\-R\-A\-C\-E}(format,...)}\label{dhcp_8h_a9c79e21119a879d02f454aab45d0b367}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{dhcp_8h_ab22a3ba0687b921d8b5ddfee00651629}{dhcp\-Send\-Request} (int descrp, struct dhcp\-Data $\ast$data)
+\item 
+syscall \hyperlink{dhcp_8h_aed2d81b1fea33fef8dbcd27e3196c2c3}{dhcp\-Recv\-Reply} (int descrp, struct dhcp\-Data $\ast$data, uint timeout)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{dhcp_8h_aed2d81b1fea33fef8dbcd27e3196c2c3}{\index{dhcp.\-h@{dhcp.\-h}!dhcp\-Recv\-Reply@{dhcp\-Recv\-Reply}}
+\index{dhcp\-Recv\-Reply@{dhcp\-Recv\-Reply}!dhcp.h@{dhcp.\-h}}
+\subsubsection[{dhcp\-Recv\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}syscall dhcp\-Recv\-Reply (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{struct dhcp\-Data $\ast$}]{data, }
+\item[{uint}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{dhcp_8h_aed2d81b1fea33fef8dbcd27e3196c2c3}
+Wait, with timeout, for a response from a D\-H\-C\-P server and update the D\-H\-C\-P transfer data. The exact behavior of this function depends on the current D\-H\-C\-P client state\-:
+
+
+\begin{DoxyItemize}
+\item If in D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G, the client waits until it gets a D\-H\-C\-P\-O\-F\-F\-E\-R reply from any server.
+\item If in D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G, the client waits until it gets a D\-H\-C\-P\-A\-C\-K or D\-H\-C\-P\-N\-A\-K reply from the server to which it sent the D\-H\-C\-P\-R\-E\-Q\-U\-E\-S\-T.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em descrp} & Network device on which to wait for a response. \\
+\hline
+\mbox{\tt in,out}  & {\em data} & D\-H\-C\-P transfer data. \\
+\hline
+\mbox{\tt in}  & {\em timeout} & Milliseconds to wait before timing out.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if successful; T\-I\-M\-E\-O\-U\-T if timed out; S\-Y\-S\-E\-R\-R if other error occurred. 
+\end{DoxyReturn}
+\hypertarget{dhcp_8h_ab22a3ba0687b921d8b5ddfee00651629}{\index{dhcp.\-h@{dhcp.\-h}!dhcp\-Send\-Request@{dhcp\-Send\-Request}}
+\index{dhcp\-Send\-Request@{dhcp\-Send\-Request}!dhcp.h@{dhcp.\-h}}
+\subsubsection[{dhcp\-Send\-Request}]{\setlength{\rightskip}{0pt plus 5cm}syscall dhcp\-Send\-Request (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{struct dhcp\-Data $\ast$}]{data}
+\end{DoxyParamCaption}
+)}}\label{dhcp_8h_ab22a3ba0687b921d8b5ddfee00651629}
+Send a D\-H\-C\-P\-D\-I\-S\-C\-O\-V\-E\-R or D\-H\-C\-P\-R\-E\-Q\-U\-E\-S\-T packet, depending on the current state of the D\-H\-C\-P client (D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T or D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G, respectively).
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em descrp} & Network device on which to send the D\-H\-C\-P packet. \\
+\hline
+\mbox{\tt in,out}  & {\em data} & D\-H\-C\-P transfer data that has been filled in appropriately for D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-I\-N\-I\-T or D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if packet was successfully sent; S\-Y\-S\-E\-R\-R otherwise. 
+\end{DoxyReturn}

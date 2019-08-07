@@ -1,0 +1,62 @@
+\hypertarget{dhcpRecvReply_8c}{\section{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Recv\-Reply.c File Reference}
+\label{dhcpRecvReply_8c}\index{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Recv\-Reply.\-c@{/users/home/pmcgee6/raxinu/19\-\_\-ra/xinu/network/dhcpc/dhcp\-Recv\-Reply.\-c}}
+}
+{\ttfamily \#include $<$device.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}dhcp.\-h\char`\"{}}\\*
+{\ttfamily \#include $<$ether.\-h$>$}\\*
+{\ttfamily \#include $<$ipv4.\-h$>$}\\*
+{\ttfamily \#include $<$network.\-h$>$}\\*
+{\ttfamily \#include $<$string.\-h$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$udp.\-h$>$}\\*
+{\ttfamily \#include $<$thread.\-h$>$}\\*
+{\ttfamily \#include $<$core.\-h$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{dhcpRecvReply_8c_a3a2bd4045b2e4b2ec3419e1f2cca9607}{\#define {\bfseries D\-H\-C\-P\-\_\-\-R\-E\-C\-V\-\_\-\-S\-T\-K\-S\-I\-Z\-E}~N\-E\-T\-\_\-\-T\-H\-R\-\_\-\-S\-T\-K}\label{dhcpRecvReply_8c_a3a2bd4045b2e4b2ec3419e1f2cca9607}
+
+\item 
+\hypertarget{dhcpRecvReply_8c_a7f5153a7db382747b4c3ef3d944cb499}{\#define {\bfseries D\-H\-C\-P\-\_\-\-R\-E\-C\-V\-\_\-\-P\-R\-I\-O}~N\-E\-T\-\_\-\-T\-H\-R\-\_\-\-P\-R\-I\-O}\label{dhcpRecvReply_8c_a7f5153a7db382747b4c3ef3d944cb499}
+
+\item 
+\hypertarget{dhcpRecvReply_8c_a5f824de317f1390cf718bf3de0ac2820}{\#define {\bfseries D\-H\-C\-P\-\_\-\-D\-R\-O\-P\-\_\-\-P\-A\-C\-K\-E\-T\-\_\-\-P\-E\-R\-C\-E\-N\-T}~0}\label{dhcpRecvReply_8c_a5f824de317f1390cf718bf3de0ac2820}
+
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+syscall \hyperlink{dhcpRecvReply_8c_aed2d81b1fea33fef8dbcd27e3196c2c3}{dhcp\-Recv\-Reply} (int descrp, struct dhcp\-Data $\ast$data, uint timeout)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{dhcpRecvReply_8c_aed2d81b1fea33fef8dbcd27e3196c2c3}{\index{dhcp\-Recv\-Reply.\-c@{dhcp\-Recv\-Reply.\-c}!dhcp\-Recv\-Reply@{dhcp\-Recv\-Reply}}
+\index{dhcp\-Recv\-Reply@{dhcp\-Recv\-Reply}!dhcpRecvReply.c@{dhcp\-Recv\-Reply.\-c}}
+\subsubsection[{dhcp\-Recv\-Reply}]{\setlength{\rightskip}{0pt plus 5cm}syscall dhcp\-Recv\-Reply (
+\begin{DoxyParamCaption}
+\item[{int}]{descrp, }
+\item[{struct dhcp\-Data $\ast$}]{data, }
+\item[{uint}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{dhcpRecvReply_8c_aed2d81b1fea33fef8dbcd27e3196c2c3}
+Wait, with timeout, for a response from a D\-H\-C\-P server and update the D\-H\-C\-P transfer data. The exact behavior of this function depends on the current D\-H\-C\-P client state\-:
+
+
+\begin{DoxyItemize}
+\item If in D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-E\-L\-E\-C\-T\-I\-N\-G, the client waits until it gets a D\-H\-C\-P\-O\-F\-F\-E\-R reply from any server.
+\item If in D\-H\-C\-P\-C\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-I\-N\-G, the client waits until it gets a D\-H\-C\-P\-A\-C\-K or D\-H\-C\-P\-N\-A\-K reply from the server to which it sent the D\-H\-C\-P\-R\-E\-Q\-U\-E\-S\-T.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em descrp} & Network device on which to wait for a response. \\
+\hline
+\mbox{\tt in,out}  & {\em data} & D\-H\-C\-P transfer data. \\
+\hline
+\mbox{\tt in}  & {\em timeout} & Milliseconds to wait before timing out.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\-K if successful; T\-I\-M\-E\-O\-U\-T if timed out; S\-Y\-S\-E\-R\-R if other error occurred. 
+\end{DoxyReturn}

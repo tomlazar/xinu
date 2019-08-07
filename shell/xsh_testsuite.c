@@ -14,6 +14,7 @@
 #include <string.h>
 #include <testsuite.h>
 #include <thread.h>
+#include <core.h>
 
 static void testItem(int, bool);
 static void help(char *command);
@@ -107,7 +108,7 @@ static void testItem(int testnum, bool verbose)
 
             /* Clear waiting message; Reschedule; */
             while (recvclr() != NOMSG);
-            ready(child, RESCHED_YES);
+            ready(child, RESCHED_YES, CORE_ZERO);
 
             /* Wait for command process to finish */
             while (receive() != child);

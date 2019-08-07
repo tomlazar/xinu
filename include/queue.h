@@ -25,20 +25,14 @@
 #define _QUEUE_H_
 
 #include <kernel.h>
-
-#ifdef MULTICORE
 #include <mutex.h>
-#endif
+
 extern unsigned int getcpuid(void);
 
 #ifndef NQENT
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 /** NQENT = 1 per thread, 2 per list, 2 per sem */
 #define NQENT   (NTHREAD + 4 + 6 + NSEM + NSEM)
-#else
-#define NQENT	(NTHREAD + 4 + NSEM + NSEM)
-#endif
 
 #endif
 
@@ -61,9 +55,7 @@ struct queent
 extern struct queent quetab[];
 extern qid_typ readylist[];
 
-#if MULTICORE
 extern mutex_t quetab_mutex;
-#endif
 void quetab_acquire(void);
 void quetab_release(void);
 

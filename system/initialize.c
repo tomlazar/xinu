@@ -9,12 +9,16 @@
 #include <xinu.h>
 #include <platform.h>
 #include <stdint.h>
+#include <mutex.h>
 
 #ifdef WITH_USB
 #include <usb_subsystem.h>
 #include <usb_core_driver.h>
 #include "../device/lan7800/lan7800.h"
 #endif
+
+#include "platforms/arm-rpi3/mmu.h"
+#include <dma_buf.h>
 
 /* Function prototypes */
 extern thread main(void);       /* main is the first thread created    */
@@ -29,15 +33,13 @@ struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
 /* Declarations of major multicore variables */
-#if MULTICORE
 mutex_t quetab_mutex;
 mutex_t thrtab_mutex[NTHREAD];
 mutex_t semtab_mutex[NSEM];
-unsigned int core_affinity[NTHREAD];
+
+mutex_t serial_lock;
 
 static void core_nulluser(void);
-extern void unparkcore(unsigned int, void *, void *);
-#endif
 
 /* Active system status */
 int thrcount;                   /* Number of live user threads         */
@@ -66,11 +68,9 @@ void nulluser(void)
 	/* General initialization  */
 	sysinit();
 
-#if MULTICORE
 	unparkcore(1, (void *) core_nulluser, NULL);
 	unparkcore(2, (void *) core_nulluser, NULL);
 	unparkcore(3, (void *) core_nulluser, NULL);
-#endif
 
 	kprintf("\r\n***********************************************************\r\n");
 	kprintf("******************** Hello Xinu World! ********************\r\n");
@@ -80,11 +80,10 @@ void nulluser(void)
 	enable();	
 
 	/* Spawn the main thread  */
-	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES);
+	ready(create(main, INITSTK, INITPRIO, "MAIN", 0), RESCHED_YES, CORE_ZERO);
 
 	/* null thread has nothing else to do but cannot exit  */
 	while (TRUE){}
-
 }
 
 /**
@@ -96,6 +95,9 @@ static int sysinit(void)
 	int i;
 	struct thrent *thrptr;      /* thread control block pointer  */
 	struct memblock *pmblock;   /* memory block pointer          */
+
+	/* Initialize serial lock */
+	serial_lock = mutex_create();
 
 	/* Initialize system variables */
 	/* Count this NULLTHREAD as the first thread in the system. */
@@ -122,16 +124,13 @@ static int sysinit(void)
 	strlcpy(thrptr->name, "prnull", TNMLEN);
 	thrptr->stkbase = (void *)&_end;
 	thrptr->stklen = (ulong)memheap - (ulong)&_end;
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
 	thrptr->stklen = 8192; 	/* NULLSTK */
-#endif
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[0] = NULLTHREAD;
+	thrptr->core_affinity = CORE_ZERO;
+	thrcurrent[CORE_ZERO] = NULLTHREAD;
 
-#ifdef _XINU_PLATFORM_ARM_RPI_3_
-#if 1
 	/* Core 1 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD1];
 	thrptr->state = THRCURR;
@@ -142,7 +141,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[1] = NULLTHREAD1;
+	thrptr->core_affinity = CORE_ONE;
+	thrcurrent[CORE_ONE] = NULLTHREAD1;
 
 	/* Core 2 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD2];
@@ -154,7 +154,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[2] = NULLTHREAD2;
+	thrptr->core_affinity = CORE_TWO;
+	thrcurrent[CORE_TWO] = NULLTHREAD2;
 
 	/* Core 3 NULLTHREAD */
 	thrptr = &thrtab[NULLTHREAD3];
@@ -166,9 +167,8 @@ static int sysinit(void)
 	thrptr->stkptr = 0;
 	thrptr->memlist.next = NULL;
 	thrptr->memlist.length = 0;
-	thrcurrent[3] = NULLTHREAD3;	
-#endif
-#endif
+	thrptr->core_affinity = CORE_THREE;
+	thrcurrent[CORE_THREE] = NULLTHREAD3;	
 
 	/* Initialize semaphores */
 	for (i = 0; i < NSEM; i++)
