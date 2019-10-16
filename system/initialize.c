@@ -14,7 +14,7 @@
 #ifdef WITH_USB
 #include <usb_subsystem.h>
 #include <usb_core_driver.h>
-#include "../device/lan7800/lan7800.h"
+#include "../device/smsc9512/smsc9512.h"
 #endif
 
 #include "platforms/arm-rpi3/mmu.h"

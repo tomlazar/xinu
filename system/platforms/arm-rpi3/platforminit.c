@@ -123,8 +123,8 @@ void led_off(void)
  */
 int platforminit(void)
 {
-	strlcpy(platform.family, "BCM2837B0", PLT_STRMAX);
-	strlcpy(platform.name, "Raspberry Pi 3 B+", PLT_STRMAX);
+	strlcpy(platform.family, "BCM2837", PLT_STRMAX);
+	strlcpy(platform.name, "Raspberry Pi 3 B", PLT_STRMAX);
 	platform.maxaddr = (void *)0x3EFFFFFC; /* Used only if atags are bad */
 	platform.clkfreq = 1000000;
 	platform.serial_low = 0;   /* Used only if serial # not found in atags */

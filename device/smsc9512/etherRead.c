@@ -1,39 +1,15 @@
 /**
  * @file etherRead.c
- *
- * Authors: Patrick J. McGee
- * 	    Rade Latinovich
- *
  */
-/* Embedded Xinu, Copyright (C) 2018.  All rights reserved. */
+/* Embedded Xinu, Copyright (C) 2013.  All rights reserved. */
 
 #include <bufpool.h>
 #include <ether.h>
 #include <interrupt.h>
 #include <string.h>
 
-#define ALLOC_CACHE_ALIGN_BUFFER(type, name, size)			\
-		ALLOC_ALIGN_BUFFER(type, name, size, ARCH_DMA_MINALIGN)
-
-#define ALLOC_ALIGN_BUFFER(type, name, size, align)		\
-		ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, 1)
-
-#define ALLOC_ALIGN_BUFFER_PAD(type, name, size, align, pad)		\
-		char __##name[ROUND(PAD_SIZE((size) * sizeof(type), pad), align)  \
-				      + (align - 1)];
-
-#define PAD_SIZE(s, pad) (PAD_COUNT(s, pad) * pad)
-
-/* 
- * @ingroup etherspecific
- *
- * Implementation of etherRead() for the MicroChip LAN7800; see the documentation for
- * this function in ether.h.  
- * @param devptr	Pointer to ethernet device to read from. 
- * @param buf		Pointer to packet buffer
- * @param len		Amount of bytes to be read
- * @return		Length of packet received
- */
+/* Implementation of etherRead() for the smsc9512; see the documentation for
+ * this function in ether.h.  */
 devcall etherRead(device *devptr, void *buf, uint len)
 {
     irqmask im;

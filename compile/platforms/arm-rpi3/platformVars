@@ -39,7 +39,7 @@ APPCOMPS :=		apps	\
 DEVICES  := uart-pl011      \
             tty	            \
             usb             \
-            lan7800	    \
+            smsc9512	    \
 	    tcp		    \
 	    udp		    \
             framebuffer_rpi \
