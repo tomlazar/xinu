@@ -12,5 +12,6 @@ void random_init()
 unsigned int random()
 {
 //	return *RNG_DATA % (max - min) + min;
+	while(!((*RNG_STATUS)>>24)) asm volatile("nop");
 	return (unsigned int) *RNG_DATA;
 }

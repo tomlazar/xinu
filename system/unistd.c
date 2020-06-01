@@ -8,6 +8,8 @@
 #include <tty.h>
 #include <ctype.h>
 
+#define iseof(c) ( (c == EOF) )
+
 syscall getnum(void)
 {
     int i = 0, c = 0;

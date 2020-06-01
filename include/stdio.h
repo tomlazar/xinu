@@ -31,6 +31,10 @@ extern unsigned int getcpuid(void);
  * Standard error  */
 #define stderr ((thrtab[thrcurrent[getcpuid()]]).fdesc[2])
 
+/** @ingroup libxc
+ * End Of File */
+#define EOF	(-2)
+
 /* Formatted input  */
 int _doscan(const char *fmt, va_list ap,
             int (*getch) (int, int), int (*ungetch) (int, int),

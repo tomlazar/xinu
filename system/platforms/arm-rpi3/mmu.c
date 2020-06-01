@@ -21,7 +21,7 @@
  * @param flags		Flag to mark the section
  * @return Zero
  */
-/* code from Github user dwelch67
+/* code from dwelch67
  * https://github.com/dwelch67/raspberrypi/tree/master/mmu */
 unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flags)
 {
@@ -33,6 +33,24 @@ unsigned int mmu_section(unsigned int vadd, unsigned int padd, unsigned int flag
 	PUT32(rb, rc);
 
 	return 0;	
+}
+
+/**
+ * @ingroup bcm2837
+ *
+ * Create small page entry in translation table.
+ * @param vadd		Virtual address
+ * @param padd		Physical address
+ * @param flags		Flags to mark page
+ * @return Zero
+ */
+unsigned int mmu_page(unsigned int vadd, unsigned int padd, unsigned int flags)
+{
+	// Level 1 Descriptor
+	
+	// Level 2 Descriptor
+
+	return 0;
 }
 
 /**
