@@ -2,6 +2,7 @@
 #include <thread.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
 
 static void bigargs(uchar a, uchar b, uchar c, uchar d, uchar e, uchar f,
                     uchar *testArray)
@@ -21,7 +22,7 @@ thread test_bigargs(bool verbose)
     uchar testArray[20];
 
     ready(create((void *)bigargs, INITSTK, 31, "BIGARGS",
-                 7, 10, 20, 30, 40, 50, 60, testArray), RESCHED_YES);
+                 7, 10, 20, 30, 40, 50, 60, testArray), RESCHED_YES, CORE_ZERO);
 
     if ((10 == testArray[0])
         && (20 == testArray[1])

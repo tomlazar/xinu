@@ -68,6 +68,7 @@ void clkinit(void)
     interruptVector[IRQ_TIMER] = clkhandler;
     enable_irq(IRQ_TIMER);
     clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
+
 #endif
 }
 

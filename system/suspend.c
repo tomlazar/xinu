@@ -35,11 +35,15 @@ syscall suspend(tid_typ tid)
     if (THRREADY == thrptr->state)
     {
         getitem(tid);           /* removes from queue */
+		thrtab_acquire(tid);
         thrptr->state = THRSUSP;
+		thrtab_release(tid);
     }
     else
     {
+		thrtab_acquire(tid);
         thrptr->state = THRSUSP;
+		thrtab_release(tid);
         resched();
     }
     prio = thrptr->prio;

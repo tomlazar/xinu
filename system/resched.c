@@ -23,41 +23,52 @@ int resdefer;                   /* >0 if rescheduling deferred */
  */
 int resched(void)
 {
-    uchar asid;                 /* address space identifier */
-    struct thrent *throld;      /* old thread entry */
-    struct thrent *thrnew;      /* new thread entry */
+	uchar asid;                 /* address space identifier */
+	struct thrent *throld;      /* old thread entry */
+	struct thrent *thrnew;      /* new thread entry */
+	unsigned int cpuid;
 
-    if (resdefer > 0)
-    {                           /* if deferred, increase count & return */
-        resdefer++;
-        return (OK);
-    }
+	if (resdefer > 0)
+	{                           /* if deferred, increase count & return */
+		resdefer++;
+		return (OK);
+	}
 
-    throld = &thrtab[thrcurrent];
+	cpuid = getcpuid();
 
-    throld->intmask = disable();
+	thrtab_acquire(thrcurrent[cpuid]);
+	throld = &thrtab[thrcurrent[cpuid]];
+	throld->intmask = disable();
 
-    if (THRCURR == throld->state)
-    {
-        if (nonempty(readylist) && (throld->prio > firstkey(readylist)))
-        {
-            restore(throld->intmask);
-            return OK;
-        }
-        throld->state = THRREADY;
-        insert(thrcurrent, readylist, throld->prio);
-    }
+	if (THRCURR == throld->state)
+	{
+		quetab_acquire();
+		if (nonempty(readylist[cpuid]) && (throld->prio > firstkey(readylist[cpuid])))
+		{
+			quetab_release();
+			thrtab_release(thrcurrent[cpuid]);
+			restore(throld->intmask);
+			return OK;
+		}
+		quetab_release();
+		throld->state = THRREADY;
+		insert(thrcurrent[cpuid], readylist[cpuid], throld->prio);
+	}
 
-    /* get highest priority thread from ready list */
-    thrcurrent = dequeue(readylist);
-    thrnew = &thrtab[thrcurrent];
-    thrnew->state = THRCURR;
+	thrtab_release(thrcurrent[cpuid]);
 
-    /* change address space identifier to thread id */
-    asid = thrcurrent & 0xff;
-    ctxsw(&throld->stkptr, &thrnew->stkptr, asid);
+	/* get highest priority thread from ready list */
+	thrcurrent[cpuid] = dequeue(readylist[cpuid]);
+	thrtab_acquire(thrcurrent[cpuid]);
+	thrnew = &thrtab[thrcurrent[cpuid]];
+	thrnew->state = THRCURR;
+	thrtab_release(thrcurrent[cpuid]);
 
-    /* old thread returns here when resumed */
-    restore(throld->intmask);
-    return OK;
+	/* change address space identifier to thread id */
+	asid = thrcurrent[cpuid] & 0xff;
+	ctxsw(&throld->stkptr, &thrnew->stkptr, asid);
+
+	/* old thread returns here when resumed */
+	restore(throld->intmask);
+	return OK;
 }

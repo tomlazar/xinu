@@ -39,7 +39,7 @@ devcall open(int descrp, ...)
     }
     devptr = (device *)&devtab[descrp];
     va_start(ap, descrp);
-    result = ((*devptr->open) (devptr, ap));
+	result = ((*devptr->open) (devptr, ap));
     va_end(ap);
     return result;
 }

@@ -30,6 +30,9 @@ devcall uartInit(device *devptr)
 
     struct uart *uartptr = &uarttab[devptr->minor];
 
+    extern mutex_t serial_lock;
+    serial_lock = mutex_create();
+
     /* Initialize statistical counts. */
     uartptr->cout = 0;
     uartptr->cin = 0;
@@ -48,7 +51,6 @@ devcall uartInit(device *devptr)
     {
         return SYSERR;
     }
-
     /* Initialize the output buffer, including a semaphore for threads to wait
      * on.  */
     uartptr->osema = semcreate(UART_OBLEN);
@@ -61,9 +63,8 @@ devcall uartInit(device *devptr)
         semfree(uartptr->isema);
         return SYSERR;
     }
-
     /* Initialize the actual hardware.  */
-    if (OK != uartHwInit(devptr))
+	if (OK != uartHwInit(devptr))
     {
         semfree(uartptr->isema);
         semfree(uartptr->osema);

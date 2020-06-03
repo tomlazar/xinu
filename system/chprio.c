@@ -26,9 +26,15 @@ syscall chprio(tid_typ tid, int newprio)
         restore(im);
         return SYSERR;
     }
+	
+	thrtab_acquire(tid);
+
     thrptr = &thrtab[tid];
     oldprio = thrptr->prio;
     thrptr->prio = newprio;
+	
+	thrtab_release(tid);
+
     restore(im);
     return oldprio;
 }

@@ -13,7 +13,9 @@
 #include <debug.h>
 #include <stddef.h>
 #include <memory.h>
-#endif /* __ASSEMBLER__ */
+#include <mutex.h>
+
+extern unsigned int getcpuid(void);
 
 /* unusual value marks the top of the thread stack                      */
 #define STACKMAGIC  0x0A0AAAA9
@@ -32,6 +34,9 @@
 /* miscellaneous thread definitions                                     */
 #define TNMLEN      16          /**< length of thread "name"            */
 #define NULLTHREAD  0           /**< id of the null thread              */
+#define NULLTHREAD1 1		/**< id of secondary null threads 	*/
+#define NULLTHREAD2 2
+#define NULLTHREAD3 3
 #define BADTID      (-1)        /**< used when invalid tid needed       */
 
 /* thread initialization constants */
@@ -63,8 +68,6 @@
 #define THRENTSIZE 148
 #define STKDIVOFFSET 104
 
-#ifndef __ASSEMBLER__
-
 /**
  * Defines what an entry in the thread table looks like.
  */
@@ -87,7 +90,14 @@ struct thrent
 
 extern struct thrent thrtab[];
 extern int thrcount;            /**< currently active threads           */
-extern tid_typ thrcurrent;      /**< currently executing thread         */
+extern tid_typ thrcurrent[];    /**< currently executing thread         */
+
+extern unsigned int getcpuid(void);
+extern unsigned int core_affinity[];
+extern mutex_t thrtab_mutex[];
+
+void thrtab_acquire(tid_typ);
+void thrtab_release(tid_typ);
 
 /* Inter-Thread Communication prototypes */
 syscall send(tid_typ, message);
@@ -107,6 +117,7 @@ int resched(void);
 syscall sleep(uint);
 syscall unsleep(tid_typ);
 syscall yield(void);
+int ready_multi(tid_typ, unsigned int);
 
 /**
  * @ingroup threads
@@ -120,4 +131,4 @@ void userret(void);
 
 #endif /* __ASSEMBLER__ */
 
-#endif                          /* _THREAD_H_ */
+#endif /* _THREAD_H_ */

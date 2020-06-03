@@ -6,6 +6,7 @@
 
 #include <thread.h>
 #include <queue.h>
+#include <clock.h>
 
 /**
  * @ingroup threads
@@ -17,21 +18,35 @@
  */
 int ready(tid_typ tid, bool resch)
 {
-    register struct thrent *thrptr;
+	register struct thrent *thrptr;
 
-    if (isbadtid(tid))
-    {
-        return SYSERR;
-    }
+	if (isbadtid(tid)){
+		return SYSERR;
+	}
 
-    thrptr = &thrtab[tid];
-    thrptr->state = THRREADY;
+	thrtab_acquire(tid);
 
-    insert(tid, readylist, thrptr->prio);
+	thrptr = &thrtab[tid];
+	thrptr->state = THRREADY;
 
-    if (resch == RESCHED_YES)
-    {
-        resched();
-    }
-    return OK;
+	/* if core affinity is not set,
+	 * set affinity to core currently running this code (most likely 0) */
+	unsigned int cpuid;
+	cpuid = getcpuid();
+	if (-1 == thrptr->core_affinity)
+	{
+		core_affinity[tid] = core;
+	}
+
+	thrtab_release(tid);
+
+	if (SYSERR == insert(tid, readylist[thrptr->core_affinity], thrptr->prio)){
+		return SYSERR;
+	}
+
+	if ((resch == RESCHED_YES) && (thrptr->core_affinity == cpuid)){
+		resched();
+	}
+
+	return OK;
 }

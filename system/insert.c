@@ -19,25 +19,31 @@
  */
 int insert(tid_typ tid, qid_typ q, int key)
 {
-    int next;                   /* runs through list         */
-    int prev;                   /* follows next through list */
+	int next;                   /* runs through list         */
+	int prev;                   /* follows next through list */
 
-    if (isbadqid(q) || isbadtid(tid))
-    {
-        return SYSERR;
-    }
+	if (isbadqid(q) || isbadtid(tid))
+	{
+		return SYSERR;
+	}
 
-    next = quetab[quehead(q)].next;
-    while (quetab[next].key >= key)
-    {
-        next = quetab[next].next;
-    }
+	quetab_acquire();
 
-    /* insert tid between prev and next */
-    quetab[tid].next = next;
-    quetab[tid].prev = prev = quetab[next].prev;
-    quetab[tid].key = key;
-    quetab[prev].next = tid;
-    quetab[next].prev = tid;
-    return OK;
+	next = quetab[quehead(q)].next;
+
+	while (quetab[next].key >= key)
+	{
+		next = quetab[next].next;
+	}
+
+	/* insert tid between prev and next */
+	quetab[tid].next = next;
+	quetab[tid].prev = prev = quetab[next].prev;
+	quetab[tid].key = key;
+	quetab[prev].next = tid;
+	quetab[next].prev = tid;
+
+	quetab_release();
+
+	return OK;
 }

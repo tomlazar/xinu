@@ -2,6 +2,8 @@
 #include <thread.h>
 #include <stdio.h>
 #include <testsuite.h>
+#include <core.h>
+#include <thread.h>
 
 #define TIMES 5
 
@@ -39,13 +41,13 @@ thread test_schedule(bool verbose)
     /* disable interrupts so we execute in known order */
     disable();
     ready(atid = create((void *)t4, INITSTK, 31, "PRIORITY-A",
-                        3, TIMES, testArray, &shared), 0);
+                        3, TIMES, testArray, &shared), 0, CORE_ZERO);
     ready(btid = create((void *)t4, INITSTK, 32, "PRIORITY-B",
-                        3, TIMES, testArray, &shared), 0);
+                        3, TIMES, testArray, &shared), 0, CORE_ZERO);
     ready(ctid = create((void *)t4, INITSTK, 34, "PRIORITY-C",
-                        3, TIMES, testArray, &shared), 0);
+                        3, TIMES, testArray, &shared), 0, CORE_ZERO);
     ready(dtid = create((void *)t4, INITSTK, 32, "PRIORITY-D",
-                        3, TIMES, testArray, &shared), 0);
+                        3, TIMES, testArray, &shared), 0, CORE_ZERO);
 
     /* Run the tests by yielding the processor */
     yield();
@@ -81,6 +83,8 @@ thread test_schedule(bool verbose)
 
     for (i = 0; i < 4 * TIMES; i++)
     {
+	kprintf("\r");
+	kprintf("\r\nExpectedResults[%d]: %d (%s), TestResults[%d]: %d", i, expectedResults[i], thrtab[i].name, i, testArray[i]);
         if (expectedResults[i] != testArray[i])
         {
             passed = FALSE;

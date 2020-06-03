@@ -140,6 +140,7 @@ static void kexec_from_network(int netdev)
 
     /* Ensure the DHCP server provided the boot filename and TFTP server IP
      * address.  */
+    printf("data.bootfile: %s\n", data.bootfile);
     if ('\0' == data.bootfile[0] || 0 == data.next_server.type)
     {
         fprintf(stderr, "ERROR: DHCP server did not provide boot file "
@@ -177,6 +178,7 @@ static void kexec_from_network(int netdev)
            data.bootfile, str_ip);
     kernel = (void*)tftpGetIntoBuffer(data.bootfile, &nif->ip,
                                       &data.next_server, &size);
+    printf("kernel=0x%08X, *kernel=0x%08X\n", (uint)kernel, *(uint *)kernel);
 
     if (SYSERR == (int)kernel)
     {
@@ -187,7 +189,7 @@ static void kexec_from_network(int netdev)
     /* Execute the new kernel.  */
     printf("Executing new kernel (size=%u)\n", size);
     sleep(100);  /* Wait just a fraction of a second for printf()s to finish
-                    (no guarantees though).  */
+                    (no guarantees though). */ 
     kexec(kernel, size);
 
     fprintf(stderr, "ERROR: kexec() returned!\n");

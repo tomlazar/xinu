@@ -151,14 +151,14 @@ struct usb_control_setup_data {
 } __packed;
 
 /** Fields that begin every standard USB descriptor.  */
-struct usb_descriptor_header {
+struct __attribute__((__packed__, aligned(4))) usb_descriptor_header {
     uint8_t bLength;
     uint8_t bDescriptorType;
-} __packed;
+};
 
 /** Standard format of USB device descriptors.  See Table 9-8 in 9.6.1 of the
  * USB 2.0 specification.  */
-struct usb_device_descriptor {
+	struct usb_device_descriptor {
     uint8_t  bLength;
     uint8_t  bDescriptorType;
     uint16_t bcdUSB;

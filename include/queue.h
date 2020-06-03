@@ -25,11 +25,15 @@
 #define _QUEUE_H_
 
 #include <kernel.h>
+#include <mutex.h>
+
+extern unsigned int getcpuid(void);
 
 #ifndef NQENT
 
 /** NQENT = 1 per thread, 2 per list, 2 per sem */
-#define NQENT   (NTHREAD + 4 + NSEM + NSEM)
+#define NQENT   (NTHREAD + 4 + 6 + NSEM + NSEM)
+
 #endif
 
 #define EMPTY (-2)              /**< null pointer for queues            */
@@ -49,7 +53,11 @@ struct queent
 };
 
 extern struct queent quetab[];
-extern qid_typ readylist;
+extern qid_typ readylist[];
+
+extern mutex_t quetab_mutex;
+void quetab_acquire(void);
+void quetab_release(void);
 
 #define quehead(q) (q)
 #define quetail(q) ((q) + 1)

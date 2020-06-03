@@ -330,9 +330,11 @@ shellcmd xsh_snoop(int nargs, char *args[])
     }
 
     /* Use same stdin, stdout, and sterr as this thread */
+	thrtab_acquire(tid);
     thrtab[tid].fdesc[0] = thrtab[gettid()].fdesc[0];
     thrtab[tid].fdesc[1] = thrtab[gettid()].fdesc[1];
     thrtab[tid].fdesc[2] = thrtab[gettid()].fdesc[2];
+	thrtab_release(tid);
 
     /* Start output thread */
     recvclr();

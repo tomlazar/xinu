@@ -14,6 +14,10 @@
  * clkcount() being implemented by the platform-specific code.  However it does
  * assume that the platform clock frequency is an even multiple of 1000000.  */
 
+/* TODO: udelay divisor was previously 1000000... should be 1000 on Pi 3 B+.
+ * Thus, this is not platform-independent.
+ */
+
 /**
  * @ingroup timer
  *
@@ -27,7 +31,7 @@
 void udelay(ulong us)
 {
     /* delay = Number of timer ticks to wait for  */
-    ulong delay = (platform.clkfreq / 1000000) * us;
+    ulong delay = (platform.clkfreq / 1000) * us;
 
     /* start = Starting tick count  */
     ulong start = clkcount();
@@ -43,7 +47,7 @@ void udelay(ulong us)
         /* Normal case:  Wait until tick count is greater than target or has
          * wrapped around to less than start.  */
         while (((count = clkcount()) < target) && (count >= start))
-            ;
+		;
     }
     else
     {

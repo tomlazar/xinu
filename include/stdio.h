@@ -10,6 +10,8 @@
 #include <stdarg.h>
 #include <thread.h>  /* For thrtab and thrcurrent. */
 
+extern unsigned int getcpuid(void);
+
 /*
  * Standard in/out/err
  * Note: The C99 specification states that they are macro expansions to a
@@ -19,15 +21,15 @@
 
 /** @ingroup libxc
  * Standard input  */
-#define stdin ((thrtab[thrcurrent]).fdesc[0])
+#define stdin ((thrtab[thrcurrent[getcpuid()]]).fdesc[0])
 
 /** @ingroup libxc
  * Standard output  */
-#define stdout ((thrtab[thrcurrent]).fdesc[1])
+#define stdout ((thrtab[thrcurrent[getcpuid()]]).fdesc[1])
 
 /** @ingroup libxc
  * Standard error  */
-#define stderr ((thrtab[thrcurrent]).fdesc[2])
+#define stderr ((thrtab[thrcurrent[getcpuid()]]).fdesc[2])
 
 /* Formatted input  */
 int _doscan(const char *fmt, va_list ap,

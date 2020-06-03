@@ -6,11 +6,14 @@
 
 #include <kernel.h>
 #include <stdarg.h>
+#include <mutex.h>
+
+mutex_t serial_lock;
 
 /**
  * @ingroup uartgeneric
  *
- * kernel printf: formatted, synchronous output to SERIAL0.
+ * kernel printf: Multicore-safe (by mutex locks), formatted, synchronous output to SERIAL0.
  *
  * @param format
  *      The format string.  Not all standard format specifiers are supported by
@@ -26,9 +29,14 @@ syscall kprintf(const char *format, ...)
 {
     int retval;
     va_list ap;
-
+    
     va_start(ap, format);
+
+    mutex_acquire(serial_lock);
     retval = kvprintf(format, ap);
+    mutex_release(serial_lock);
+
     va_end(ap);
+
     return retval;
 }

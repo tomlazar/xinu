@@ -59,6 +59,8 @@
 #include <usb_hub_defs.h>
 #include <usb_hub_driver.h>
 #include <usb_std_defs.h>
+#include <core.h>
+#include <clock.h>
 
 /** Maximum number of ports per hub supported by this driver.  (USB 2.0
  * theoretically allows up to 255 ports per hub.)  */
@@ -172,7 +174,7 @@ static usb_status_t
 hub_read_descriptor(struct usb_hub *hub)
 {
     usb_status_t status;
-    usb_dev_debug(hub->device, "Reading hub descriptor.\n");
+    usb_dev_debug(hub->device, "Reading hub descriptor.\r\n");
     status = usb_get_descriptor(hub->device,
                                 USB_HUB_REQUEST_GET_DESCRIPTOR,
                                 USB_BMREQUESTTYPE_DIR_IN |
@@ -183,7 +185,7 @@ hub_read_descriptor(struct usb_hub *hub)
                                                   sizeof(hub->descriptor_varData));
     if (status != USB_STATUS_SUCCESS)
     {
-        usb_dev_error(hub->device, "Failed to read hub descriptor: %s\n",
+        usb_dev_error(hub->device, "Failed to read hub descriptor: %s\r\n",
                       usb_status_string(status));
     }
     return status;
@@ -196,7 +198,7 @@ port_get_status(struct usb_port *port)
     usb_status_t status;
 
     usb_dev_debug(port->hub->device,
-                  "Retrieving status of port %u\n", port->number);
+                  "Retrieving status of port %u\r\n", port->number);
     status = usb_control_msg(port->hub->device, NULL,
                              USB_HUB_REQUEST_GET_STATUS,
                              USB_BMREQUESTTYPE_DIR_IN |
@@ -204,11 +206,11 @@ port_get_status(struct usb_port *port)
                                  USB_BMREQUESTTYPE_RECIPIENT_OTHER,
                              0, port->number,
                              &port->status, sizeof(port->status));
-    usb_dev_debug(port->hub->device, "Got port status\n");
+    usb_dev_debug(port->hub->device, "Got port status\r\n");
     if (status != USB_STATUS_SUCCESS)
     {
         usb_dev_error(port->hub->device,
-                      "Failed to get status for port %u: %s\n",
+                      "Failed to get status for port %u: %s\r\n",
                       port->number, usb_status_string(status));
     }
     return status;
@@ -281,7 +283,7 @@ port_reset(struct usb_port *port)
     usb_status_t status;
     uint i;
 
-    usb_dev_debug(port->hub->device, "Resetting port %u\n", port->number);
+    usb_dev_debug(port->hub->device, "Resetting port %u\r\n", port->number);
 
     /* Tell the hardware to reset.  */
     status = port_set_feature(port, USB_PORT_RESET);
@@ -336,7 +338,7 @@ port_attach_device(struct usb_port *port)
     status = port_reset(port);
     if (status != USB_STATUS_SUCCESS)
     {
-        usb_dev_error(port->hub->device, "Failed to reset port %u: %s\n",
+        usb_dev_error(port->hub->device, "Failed to reset port %u: %s\r\n",
                       port->number, usb_status_string(status));
         return;
     }
@@ -344,7 +346,7 @@ port_attach_device(struct usb_port *port)
     new_device = usb_alloc_device(port->hub->device);
     if (new_device == NULL)
     {
-        usb_error("Too many USB devices attached\n");
+        usb_error("Too many USB devices attached\r\n");
         status = USB_STATUS_OUT_OF_MEMORY;
         port_clear_feature(port, USB_PORT_ENABLE);
         return;
@@ -374,7 +376,7 @@ port_attach_device(struct usb_port *port)
     }
 
     usb_dev_info(port->hub->device,
-                 "New %s-speed device connected to port %u\n",
+                 "New %s-speed device connected to port %u\r\n",
                  usb_speed_to_string(new_device->speed), port->number);
     new_device->port_number = port->number;
 
@@ -382,7 +384,7 @@ port_attach_device(struct usb_port *port)
     if (status != USB_STATUS_SUCCESS)
     {
         usb_dev_error(port->hub->device,
-                      "Failed to attach new device to port %u: %s\n",
+                      "Failed to attach new device to port %u: %s\r\n",
                       port->number, usb_status_string(status));
         usb_free_device(new_device);
         port_clear_feature(port, USB_PORT_ENABLE);
@@ -401,9 +403,9 @@ port_detach_device(struct usb_port *port)
     if (port->child != NULL)
     {
         usb_lock_bus();
-        usb_dev_debug(port->hub->device, "Port %u: device detached.\n",
+        usb_dev_debug(port->hub->device, "Port %u: device detached.\r\n",
                       port->number);
-        usb_info("Detaching %s\n", usb_device_description(port->child));
+        usb_info("Detaching %s\r\n", usb_device_description(port->child));
         usb_free_device(port->child);
         port->child = NULL;
         usb_unlock_bus();
@@ -426,7 +428,7 @@ port_status_changed(struct usb_port *port)
     }
 
     usb_dev_debug(port->hub->device,
-                  "Port %u: {wPortStatus=0x%04x, wPortChange=0x%04x}\n",
+                  "Port %u: {wPortStatus=0x%04x, wPortChange=0x%04x}\r\n",
                   port->number,
                   port->status.wPortStatus,
                   port->status.wPortChange);
@@ -437,7 +439,7 @@ port_status_changed(struct usb_port *port)
     {
         /* Connection changed: a device was connected or disconnected.  */
 
-        usb_dev_debug(port->hub->device, "Port %u: device now %s\n",
+        usb_dev_debug(port->hub->device, "Port %u: device now %s\r\n",
                       port->number,
                       (port->status.connected ? "connected" : "disconnected"));
 
@@ -554,7 +556,10 @@ hub_thread(void)
                 uint32_t portmask;
                 uint i;
 
-                usb_dev_debug(req->dev, "Processing hub status change\n");
+                usb_dev_debug(req->dev, "Processing hub status change\r\n");
+
+		// XXX TODO delay moves along execution for some reason...
+		udelay(25);
 
                 /* The format of the message is a bitmap that indicates which ports have
                  * had status changes.  We ignore bit 0, which indicates status change
@@ -576,12 +581,12 @@ hub_thread(void)
             }
             else
             {
-                usb_dev_error(req->dev, "Status change request failed: %s\n",
+                usb_dev_error(req->dev, "Status change request failed: %s\r\n",
                               usb_status_string(req->status));
             }
 
             /* Re-submit the status change request.  */
-            usb_dev_debug(req->dev, "Re-submitting status change request\n");
+            usb_dev_debug(req->dev, "Re-submitting status change request\r\n");
             usb_submit_xfer_request(req);
         }
     }
@@ -667,7 +672,7 @@ hub_init_ports(struct usb_hub *hub)
     if (hub->descriptor.bNbrPorts > HUB_MAX_PORTS)
     {
         usb_dev_error(hub->device,
-                      "Too many ports on hub (%u > HUB_MAX_PORTS=%u)\n",
+                      "Too many ports on hub (%u > HUB_MAX_PORTS=%u)\r\n",
                       hub->descriptor.bNbrPorts, HUB_MAX_PORTS);
         return USB_STATUS_DEVICE_UNSUPPORTED;
     }
@@ -690,7 +695,7 @@ hub_power_on_ports(struct usb_hub *hub)
     uint i;
     usb_status_t status;
 
-    usb_dev_debug(hub->device, "Powering on %u USB ports\n",
+    usb_dev_debug(hub->device, "Powering on %u USB ports\r\n",
                   hub->descriptor.bNbrPorts);
 
     for (i = 0; i < hub->descriptor.bNbrPorts; i++)
@@ -699,7 +704,7 @@ hub_power_on_ports(struct usb_hub *hub)
         if (status != USB_STATUS_SUCCESS)
         {
             usb_dev_error(hub->device,
-                          "Failed to power on port %u: %s\n", i,
+                          "Failed to power on port %u: %s\r\n", i,
                           usb_status_string(status));
             return status;
         }
@@ -735,7 +740,7 @@ hub_bind_device(struct usb_device *dev)
         (dev->endpoints[0][0]->bmAttributes & 0x3) !=
                 USB_TRANSFER_TYPE_INTERRUPT)
     {
-        return USB_STATUS_DEVICE_UNSUPPORTED;
+		return USB_STATUS_DEVICE_UNSUPPORTED;
     }
 
     /* Do one-time initialization of the hub driver.  */
@@ -749,7 +754,7 @@ hub_bind_device(struct usb_device *dev)
     hub_id = hub_alloc();
     if (SYSERR == hub_id)
     {
-        usb_error("Too many hubs attached.\n");
+        usb_error("Too many hubs attached.\r\n");
         return USB_STATUS_DEVICE_UNSUPPORTED;
     }
 
@@ -764,7 +769,7 @@ hub_bind_device(struct usb_device *dev)
         return status;
     }
 
-    usb_dev_debug(dev, "Attaching %sUSB hub with %u ports\n",
+    usb_dev_debug(dev, "Attaching %sUSB hub with %u ports\r\n",
                   (hub->descriptor.wHubCharacteristics &
                    USB_HUB_CHARACTERISTIC_IS_COMPOUND_DEVICE) ?
                             "compound device " : "",

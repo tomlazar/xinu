@@ -31,8 +31,8 @@ int tcpSend(struct tcb *tcbptr, uchar ctrl, uint seqnum,
     int result;
     uchar *data;
     uint i = 0;
-    ushort window = 0;
     ushort msslen = 0;
+    ushort window = 0;
     ushort tcplen;
 
     /* If SYN is set, then don't include in datalen, but include MSS */
@@ -75,8 +75,8 @@ int tcpSend(struct tcb *tcbptr, uchar ctrl, uint seqnum,
     tcp->acknum = acknum;
     tcp->offset = octets2offset(TCP_HDR_LEN + msslen);
     tcp->control = ctrl;
-    tcp->window = tcpSendWindow(tcbptr);
-    window = tcp->window;
+    window = tcpSendWindow(tcbptr);
+    tcp->window = window;
     data = tcp->data;
 
     /* Add options */

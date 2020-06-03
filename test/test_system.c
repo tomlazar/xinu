@@ -3,6 +3,7 @@
 #include <testsuite.h>
 #include <device.h>
 #include <conf.h>
+#include <core.h>
 
 /**
  * Example of a test program for the Xinu testsuite.  Beyond this file you
@@ -14,8 +15,10 @@ thread test_system(bool verbose)
     /* the failif macro depends on 'passed' and 'verbose' vars */
     bool passed = TRUE;
 
+    int cpuid = getcpuid();
+
     testPrint(verbose, "Checking gettid()");
-    failif((thrcurrent != gettid()),
+    failif((thrcurrent[cpuid] != gettid()),
            "gettid() does not return thrcurrent");
 
     testPrint(verbose, "Checking getprio()");

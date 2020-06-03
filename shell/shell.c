@@ -27,7 +27,7 @@ const struct centry commandtab[] = {
     {"dumptlb", FALSE, xsh_dumptlb},
 #endif
 #if NETHER
-    {"ethstat", FALSE, xsh_ethstat},
+    //{"ethstat", FALSE, xsh_ethstat},
 #endif
     {"exit", TRUE, xsh_exit},
 #if NFLASH
@@ -61,8 +61,15 @@ const struct centry commandtab[] = {
     {"ps", FALSE, xsh_ps},
 #if NETHER
     {"ping", FALSE, xsh_ping},
-    {"pktgen", FALSE, xsh_pktgen},
-    {"rdate", FALSE, xsh_rdate},
+    //{"pktgen", FALSE, xsh_pktgen},
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+//XXX	{"random", TRUE, xsh_random},
+#endif
+
+#if NETHER
+	{"rdate", FALSE, xsh_rdate},
 #endif
     {"reset", FALSE, xsh_reset},
 #if NETHER
@@ -73,19 +80,19 @@ const struct centry commandtab[] = {
     {"snoop", FALSE, xsh_snoop},
 #endif
 #if USE_TAR
-    {"tar", FALSE, xsh_tar},
+//    {"tar", FALSE, xsh_tar},
 #endif
 #if NETHER
     {"tcpstat", FALSE, xsh_tcpstat},
-    {"telnet", FALSE, xsh_telnet},
-    {"telnetserver", FALSE, xsh_telnetserver},
+    //XXX{"telnet", FALSE, xsh_telnet},
+    //XXX{"telnetserver", FALSE, xsh_telnetserver},
 #endif
-    {"test", FALSE, xsh_test},
+//XXX    {"test", FALSE, xsh_test},
 #if HAVE_TESTSUITE
     {"testsuite", TRUE, xsh_testsuite},
 #endif
 #if NETHER
-    {"timeserver", FALSE, xsh_timeserver},
+    //XXX{"timeserver", FALSE, xsh_timeserver},
 #endif
 #if FRAMEBUF
     {"turtle", FALSE, xsh_turtle},
@@ -101,15 +108,15 @@ const struct centry commandtab[] = {
 #endif
 #if NETHER
     {"udpstat", FALSE, xsh_udpstat},
-    {"vlanstat", FALSE, xsh_vlanstat},
-    {"voip", FALSE, xsh_voip},
-    {"xweb", FALSE, xsh_xweb},
+    //XXX{"vlanstat", FALSE, xsh_vlanstat},
+    //XXX{"voip", FALSE, xsh_voip},
+    //XXX{"xweb", FALSE, xsh_xweb},
 #endif
     {"?", FALSE, xsh_help}
 };
 
 ulong ncommand = sizeof(commandtab) / sizeof(struct centry);
-extern ulong foreground;
+//XXXextern ulong foreground;
 
 /**
  * @ingroup shell
@@ -167,36 +174,50 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
     stderr = errdescrp;
 
     /* Print shell banner to framebuffer, if exists */
-#if defined(FRAMEBUF)
     if (indescrp == FRAMEBUF)
     {
-        foreground = RASPBERRY;
-        printf(SHELL_BANNER_NONVT100);
-        foreground = LEAFGREEN;
+        foreground = CYAN;
+        printf(SHELL_BANNER_PI3_NONVT100);
+	    udelay(250);	// Temporarily wait for the hardware before changing colors
+	    foreground = LEAFGREEN;
         printf(SHELL_START);
-        foreground = GREEN;
     }
     else
-#endif
     {
-        printf(SHELL_BANNER);
+        printf(SHELL_BANNER_PI3);
         printf(SHELL_START);
     }
 
     /* Continually receive and handle commands */
     while (TRUE)
     {
-        /* Display prompt */
-        printf(SHELL_PROMPT);
+	    if (indescrp == FRAMEBUF)
+	    {
+	        /* Print shell with colors over the frame buffer */
+	        foreground = RASPBERRY;
+            printf(SHELL_PROMPT_FB);
+	        foreground = WHITE;
+	    }
+	    else
+ 	    {
+	        /* Display prompt using standard ANSI terminal coloring */
+            printf(SHELL_PROMPT);
+	    }
 
         if (NULL != hostptr)
         {
-            printf("@%s$ ", hostptr);
-        }
+            if (indescrp == FRAMEBUF)
+	            printf("@%s$ ", hostptr);
+            else
+	            printf("@%s$ \033[0;39m", hostptr);
+	    }
         else
         {
-            printf("$ ");
-        }
+            if (indescrp == FRAMEBUF)
+                printf("$ ");
+            else
+	            printf("$ \033[0;39m");
+	    }
 
         /* Setup proper tty modes for input and output */
         control(stdin, TTY_CTRL_CLR_IFLAG, TTY_IRAW, NULL);
@@ -339,6 +360,8 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
             continue;
         }
 
+		thrtab_acquire(child);
+
         /* Set file descriptors for newly created thread */
         if (NULL == inname)
         {
@@ -358,6 +381,8 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
         }
         thrtab[child].fdesc[2] = stderr;
 
+		thrtab_release(child);
+
         if (background)
         {
             /* Make background thread ready, but don't reschedule */
@@ -375,7 +400,10 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
 
             /* Wait for command thread to finish */
             while (receive() != child);
+#ifndef _XINU_PLATFORM_ARM_RPI_3_ 	/* sleeps for 10 seconds on the RPI 3... not desirable */
+	    				/* maybe needed for other platforms.. not sure */
             sleep(10);
+#endif
         }
     }
 

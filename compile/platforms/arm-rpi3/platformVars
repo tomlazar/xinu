@@ -1,0 +1,53 @@
+#
+# Platform-specific Makefile definitions for the Raspberry Pi 3 B+ port of Embedded
+# Xinu (BCM2837B0)
+#
+
+# Include default ARMv8A definitions
+include arch/armv8/platformVars
+
+PLATFORM_NAME := Raspberry Pi 3
+
+# Extra compiler and assembler flags to specifically target the cortex-a53 CPU
+# used on the BCM2837 (used by the Raspberry Pi).
+CFLAGS   += -mcpu=cortex-a53
+ASFLAGS  += -mcpu=cortex-a53
+
+# Extra compiler flag that disables gcc from generating unaligned memory accesses
+# This is used as an alternative to doing this in the assembly code in start.S
+CFLAGS	 += -mno-unaligned-access
+
+# Extra compiler flag for using FPU (see start.S for enable)
+CFLAGS 	 += -mfpu=vfpv4
+ASFLAGS	 += -mfpu=vfpv4
+
+# Extra compiler flag for selecting ARM ABI
+CFLAGS	 += -mfloat-abi=softfp
+ASFLAGS  += -mfloat-abi=softfp
+
+# Add a define so we can test for Raspberry Pi in C code if absolutely needed
+DEFS     += -D_XINU_PLATFORM_ARM_RPI_3_
+
+# Embedded Xinu components to build into the kernel image
+APPCOMPS :=		apps	\
+			mailbox \
+			shell   \
+			network \
+			test	 \
+
+# Embedded Xinu device drivers to build into the kernel image
+DEVICES  := uart-pl011      \
+            tty	            \
+            usb             \
+            lan7800	    \
+	    tcp		    \
+	    udp		    \
+            framebuffer_rpi \
+            usbkbd          \
+	    usbfs           \
+#           smsc9512        \
+#      	    ethloop         \
+#            raw             \
+#            loopback        \
+#            telnet          \
+

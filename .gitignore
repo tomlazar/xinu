@@ -1,3 +1,7 @@
+#backup files
+*.back
+*~
+
 # Object files
 *.o
 
@@ -7,6 +11,9 @@
 # Libraries
 *.lib
 *.a
+
+# Memory maps
+*.map
 
 # Shared objects (inc. Windows DLLs)
 *.dll
@@ -24,6 +31,16 @@
 *.boot
 *.bin
 
+# Temporary swap files (from open Vim windows)
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
 # Xinu build files
 compile/config/config
 compile/config/y.tab.h
@@ -31,4 +48,6 @@ compile/config/parse.c
 compile/version
 compile/vn
 include/conf.h
+include/version.h
 system/conf.c
+

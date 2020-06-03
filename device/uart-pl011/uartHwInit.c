@@ -7,7 +7,6 @@
 #include <interrupt.h>
 #include <clock.h>
 #include "pl011.h"
-
 #ifdef _XINU_PLATFORM_ARM_RPI_
 
 /* Offset of UART registers from the starti of the GPIO registers. */
@@ -51,12 +50,35 @@ static void setup_gpio_pins(void *uart_regs)
 }
 #endif /* _XINU_PLATFORM_ARM_RPI_ */
 
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+
+#include <rpi_gpio.h>
+#include <bcm2837.h>
+
+static void setup_gpio_pins(void)
+{
+	volatile struct rpi_gpio_regs *regptr =
+		(volatile struct rpi_gpio_regs *)(GPIO_REGS_BASE);
+
+	/* set up pins 14 & 15 to use alt0, for uart Rx and Tx */
+	regptr->gpfsel[1] &= ~((7 << 12) | (7 << 15));
+	regptr->gpfsel[1] |= (4 << 12) | (4 << 15);	
+
+	/* Disable pull-up/down on pins 14 & 15 */
+	regptr->gppud = 0;
+	udelay(2);
+	regptr->gppudclk[0] = (1 << 14) | (1 << 15);
+	udelay(2);
+	regptr->gppudclk[0] = 0;	
+
+}
+
+#endif /* _XINU_PLATFORM_ARM_RPI_3_ */
+
 devcall uartHwInit(device *devptr)
 {
     volatile struct pl011_uart_csreg *regptr = devptr->csr;
-
-    /* TODO:  It doesn't work without this delay, but why? */
-    udelay(1500);
 
     /* Disable the UART by zeroing the "control register".  */
     regptr->cr = 0;
@@ -64,6 +86,10 @@ devcall uartHwInit(device *devptr)
 #ifdef _XINU_PLATFORM_ARM_RPI_
     /* Configure the GPIO pins on the Raspberry Pi correctly. */
     setup_gpio_pins((void*)regptr);
+#endif
+
+#ifdef _XINU_PLATFORM_ARM_RPI_3_
+	setup_gpio_pins();
 #endif
 
     /* Poll the "flags register" to wait for the UART to stop transmitting or
@@ -104,14 +130,13 @@ devcall uartHwInit(device *devptr)
     /* Allow the UART to generate interrupts only when receiving or
      * transmitting.  */
     regptr->imsc = PL011_IMSC_RXIM | PL011_IMSC_TXIM;
-
     /* We have decided that we are going to leave FIFOs off for now.  Since the
      * FIFOs are of size 16 and the lowest trigger level you can set for the
      * receive FIFO is 1/8, the first interrupt isn't triggered until there are
      * at least two bytes in the receive FIFO.  We want an interrupt as soon as
      * a byte arrives */
-#if 0
-    /* Enable UART FIFOs. */
+#if 0    
+	/* Enable UART FIFOs. */
     regptr->lcrh |= PL011_LCRH_FEN;
 
     /* Set the interrupt FIFO level select register.  This configures the amount
@@ -126,7 +151,7 @@ devcall uartHwInit(device *devptr)
 
     /* Register the UART's interrupt handler with XINU's interrupt vector, then
      * actually enable the UART's interrupt line.  */
-    interruptVector[devptr->irq] = devptr->intr;
-    enable_irq(devptr->irq);
+	interruptVector[devptr->irq] = devptr->intr;
+	enable_irq(devptr->irq);
     return OK;
 }

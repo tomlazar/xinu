@@ -8,7 +8,15 @@
 #include <stddef.h>
 #include <string.h>
 #include <framebuffer.h>
+
+#if defined(_XINU_PLATFORM_ARM_RPI_3_)
+#include <bcm2837.h>
+#elif defined (_XINU_PLATFORM_ARM_RPI_)
 #include <bcm2835.h>
+#endif
+
+extern void _inval_area(void *);
+extern void _flush_area(void *);
 
 /* Draws a colored pixel at given (x, y) coordinates. */
 
@@ -24,9 +32,11 @@ void drawPixel(int x, int y, ulong color)
 	    volatile ulong *address = (volatile ulong *)(framebufferAddress +
                                                      (y * pitch) +
                                                      (x * (BIT_DEPTH/8)));
-        *address = color;
-
-	    post_peripheral_write_mb();
+        dmb();
+	*address = color;
+        dmb();
+	_inval_area(address);
+        dmb();
     }
 }
 

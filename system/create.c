@@ -6,6 +6,7 @@
 #include <platform.h>
 #include <string.h>
 #include <thread.h>
+#include <core.h>
 
 static int thrnew(void);
 
@@ -48,6 +49,7 @@ tid_typ create(void *procaddr, uint ssize, int priority,
 
     /* Allocate new stack.  */
     saddr = stkget(ssize);
+
     if (SYSERR == (int)saddr)
     {
         restore(im);
@@ -56,8 +58,13 @@ tid_typ create(void *procaddr, uint ssize, int priority,
 
     /* Allocate new thread ID.  */
     tid = thrnew();
+
+	thrtab_acquire(tid);
+
     if (SYSERR == (int)tid)
     {
+		thrtab_release(tid);
+
         stkfree(saddr, ssize);
         restore(im);
         return SYSERR;
@@ -85,11 +92,15 @@ tid_typ create(void *procaddr, uint ssize, int priority,
     /* Set up new thread's stack with context record and arguments.
      * Architecture-specific.  */
     va_start(ap, nargs);
+
     thrptr->stkptr = setupStack(saddr, procaddr, INITRET, nargs, ap);
     va_end(ap);
 
+	thrtab_release(tid);
+
     /* Restore interrupts and return new thread TID.  */
     restore(im);
+ 
     return tid;
 }
 
@@ -107,10 +118,25 @@ static int thrnew(void)
     for (tid = 0; tid < NTHREAD; tid++)
     {
         nexttid = (nexttid + 1) % NTHREAD;
-        if (THRFREE == thrtab[nexttid].state)
+        
+	if (THRFREE == thrtab[nexttid].state)
         {
             return nexttid;
         }
     }
+
     return SYSERR;
+}
+
+void thrtab_acquire(tid_typ tid)
+{
+    pldw(&thrtab[tid]);
+    pldw(&thrtab[tid].core_affinity);
+    mutex_acquire(thrtab_mutex[tid]);
+}
+
+void thrtab_release(tid_typ tid)
+{
+    dmb();
+    mutex_release(thrtab_mutex[tid]);
 }

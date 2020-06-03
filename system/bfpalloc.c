@@ -80,6 +80,7 @@ int bfpalloc(uint bufsize, uint nbuf)
         bufptr->next = (struct poolbuf *)((ulong)bufptr + bufsize);
         bufptr = bufptr->next;
     }
+
     signaln(bfpptr->freebuf, nbuf);
 
     return id;
