@@ -8,6 +8,7 @@
 
 #include <device.h>
 #include <semaphore.h>
+#include <mutex.h>
 #include <stddef.h>
 
 /* UART Buffer lengths */

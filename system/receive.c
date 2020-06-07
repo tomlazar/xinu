@@ -26,21 +26,13 @@ message receive(void)
     thrptr = &thrtab[thrcurrent[cpuid]];
     if (FALSE == thrptr->hasmsg)
     {                           /* if no message, wait for one */
-		thrtab_acquire(thrcurrent[cpuid]);
-        
 		thrptr->state = THRRECV;
-
-		thrtab_release(thrcurrent[cpuid]);
 
         resched();
     }
 
-	thrtab_acquire(thrcurrent[cpuid]);
-
     msg = thrptr->msg;          /* retrieve message                */
     thrptr->hasmsg = FALSE;     /* reset message flag              */
-
-	thrtab_release(thrcurrent[cpuid]);
 
     restore(im);
     return msg;

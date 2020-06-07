@@ -337,8 +337,6 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
             continue;
         }
 
-		thrtab_acquire(child);
-
         /* Set file descriptors for newly created thread */
         if (NULL == inname)
         {
@@ -357,8 +355,6 @@ thread shell(int indescrp, int outdescrp, int errdescrp)
             thrtab[child].fdesc[1] = getdev(outname);
         }
         thrtab[child].fdesc[2] = stderr;
-
-		thrtab_release(child);
 
         if (background)
         {

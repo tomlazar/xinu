@@ -100,11 +100,9 @@ static void testItem(int testnum, bool verbose)
                    testtab[testnum].name, (verbose ? "\n" : ""));
 
             /* set file descriptors */
-			thrtab_acquire(child);
             thrtab[child].fdesc[0] = stdin;
             thrtab[child].fdesc[1] = stdout;
             thrtab[child].fdesc[2] = stderr;
-			thrtab_release(child);
 
             /* Clear waiting message; Reschedule; */
             while (recvclr() != NOMSG);

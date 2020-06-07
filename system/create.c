@@ -32,76 +32,70 @@ static int thrnew(void);
  *      created (not enough memory or thread entries).
  */
 tid_typ create(void *procaddr, uint ssize, int priority,
-               const char *name, int nargs, ...)
+		const char *name, int nargs, ...)
 {
-    irqmask im;                 /* saved interrupt state               */
-    ulong *saddr;               /* stack address                       */
-    tid_typ tid;                /* new thread ID                       */
-    struct thrent *thrptr;      /* pointer to new thread control block */
-    va_list ap;                 /* list of thread arguments            */
+	irqmask im;                 /* saved interrupt state               */
+	ulong *saddr;               /* stack address                       */
+	tid_typ tid;                /* new thread ID                       */
+	struct thrent *thrptr;      /* pointer to new thread control block */
+	va_list ap;                 /* list of thread arguments            */
 
-    im = disable();
+	im = disable();
 
-    if (ssize < MINSTK)
-    {
-        ssize = MINSTK;
-    }
+	if (ssize < MINSTK)
+	{
+		ssize = MINSTK;
+	}
 
-    /* Allocate new stack.  */
-    saddr = stkget(ssize);
+	/* Allocate new stack.  */
+	saddr = stkget(ssize);
 
-    if (SYSERR == (int)saddr)
-    {
-        restore(im);
-        return SYSERR;
-    }
+	if (SYSERR == (int)saddr)
+	{
+		restore(im);
+		return SYSERR;
+	}
 
-    /* Allocate new thread ID.  */
-    tid = thrnew();
+	/* Allocate new thread ID.  */
+	tid = thrnew();
 
-	thrtab_acquire(tid);
+	if (SYSERR == (int)tid)
+	{
+		stkfree(saddr, ssize);
+		restore(im);
+		return SYSERR;
+	}
 
-    if (SYSERR == (int)tid)
-    {
-		thrtab_release(tid);
+	/* Set up thread table entry for new thread.  */
+	thrcount++;
+	thrptr = &thrtab[tid];
 
-        stkfree(saddr, ssize);
-        restore(im);
-        return SYSERR;
-    }
+	thrptr->state = THRSUSP;
+	thrptr->prio = priority;
+	thrptr->stkbase = saddr;
+	thrptr->stklen = ssize;
+	strlcpy(thrptr->name, name, TNMLEN);
+	thrptr->parent = gettid();
+	thrptr->hasmsg = FALSE;
+	thrptr->memlist.next = NULL;
+	thrptr->memlist.length = 0;
 
-    /* Set up thread table entry for new thread.  */
-    thrcount++;
-    thrptr = &thrtab[tid];
+	/* Set up default file descriptors.  */
+	thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
+	thrptr->fdesc[1] = CONSOLE; /* stdout is console */
+	thrptr->fdesc[2] = CONSOLE; /* stderr is console */
 
-    thrptr->state = THRSUSP;
-    thrptr->prio = priority;
-    thrptr->stkbase = saddr;
-    thrptr->stklen = ssize;
-    strlcpy(thrptr->name, name, TNMLEN);
-    thrptr->parent = gettid();
-    thrptr->hasmsg = FALSE;
-    thrptr->memlist.next = NULL;
-    thrptr->memlist.length = 0;
+	/* Set up new thread's stack with context record and arguments.
+	 * Architecture-specific.  */
+	va_start(ap, nargs);
 
-    /* Set up default file descriptors.  */
-    thrptr->fdesc[0] = CONSOLE; /* stdin  is console */
-    thrptr->fdesc[1] = CONSOLE; /* stdout is console */
-    thrptr->fdesc[2] = CONSOLE; /* stderr is console */
+	thrptr->stkptr = setupStack(saddr, procaddr, INITRET, nargs, ap);
+	va_end(ap);
 
-    /* Set up new thread's stack with context record and arguments.
-     * Architecture-specific.  */
-    va_start(ap, nargs);
+	/* Restore interrupts and return new thread TID.  */
+	restore(im);
 
-    thrptr->stkptr = setupStack(saddr, procaddr, INITRET, nargs, ap);
-    va_end(ap);
-
-	thrtab_release(tid);
-
-    /* Restore interrupts and return new thread TID.  */
-    restore(im);
- 
-    return tid;
+	return tid;
 }
 
 /*
@@ -111,32 +105,19 @@ tid_typ create(void *procaddr, uint ssize, int priority,
  */
 static int thrnew(void)
 {
-    int tid;
-    static int nexttid = 0;
+	int tid;
+	static int nexttid = 0;
 
-    /* check all NTHREAD slots    */
-    for (tid = 0; tid < NTHREAD; tid++)
-    {
-        nexttid = (nexttid + 1) % NTHREAD;
-        
-	if (THRFREE == thrtab[nexttid].state)
-        {
-            return nexttid;
-        }
-    }
+	/* check all NTHREAD slots    */
+	for (tid = 0; tid < NTHREAD; tid++)
+	{
+		nexttid = (nexttid + 1) % NTHREAD;
 
-    return SYSERR;
-}
+		if (THRFREE == thrtab[nexttid].state)
+		{
+			return nexttid;
+		}
+	}
 
-void thrtab_acquire(tid_typ tid)
-{
-    pldw(&thrtab[tid]);
-    pldw(&thrtab[tid].core_affinity);
-    mutex_acquire(thrtab_mutex[tid]);
-}
-
-void thrtab_release(tid_typ tid)
-{
-    dmb();
-    mutex_release(thrtab_mutex[tid]);
+	return SYSERR;
 }

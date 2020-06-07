@@ -24,8 +24,6 @@ int ready(tid_typ tid, bool resch, uint core)
 		return SYSERR;
 	}
 
-	thrtab_acquire(tid);
-
 	thrptr = &thrtab[tid];
 	thrptr->state = THRREADY;
 
@@ -37,8 +35,6 @@ int ready(tid_typ tid, bool resch, uint core)
 	{
 		thrptr->core_affinity = core;
 	}
-
-	thrtab_release(tid);
 
 	if (SYSERR == insert(tid, readylist[thrptr->core_affinity], thrptr->prio)){
 		return SYSERR;

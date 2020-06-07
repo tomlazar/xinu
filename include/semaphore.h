@@ -8,7 +8,6 @@
 #define _SEMAPHORE_H_
 
 #include <queue.h>
-#include <mutex.h>
 
 /* Semaphore state definitions */
 #define SFREE 0x01 /**< this semaphore is free */
@@ -28,9 +27,6 @@ struct sement                   /* semaphore table entry      */
 };
 
 extern struct sement semtab[];
-extern mutex_t semtab_mutex[];
-void semtab_acquire(semaphore);
-void semtab_release(semaphore);
 
 /* isbadsem - check validity of reqested semaphore id and state */
 #define isbadsem(s) ((s >= NSEM) || (SFREE == semtab[s].state))

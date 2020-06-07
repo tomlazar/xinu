@@ -27,8 +27,6 @@ int insertd(tid_typ tid, qid_typ q, int key)
         return SYSERR;
     }
 
-	quetab_acquire();
-
     prev = quehead(q);
     next = quetab[quehead(q)].next;
     while ((quetab[next].key <= key) && (next != quetail(q)))
@@ -46,8 +44,6 @@ int insertd(tid_typ tid, qid_typ q, int key)
     {
         quetab[next].key -= key;
     }
-
-	quetab_release();
 
     return OK;
 }

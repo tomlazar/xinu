@@ -36,33 +36,24 @@ int resched(void)
 
 	cpuid = getcpuid();
 
-	thrtab_acquire(thrcurrent[cpuid]);
 	throld = &thrtab[thrcurrent[cpuid]];
 	throld->intmask = disable();
 
 	if (THRCURR == throld->state)
 	{
-		quetab_acquire();
 		if (nonempty(readylist[cpuid]) && (throld->prio > firstkey(readylist[cpuid])))
 		{
-			quetab_release();
-			thrtab_release(thrcurrent[cpuid]);
 			restore(throld->intmask);
 			return OK;
 		}
-		quetab_release();
 		throld->state = THRREADY;
 		insert(thrcurrent[cpuid], readylist[cpuid], throld->prio);
 	}
 
-	thrtab_release(thrcurrent[cpuid]);
-
 	/* get highest priority thread from ready list */
 	thrcurrent[cpuid] = dequeue(readylist[cpuid]);
-	thrtab_acquire(thrcurrent[cpuid]);
 	thrnew = &thrtab[thrcurrent[cpuid]];
 	thrnew->state = THRCURR;
-	thrtab_release(thrcurrent[cpuid]);
 
 	/* change address space identifier to thread id */
 	asid = thrcurrent[cpuid] & 0xff;

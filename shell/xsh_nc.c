@@ -177,22 +177,15 @@ shellcmd xsh_nc(int nargs, char *args[])
         return 1;
     }
 
-	thrtab_acquire(recvthr);
-
     thrtab[recvthr].fdesc[0] = stdin;
     thrtab[recvthr].fdesc[1] = stdout;
     thrtab[recvthr].fdesc[2] = stderr;
-
-	thrtab_release(recvthr);
-	thrtab_acquire(sendthr);
 
     thrtab[sendthr].fdesc[0] = stdin;
     thrtab[sendthr].fdesc[1] = stdout;
     thrtab[sendthr].fdesc[2] = stderr;
 
-	thrtab_release(sendthr);
-
-    /* Start both threads */
+   /* Start both threads */
     while (recvclr() != NOMSG);
     ready(recvthr, RESCHED_YES, CORE_ZERO);
     ready(sendthr, RESCHED_NO, CORE_ZERO);

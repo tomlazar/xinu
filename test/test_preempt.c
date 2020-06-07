@@ -25,11 +25,9 @@ thread test_preempt(bool verbose)
     uint cpuid;
     cpuid = getcpuid();
 
-    thrtab_acquire(thrcurrent[cpuid]);
     /* This is the first "subtest" of this suite */
     thrspin =
         create(spin, INITSTK, thrtab[thrcurrent[cpuid]].prio, "test_spin", 0);
-    thrtab_release(thrcurrent[cpuid]);
 
     /* Make spin ... spin */
     ready(thrspin, RESCHED_YES, CORE_ZERO);

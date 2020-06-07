@@ -37,10 +37,8 @@ syscall signal(semaphore sem)
 		return SYSERR;
 	}
 
-	semtab_acquire(sem);
 	semptr = &semtab[sem];
 	count = semptr->count++;
-	semtab_release(sem);
 
 	if (count < 0)
 	{

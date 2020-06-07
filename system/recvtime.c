@@ -40,11 +40,7 @@ message recvtime(int maxwait)
             return SYSERR;
         }
 
-		thrtab_acquire(thrcurrent[cpuid]);
-
         thrtab[thrcurrent[cpuid]].state = THRTMOUT;
-
-		thrtab_release(thrcurrent[cpuid]);
 
         resched();
 #else
@@ -52,8 +48,6 @@ message recvtime(int maxwait)
         return SYSERR;
 #endif
     }
-
-	thrtab_acquire(thrcurrent[cpuid]);
 
     if (thrptr->hasmsg)
     {
@@ -64,8 +58,6 @@ message recvtime(int maxwait)
     {
         msg = TIMEOUT;
     }
-
-	thrtab_release(thrcurrent[cpuid]);
 
     restore(im);
     return msg;

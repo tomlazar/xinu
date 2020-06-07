@@ -43,9 +43,7 @@ syscall sleep(uint ms)
             restore(im);
             return SYSERR;
         }
-		thrtab_acquire(thrcurrent[cpuid]);
         thrtab[thrcurrent[cpuid]].state = THRSLEEP;
-		thrtab_release(thrcurrent[cpuid]);
     }
 
     resched();

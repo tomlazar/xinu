@@ -41,18 +41,13 @@ syscall wait(semaphore sem)
     }
     thrptr = &thrtab[thrcurrent[cpuid]];
 
-	semtab_acquire(sem);
     semptr = &semtab[sem];
 	c = --(semptr->count);
-	semtab_release(sem);
 
     if (c < 0)
     {
-		thrtab_acquire(thrcurrent[cpuid]);
-
         thrptr->state = THRWAIT;
         thrptr->sem = sem;
-		thrtab_release(thrcurrent[cpuid]);
         enqueue(thrcurrent[cpuid], semptr->queue);
         
 		resched();

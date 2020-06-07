@@ -66,16 +66,12 @@ tid_typ getitem(tid_typ tid)
 {
     tid_typ prev, next;
 
-	quetab_acquire();
-
     next = quetab[tid].next;
     prev = quetab[tid].prev;
     quetab[prev].next = next;
     quetab[next].prev = prev;
     quetab[tid].next = EMPTY;
     quetab[tid].prev = EMPTY;
-
-	quetab_release();
 
     return tid;
 }

@@ -34,12 +34,8 @@ syscall send(tid_typ tid, message msg)
         return SYSERR;
     }
 
-	thrtab_acquire(tid);
-
     thrptr->msg = msg;          /* deposit message                */
     thrptr->hasmsg = TRUE;      /* raise message flag             */
-
-	thrtab_release(tid);
 
     /* if receiver waits, start it */
     if (THRRECV == thrptr->state)

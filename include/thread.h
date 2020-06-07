@@ -13,7 +13,6 @@
 #include <debug.h>
 #include <stddef.h>
 #include <memory.h>
-#include <mutex.h>
 
 /* unusual value marks the top of the thread stack                      */
 #define STACKMAGIC  0x0A0AAAA9
@@ -92,11 +91,6 @@ extern int thrcount;            /**< currently active threads           */
 extern tid_typ thrcurrent[];    /**< currently executing thread         */
 
 extern unsigned int getcpuid(void);
-//extern unsigned int core_affinity[];
-extern mutex_t thrtab_mutex[];
-
-void thrtab_acquire(tid_typ);
-void thrtab_release(tid_typ);
 
 /* Inter-Thread Communication prototypes */
 syscall send(tid_typ, message);

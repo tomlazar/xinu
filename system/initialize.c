@@ -34,10 +34,6 @@ struct memblock memlist;        /* List of free memory blocks     */
 struct bfpentry bfptab[NPOOL];  /* List of memory buffer pools    */
 
 /* Declarations of major multicore variables */
-mutex_t quetab_mutex;
-mutex_t thrtab_mutex[NTHREAD];
-mutex_t semtab_mutex[NSEM];
-
 mutex_t serial_lock;
 
 static void core_nulluser(void);

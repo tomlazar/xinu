@@ -42,9 +42,7 @@ syscall signaln(semaphore sem, int count)
 
     for (; count > 0; count--)
     {
-		semtab_acquire(sem);
 		c = semptr->count++;
-		semtab_release(sem);
         if (c < 0)
         {
             ready(dequeue(semptr->queue), RESCHED_NO, cpuid);

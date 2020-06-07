@@ -28,8 +28,6 @@ tid_typ enqueue(tid_typ tid, qid_typ q)
         return SYSERR;
     }
 
-	quetab_acquire();
-
     tail = quetail(q);
     prev = quetab[tail].prev;
 
@@ -37,8 +35,6 @@ tid_typ enqueue(tid_typ tid, qid_typ q)
     quetab[tid].prev = prev;
     quetab[prev].next = tid;
     quetab[tail].prev = tid;
-
-	quetab_release();
 
     return tid;
 }
@@ -66,27 +62,10 @@ tid_typ dequeue(qid_typ q)
 
     tid = getfirst(q);
 
-	quetab_acquire();
     if (!isbadtid(tid))
     {
         quetab[tid].prev = EMPTY;
         quetab[tid].next = EMPTY;
     }
-	quetab_release();
     return tid;
-}
-
-void quetab_acquire()
-{
-    for (int i = 0; i < NQENT; i++)
-    {
-	pldw(&quetab[i]);
-    }
-    mutex_acquire(quetab_mutex);
-}
-
-void quetab_release()
-{
-    dmb();
-    mutex_release(quetab_mutex);
 }

@@ -23,8 +23,6 @@ message recvclr(void)
 
 	cpuid = getcpuid();
 
-	thrtab_acquire(thrcurrent[cpuid]);
-
     thrptr = &thrtab[thrcurrent[cpuid]];
     if (thrptr->hasmsg)
     {
@@ -35,8 +33,6 @@ message recvclr(void)
         msg = NOMSG;
     }
     thrptr->hasmsg = FALSE;     /* reset message flag   */
-
-	thrtab_release(thrcurrent[cpuid]);
 
     restore(im);
     return msg;

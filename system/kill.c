@@ -35,19 +35,14 @@ syscall kill(tid_typ tid)
 		return SYSERR;
 	}
 
-	thrtab_acquire(tid);
-
 	thrptr = &thrtab[tid];
 
 	/* cannot kill process that is running on a different core */
 	if (thrptr->core_affinity != cpuid)
 	{
-		thrtab_release(tid);
 		restore(im);
 		return SYSERR;
 	}
-
-	thrtab_release(tid);
 
 	if (--thrcount <= 1)
 	{
@@ -63,36 +58,26 @@ syscall kill(tid_typ tid)
 
 	stkfree(thrptr->stkbase, thrptr->stklen);
 
-	thrtab_acquire(tid);
 	thrtab->core_affinity = cpuid;
-	thrtab_release(tid);
 
 	switch (thrptr->state)
 	{
 		case THRSLEEP:
 			unsleep(tid);
-			thrtab_acquire(tid);
 			thrptr->state = THRFREE;
-			thrtab_release(tid);
 			break;
 		case THRCURR:
-			thrtab_acquire(tid);
 			thrptr->state = THRFREE;        /* suicide */
-			thrtab_release(tid);
 			resched();
 
 		case THRWAIT:
-			semtab_acquire(thrptr->sem);
 			semtab[thrptr->sem].count++;
-			semtab_release(thrptr->sem);
 
 		case THRREADY:
 			getitem(tid);           /* removes from queue */
 
 		default:
-			thrtab_acquire(tid);
 			thrptr->state = THRFREE;
-			thrtab_release(tid);
 	}
 
 	restore(im);

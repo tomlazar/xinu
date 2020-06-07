@@ -150,7 +150,7 @@ int platforminit(void)
 
 	/* Initialize bcm2837 power */	
 	bcm2837_power_init(); 
-	
+
 	/* Initialize the Memory Managament Unit */
 	mmu_init();
 
@@ -165,19 +165,6 @@ int platforminit(void)
 
 	/* Initialze the Hardware Random Number Generator */
 	random_init();
-
-	/* Initialize the mutexes for global tables */
-	quetab_mutex = mutex_create();
-
-	register struct thrent *thrptr;
-	for (int i = 0; i < NTHREAD; i++){
-		thrtab_mutex[i] = mutex_create();
-		thrptr = &thrtab[i];
-		thrptr->core_affinity = -1;
-	}
-
-	for (int i = 0; i < NSEM; i++)
-		semtab_mutex[i] = mutex_create();
 
 	return OK;
 }
