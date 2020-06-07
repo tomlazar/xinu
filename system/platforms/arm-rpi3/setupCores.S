@@ -1,8 +1,21 @@
+/**
+ * @file setupCore.S
+ * @provides setupCores
+ */
+/* Embedded Xinu. Copyright (C) 2018. All rights reserved. */
+
 #include <arm.h>
 #include <mmu.h>
 
-.globl CoreSetup
-CoreSetup:
+/**
+ * @fn void setupCores(void)
+ *
+ * Called from unparkcore. This code runs on a core and
+ * properly prepares it so it can execute kernel code.
+ *
+ */
+.globl setupCores
+setupCores:
 	/* change processor to SYSTEM mode */
 	mrs		r0, cpsr
 	orr		r0, r0, #ARM_MODE_SYS
@@ -10,6 +23,9 @@ CoreSetup:
 	add		r0, pc, #4
 	msr		ELR_hyp, r0
 	eret
+
+	/* disable interrupts */
+	cpsid	aif
 
 	/* set vector addresses */
 	ldr		r1, =_vectors
@@ -23,6 +39,19 @@ CoreSetup:
 	mov		r1, r0
 	mov		r2, #4
 	mul		r1, r1, r2
+
+	/* initialize Physical Timer */
+	mrc		p15, 0, r2, c14, c2, 1		/* CNTP_CTL */
+	bic		r2, #0b110	// ISTATUS and IMASK to 0
+	orr		r2, #0b001	// enable to 1
+	mcr		p15, 0, r2, c14, c2, 1
+
+	ldr		r2, =0x40000040		/* Core x timer interrupt control */
+	add		r2, r1				/* offset for proper core */
+	ldr		r3, [r2]
+	bic		r3, #0b11111100
+	orr		r3, #0b11			/* nCNTPNSIRQ and nCNTPSIRQ irq enable */
+	str		r3, [r2]
 
 	/* core_init_sp array is for the initial stack pointer for each core */	
 	ldr		r2, =core_init_sp

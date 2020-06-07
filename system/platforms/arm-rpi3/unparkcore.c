@@ -10,7 +10,7 @@
 #include <mmu.h>
 #include <clock.h>
 
-extern void CoreSetup(void) __attribute__((naked));
+extern void setupCores(void) __attribute__((naked));
 typedef void (*fn)(void);
 extern void sev(void);
 
@@ -39,7 +39,7 @@ void unparkcore(int num, void *procaddr, void *args) {
 		corestart[num] = (void *) procaddr;
 		init_args[num] = args;
 		sev();	// send event
-		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = CoreSetup;
+		*(volatile fn *)(CORE_MBOX_BASE + CORE_MBOX_OFFSET * num) = setupCores;
 	}
 }
 

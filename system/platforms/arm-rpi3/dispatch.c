@@ -125,8 +125,32 @@ static inline ulong first_set_bit(ulong word)
  */
 void dispatch(void)
 {
+	extern uint getcpuid(void);
+	extern uint GET32(uint);
+	extern void PUT32(uint, uint);
+	extern interrupt clkhandler(void);
 
-    uint i;
+    uint i, cpuid;
+	uint status;
+
+	cpuid = getcpuid();
+	if (0 != cpuid)
+	{
+		// cores 1, 2, 3 dispatch
+		// check memory addresses for timer interrupt
+		status = GET32(0x40000060 + (4 * cpuid)); // Core (cpuid) interrupt source
+		if (status & 0x3)
+		{
+			// CNTPNSIRQ or CNTPSIRQ went off
+			extern void CLEAR_ISTATUS(void);
+			CLEAR_ISTATUS();
+			status &= ~(0x3);
+			PUT32(0x40000060 + (4 * cpuid), status);	// set interrupt source bits to 0
+			
+			clkhandler();
+			return;	
+		}
+	}
 
     for (i = 0; i < 3; i++)
     {
