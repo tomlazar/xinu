@@ -8,6 +8,7 @@
 
 #if RTCLOCK
 
+#include <conf.h>
 #include <kernel.h>
 #include <stddef.h>
 #include <platform.h>
@@ -21,11 +22,11 @@
  * incremented.  When ::clkticks reaches ::CLKTICKS_PER_SEC, ::clktime is
  * incremented again and ::clkticks is reset to 0.
  */
-volatile ulong clkticks;
+volatile ulong clkticks[NCORES];
 
 /** @ingroup timer
  * Number of seconds that have elapsed since the system booted.  */
-volatile ulong clktime;
+volatile ulong clktime[NCORES];
 
 /** Queue of sleeping processes.  */
 qid_typ sleepq;
@@ -45,10 +46,15 @@ ulong time_intr_freq = 0;     /** frequency of XINU clock interrupt   */
  */
 void clkinit(void)
 {
-    sleepq = queinit();         /* initialize sleep queue       */
+	int i;
+    
+	sleepq = queinit();         /* initialize sleep queue       */
 
-    clkticks = 0;
-
+	for (i = 0; i < NCORES; i++)
+	{
+		clkticks[i] = 0;
+		clktime[i]  = 0;
+	}
 #ifdef DETAIL
     kprintf("Time base %dHz, Clock ticks at %dHz\r\n",
             platform.clkfreq, CLKTICKS_PER_SEC);

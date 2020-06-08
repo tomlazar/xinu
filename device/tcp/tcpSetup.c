@@ -83,7 +83,7 @@ static uint tcpIss(void)
 
     if (0 == nextseq)
     {
-        nextseq = clktime;
+        nextseq = clktime[0];
     }
     nextseq += TCP_SEQINCR;
     return nextseq;

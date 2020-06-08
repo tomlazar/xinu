@@ -43,8 +43,8 @@ thread tcpTimer(void)
     TCP_TRACE("Timer init complete");
     /* Initialize timer accounting information */
     ps = disable();
-    lastticks = clkticks;
-    lasttime = clktime;
+    lastticks = clkticks[0];
+    lasttime = clktime[0];
     elapse = 0;
     restore(ps);
     sleep(TCP_FREQ);
@@ -97,8 +97,8 @@ thread tcpTimer(void)
 
         ps = disable();
         elapse = calcElapsed(lastticks, lasttime);
-        lastticks = clkticks;
-        lasttime = clktime;
+        lastticks = clkticks[0];
+        lasttime = clktime[0];
         restore(ps);
     }
     return OK;
@@ -116,15 +116,15 @@ static int calcElapsed(int lastticks, int lasttime)
 {
     int ticks = 0;
 
-    if (lasttime == clktime)
+    if (lasttime == clktime[0])
     {
-        ticks = clkticks - lastticks;
+        ticks = clkticks[0] - lastticks;
     }
     else
     {
         ticks = CLKTICKS_PER_SEC - lastticks;
-        ticks += (clktime - lasttime - 1) * CLKTICKS_PER_SEC;
-        ticks += clkticks;
+        ticks += (clktime[0] - lasttime - 1) * CLKTICKS_PER_SEC;
+        ticks += clkticks[0];
     }
 
     return (ticks * (CLKTICKS_PER_SEC / 1000));

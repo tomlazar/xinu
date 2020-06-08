@@ -214,7 +214,7 @@ static int test_arp(bool verbose)
 	testPrint(verbose, "Allocate free entry");
 	/* Make first entry used */
 	arptab[0].state = ARP_USED;
-	arptab[0].expires = clktime + ARP_TTL_UNRESOLVED;
+	arptab[0].expires = clktime[0] + ARP_TTL_UNRESOLVED;
 	entry = arpAlloc();
 	failif(((NULL == entry) || (entry == &arptab[0])
 				|| (0 == (entry->state & ARP_USED))), "");
@@ -222,12 +222,12 @@ static int test_arp(bool verbose)
 	/* Test arpAlloc, free entry exists */
 	testPrint(verbose, "Allocate used entry");
 	arptab[1].state = ARP_USED;
-	arptab[1].expires = clktime + 1;
+	arptab[1].expires = clktime[0] + 1;
 	/* Make all entries (except the first 2) have ARP_TTL_RESOLVED */
 	for (i = 2; i < ARP_NENTRY; i++)
 	{
 		arptab[i].state = ARP_USED;
-		arptab[i].expires = clktime + ARP_TTL_RESOLVED;
+		arptab[i].expires = clktime[0] + ARP_TTL_RESOLVED;
 	}
 	entry = arpAlloc();
 	failif(((NULL == entry) || (entry != &arptab[1])
@@ -286,7 +286,7 @@ static int test_arp(bool verbose)
 	testPrint(verbose, "Free resolved entry");
 	entry = &arptab[0];
 	entry->state = ARP_RESOLVED;
-	entry->expires = clktime;
+	entry->expires = clktime[0];
 	failif(((SYSERR == arpFree(entry)) || (entry->expires != 0)), "");
 
 	/* Test arpFree */
@@ -354,7 +354,7 @@ static int test_arp(bool verbose)
 		hwaddr.addr[5] = ((i + 0xA) << 4) + (i + 0xA);
 		netaddrcpy(&entry->hwaddr, &hwaddr);
 		netaddrcpy(&entry->praddr, &praddr);
-		entry->expires = clktime + ARP_TTL_RESOLVED;
+		entry->expires = clktime[0] + ARP_TTL_RESOLVED;
 	}
 	for (i = 1; i < nout; i++)
 	{
@@ -369,7 +369,7 @@ static int test_arp(bool verbose)
 
 	/* Test arpGetEntry with timeout */
 	testPrint(verbose, "Get entry (timeout entries)");
-	arptab[i].expires = clktime - 1;
+	arptab[i].expires = clktime[0] - 1;
 	praddr.addr[3] = 2;
 	entry = arpGetEntry(&praddr);
 	if (entry != &arptab[1])
@@ -697,7 +697,7 @@ static int test_arp(bool verbose)
 	hwaddr.addr[5] = 0xBB;
 	netaddrcpy(&entry->hwaddr, &hwaddr);
 	netaddrcpy(&entry->praddr, &praddr);
-	entry->expires = clktime + ARP_TTL_UNRESOLVED;
+	entry->expires = clktime[0] + ARP_TTL_UNRESOLVED;
 	control(ELOOP, ELOOP_CTRL_SETFLAG, ELOOP_FLAG_HOLDNXT, NULL);
 	if (SYSERR == arpSendRqst(entry))
 	{
@@ -726,7 +726,7 @@ static int test_arp(bool verbose)
 	hwaddr.addr[5] = 0xAA;
 	netaddrcpy(&entry->hwaddr, &hwaddr);
 	netaddrcpy(&entry->praddr, &praddr);
-	entry->expires = clktime + ARP_TTL_UNRESOLVED;
+	entry->expires = clktime[0] + ARP_TTL_UNRESOLVED;
 	i = arpLookup(netptr, &praddr, &addrbuf);
 	if ((SYSERR == i) || (TIMEOUT == i))
 	{
@@ -747,7 +747,7 @@ static int test_arp(bool verbose)
 	hwaddr.addr[5] = 0xBB;
 	netaddrcpy(&entry->hwaddr, &hwaddr);
 	netaddrcpy(&entry->praddr, &praddr);
-	entry->expires = clktime + ARP_TTL_UNRESOLVED;
+	entry->expires = clktime[0] + ARP_TTL_UNRESOLVED;
 	control(ELOOP, ELOOP_CTRL_SETFLAG, ELOOP_FLAG_HOLDNXT, NULL);
 	request = data;
 	wait = phdr.caplen;

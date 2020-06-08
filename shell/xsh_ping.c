@@ -132,8 +132,8 @@ shellcmd xsh_ping(int nargs, char *args[])
     }
 
     im = disable();
-    startsec = clktime;
-    startticks = clkticks;
+    startsec = clktime[0];
+    startticks = clkticks[0];
     restore(im);
 
     intervalticks = interval * CLKTICKS_PER_SEC / 1000;
@@ -151,8 +151,8 @@ shellcmd xsh_ping(int nargs, char *args[])
         }
 
         im = disable();
-        sendsec = clktime;
-        sendticks = clkticks;
+        sendsec = clktime[0];
+        sendticks = clkticks[0];
         restore(im);
 
         // Wait for response
@@ -181,8 +181,8 @@ shellcmd xsh_ping(int nargs, char *args[])
                 ulong recvsec, recvticks;
 
                 im = disable();
-                recvsec = clktime;
-                recvticks = clkticks;
+                recvsec = clktime[0];
+                recvticks = clkticks[0];
                 restore(im);
 
                 elapsedticks = tickDiff(sendsec, sendticks, recvsec, recvticks);
@@ -203,8 +203,8 @@ shellcmd xsh_ping(int nargs, char *args[])
     }
 
     im = disable();
-    endsec = clktime;
-    endticks = clkticks;
+    endsec = clktime[0];
+    endticks = clkticks[0];
     restore(im);
 
     printf("--- %s ping statistics ---\n", target_str);

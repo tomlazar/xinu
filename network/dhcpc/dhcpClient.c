@@ -43,7 +43,7 @@ syscall dhcpClient(int descrp, uint timeout, struct dhcpData *data)
     uint recvTimeout = 5000;  /* Milliseconds to wait before timing out a
                                  given receive (not the whole client)  */
     uint delay = 1000;  /* Milliseconds to wait after non-timeout error */
-    ulong starttime = clktime;
+    ulong starttime = clktime[0];
 
     /* Check for invalid parameters.  */
 #if NETHER
@@ -75,7 +75,7 @@ syscall dhcpClient(int descrp, uint timeout, struct dhcpData *data)
     bzero(data, sizeof(*data));
     data->state = DHCPC_STATE_INIT;
 
-    while (clktime <= starttime + timeout)
+    while (clktime[0] <= starttime + timeout)
     {
         switch (data->state)
         {
@@ -83,7 +83,7 @@ syscall dhcpClient(int descrp, uint timeout, struct dhcpData *data)
             /* Initialize transfer data.  */
 
             data->cxid = rand();          /* Choose random context ID */
-            data->starttime = clktime;    /* Set starting time   */
+            data->starttime = clktime[0]; /* Set starting time   */
 
             data->clientIpv4Addr = 0;     /* Client IP address is unknown  */
             data->serverIpv4Addr = 0;     /* Server IP address is unknown  */

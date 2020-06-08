@@ -61,7 +61,7 @@ static void producer()
 		while (((in + 1) % BUFFER_SIZE) == out)
 			pld(&out);
 
-		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
+		udelay(1000 + (clkticks[0] % 1000));		// using clock to generate "random" durations of delay	
 		
 		mutex_acquire(&bb_mutex);
 		// do stuff	
@@ -92,7 +92,7 @@ static void consumer()
 		while (in == out)
 			pld(&in);
 
-		udelay(1000 + (clkticks % 1000));		// using clock to generate "random" durations of delay	
+		udelay(1000 + (clkticks[0] % 1000));		// using clock to generate "random" durations of delay	
 
 		mutex_acquire(&bb_mutex);
 		

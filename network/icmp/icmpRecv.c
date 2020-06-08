@@ -46,8 +46,8 @@ syscall icmpRecv(struct packet *pkt)
             im = disable();
 
             echo->arrivcyc = clkcount();
-            echo->arrivtic = clkticks;
-            echo->arrivsec = clktime;
+            echo->arrivtic = clkticks[0];
+            echo->arrivsec = clktime[0];
 
             for (i = 0; i < NPINGQUEUE; i++)
             {

@@ -36,7 +36,7 @@ struct arpEntry *arpGetEntry(const struct netaddr *praddr)
 
         entry = &arptab[i];
         /* Check if entry has timed out */
-        if (entry->expires < clktime)
+        if (entry->expires < clktime[0])
         {
             ARP_TRACE("\tEntry %d expired", i);
             arpFree(entry);

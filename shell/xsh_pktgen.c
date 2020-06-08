@@ -182,7 +182,7 @@ shellcmd xsh_pktgen(int nargs, char *args[])
 
     if (0 == info.stop)
     {
-        info.stop = clktime;
+        info.stop = clktime[0];
     }
 
     /* print some stats about what we just did */
@@ -201,7 +201,7 @@ thread pktgen(struct pktgen_info *info)
     struct udpPkt *udphdr;
 
     /* start the clock */
-    info->start = clktime;
+    info->start = clktime[0];
     info->stop = 0;
     info->tries = 0;
     info->errors = 0;
@@ -274,7 +274,7 @@ thread pktgen(struct pktgen_info *info)
     }
 
     /* stop the clock */
-    info->stop = clktime;
+    info->stop = clktime[0];
 
     return 0;
 }

@@ -44,8 +44,8 @@ syscall icmpEchoRequest(struct netaddr *dst, ushort id, ushort seq)
     /*  clock cycles.                                            */
     im = disable();
     echo->timecyc = hl2net(clkcount());
-    echo->timetic = hl2net(clkticks);
-    echo->timesec = hl2net(clktime);
+    echo->timetic = hl2net(clkticks[0]);
+    echo->timesec = hl2net(clktime[0]);
     restore(im);
     echo->arrivcyc = 0;
     echo->arrivtic = 0;

@@ -123,7 +123,7 @@ syscall dhcpSendRequest(int descrp, struct dhcpData *data)
     }
     else
     {
-        dhcp->secs = hs2net(clktime - data->starttime);
+        dhcp->secs = hs2net(clktime[0] - data->starttime);
         if (data->state == DHCPC_STATE_INIT)
         {
             data->discoverSecs = net2hs(dhcp->secs);

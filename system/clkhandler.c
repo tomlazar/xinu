@@ -24,16 +24,18 @@ int resched(void);
  */
 interrupt clkhandler(void)
 {
+	uint cpuid = getcpuid();
+
 	clkupdate(platform.clkfreq / CLKTICKS_PER_SEC);
 
     /* Another clock tick passes. */
-    clkticks++;
+    clkticks[cpuid]++;
 
     /* Update global second counter. */
-    if (CLKTICKS_PER_SEC == clkticks)
+    if (CLKTICKS_PER_SEC == clkticks[cpuid])
     {
-        clktime++;
-        clkticks = 0;
+        clktime[cpuid]++;
+        clkticks[cpuid] = 0;
     }
 
     /* If sleepq is not empty, decrement first key.   */

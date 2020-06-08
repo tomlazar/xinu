@@ -35,7 +35,7 @@ char *tz_names[] = {            /* UTC */
 uint get_datetime(void)
 {
 #if RTCLOCK
-    return (date_time + clktime);
+    return (date_time + clktime[0]);
 #else
     date_time = 0;
     return SYSERR;
@@ -50,8 +50,8 @@ uint get_datetime(void)
 uint set_datetime(uint dt)
 {
 #if RTCLOCK
-    date_time = dt - clktime;
-    return (date_time + clktime);
+    date_time = dt - clktime[0];
+    return (date_time + clktime[0]);
 #else
     return SYSERR;
 #endif                          /* RTCLOCK */

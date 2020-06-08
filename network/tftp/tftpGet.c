@@ -203,7 +203,7 @@ syscall tftpGet(const char *filename, const struct netaddr *local_ip,
 
         /* Handle bookkeeping for timing out.  */
 
-        block_attempt_time = clktime;
+        block_attempt_time = clktime[0];
         if (block_recv_tries == 0)
         {
             uint timeout_secs;

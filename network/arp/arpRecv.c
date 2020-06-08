@@ -84,7 +84,7 @@ syscall arpRecv(struct packet *pkt)
     {
         ARP_TRACE("Entry already exists");
         netaddrcpy(&entry->hwaddr, &sha);
-        entry->expires = clktime + ARP_TTL_RESOLVED;
+        entry->expires = clktime[0] + ARP_TTL_RESOLVED;
 
         /* Notify threads waiting on resolution */
         if (ARP_UNRESOLVED == entry->state)
@@ -118,7 +118,7 @@ syscall arpRecv(struct packet *pkt)
             entry->nif = pkt->nif;
             netaddrcpy(&entry->hwaddr, &sha);
             netaddrcpy(&entry->praddr, &spa);
-            entry->expires = clktime + ARP_TTL_RESOLVED;
+            entry->expires = clktime[0] + ARP_TTL_RESOLVED;
             ARP_TRACE("Added entry %d (state = %d)",
                       ((int)entry -
                        (int)arptab) / sizeof(struct arpEntry),

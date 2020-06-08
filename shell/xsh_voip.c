@@ -493,16 +493,16 @@ thread seq_receive(ushort uart, ushort udp)
             }
             seq++;
             //kprintf("%d ms\r\n", timespan(clktime, clkticks, time, ticks));
-            ticks = clkticks;
-            time = clktime;
+            ticks = clkticks[0];
+            time = clktime[0];
             /* Write to the serial device */
             write(uart, voip->buf, voip->len);
         }
-        else if (timespan(clktime, clkticks, time, ticks) >
+        else if (timespan(clktime[0], clkticks[0], time, ticks) >
                  (SEQ_BUF_SIZE / 8))
         {
-            ticks = clkticks;
-            time = clktime;
+            ticks = clkticks[0];
+            time = clktime[0];
             write(uart, voip->buf, voip->len);
             kprintf("- ");
         }

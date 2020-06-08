@@ -19,8 +19,8 @@
  */
 #define CLKTICKS_PER_SEC  1000
 
-extern volatile ulong clkticks;
-extern volatile ulong clktime;
+extern volatile ulong clkticks[];
+extern volatile ulong clktime[];
 extern qid_typ sleepq;
 
 /* Clock function prototypes.  Note:  clkupdate() and clkcount() are documented

@@ -62,7 +62,7 @@ syscall arpLookup(struct netif *netptr, const struct netaddr *praddr,
             entry->state = ARP_UNRESOLVED;
             entry->nif = netptr;
             netaddrcpy(&entry->praddr, praddr);
-            entry->expires = clktime + ARP_TTL_UNRESOLVED;
+            entry->expires = clktime[0] + ARP_TTL_UNRESOLVED;
             entry->count = 0;
         }
 
@@ -83,7 +83,7 @@ syscall arpLookup(struct netif *netptr, const struct netaddr *praddr,
         }
         entry->waiting[entry->count] = gettid();
         entry->count++;
-        ttl = (entry->expires - clktime) * CLKTICKS_PER_SEC;
+        ttl = (entry->expires - clktime[0]) * CLKTICKS_PER_SEC;
         restore(im);
 
         /* Send an ARP request and wait for response */
